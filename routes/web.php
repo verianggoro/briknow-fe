@@ -1,0 +1,235 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+// \URL::forceScheme('https');
+
+Route::post('/', 'HomeController@indexPOST')->name('home.loginviabristars')->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]); // add sini
+
+// yang sudah login
+Route::middleware('AfterLoginMiddleware')->group(function(){
+    Route::get('/', 'HomeController@index')->name('home');
+    #editprofile
+    Route::post('/editprof', 'HomeController@editprof')->name('home.editprof');
+    #HOME
+        Route::get('/tpvend', 'HomeController@topfive_vendor')->name('home.topfive_vendor');
+        Route::get('/tpproj', 'HomeController@topfive_project')->name('home.topfive_project');
+        Route::get('/suggestjax/{key}', 'HomeController@suggest')->name('suggest');
+        Route::get('/profile', 'HomeController@profile')->name('home.profile');
+        Route::get('/profile/avatar', 'HomeController@avatar')->name('home.achievement');
+        Route::get('/profile/{pn}', 'HomeController@profileuser')->name('home.profileuser');
+        Route::post('/changeavatar' ,'HomeController@changeavatar')->name('home.changeavatar');
+    #---
+
+    #export
+    Route::get('/ex/proyektop5', 'LaporanController@proyektop5')->name('laporan.proyektop5');
+    Route::get('/ex/proyektop5pdf', 'LaporanController@proyektop5pdf')->name('laporan.proyektop5pdf');
+    Route::get('/ex/vendortop5', 'LaporanController@vendortop5')->name('laporan.vendortop5');
+    Route::get('/ex/vendortop5pdf', 'LaporanController@vendortop5pdf')->name('laporan.vendortop5pdf');
+
+    #GAMIFICATION
+        Route::get('/gamification', 'HomeController@gamification')->name('home.game');
+        Route::get('/managegamification', 'Admin\DashboardController@managegamification')->name('managegamification')->middleware('IsAdmin');
+        Route::get('/managegamification/edit', 'Admin\DashboardController@managegamification_edit')->name('managegamification_edit')->middleware('IsAdmin');
+        Route::get('/manageforum', 'Admin\DashboardController@manageforum')->name('manageforum')->middleware('IsAdmin');//redirect
+        Route::get('/manageforum/all', 'Admin\DashboardController@manageforum_all')->name('manageforum_all')->middleware('IsAdmin');
+        Route::get('/manageforum/all/{search}','Admin\DashboardController@listall')->name('manageforum_all.listall')->middleware('IsAdmin');
+        Route::post('/manageforum/all/remove/{id}','Admin\DashboardController@remove')->name('manageforum_all.remove')->middleware('IsAdmin');
+        Route::get('/manageforum/all/sort/public/{search}','Admin\DashboardController@sortPublic')->name('manageforum_all.sortPublic')->middleware('IsAdmin');
+        Route::get('/manageforum/all/sort/private/{search}','Admin\DashboardController@sortPrivate')->name('manageforum_all.sortPrivate')->middleware('IsAdmin');
+        Route::get('/manageforum/removed', 'Admin\DashboardController@manageforum_removed')->name('manageforum_removed')->middleware('IsAdmin');
+        Route::get('/manageforum/removed/{search}','Admin\DashboardController@listremoved')->name('manageforum_removed.listremoved')->middleware('IsAdmin');
+        Route::post('/manageforum/removed/restore/{id}','Admin\DashboardController@restore');
+        Route::get('/manageforum/removed/sort/public/{search}','Admin\DashboardController@sortPublicRemoved')->name('manageforum_removed.sortPublicRemoved')->middleware('IsAdmin');
+        Route::get('/manageforum/removed/sort/private/{search}','Admin\DashboardController@sortPrivateRemoved')->name('manageforum_removed.sortPrivateRemoved')->middleware('IsAdmin');
+        Route::post('/gamification/save/level', 'Admin\DashboardController@gamificationsave_level')->name('dashboard.gamesave_level')->middleware('IsAdmin');
+        Route::post('/gamification/save/activity', 'Admin\DashboardController@gamificationsave_activity')->name('dashboard.gamesave_activity')->middleware('IsAdmin');
+        Route::post('/gamification/save/achievement', 'Admin\DashboardController@gamificationsave_achievement')->name('dashboard.gamesave_achievement')->middleware('IsAdmin');
+    #---
+
+    #DASHBOARD - INDEX
+        Route::get('/dashboard', 'Admin\DashboardController@redirect')->name('dashboard')->middleware('IsAdmin');
+        Route::get('/dashboard/performance', 'Admin\DashboardController@performance')->name('dashboard.performance')->middleware('IsAdmin');
+        Route::get('/dashboard/alldata', 'Admin\DashboardController@alldata')->name('dashboard.alldata')->middleware('IsAdmin');
+        Route::get('/dashboard/getalldata', 'Admin\DashboardController@getalldata')->name('getalldata')->middleware('IsAdmin');
+        Route::get('/dashboard/getprojectvisitor', 'Admin\DashboardController@getProjectVisitor')->name('getprojectvisitor')->middleware('IsAdmin');
+        Route::get('/dashboard/getprojectconsultant', 'Admin\DashboardController@getprojectConsultant')->name('getprojectconsultant')->middleware('IsAdmin');
+        Route::get('/dashboard/getprojectdivisi', 'Admin\DashboardController@getprojectDivisi')->name('getprojectdivisi')->middleware('IsAdmin');
+        Route::get('/dashboard/getprojecttahun', 'Admin\DashboardController@getprojectTahun')->name('getprojecttahun')->middleware('IsAdmin');
+        #laporan
+        Route::get('/dashboard/exxltagspopuler', 'Admin\LaporanController@exxltagspopuler')->name('dashboard.exxltagspopuler')->middleware('IsAdmin');
+        Route::get('/dashboard/expdftagspopuler', 'Admin\LaporanController@expdftagspopuler')->name('dashboard.expdftagspopuler')->middleware('IsAdmin');
+        Route::get('/dashboard/exxlpertahun', 'Admin\LaporanController@exxlpertahun')->name('dashboard.exxlpertahun')->middleware('IsAdmin');
+        Route::get('/dashboard/expdfpertahun', 'Admin\LaporanController@expdfpertahun')->name('dashboard.expdfpertahun')->middleware('IsAdmin');
+        Route::get('/dashboard/exxlprojectvisitor', 'Admin\LaporanController@getProjectVisitor')->name('dashboard.exxlprojectvisitor')->middleware('IsAdmin');
+        Route::get('/dashboard/expdfprojectvisitor', 'Admin\LaporanController@getpdfProjectVisitor')->name('dashboard.expdfprojectvisitor')->middleware('IsAdmin');
+        Route::get('/dashboard/exxlprojectkonsultant', 'Admin\LaporanController@getProjectKonsultant')->name('dashboard.exxlprojectkonsultant')->middleware('IsAdmin');
+        Route::get('/dashboard/expdfprojectkonsultant', 'Admin\LaporanController@getpdfProjectKonsultant')->name('dashboard.expdfprojectkonsultant')->middleware('IsAdmin');
+        Route::get('/dashboard/exxlprojectdivisi', 'Admin\LaporanController@getProjectDivisi')->name('dashboard.exxlprojectdivisi')->middleware('IsAdmin');
+        Route::get('/dashboard/expdfprojectdivisi', 'Admin\LaporanController@getpdfProjectDivisi')->name('dashboard.expdfprojectdivisi')->middleware('IsAdmin');
+
+        #------
+    #---
+
+    #DASHBOARD - MANAGEMENT USER
+        Route::get('/searchuser', 'ManageUserController@searchuser')->name('searchUser');
+        Route::get('/manageuser', 'ManageUserController@index')->name('manage_user')->middleware('IsAdmin');
+        Route::get('/manageuser/list_admin/{search}/{page}', 'ManageUserController@list_admin')->name('manage_user.list_admin')->middleware('IsAdmin');
+        Route::post('/manageuser/admin/create', 'ManageUserController@admin_create')->name('admin_create')->middleware('IsAdmin');
+        Route::post('/manageuser/edit/{id}', 'ManageUserController@edit')->name('editmu')->middleware('IsAdmin');
+        Route::delete('/manageuser/destroy/{id}','ManageUserController@hapus')->name('manageuser.hapus')->middleware('IsAdmin');
+        Route::get('/user/{search}/{page}', 'ManageUserController@listuser')->name('list_user')->middleware('IsAdmin');
+    #---
+
+    #DASHBOARD - MANAGEMENT UKER
+        Route::get('/manageuker', 'ManageUkerController@index')->name('manage_uker')->middleware('IsAdmin');
+        Route::get('/manageuker/create/', 'ManageUkerController@create')->name('manage_uker.create')->middleware('IsAdmin');
+        Route::post('/manageuker/create/proses', 'ManageUkerController@create_proses')->name('manage_uker.create_proses')->middleware('IsAdmin');
+        Route::post('/manageuker/edit/{id}', 'ManageUkerController@edit')->name('manage_uker.update')->middleware('IsAdmin');
+        Route::get('/manageuker/detail/{id}','ManageUkerController@detail')->name('manage_uker.detail')->middleware('IsAdmin');
+        Route::delete('/manageuker/delete/{id}','ManageUkerController@hapus')->name('manage_uker.hapus')->middleware('IsAdmin');
+        Route::get('/manageuker/{sort}/{sort2}/{search}','ManageUkerController@index_content')->name('manage_uker.index_content')->middleware('IsAdmin');
+
+    #---
+
+    #DASHBOARD - MANAGEMENT PROJECT
+        Route::get('/manageproject/review', 'Admin\ManageProjectController@review')->name('manage_project.review')->middleware('IsAdmin');
+        Route::get('/manageproject/review/sort/{key}', 'Admin\ManageProjectController@sort')->name('manage_project.sort')->middleware('IsAdmin');
+        Route::post('/manageproject/passing/{tipe}', 'Admin\ManageProjectController@passing')->name('manage_project.passing')->middleware('IsAdmin');
+        Route::get('/manageproject/review/p/sort/{key}', 'Admin\ManageProjectController@sortpass')->name('manage_project.sort.pass')->middleware('IsAdmin');
+        Route::get('/manageproject/rekomendasi', 'Admin\ManageProjectController@rekomendasi')->name('manage_project.rekomendasi')->middleware('IsAdmin');
+        Route::post('/manageproject/rekomendasi/add/{id}','Admin\ManageProjectController@add')->name('manage_project.add')->middleware('IsAdmin');
+        Route::post('/manageproject/rekomendasi/remove/{id}','Admin\ManageProjectController@hapus_rekomendasi')->name('manage_project.hapus_rekomendasi')->middleware('IsAdmin');
+        Route::get('/manageproject', 'Admin\ManageProjectController@index')->name('manage_project')->middleware('IsAdmin');
+        Route::post('/manageproject/review/publish/{id}','Admin\ManageProjectController@publish')->name('manage_project.publish')->middleware('IsAdmin');
+        Route::post('/manageproject/review/unpublish/{id}','Admin\ManageProjectController@unpublish')->name('manage_project.unpublish')->middleware('IsAdmin');
+        Route::delete('/manageproject/review/destroy/{id}','Admin\ManageProjectController@hapus')->name('manage_project.hapus')->middleware('IsAdmin');
+        Route::get('/manageproject/review/{fil_div}/{fil_kon}/{search}','Admin\ManageProjectController@review_content')->middleware('IsAdmin');
+    #---
+
+    #DASHBOARD - MANAGEMENT CONSULTANT
+        Route::get('/manageconsultant', 'Admin\ManageConsultantController@index')->name('manage_consultant')->middleware('IsAdmin');
+        Route::post('/manageconsultant/create/proses', 'Admin\ManageConsultantController@create_proses')->name('manage_consultant.create_proses')->middleware('IsAdmin');
+        Route::get('/manageconsultant/detail/{id}','Admin\ManageConsultantController@detail')->name('manage_consultant.detail')->middleware('IsAdmin');
+        Route::post('/manageconsultant/edit/{id}', 'Admin\ManageConsultantController@edit')->name('manage_consultant.update')->middleware('IsAdmin');
+        Route::get('/manageconsultant/{sort}/{sort2}/{search}','Admin\ManageConsultantController@index_content')->name('manage_consultant.index_content')->middleware('IsAdmin');
+        Route::delete('/manageconsultant/delete/{id}','Admin\ManageConsultantController@destroy')->name('manage_consultant.destroy')->middleware('IsAdmin');
+    #---
+
+    #PROJECT
+        Route::get('/myproject', 'MyProjectController@index')->name('myproject');
+        Route::get('/project/{slug}', 'ProjectController@index')->name('project.index');
+        Route::get('/doc_proj/{kunci}/{search}/{sort}', 'ProjectController@doc_project')->name('project.document');
+        Route::get('/myproject', 'MyProjectController@index')->name('myproject');
+        Route::post('/archive', 'ProjectController@archive')->name('project.archive');
+        Route::get('/myproject/preview/{slug}', 'MyProjectController@preview')->name('myproject.preview');
+        Route::get('/myproject/preview2/{slug}', 'MyProjectController@preview2')->name('myproject.preview2');
+    #---
+
+    #Comment
+        Route::post('/komentar', 'CommentController@create')->name('comment.create');
+        Route::post('/komentarforum', 'CommentController@createforum')->name('comment.createforum');
+    #---
+    #KONSULTAN
+        Route::get('/consultant', 'ConsultantController@index')->name('consultant');
+        Route::get('/consultant/{id}', 'ConsultantController@index')->name('consultant.index');
+        Route::get('/proj_cons/{kunci}/{search}/{sort}', 'ConsultantController@proj_consultant')->name('consultant.project');
+    #---
+
+    #FAVORIT
+        Route::get('/myfavorite', 'MyFavoriteController@index')->name('myfavorite');
+        Route::get('/favoritproject/{id}', 'FavoriteProjectController@save')->name('favorit.project');
+        Route::get('/favoritconsultant/{id}', 'FavoriteConsultantController@save')->name('favorit.consultant');
+        Route::get('/fav_proj/{sort}', 'MyFavoriteController@fav_project')->name('favorite.project');
+        Route::get('/fav_cons/{sort}', 'MyFavoriteController@fav_consultant')->name('favorite.consultant');
+    #---
+
+    #KATALOG
+        Route::get('/katalog', 'KatalogController@index')->name('katalog.index');
+        Route::post('/katalog', 'KatalogController@cari')->name('katalog.post');
+        Route::get('/katalog/{key}', 'KatalogController@pencarian')->name('katalog.pencarian');
+        Route::post('/kat', 'KatalogController@filterisasi')->name('consultant.filterisasi');
+    #---
+
+    #KONTRIBUSI
+        Route::get('/kontribusi', 'KontribusiController@index')->name('kontribusi');
+        #create form
+        Route::get('/getconsultant', 'ConsultantController@getConsultant')->name('consultant.getdata');
+        Route::get('/getuser', 'KontribusiController@getuser')->name('kontribusi.getuser');
+        #create process
+        Route::post('/kontribusi', 'KontribusiController@create')->name('kontribusi.create');
+        #edit form
+        Route::get('/kontribusi/{slug}', 'KontribusiController@edit')->name('kontribusi.edit');
+        #update process
+        Route::post('/kontribusi/update', 'KontribusiController@update')->name('kontribusi.update');
+        Route::get('/getdivisi/{direktorat}', 'KontribusiController@getDivisi')->name('kontribusi.divisi');
+        Route::post('/myproject/appr/{id}', 'KontribusiController@appr')->name('kontribusi.appr');
+        Route::post('/myproject/hapus/{id}', 'KontribusiController@hapus')->name('kontribusi.hapus');
+        Route::post('/myproject/send/{id}', 'KontribusiController@send')->name('kontribusi.send');
+        Route::post('/myproject/reject/{id}', 'KontribusiController@reject')->name('kontribusi.reject');
+        Route::post('upimgcontent', 'KontribusiController@upimgcontent');
+        Route::post('/up/{kategori}','KontribusiController@uploadphoto');
+        Route::delete('/up/{kategori}','KontribusiController@delete');
+    #---
+
+    #DIVISI
+        Route::get('/divisi/{id}', 'DivisiController@index')->name('divisi');
+        Route::get('/proj_div/{kunci}/{search}', 'DivisiController@proj_divisi')->name('divisi.project');
+        Route::get('/riwayat/{tahun}', 'DivisiController@riwayat')->name('riwayat');
+    #---
+
+    #FORUM
+        Route::get('/forum' ,'ForumController@index')->name('forum.index'); //halmaan
+        Route::get('/forum/create' ,'ForumController@create')->name('forum.create'); //halaman --> CREATE
+        Route::post('/forum/create' ,'ForumController@createproses')->name('forum.createproses'); //fungsi (BISA PUBLISH BISA SAVE - DEFAULT KOSONG)
+        Route::get('/forum/draft/{id}' ,'ForumController@draft')->name('forum.draft'); //halaman --> DRAFT
+        Route::get('/forum/edit/{id}' ,'ForumController@edit')->name('forum.edit'); //halaman --> DRAFT
+        Route::post('/forum/update/{id}' ,'ForumController@update')->name('forum.update'); //fungsi (BISA PUBLISH BISA SAVE - DEFAULT NGELOAD)
+        Route::delete('/forum/destroy/{id}' ,'ForumController@destroy')->name('forum.destroy'); //fungsi (BISA PUBLISH BISA SAVE - DEFAULT NGELOAD)
+        Route::get('/forum/getDataList/{search}' ,'ForumController@getDataList')->name('forum.getDataList'); //fungsi (BISA PUBLISH BISA SAVE - DEFAULT NGELOAD)
+        Route::get('/forum/{slug}' ,'ForumController@detail')->name('forum.detail'); //halaman
+    #---
+
+    #notirfikasi
+        Route::post('/notif' ,'NotifikasiController')->name('notif.readall');
+    #---------
+
+    # congratulation
+    Route::post('/congrats','HomeController@congrats_update')->name('congrats');
+    #--------
+    
+    #LOGOUT
+        Route::get('/logout', 'Auth\AuthController@logout')->name('logout');
+    #---
+
+    #LAIN-LAIN
+        Route::get('/about', 'HomeController@about')->name('about');
+    #---
+});
+
+// yang belum login
+Route::middleware('BeforeLoginMiddleware')->group(function(){
+    Route::get('/c_s', 'Auth\ClearSession');
+    Route::get('/refreshcaptcha', 'Auth\AuthController@refreshCaptcha');
+    Route::get('/login', 'Auth\AuthController@index')->name('login');
+    Route::post('/login', 'Auth\AuthController@login_proses')->name('login.proses'); //POST ke BE Login pake data Bristar yg sdh di save
+});
+// ADDINS
+Route::post('/addins/login_addin' ,'AddinsController@login_addin')->name('addins.login_addin'); //halmaan
+Route::post('/addins/cek_auth' ,'AddinsController@cek_auth')->name('addins.cek_auth'); //halmaan
+Route::post('/addins/logout' ,'AddinsController@logout')->name('addins.logout'); //halmaan
+Route::post('/addins/search/{key}' ,'AddinsController@cariall')->name('addins.cariall'); //halmaan
+Route::post('/addins/searchproject' ,'AddinsController@searchproject')->name('addins.searchproject'); //halmaan
+Route::post('/addins/detailproject/{id}' ,'AddinsController@detailproject')->name('addins.detailproject'); //halmaan
+Route::post('/addins/detail/{id}' ,'AddinsController@detail')->name('addins.detail'); //halmaan
