@@ -1,5 +1,12 @@
 /tests
 /node_modules
 /vendor
-/public
+/public/addins
+/public/assets
+/public/briknow-addins
+/public/fonts
+/public/images
+/public/js
+/public/temp_download
+/public/content
 .env
