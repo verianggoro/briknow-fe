@@ -118,6 +118,11 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/manageproject/review/{fil_div}/{fil_kon}/{search}','Admin\ManageProjectController@review_content')->middleware('IsAdmin');
     #---
 
+    #Dashboard - Management Lesson Learned
+        Route::get('/managelesson/review', 'Admin\ManageLessonLearned@review')->name('manage_lesson.review')->middleware('IsAdmin');
+        Route::get('/managelesson', 'Admin\ManageLessonLearned@index')->name('manage_lesson')->middleware('IsAdmin');
+
+
     #DASHBOARD - MANAGEMENT CONSULTANT
         Route::get('/manageconsultant', 'Admin\ManageConsultantController@index')->name('manage_consultant')->middleware('IsAdmin');
         Route::post('/manageconsultant/create/proses', 'Admin\ManageConsultantController@create_proses')->name('manage_consultant.create_proses')->middleware('IsAdmin');
@@ -208,7 +213,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     # congratulation
     Route::post('/congrats','HomeController@congrats_update')->name('congrats');
     #--------
-    
+
     #LOGOUT
         Route::get('/logout', 'Auth\AuthController@logout')->name('logout');
     #---
