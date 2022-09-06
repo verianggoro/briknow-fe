@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use stdClass;
 use Illuminate\Support\Facades\Cache;
@@ -48,6 +49,7 @@ class HomeController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil = json_decode($result);
+            Log::info("DEFAULT HOME FE", [$hasil]);
             // dd($hasil);
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
@@ -111,7 +113,7 @@ class HomeController extends Controller
                     curl_setopt($ch, CURLOPT_POST, 1);
                     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));           
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
                     $result     = curl_exec ($ch);
                     $hasil = json_decode($result);
@@ -140,8 +142,8 @@ class HomeController extends Controller
                             $temp['role']               = $hasil->data->role;
                             session($temp);
                             session(['logged_in' => true]);
-                            Session::flash('term', true); 
-                            
+                            Session::flash('term', true);
+
                             return redirect('/');
                         }
                     }else{
@@ -155,7 +157,7 @@ class HomeController extends Controller
                 //    return redirect('/login');
                 //}
             }
-    
+
             if (!session('logged_in')){
                 session()->flush();
                 session()->flash('error','Login Via Bristars Failed');
@@ -302,7 +304,7 @@ class HomeController extends Controller
             ],200);
         }
 
-        
+
         if (request()->ajax()) {
             return compact('out');
         }
@@ -380,7 +382,7 @@ class HomeController extends Controller
                     $history_activity = $hasil->data->history_activities;
                     $level_user     = $hasil->data->level_user;
                     $level          = $hasil->data->level;
-    
+
                     return view('profile', compact(['data', 'dataPrj', 'dataAct', 'dataLevel' , 'count_avatar', 'level_user','level', 'history_activity']));
                 }else{
                     session()->flash('error', $hasil->data->message);
@@ -500,7 +502,7 @@ class HomeController extends Controller
             curl_setopt($ch, CURLOPT_HTTPGET, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));           
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil      = json_decode($result);
@@ -635,6 +637,38 @@ class HomeController extends Controller
                 'status'    =>  0,
                 'data'      =>  $data
             ],400);
+        }
+    }
+
+    // get cnt lesson learned by tahap
+    public function cntLessonByTahap(){
+        try {
+            $out = [];
+            $token = session()->get('token');
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/cntlessonbytahap");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil = json_decode($result);
+            if ($hasil->status == 1) {
+                $out=$hasil->data;
+            }else{
+                $out=[];
+            }
+        }catch (\Throwable $th) {
+            $out=[];
+        }
+
+        if (request()->ajax()) {
+            return compact('out');
         }
     }
 }

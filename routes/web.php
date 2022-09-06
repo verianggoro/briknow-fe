@@ -30,6 +30,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/profile/avatar', 'HomeController@avatar')->name('home.achievement');
         Route::get('/profile/{pn}', 'HomeController@profileuser')->name('home.profileuser');
         Route::post('/changeavatar' ,'HomeController@changeavatar')->name('home.changeavatar');
+        Route::get('/cntlessontahap', 'HomeController@cntLessonByTahap')->name('home.cntLessonByTahap');
     #---
 
     #export
@@ -150,6 +151,8 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/myproject/preview2/{slug}', 'MyProjectController@preview2')->name('myproject.preview2');
     #---
 
+    #My Lesson Learned
+        Route::get('/mylesson', 'MyLessonLearnedController@index')->name('mylesson');
     #Comment
         Route::post('/komentar', 'CommentController@create')->name('comment.create');
         Route::post('/komentarforum', 'CommentController@createforum')->name('comment.createforum');

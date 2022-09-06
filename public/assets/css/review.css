@@ -1,6 +1,6 @@
 .table:not(.table-sm):not(.table-md):not(.dataTable) td,
 .table:not(.table-sm):not(.table-md):not(.dataTable) th {
-    padding: 0px 0px 0px 20px !important;
+    padding: 0px 0px 0px 15px !important;
     height: 50px;
     text-align: left;
     background: white;

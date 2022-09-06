@@ -283,7 +283,7 @@ img {
     height: 35px;
 }
 
-#ChartKonsultant, #ChartProject {
+#ChartKonsultant, #ChartProject, #ChartLesson {
     width: 100%;
     height: 500px;
 }
@@ -378,7 +378,7 @@ a.ResultItem:visited{
     min-height: 31px;
 }
 
-.senddataloader { 
+.senddataloader {
     position: fixed;
     display:none;
     top: 0;
@@ -424,18 +424,18 @@ a.ResultItem:visited{
     position: absolute;
     margin: 0;
    }
-   
+
    #searchResult li{
     background: lavender;
     padding: 4px;
     margin-bottom: 1px;
    }
-   
+
    #searchResult li:nth-child(even){
     background: cadetblue;
     color: white;
    }
-   
+
    #searchResult li:hover{
     cursor: pointer;
    }
@@ -570,7 +570,7 @@ a.ResultItem:visited{
     .bri-welcome{
         font-size: 0.7em;
     }
-    
+
     .navbar-bg{
         height : 240px;
     }

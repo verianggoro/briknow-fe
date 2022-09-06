@@ -1,9 +1,11 @@
-let BE          = '';
-let uri         = '';
-let base_url    = '';
-let token       = '';
-let old_photo   = '';
-let old_attach  = [];
+let BE                      = '';
+let uri                     = '';
+let base_url                = '';
+let token                   = '';
+let old_photo               = '';
+let old_attach              = [];
+let old_attach_rollout      = [];
+let old_attach_sosialisasi  = [];
 
 //toast
 const Toast3 = Swal.mixin({
@@ -32,7 +34,7 @@ const checkSelect2Component = (previewClicked) => {
     if(direktorat.hasClass('is-invalid')){
         // return Toast3.fire({icon: 'error',title: 'Direktorat tidak boleh kosong!'})
     }
-    
+
     if(divisi.hasClass('is-invalid')){
         // return Toast3.fire({icon: 'error',title: 'Divisi tidak boleh kosong!'})
     }
@@ -76,7 +78,7 @@ const checkFilepondComponent = (previewClicked) => {
     const checkFileUploaded = attach[0].innerText.includes('Upload complete')
     let cekFileExisting     = attach[0].querySelectorAll('.filepond--item').length
     console.log(cekFileExisting);
-    if(!checkFileUploaded && previewClicked === 1 && cekFileExisting === 0){  
+    if(!checkFileUploaded && previewClicked === 1 && cekFileExisting === 0){
         return Toast3.fire({icon: 'error',title: 'Dokumen Project tidak boleh kosong!'})
     }
 }
@@ -99,7 +101,7 @@ var inputs = document.getElementsByClassName('old_attach'),
     });
 // console.log(old_attach);
 
-// remove function 
+// remove function
 function removeA(arr) {
     var what, a = arguments, L = a.length, ax;
     while (L > 1 && arr.length) {
@@ -166,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
         FilePondPluginFileValidateType,
         FilePondPluginImageExifOrientation
     );
-    
+
     // photo
     const inputfoto  = document.querySelector('input[id="photo"]');
     foto       = FilePond.create( inputfoto,
@@ -233,18 +235,18 @@ FilePond.registerPlugin(
     FilePondPluginFileValidateSize,
 );
 // attach
-const inputattach       = document.querySelector('input[id="attach"]');
+const inputattach       = document.querySelector('input[id="attachPiloting"]');
 let attach              = FilePond.create(inputattach,
     {
-        labelIdle           : "Cari file Terlampir",
+        labelIdle           : "Pilih Dokumen Anda",
         allowImagePreview   : true,
         allowDrop           : false,
         allowMultiple       : true,
         allowFileEncode     : true,
         allowFileSizeValidation : true,
-        maxFileSize         : "10000",
-        maxTotalFileSize    : "100000000",
-        name                : "attach[]"
+        maxFileSize         : "100000",
+        maxTotalFileSize    : "1000000000",
+        name                : "attachPiloting[]"
     });
 
     let tamping     = [];
@@ -263,12 +265,88 @@ let attach              = FilePond.create(inputattach,
                         },
                     }
                 },
-            );   
+            );
         }
     }
     // console.log(tamping);
     attach.files    = tamping;
     attach_file     = tamping;
+
+// attach rollout
+const inputRollout      = document.querySelector('input[id="attachRollout"]');
+let attachrolout        = FilePond.create(inputRollout,
+    {
+        labelIdle           : "Pilih Dokumen Anda",
+        allowImagePreview   : true,
+        allowDrop           : false,
+        allowMultiple       : true,
+        allowFileEncode     : true,
+        allowFileSizeValidation : true,
+        maxFileSize         : "100000",
+        maxTotalFileSize    : "1000000000",
+        name                : "attachRollout[]"
+    });
+
+let tampingrollout     = [];
+// console.log(old_attach);
+if (typeof(old_attach_rollout) !== 'undefined') {
+    for (let index = 0; index < old_attach_rollout.length; index++) {
+        tampingrollout.push(
+            {
+                source: old_attach_rollout[index].nama,
+                options: {
+                    type: 'local',
+                    file: {
+                        name: old_attach_rollout[index].nama,
+                        size: parseInt(old_attach_rollout[index].size),
+                        type: old_attach_rollout[index].type
+                    },
+                }
+            },
+        );
+    }
+}
+// console.log(tamping);
+attachrolout.files    = tamping;
+attachrolout          = tamping;
+
+//attach dokumentasi
+const inputSosialisasi      = document.querySelector('input[id="attachSosialisasi"]');
+let attachSosialisasi        = FilePond.create(inputSosialisasi,
+    {
+        labelIdle           : "Pilih Dokumen Anda",
+        allowImagePreview   : true,
+        allowDrop           : false,
+        allowMultiple       : true,
+        allowFileEncode     : true,
+        allowFileSizeValidation : true,
+        maxFileSize         : "100000",
+        maxTotalFileSize    : "1000000000",
+        name                : "attachSosialisasi[]"
+    });
+
+let tampingSosialisasi     = [];
+// console.log(old_attach);
+if (typeof(old_attach_sosialisasi) !== 'undefined') {
+    for (let index = 0; index < old_attach_sosialisasi.length; index++) {
+        tampingSosialisasi.push(
+            {
+                source: old_attach_sosialisasi[index].nama,
+                options: {
+                    type: 'local',
+                    file: {
+                        name: old_attach_sosialisasi[index].nama,
+                        size: parseInt(old_attach_sosialisasi[index].size),
+                        type: old_attach_sosialisasi[index].type
+                    },
+                }
+            },
+        );
+    }
+}
+// console.log(tamping);
+attachSosialisasi.files    = tamping;
+attachSosialisasi          = tamping;
 
 let pondBox2 = document.querySelector('.filepond--root');
 pondBox2.addEventListener('FilePond:processfile', e => {
@@ -318,13 +396,11 @@ $(document).ready(function () {
         var $target = $($(this).attr('href')),
             curStepBtn = $($(this).attr('id')),
                 $item = $(this);
-        
+
         if (curStepBtn == 's-1') {
             t = 1;
         }else if (curStepBtn == 's-2') {
             t = 2;
-        }else if (curStepBtn == 's-3') {
-            t = 3;
         }
 
         $item.removeClass('disable');
@@ -349,11 +425,9 @@ $(document).ready(function () {
         var curStep = $(this).closest(".setup-content"),
             curStepBtn = curStep.attr("id");
         var pointer = 0;
-        
+
         if (curStepBtn == 'step-1') {
             pointer = 1;
-        }else if (curStepBtn == 'step-2') {
-            pointer = 2;
         }
 
         var nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a");
@@ -375,7 +449,7 @@ $(document).ready(function () {
         // validasi ui
         var kolomvendor     = $('#jenispekerja').val();
         var kolomrestricted = $('#restricted').val();
-        
+
         // console.log(t);
         if (t == 0) {
             // foto
@@ -392,7 +466,7 @@ $(document).ready(function () {
             }else{
                 $("[aria-labelledby='select2-direktorat-container']").attr("style", "border-color:#38c172;");
             }
-            
+
             // divisi
             if($('#divisi').hasClass('is-invalid')){
                 $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:red;");
@@ -429,7 +503,8 @@ $(document).ready(function () {
             // slide 2
             // console.log('masuk');
             var msgLengthDeskripsi = CKEDITOR.instances['editor-deskripsi'].getData().replace(/<[^>]*>/gi, '').length;
-            var msgLengthMetodologi = CKEDITOR.instances['editor-metodologi'].getData().replace(/<[^>]*>/gi, '').length;
+            var msgLengthRollout = CKEDITOR.instances['editor-rollout'].getData().replace(/<[^>]*>/gi, '').length;
+            var msgLengthSosialisasi = CKEDITOR.instances['editor-sosialisasi'].getData().replace(/<[^>]*>/gi, '').length;
             // console.log(msgLengthDeskripsi);
 
             // validasi ui
@@ -439,7 +514,7 @@ $(document).ready(function () {
                 $("#cke_editor-deskripsi").attr("style", "border-color:#38c172;");
             }
 
-            if(msgLengthMetodologi <= 10){
+            if(msgLengthRollout <= 200){
                 $("#cke_editor-metodologi").attr("style", "border-color:red;");
             }else{
                 $("#cke_editor-metodologi").attr("style", "border-color:#38c172;");
@@ -464,30 +539,14 @@ $(document).ready(function () {
                 Toast3.fire({icon: 'error',title: 'Deskripsi tidak boleh kosong!'});
             } else if (msgLengthDeskripsi <= 200) {
                 Toast3.fire({icon: 'error',title: 'Deskripsi kurang dari 200 karakter!'});
-            }else if (msgLengthMetodologi ==  0) {
+            }else if (msgLengthRollout ==  0) {
                 Toast3.fire({icon: 'error',title: 'Metodologi tidak boleh kosong!'});
-            } else if (msgLengthMetodologi <= 10) {
+            } else if (msgLengthRollout <= 10) {
                 Toast3.fire({icon: 'error',title: 'Metodologi kurang dari 10 karakter!'});
             }else if($('#tags').hasClass('is-invalid')){
                 Toast3.fire({icon: 'error',title: 'Tags tidak boleh kosong!'})
             }
 
-        }else if(t == 2){
-            // slide 3
-            // checker
-            if($('#checker').hasClass('is-invalid')){
-                $("[aria-labelledby='select2-checker-container']").attr("style", "border-color:red;");
-            }else{
-                $("[aria-labelledby='select2-checker-container']").attr("style", "border-color:#38c172;");
-            }
-
-            if($('#signer').hasClass('is-invalid')){
-                $("[aria-labelledby='select2-signer-container']").attr("style", "border-color:red;");
-            }else{
-                $("[aria-labelledby='select2-signer-container']").attr("style", "border-color:#38c172;");
-            }
-
-            // signer
         }
 
         if (isValid){
@@ -526,13 +585,13 @@ $(document).ready(function () {
             var parent = $($(this).parent());
             if(e.keyCode === 8 || e.keyCode === 37) {
                 var prev = parent.find('input#' + $(this).data('previous'));
-                
+
                 if(prev.length) {
                     $(prev).select();
                 }
             } else if((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 39) {
                 var next = parent.find('input#' + $(this).data('next'));
-                
+
                 if(next.length) {
                     $(next).select();
                 } else {
@@ -641,7 +700,7 @@ $(document).ready(function () {
                 };
             }
         }
-    }); 
+    });
 
     function bytesToSize(bytes) {
         var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -659,7 +718,7 @@ $(document).ready(function () {
             isClicked = 0
             // change name filpond attach
             $("input[name='attach']").attr('name','attach[]');
-        
+
             // init
             // if (typeof(old_photo) !== 'undefined') {
             //     var t_photo             = uri+"/storage/"+old_photo;
@@ -674,7 +733,7 @@ $(document).ready(function () {
             var t_direktorat        = $('#direktorat').val();
             var t_divisi            = $('#divisi :selected').map((_, e) => e.getAttribute("data-value")).get();
             var t_nama_project      = $('#nama_project').val();
-        
+
             // waktu mulai
             var temp_date           = new Date($('#tgl_mulai').val());
             var t_tgl_mulai         = temp_date.getDate()+" "+ months[temp_date.getMonth()]+" "+temp_date.getFullYear();
@@ -684,14 +743,14 @@ $(document).ready(function () {
             // console.log(temp_date.getUTCHours()); // Hours
             // console.log(temp_date.getUTCMinutes());
             // console.log(temp_date.getUTCSeconds());
-        
+
             var t_stat_project;
             var t_tgl_selesai;
             if ($('#stat_project').prop('checked')) {
                 // waktu
                 var temp_date           = new Date($('#tgl_selesai').val());
                 var t_tgl_selesai         = temp_date.getDate()+" "+ months[temp_date.getMonth()]+" "+temp_date.getFullYear();
-        
+
                 t_stat_project      = 'Selesai';
             }else{
                 t_tgl_selesai = '-';
@@ -716,17 +775,17 @@ $(document).ready(function () {
             var t_attach = attach_file;
             var t_checker = $('#checker').val();
             var t_signer = $('#signer').val();
-        
-        
+
+
             // empty
             $('#prev_namaproject').empty();
             $('#prev_pm').empty();
-            
+
             // konsultant
             $('#prev_konsultant').empty();
             var tampung_vendor = "";
             if (t_jenispekerja == 1) {
-                if (typeof vendor !== 'undefined') {        
+                if (typeof vendor !== 'undefined') {
                     if (vendor.length > 1) {
                         for (let index = 0; index < vendor.length; index++) {
                             if (index == vendor.length - 1) {
@@ -762,7 +821,7 @@ $(document).ready(function () {
             $('#prev_metodologi').empty();
             $('#prev_lessonlearned').empty();
             var tampung_lesson = "";
-            if (typeof t_lesson !== 'undefined') {        
+            if (typeof t_lesson !== 'undefined') {
                 if (t_lesson.length > 1) {
                     var urutin=1;
                     for (let index = 0; index < t_lesson.length; index++) {
@@ -789,7 +848,7 @@ $(document).ready(function () {
                                         <td id="td-metodologi"><span>-</span></td>
                                     </tr>`;
             }
-        
+
             $('#prev_document').empty();
             var tampung_attach = "";
             // if (typeof(old_attach) !== 'undefined') {
@@ -802,8 +861,8 @@ $(document).ready(function () {
             //                             </tr>`;
             //     }
             // }
-            
-            if (typeof t_attach !== []) {        
+
+            if (typeof t_attach !== []) {
                 var urutin=0;
                 for (let index = 0; index < t_attach.length; index++) {
                     // console.log(t_attach[index]);
@@ -820,7 +879,7 @@ $(document).ready(function () {
                                         <td id="td-attachment" class="pl-1"><small>-</small></td>
                                     </tr>`;
             }
-        
+
             $('#prev_namaproject').append(`${t_nama_project}`);
             $('#prev_thumbnail').attr('src',`${t_photo}`);
             $('#prev_konsultant').append(`${tampung_vendor}`);
@@ -922,7 +981,7 @@ if ($('#konsultant').hasClass('select2')) {
         placeholder : 'Pilih Konsultan/Vendor',
         tags: true
     });
-} 
+}
 
 $('#restricted-old').change(function(){
     var sample = $('select[name=restricted] option').filter(':selected').val();
@@ -953,7 +1012,7 @@ $('#restricted-old').change(function(){
     });
 });
 
-$('#restricted').change(function(){ 
+$('#restricted').change(function(){
     var sample = $('select[name=restricted] option').filter(':selected').val();
 
     if (sample == 0) {
@@ -971,7 +1030,7 @@ $('#restricted').change(function(){
                             </div>
                         </div>
                         `;
-                        
+
         $('#restricted_content').append(content);
         $('#restricted-user').on('select2:select', function (e) {
             if($('#restricted-user').hasClass('is-invalid') || $('#restricted-user').hasClass('is-valid')){
@@ -1178,7 +1237,7 @@ $("#save").click(function(){
         }else{
             $('#form').attr('action',uri+"/kontribusi/update");
             // console.log(uri+"/kontribusi/update");
-    
+
             $("#project").val('0');
             $('#form').submit();
             $('.senddataloader').show();
@@ -1215,7 +1274,7 @@ $("#send").click(function(){
                     $('.senddataloader').show();
                     $('#form').attr('action',uri+"/kontribusi/update");
                     // console.log(uri+"/kontribusi/update");
-        
+
                     $("#project").val('1');
                     $('#form').submit();
                 }
@@ -1235,7 +1294,7 @@ $(".ll_min").click(function(){
 
 $('#stat_project').change(function () {
     if ($('#stat_project').is(':checked')) {
-        $('#tgl_selesai').change(function () { 
+        $('#tgl_selesai').change(function () {
             let res = false;
             if($('#tgl_mulai').val() !== '' && $('#tgl_selesai').val() !== ''){
                 if($('#tgl_selesai').val() < $('#tgl_mulai').val()){
@@ -1243,15 +1302,15 @@ $('#stat_project').change(function () {
                     res = true;
                 }
             }
-            
+
             if(res){
                 $('#tgl_selesai').val('');
-            } 
+            }
         });
     }
 });
 
-$('#tgl_mulai').change(function () { 
+$('#tgl_mulai').change(function () {
     let res = false;
     if($('#tgl_mulai').val() !== '' && $('#tgl_selesai').val() !== ''){
         if($('#tgl_mulai').val() > $('#tgl_selesai').val()){
@@ -1265,7 +1324,7 @@ $('#tgl_mulai').change(function () {
 });
 
 const removeFieldls = (urutan) => {
-    if ($('.ll_field').length > 1) {       
+    if ($('.ll_field').length > 1) {
         if (confirm('Apakah Anda Yakin Menghapusnya ?')) {
             $('.ll_field')[urutan].remove();
             urutFields();

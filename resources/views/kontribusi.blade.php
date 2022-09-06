@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{ asset_app('assets/css/fa-oth.css') }}" />
     <link rel="stylesheet" href="{{ asset_app('assets/css/kontribusi.css') }}" />
     <script src="{{asset_app('assets/js/plugin/ckeditor/ckeditor.js')}}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/min/dropzone.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/dropzone.js"></script>
 @endpush
 
 @section('breadcumb', 'Kontribusi')
@@ -23,14 +25,11 @@
                 <a href="#step-1" id="s-1" class="btn bunderan btn-warning btn-circle reguler">1</a>
                 <p class="ket"><strong>Data Project</strong></p>
             </div>
-            <div class="stepwizard-step s3 stepwizard-step-garis">
+            <div class="stepwizard-step s3">
                 <a href="#step-2" id="s-2" class="btn bunderan btn-default btn-circle disable" style="pointer-events: none">2</a>
-                <p class="ket"><strong>Detail Project</strong></p>
+                <p class="ket"><strong>Detail Implementasi & Upload Dokumen</strong></p>
             </div>
-            <div class="stepwizard-step s4">
-                <a href="#step-3" id="s-3" class="btn bunderan btn-default btn-circle disable" style="pointer-events: none">3</a>
-                <p class="ket"><strong>Upload Dokumen</strong></p>
-            </div>
+
         </div>
     </div>
     <div class="col-md-12">
@@ -69,21 +68,6 @@
                 <div class="mb-5 setup-content" id="step-1">
                     <div class="mb-4">
                         <h4>Data Project</h4>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-md-2 d-flex align-items-end pb-2">
-                            <label for="" class="col-form-label font-weight-600">Thumbnail Project<span class="text-danger ml-1">*</span></label>
-                        </div>
-                        <div class="col-sm-12 col-md-10">
-                            <input type="file" class="filepond filepond-font thumbnail-input col-thumbnail" id="photo" name="photo" value="{{old('photo')}}" required/>
-                            <input type="hidden" class="form-control" id="project" name="project"/>
-                            @isset($data->data->thumbnail)
-                                <input value="{{$data->data->thumbnail}}" name="old_photo" id="old_photo" type="hidden"/>
-                            @endisset
-                            @if(old('photo') <> null)
-                                <input value="{{old('photo')}}" name="old_photo" id="old_photo" type="hidden"/>
-                            @endif
-                        </div>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center">Direktorat<span class="text-danger ml-1">*</span></label>
@@ -319,128 +303,212 @@
             {{-- STEP 2 --}}
                 <div class="mb-5 setup-content" style="display:none;" id="step-2">
                     <div class="mb-4">
-                        <h4>Detail Project</h4>
+                        <h4>Detail Implementasi</h4>
                     </div>
-                    <div class="form-group row ">
-                        <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Project<span class="text-danger ml-1">*</span></label>
-                        <div class="col-md-12">
-                            <textarea name="deskripsi" class="w-100" name="deskripsi" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-deskripsi">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
+                    <div class="mb-1">
+                        <p>Pilih tahap implementasi yang akan diisi :</p>
+                    </div>
+                    <div class="mb-2">
+                        <input type="checkbox" id="piloting" name="piloting" value="piloting">
+                        <label for="piloting"> Piloting </label><br>
+                        <input type="checkbox" id="rollout" name="rollout" value="rollout">
+                        <label for="rollout"> Roll Out </label><br>
+                        <input type="checkbox" id="sosialisasi" name="sosialisasi" value="sosialisasi">
+                        <label for="sosialisasi"> Sosialisasi </label>
+                    </div>
+                    <hr/>
+                    <div class="mb-4">
+                        <h4>Deskripsi Pilotting</h4>
+                        <div class="form-group row ">
+                            <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>
+                            <div class="col-md-12">
+                                <textarea name="deskripsi" class="w-100" name="deskripsi" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-deskripsi">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group row ">
-                        <label for="" class="col-sm-12 col-form-label font-weight-600">Metodologi<span class="text-danger ml-1">*</span></label>
-                        <div class="col-md-12">
-                            <textarea name="metodologi" class="w-100" name="metodologi" id="editor-metodologi" value="{{$data->data->metodologi ?? old('metodologi')}}">{{$data->data->metodologi ?? old('metodologi')}}</textarea>
+                    <div class="mb-4">
+                        <h4>Dokumen Pilotting</h4>
+                        <div>
+                            @isset($data->data->document)
+                                @forelse($data->data->document as $item)
+                                    <input value="{{$item->nama}}" name="old_attach_piloting[]" class="old_attach" type="hidden"/>
+                                    <input value="{{$item->size}}" name="old_attach_size_piloting[]" class="old_attach_size" type="hidden"/>
+                                    <input value="{{$item->jenis_file}}" name="old_attach_type_piloting[]" class="old_attach_type" type="hidden"/>
+                                @empty
+                                @endforelse
+                            @endisset
+
+                            @isset($data->data->id)
+                                <input value="{{$data->data->id}}" name="id" id="id" class="old_attach_type" type="hidden"/>
+                            @endisset
+                            <input type="file" name="attachPiloting[]" id="attachPiloting" class="filepond" multiple data-allow-reorder="true" data-max-file-size="10MB">
                         </div>
                     </div>
-                    <div class="form-group row ">
-                        <label for="" class="col-sm-12 col-form-label font-weight-600">Tags<span class="text-danger ml-1">*</span></label>
-                        <div class="col-sm-12 mb-1">
-                            <div class="input-group">
-                                <select id="tags" class="form-control select2" name="keyword[]" required multiple="multiple" data-select2-tags="true">
-                                    @forelse($data->tags as $item)
-                                        @php
-                                            $sudah = 0;
-                                        @endphp
+                    <hr/>
+                    <div class="mb-4">
+                        <h4>Deskripsi Roll Out</h4>
+                        <div class="form-group row ">
+                            <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>
+                            <div class="col-md-12">
+                                <textarea name="deskripsi" class="w-100" name="deskripsi" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-rollout">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <h4>Dokumen Roll Out</h4>
+                        <div>
+                            @isset($data->data->document)
+                                @forelse($data->data->document as $item)
+                                    <input value="{{$item->nama}}" name="old_attach[]" class="old_attach" type="hidden"/>
+                                    <input value="{{$item->size}}" name="old_attach_size[]" class="old_attach_size" type="hidden"/>
+                                    <input value="{{$item->jenis_file}}" name="old_attach_type[]" class="old_attach_type" type="hidden"/>
+                                @empty
+                                @endforelse
+                            @endisset
 
-                                        @if(old('keyword') <> '')
-                                            @if(old('keyword') <> [])
-                                                @for($i = 0; $i < count(old('keyword')); $i++)
-                                                    @if(old('keyword')[$i] === $item->nama)
-                                                        <option value="{{$item->nama}}" name="keyword[]" data-value="{{$item->nama}}" selected>{{$item->nama}}</option>
-                                                        @php
-                                                            $sudah = 1;
-                                                        @endphp
-                                                    @endif
-                                                @endfor
-                                            @endif
-                                        @elseif(isset($data->data->keywords))
-                                            @forelse($data->data->keywords as $item2)
-                                                @if($item2->nama === $item->nama)
-                                                        <option value="{{$item->nama}}" name="keyword[]" data-value="{{$item->nama}}" selected>{{$item->nama}}</option>
-                                                    @php
-                                                        $sudah = 1;
-                                                    @endphp
-                                                @endif
-                                            @empty
-                                            @endforelse
-                                        @endif
+                            @isset($data->data->id)
+                                <input value="{{$data->data->id}}" name="id" id="id" class="old_attach_type" type="hidden"/>
+                            @endisset
+                            <input type="file" name="attachRollout[]" id="attachRollout" class="filepond" multiple data-allow-reorder="true" data-max-file-size="10MB">
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="mb-4">
+                        <h4>Deskripsi Sosialisasi</h4>
+                        <div class="form-group row ">
+                            <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Sosialisasi<span class="text-danger ml-1">*</span></label>
+                            <div class="col-md-12">
+                                <textarea name="deskripsi" class="w-100" name="deskripsi" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-sosialisasi">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <h4>Dokumen Sosialisasi</h4>
+                        <div>
+                            @isset($data->data->document)
+                                @forelse($data->data->document as $item)
+                                    <input value="{{$item->nama}}" name="old_attach[]" class="old_attach" type="hidden"/>
+                                    <input value="{{$item->size}}" name="old_attach_size[]" class="old_attach_size" type="hidden"/>
+                                    <input value="{{$item->jenis_file}}" name="old_attach_type[]" class="old_attach_type" type="hidden"/>
+                                @empty
+                                @endforelse
+                            @endisset
 
-                                        @if($sudah !== 1)
-                                            <option value="{{$item->nama}}" name="keyword[]" data-value="{{$item->nama}}">{{$item->nama}}</option>
-                                        @endif
-                                    @empty
-                                    @endforelse
+                            @isset($data->data->id)
+                                <input value="{{$data->data->id}}" name="id" id="id" class="old_attach_type" type="hidden"/>
+                            @endisset
+                            <input type="file" name="attachSosialisasi[]" id="attachSosialisasi" class="filepond" multiple data-allow-reorder="true" data-max-file-size="10MB">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="ml-1 row">
+                            <h4>Dokumen Sosialisasi</h4><p>&nbsp;(jika project sudah tersedia di BRIKNOW)</p>
+                        </div>
+                        <div class="form-group row ">
+                            <div class="col-md-12">
+                                <input type="url" class="form-control" id="projectLink" value="" placeholder="https://briknow/myproject" name="projectlink">
+                            </div>
+                        </div>
+                    </div>
+                    @if(session()->get('role') == 3)
+                        @isset($data->data->user_maker)
+                            @if($data->data->user_maker <> session()->get('personal_number'))
+                                <div class="form-group row">
+                                    <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center">Checker<span class="text-danger ml-1">*</span></label>
+                                    <div class="col-md-10 col-sm-12">
+                                        <select name="checker" id="checker" class="checker select2 form-control @error('checker') is-invalid @enderror" placeholder='Masukan Personal Number' required>
+                                            @isset($data->data->user_checker)
+                                                <option value="{{$data->data->user_checker}}" data-value="{{$data->data->user_checker}}" selected>{{$data->data->user_checker}} - {{$data->data->userchecker->name}}</option>
+                                            @endisset
+                                        </select>
+                                        @error('checker')
+                                        {{$message}}
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center">Signer<span class="text-danger ml-1">*</span></label>
+                                    <div class="col-md-10 col-sm-12">
+                                        <select name="signer" id="signer" class="signer select2 form-control @error('signer') is-invalid @enderror" placeholder='Masukan Personal Number' required>
+                                            @isset($data->data->user_signer)
+                                                <option value="{{$data->data->user_signer}}" data-value="{{$data->data->user_signer}}" selected>{{$data->data->user_signer}} - {{$data->data->usersigner->name}}</option>
+                                            @endisset
+                                        </select>
+                                        @error('signer')
+                                        {{$message}}
+                                        @enderror
+                                    </div>
+                                </div>
+                            @else
+                                <div class="form-group row">
+                                    <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center">Checker<span class="text-danger ml-1">*</span></label>
+                                    <div class="col-md-10 col-sm-12">
+                                        <select class="select2 form-control" id="checker" name="checker" required>
+                                            <option value="{{session()->get('personal_number')}}" data-value="{{session()->get('name')}}" selected>{{session()->get('name')}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center">Signer<span class="text-danger ml-1">*</span></label>
+                                    <div class="col-md-10 col-sm-12">
+                                        <select class="select2 form-control" id="signer" name="signer" required>
+                                            <option value="{{session()->get('personal_number')}}" data-value="{{session()->get('name')}}" selected>{{session()->get('name')}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
+                        @else
+                            <div class="form-group row">
+                                <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center">Checker<span class="text-danger ml-1">*</span></label>
+                                <div class="col-md-10 col-sm-12">
+                                    <select class="select2 form-control" id="checker" name="checker">
+                                        <option value="{{session()->get('personal_number')}}" data-value="{{session()->get('name')}}" selected>{{session()->get('name')}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center">Signer<span class="text-danger ml-1">*</span></label>
+                                <div class="col-md-10 col-sm-12">
+                                    <select class="select2 form-control" id="signer" name="signer" required>
+                                        <option value="{{session()->get('personal_number')}}" data-value="{{session()->get('name')}}" selected>{{session()->get('name')}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        @endisset
+                    @else
+                        <div class="form-group row">
+                            <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center">Checker<span class="text-danger ml-1">*</span></label>
+                            <div class="col-md-10 col-sm-12">
+                                <select name="checker" id="checker" class="checker select2 form-control @error('checker') is-invalid @enderror" placeholder='Masukan Personal Number' required>
+                                    @if(old('checker'))
+                                        <option value="{{old('checker')}}" data-value="{{old('checker')}}" selected>{{old('checker')}}</option>
+                                    @elseif(isset($data->data->user_checker))
+                                        <option value="{{$data->data->user_checker}}" data-value="{{$data->data->user_checker}}" selected>{{isset($data->data->userchecker->name) ? $data->data->user_checker.' - '.$data->data->userchecker->name : $data->data->user_checker}}</option>
+                                    @endif
                                 </select>
+                                <small class='text-black font-italic'>* Pastikan <b>Personal Number</b> yang di Isi Bukan Anda Atau Admin</small>
+                                @error('checker')
+                                {{$message}}
+                                @enderror
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group row ">
-                        <div class="col-sm-12 d-flex justify-content-between align-items-center mb-2">
-                            <div>
-                                <label class="p-0 col-sm-12 col-form-label font-weight-600">Lesson Learned<span class="text-danger ml-1">*</span></label>
-                            </div>
-                            <div>
-                                <button type="button" id="add_lesson" class="btn btn-success btn-sm"><i class="fas fa-plus px-1"></i><span class="px-1">Tambah Kolom</span></button>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead class="text-center">
-                                        <th style="min-width: 20px;">No</th>
-                                        <th style="min-width: 480px;">Lesson Learned</th>
-                                        <th style="min-width: 480px;">Detail Keterangan</th>
-                                    </thead>
-                                    <tbody class="text-center content_lesson">
-                                        @php
-                                            $awal = 1;
-                                        @endphp
-                                        @if(old('lesson') <> '' && old('lesson_keterangan') <> '')
-                                            @if(old('lesson') <> [] && old('lesson_keterangan') <> [])
-                                                @php
-                                                    $itung = count(old('lesson'));
-                                                @endphp
-                                                <input type="hidden" id="urut" value="{{$itung}}">
-                                                @for($i = 0; $i < count(old('lesson')); $i++)
-                                                    <tr class='ll_field'>
-                                                        <td class="bg-white attr_input"><span class='control_ll'> <img class='ll_min' src='{{ asset('assets/img/datatables/details_close.png') }}'/> {{$awal++}}</span></td>
-                                                        <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="{{old('lesson')[$i]}}" placeholder="..." required/></td>
-                                                        <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="{{old('lesson_keterangan')[$i]}}" placeholder="..." required/></td>
-                                                    </tr>
-                                                @endfor
-                                            @endif
-                                        @elseif(isset($data->data->lesson_learned))
-                                            @php
-                                                $itung = count($data->data->lesson_learned);
-                                            @endphp
-                                            <input type="hidden" id="urut" value="{{$itung}}">
-                                            @forelse($data->data->lesson_learned as $item)
-                                                <tr class='ll_field'>
-                                                    <td class="bg-white attr_input"><span class='control_ll'> <img class='ll_min' src='{{ asset('assets/img/datatables/details_close.png') }}'/> {{$awal++}}</span></td>
-                                                    <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="{{$item->lesson_learned}}" placeholder="..." required/></td>
-                                                    <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="{{$item->detail}}" placeholder="..." required/></td>
-                                                </tr>
-                                            @empty
-                                                <tr class='ll_field'>
-                                                    <td class="bg-white attr_input"><span class='control_ll'> <img class='ll_min' src='{{ asset('assets/img/datatables/details_close.png') }}'/> 1</span></td>
-                                                    <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="" placeholder="..." required /></td>
-                                                    <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required /></td>
-                                                </tr>
-                                            @endforelse
-                                        @else
-                                            <input type="hidden" id="urut" value="{{$awal}}">
-                                            <tr class='ll_field'>
-                                                <td class="bg-white attr_input"><span class='control_ll'> <img class='ll_min' src='{{ asset('assets/img/datatables/details_close.png') }}'/> 1</span></td>
-                                                <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="" placeholder="..." required/></td>
-                                                <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required/></td>
-                                            </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
+                        <div class="form-group row">
+                            <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center">Signer<span class="text-danger ml-1">*</span></label>
+                            <div class="col-md-10 col-sm-12">
+                                <select name="signer" id="signer" class="signer select2 form-control @error('signer') is-invalid @enderror" placeholder='Masukan Personal Number' required>
+                                    @if(old('signer'))
+                                        <option value="{{old('signer')}}" data-value="{{old('signer')}}" selected>{{old('signer')}}</option>
+                                    @elseif(isset($data->data->user_signer))
+                                        <option value="{{$data->data->user_signer}}" data-value="{{$data->data->user_signer}}" selected>{{isset($data->data->usersigner->name) ? $data->data->user_signer.' - '.$data->data->usersigner->name : $data->data->user_signer}}</option>
+                                    @endisset
+                                </select>
+                                <small class='text-black font-italic'>* Pastikan <b>Personal Number</b> yang di Isi Bukan Anda Atau Admin</small>
+                                @error('signer')
+                                {{$message}}
+                                @enderror
                             </div>
                         </div>
-                    </div>
+                    @endif
                     <div class="row mt-4">
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button class="btn btn-outline-primary prevBtn btn-sm mr-2" type="button">Previous</button>
@@ -571,12 +639,6 @@
                             </div>
                         </div>
                     @endif
-                    <div class="row mt-4">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button class="btn btn-outline-primary prevBtn btn-sm mr-2" type="button">Previous</button>
-                            <button class="btn btn-primary text-white nextBtn btn-sm pull-right" id="preview" type="button">Preview</button>
-                        </div>
-                    </div>
                 </div>
             {{-- END STEP 3 --}}
         </form>
@@ -615,7 +677,16 @@
             }
         });
 
-        CKEDITOR.replace('editor-metodologi', {
+        CKEDITOR.replace('editor-rollout', {
+            filebrowserUploadUrl: `{{config('app.url')}}upimgcontent`,
+            filebrowserUploadMethod: 'xhr',
+            fileTools_requestHeaders: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': tok
+            }
+        });
+
+        CKEDITOR.replace('editor-sosialisasi', {
             filebrowserUploadUrl: `{{config('app.url')}}upimgcontent`,
             filebrowserUploadMethod: 'xhr',
             fileTools_requestHeaders: {

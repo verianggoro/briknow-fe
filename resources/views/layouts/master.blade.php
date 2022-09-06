@@ -95,6 +95,7 @@
                     <a href="#" data-toggle='modal' data-target='#editprofil' class="dropdown-item">Edit Profile</a>
                     <a href="{{ route('myproject') }}" class="dropdown-item">My Project</a>
                     <a href="{{ route('myfavorite') }}" class="dropdown-item">My Favorite</a>
+                    <a href="{{ route('mylesson') }}" class="dropdown-item">My Lesson Learned</a>
                     <a href="{{ route('forum.index') }}" class="dropdown-item">Forum</a>
                     @if(session('role') == 3)
                       <a href="{{ route('dashboard.performance') }}" class="dropdown-item">Dashboard Admin</a>

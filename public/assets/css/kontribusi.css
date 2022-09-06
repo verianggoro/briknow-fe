@@ -38,7 +38,7 @@
         .ll_min_disabled{
             filter: opacity(0.5);
         }
-        
+
         .table:not(.table-sm) thead th {
             background-color: rgba(214, 214, 214, 1);
             color: black;
@@ -219,7 +219,7 @@
             -moz-border-radius : 6px;
             width:100%;
         }
-        
+
         #th-attachment{
             padding-left: 5px;
             padding-right: 5px;

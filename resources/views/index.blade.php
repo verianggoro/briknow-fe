@@ -124,6 +124,7 @@
                                 <a href="#" data-toggle='modal' data-target='#editprofil' class="dropdown-item">Edit Profile</a>
                                 <a href="{{ route('myproject') }}" class="dropdown-item">My Project</a>
                                 <a href="{{ route('myfavorite') }}" class="dropdown-item">My Favorite</a>
+                                <a href="{{ route('mylesson') }}" class="dropdown-item">My Lesson Learned</a>
                                 <a href="{{ route('forum.index') }}" class="dropdown-item">Forum</a>
                                 @if(session('role') == 3)
                                     <a href="{{ route('dashboard.performance') }}" class="dropdown-item">Dashboard Admin</a>
@@ -228,7 +229,7 @@
                 </div>
             </div>
             <div class="row rekomendasi mt-2">
-                <div class="col-lg-6 col-md-12 col-sm-12">                
+                <div class="col-lg-6 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="card-body p-1 px-2 card-chart">
                             <div class="row p-2 px-4 mt-2 pb-0 d-flex justify-content-between">
@@ -255,7 +256,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12 col-sm-12">                
+                <div class="col-lg-6 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="card-body p-1 px-2 card-chart">
                             <div class="row p-2 px-4 mt-2 pb-0 d-flex justify-content-between">
@@ -283,8 +284,176 @@
                     </div>
                 </div>
             </div>
+            <div class="row rekomendasi mt-2">
+                <div class="col-lg-3 col-md-12 col-sm-12">
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-body p-1 px-2 card-chart">
+                            <div class="row p-2 px-4 mt-2 pb-0 d-flex justify-content-between">
+                                <span class="font-weight-bold d-block label_grap">Lesson Learned per Tahap Project</span>
+                                <div>
+                                    <a href="#" class="btn btn-light bg-white" id="dropdownMenuLink" style="text-decoration: none; color: black;"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                                        <a href="{{route('laporan.proyektop5')}}" target="_blank" class="btn dropdown-item">
+                                            <i class="far fa-file-excel mr-2"></i>Xlsx
+                                        </a>
+                                        <a href="{{route('laporan.proyektop5pdf')}}" target="_blank" class="btn dropdown-item">
+                                            <i class="far fa-file-pdf mr-2"></i>PDF
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row px-4">
+                                <hr class="d-block mt-0 mb-2 w-25 m-0 garis-bawah">
+                            </div>
+                            <div id="graph3" class="d-flex align-items-center justify-content-center" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-12 col-sm-12">
+                </div>
+            </div>
         </div>
     </div>
+    <div class="px-4 pt-5">
+          <div class="container-fluid">
+              <div class="row p-3 rekomendasi h-100">
+                  <div class="col-md-4 d-flex align-items-center">
+                      <div>
+                          <h5 class="text-warning">BRIKNOW</h5>
+                          <h4 style="color: #0a53be" class="font-weight-800 mb-2">LEADERBOARD</h4>
+                          <p class="text-leaderboard-deskripsi">Jadi yang teratas dengan mengumpulkan Experience Point terbanyak! Caranya? Cukup selesaikan aktivitas tugas dan tantangan yang ada. Papan peringkat akan terus terupdate secara otomatis, ayo kumpulkan Experience Point kamu! <a style="text-decoration: none;" href="{{route('home.game')}}" target="_blank" class="text-decoration-none text-white">Learn More</a></p>
+                      </div>
+                  </div>
+                  <div class="col-md-8  d-flex align-items-center">
+                      <div class="card w-100 m-0 overflow-hidden">
+                          <div class="card-header text-white" style="background-color: #3d26ff;border-bottom: none;/* color: white; */">
+                              <h4 class="text-white">Top 10 Leaderboard</h4>
+                          </div>
+                          <div class="card-body p-0">
+                              <div class="table-responsive">
+                                  <table class="table mb-0 table-striped bordered">
+                                      <thead>
+                                      <tr>
+                                          <td class="text-dark font-weight-bold">No</td>
+                                          <td class="text-dark font-weight-bold">Nama</td>
+                                          <td class="text-dark font-weight-bold">Total Poin</td>
+                                          <td class="text-dark font-weight-bold">Grade</td>
+                                          <td class="text-dark font-weight-bold">No</td>
+                                          <td class="text-dark font-weight-bold">Nama</td>
+                                          <td class="text-dark font-weight-bold">Total Poin</td>
+                                          <td class="text-dark font-weight-bold">Grade</td>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      @php
+                                          $urut = 1;
+                                      @endphp
+                                      @for($i = 0; $i <= 10; $i++)
+                                          @php
+                                              $leader_name[$urut]     =   $leaderboard[$i]->name??'-';
+                                              $leader_xp[$urut]       =   $leaderboard[$i]->xp??0;
+                                              $level_badge[$urut]     =   $leaderboard[$i]->badge??'-';
+                                              $pn_user[$urut]         =   $leaderboard[$i]->personal_number??'-';
+                                              $urut++;
+                                          @endphp
+                                      @endfor
+                                      @for($i = 1; $i <= 5; $i++)
+                                          <tr>
+                                              @if(isset($leader_name[$i]))
+                                                  @if($i == 1)
+                                                      <td class="bg-info text-white font-weight-bold">{{$i}}</td>
+                                                      <td class="bg-info text-white"><a style="text-decoration: none;" href="{{route('home.profileuser', $pn_user[$i])}}" target="_blank">{{\Str::limit($leader_name[$i]??'-',20,'..')??'-'}}</a></td>
+                                                      <td class="bg-info text-white" style="text-align: center;vertical-align: middle;}">{!!"<span class='badge text-dark badge-warning'>".$leader_xp[$i]."</span>"??'-'!!}</td>
+                                                      <td class="bg-info text-white">
+                                                          <div class="d-flex align-items-center">
+                                                              @if($level_badge[$i] == '-')
+                                                                  -
+                                                              @else
+                                                                  <img draggable='false' alt="image" src="{{asset_app($level_badge[$i])}}" class="img pr-2">
+                                                              @endif
+                                                          </div>
+                                                      </td>
+                                                      <td class="text-dark font-weight-bold ml-2">{{$i+5}}</td>
+                                                      <td class=""><a style="text-decoration: none;" href="{{route('home.profileuser', $pn_user[$i+5])}}" target="_blank">{{\Str::limit($leader_name[$i+5]??'-',20,'..')??'-'}}</td>
+                                                      <td class="" style="text-align: center;vertical-align: middle;}">{!!"<span class='badge badge-primary'>".$leader_xp[$i+5]??'-'."</span>"??'-'!!}</td>
+                                                      <td class="">
+                                                          <div class="d-flex align-items-center">
+                                                              @if($level_badge[$i+5] == '-')
+                                                                  -
+                                                              @else
+                                                                  <img draggable='false' alt="image" src="{{asset_app($level_badge[$i + 5])}}" class="img pr-2">
+                                                              @endif
+                                                          </div>
+                                                      </td>
+                                                  @else
+                                                      <td class="text-dark font-weight-bold">{{$i}}</td>
+                                                      <td><a style="text-decoration: none;" href="{{route('home.profileuser', $pn_user[$i])}}" target="_blank">{{\Str::limit($leader_name[$i],20,'..')??'-'}}</td>
+                                                      <td style="text-align: center;vertical-align: middle;}">{!!"<span class='badge badge-primary'>".$leader_xp[$i]??''."</span>"??'-'!!}</td>
+                                                      <td class="">
+                                                          <div class="d-flex align-items-center">
+                                                              @if($level_badge[$i] == '-')
+                                                                  -
+                                                              @else
+                                                                  <img draggable='false' alt="image" src="{{asset_app($level_badge[$i])}}" class="img pr-2">
+                                                              @endif
+                                                          </div>
+                                                      </td>
+                                                      <td class="text-dark font-weight-bold ml-2">{{$i+5}}</td>
+                                                      <td><a style="text-decoration: none;" href="{{route('home.profileuser', $pn_user[$i+5])}}" target="_blank">{{\Str::limit($leader_name[$i+5],20,'..')??'-'}}</td>
+                                                      <td style="text-align: center;vertical-align: middle;}">{!!"<span class='badge badge-primary'>".$leader_xp[$i+5]."</span>"??'-'!!}</td>
+                                                      <td class="">
+                                                          <div class="d-flex align-items-center">
+                                                              @if($level_badge[$i+5] == '-')
+                                                                  -
+                                                              @else
+                                                                  <img draggable='false' alt="image" src="{{asset_app($level_badge[$i + 5])}}" class="img pr-2">
+                                                              @endif
+                                                          </div>
+                                                      </td>
+                                                  @endif
+                                              @else
+                                                  <td class="text-dark font-weight-bold">{{$i}}</td>
+                                                  <td>{{'-'}}</td>
+                                                  <td>{!!'-'!!}</td>
+                                                  <td>{!!'-'!!}</td>
+                                                  <td class="text-dark font-weight-bold ml-2">{{$i+5}}</td>
+                                                  <td>{{'-'}}</td>
+                                                  <td>{!!'-'!!}</td>
+                                                  <td>{!!'-'!!}</td>
+                                              @endif
+                                          </tr>
+                                      @endfor
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="myModalLabel">Pemberitahuan</h5>
+                      </div>
+                      <div class="modal-body text-justify">
+                          Dengan melakukan Login pada aplikasi ini, maka anda menyetujui bahwa seluruh Informasi dalam aplikasi ini bersifat <span class="bg-warning text-dark font-weight-bold">rahasia</span> dan merupakan <span class="bg-warning text-dark font-weight-bold">hak cipta milik BRI</span>, hanya boleh digunakan untuk <span class="bg-warning text-dark font-weight-bold">kepentingan internal BRI</span>, dilarang menyalahgunakan dan menyebarluaskan kepada pihak eksternal manapun. Pelaku pembocoran informasi kepada pihak eksternal manapun akan menerima <span class="bg-warning text-dark font-weight-bold">sanksi sesuai perundang-undangan dan ketentuan yang berlaku.</span>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" onclick="location.href='{{ route('logout') }}'">Kembali</button>
+                          <button type="submit" class="btn btn-primary" data-dismiss="modal" data-toggle="modal">Setuju</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     <div class="container-fluid mt-5 bg-6sa6ss">
         <div class="row rekomendasi lkatego">
             <div class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center comp2">
@@ -328,174 +497,41 @@
             </div>
         </div>
     </div>
-    <div class="px-4 pt-5">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-5 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
-                    <img src="{{asset_app('assets/img/default/about.png')}}" width="100%" class="img_about" alt="">
-                </div>
-                <div class="col-lg-7 col-md-12 col-sm-12 rekomendasi pt-5">
-                    <h5 class="text-warning m-0">About</h5>
-                    <h2 class="font-weight-800 mb-2">BRIKNOW</h2>
-                    <p>
-                        Data dan informasi merupakan denyut nadi perekonomian abad 21. Dalam era informasi 
-                        data dikenal sebagai aset perusahaan yang vital. Salah satu data yang penting untuk dikelola 
-                        oleh BRI adalah data terkait proyek.<br><br>
-
-                        Kini telah hadir BRIKNOW sebagai <b>repository project deliverables</b><br>untuk
-                        mendokumentasikan seluruh proyek BRI.<br>
-                        BRIKNOW diharapkan dapat menambah <b>pengetahuan</b> bagi unit kerja yang akan menginisiasi 
-                        project. Melalui BRIKNOW user dapat melakukan review dan memanfaatkan metodologi 
-                        serta lesson learned atas project yang pernah ada untuk <b>menunjang kemampuan</b> internal 
-                        BRI menciptakan inisiatif strategis secara <b>independen</b>.<br>
-                        Jika butuh informasi lebih lengkap user juga dapat mendownload berbagai dokumen 
-                        proyeknya.<br><br>
-
-                        Sekarang aktivitas inisiasi proyek jadi lebih mudah.<br>
-                        Selamat berinovasi insan Brillian!<br>
-                        BRIKNOW siap mendampingi.
-                        <br><br>
-                        #PMOAllAroundYou
-                    </p>
-                </div>
-            </div>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">Pemberitahuan</h5>
-                </div>
-                <div class="modal-body text-justify">
-                Dengan melakukan Login pada aplikasi ini, maka anda menyetujui bahwa seluruh Informasi dalam aplikasi ini bersifat <span class="bg-warning text-dark font-weight-bold">rahasia</span> dan merupakan <span class="bg-warning text-dark font-weight-bold">hak cipta milik BRI</span>, hanya boleh digunakan untuk <span class="bg-warning text-dark font-weight-bold">kepentingan internal BRI</span>, dilarang menyalahgunakan dan menyebarluaskan kepada pihak eksternal manapun. Pelaku pembocoran informasi kepada pihak eksternal manapun akan menerima <span class="bg-warning text-dark font-weight-bold">sanksi sesuai perundang-undangan dan ketentuan yang berlaku.</span>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="location.href='{{ route('logout') }}'">Kembali</button>
-                <button type="submit" class="btn btn-primary" data-dismiss="modal" data-toggle="modal">Setuju</button>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div>
     <svg id="bot" width="677" height="804" viewBox="0 0 677 804" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path opacity="0.2" d="M254.176 586.981C-8.18269 644.209 -8.49086 827.079 16.1758 885.445H1392.18V0C1383.51 20.5609 1304.18 70.4377 1056.18 105.458C808.176 140.477 674.176 281.883 638.176 348.209C602.176 414.534 500.469 533.257 254.176 586.981Z" fill="#ED832F"/>
         <path opacity="0.2" d="M248.176 659.981C-14.1827 717.209 -14.4909 900.079 10.1758 958.445H1386.18V73C1377.51 93.5609 1298.18 143.438 1050.18 178.458C802.176 213.477 668.176 354.883 632.176 421.209C596.176 487.534 494.469 606.257 248.176 659.981Z" fill="#ED832F"/>
     </svg>
     <div class="navbar-bg leaderboard">
         <img src="{{asset_app('assets/img/bg/jumbotron-bg.png')}}" class="bg-ornament-footer bg-footer-ornament" alt="">
-        <div class="row p-3 rekomendasi h-100">
-            <div class="col-md-4 d-flex align-items-center">
-                <div>
-                    <h5 class="text-warning">BRIKNOW</h5>
-                    <h4 class="text-white">LEADERBOARD</h4>
-                    <p class="text-leaderboard-deskripsi">Jadi yang teratas dengan mengumpulkan Experience Point terbanyak! Caranya? Cukup selesaikan aktivitas tugas dan tantangan yang ada. Papan peringkat akan terus terupdate secara otomatis, ayo kumpulkan Experience Point kamu! <a style="text-decoration: none;" href="{{route('home.game')}}" target="_blank" class="text-decoration-none text-white">Learn More</a></p>
-                </div>
+        <div class="row">
+            <div class="col-lg-1 col-md-12 col-sm-12 pt-5">
+                <h5 class="text-warning m-0">About</h5>
+                <h2 class="font-weight-800 mb-2 text-white">BRIKNOW</h2>
             </div>
-            <div class="col-md-8  d-flex align-items-center">
-                <div class="card w-100 m-0 overflow-hidden">
-                    <div class="card-header text-white" style="background-color: #3d26ff;border-bottom: none;/* color: white; */">
-                        <h4 class="text-white">Top 10 Leaderboard</h4>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table mb-0 table-striped bordered">
-                                <thead>
-                                    <tr>
-                                        <td class="text-dark font-weight-bold">No</td>
-                                        <td class="text-dark font-weight-bold">Nama</td>
-                                        <td class="text-dark font-weight-bold">Total Poin</td>
-                                        <td class="text-dark font-weight-bold">Grade</td>
-                                        <td class="text-dark font-weight-bold">No</td>
-                                        <td class="text-dark font-weight-bold">Nama</td>
-                                        <td class="text-dark font-weight-bold">Total Poin</td>
-                                        <td class="text-dark font-weight-bold">Grade</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php 
-                                        $urut = 1; 
-                                    @endphp
-                                    @for($i = 0; $i <= 10; $i++)
-                                        @php
-                                            $leader_name[$urut]     =   $leaderboard[$i]->name??'-';
-                                            $leader_xp[$urut]       =   $leaderboard[$i]->xp??0;
-                                            $level_badge[$urut]     =   $leaderboard[$i]->badge??'-';
-                                            $pn_user[$urut]         =   $leaderboard[$i]->personal_number??'-';
-                                            $urut++;
-                                        @endphp
-                                    @endfor
-                                    @for($i = 1; $i <= 5; $i++)
-                                        <tr>
-                                            @if(isset($leader_name[$i]))
-                                                @if($i == 1)
-                                                    <td class="bg-info text-white font-weight-bold">{{$i}}</td>
-                                                    <td class="bg-info text-white"><a style="text-decoration: none;" href="{{route('home.profileuser', $pn_user[$i])}}" target="_blank">{{\Str::limit($leader_name[$i]??'-',20,'..')??'-'}}</a></td>
-                                                    <td class="bg-info text-white" style="text-align: center;vertical-align: middle;}">{!!"<span class='badge text-dark badge-warning'>".$leader_xp[$i]."</span>"??'-'!!}</td>
-                                                    <td class="bg-info text-white">
-                                                        <div class="d-flex align-items-center">
-                                                            @if($level_badge[$i] == '-')
-                                                                -
-                                                            @else
-                                                                <img draggable='false' alt="image" src="{{asset_app($level_badge[$i])}}" class="img pr-2">
-                                                            @endif
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-dark font-weight-bold ml-2">{{$i+5}}</td>
-                                                    <td class=""><a style="text-decoration: none;" href="{{route('home.profileuser', $pn_user[$i+5])}}" target="_blank">{{\Str::limit($leader_name[$i+5]??'-',20,'..')??'-'}}</td>
-                                                    <td class="" style="text-align: center;vertical-align: middle;}">{!!"<span class='badge badge-primary'>".$leader_xp[$i+5]??'-'."</span>"??'-'!!}</td>
-                                                    <td class="">
-                                                        <div class="d-flex align-items-center">
-                                                            @if($level_badge[$i+5] == '-')
-                                                                -
-                                                            @else
-                                                                <img draggable='false' alt="image" src="{{asset_app($level_badge[$i + 5])}}" class="img pr-2">
-                                                            @endif
-                                                        </div>
-                                                    </td>
-                                                @else
-                                                    <td class="text-dark font-weight-bold">{{$i}}</td>
-                                                    <td><a style="text-decoration: none;" href="{{route('home.profileuser', $pn_user[$i])}}" target="_blank">{{\Str::limit($leader_name[$i],20,'..')??'-'}}</td>
-                                                    <td style="text-align: center;vertical-align: middle;}">{!!"<span class='badge badge-primary'>".$leader_xp[$i]??''."</span>"??'-'!!}</td>
-                                                    <td class="">
-                                                        <div class="d-flex align-items-center">
-                                                            @if($level_badge[$i] == '-')
-                                                                -
-                                                            @else
-                                                                <img draggable='false' alt="image" src="{{asset_app($level_badge[$i])}}" class="img pr-2">
-                                                            @endif
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-dark font-weight-bold ml-2">{{$i+5}}</td>
-                                                    <td><a style="text-decoration: none;" href="{{route('home.profileuser', $pn_user[$i+5])}}" target="_blank">{{\Str::limit($leader_name[$i+5],20,'..')??'-'}}</td>
-                                                    <td style="text-align: center;vertical-align: middle;}">{!!"<span class='badge badge-primary'>".$leader_xp[$i+5]."</span>"??'-'!!}</td>
-                                                    <td class="">
-                                                        <div class="d-flex align-items-center">
-                                                            @if($level_badge[$i+5] == '-')
-                                                                -
-                                                            @else
-                                                                <img draggable='false' alt="image" src="{{asset_app($level_badge[$i + 5])}}" class="img pr-2">
-                                                            @endif
-                                                        </div>
-                                                    </td>
-                                                @endif
-                                            @else
-                                                <td class="text-dark font-weight-bold">{{$i}}</td>
-                                                <td>{{'-'}}</td>
-                                                <td>{!!'-'!!}</td>
-                                                <td>{!!'-'!!}</td>
-                                                <td class="text-dark font-weight-bold ml-2">{{$i+5}}</td>
-                                                <td>{{'-'}}</td>
-                                                <td>{!!'-'!!}</td>
-                                                <td>{!!'-'!!}</td>
-                                            @endif
-                                        </tr>
-                                    @endfor
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-lg-7 col-md-12 col-sm-12 rekomendasi pt-5">
+                <p class="text-white">
+                    Data dan informasi merupakan denyut nadi perekonomian abad 21. Dalam era informasi
+                    data dikenal sebagai aset perusahaan yang vital. Salah satu data yang penting untuk dikelola
+                    oleh BRI adalah data terkait proyek.<br><br>
+
+                    Kini telah hadir BRIKNOW sebagai <b>repository project deliverables</b><br>untuk
+                    mendokumentasikan seluruh proyek BRI.<br>
+                    BRIKNOW diharapkan dapat menambah <b>pengetahuan</b> bagi unit kerja yang akan menginisiasi
+                    project. Melalui BRIKNOW user dapat melakukan review dan memanfaatkan metodologi
+                    serta lesson learned atas project yang pernah ada untuk <b>menunjang kemampuan</b> internal
+                    BRI menciptakan inisiatif strategis secara <b>independen</b>.<br>
+                    Jika butuh informasi lebih lengkap user juga dapat mendownload berbagai dokumen
+                    proyeknya.<br><br>
+
+                    Sekarang aktivitas inisiasi proyek jadi lebih mudah.<br>
+                    Selamat berinovasi insan Brillian!<br>
+                    BRIKNOW siap mendampingi.
+                    <br><br>
+                    #PMOAllAroundYou
+                </p>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
+                <img src="{{asset_app('assets/img/default/about.png')}}" width="100%" class="img_about" alt="">
             </div>
         </div>
     </div>
@@ -510,7 +546,7 @@
     @include('layouts.edit_profile')
   </div>
     <!-- General JS Scripts -->
-  
+
     @if($congrats <> [])
         {{-- congrats --}}
         <script src="{{asset_app('assets/js/plugin/TweenMax.min.js')}}" ></script>
@@ -590,6 +626,6 @@
         <script>
             $('#myModal').modal({backdrop: 'static', keyboard: false})
         </script>
-    @endif   
+    @endif
 </body>
 </html>
