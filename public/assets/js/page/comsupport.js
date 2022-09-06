@@ -121,7 +121,7 @@ function ajaxRequest(params) {
         params.success(res)
     })*/
     $.ajax({
-        url: url,
+        url: url + '?' + $.param(params.data),
         type: "get",
         beforeSend: function(xhr){
             xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
