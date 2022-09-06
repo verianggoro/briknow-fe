@@ -1,0 +1,164 @@
+.table:not(.table-sm):not(.table-md):not(.dataTable) td,
+.table:not(.table-sm):not(.table-md):not(.dataTable) th {
+    padding: 0px 0px 0px 20px !important;
+    height: 50px;
+    text-align: left;
+    background: white;
+}
+
+.table:not(.table-sm) thead th {
+    background-color: rgba(240, 242, 245, 1);
+    color: black;
+    border: none;
+}
+
+td>div {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+#btn-view {
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: normal;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+#th-line {
+    /*background: rgba(240, 242, 245, 1);*/
+    border-top: 1px solid rgba(214, 214, 214, 1);
+    border-bottom: 1px solid rgba(214, 214, 214, 1);
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    border-bottom: 1px solid #dbdbdb;
+    text-align: center;
+}
+
+.select2-container--bootstrap .select2-selection--single {
+    line-height: 2;
+}
+
+#search {
+    height: 31px;
+}
+
+#list-pemilik-proyek, #list-nama-proyek {
+    height: 500px;
+}
+
+#group-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+#listnya {
+    overflow-y: scroll;
+    height: 395px;
+}
+
+#th-attachment, #td-attachment{
+    text-align : left;
+}
+
+#th-metodologi, #td-metodologi{
+    text-align : center;
+}
+
+#table-attachment{
+    margin-top : 10px;
+}
+
+.btn-com {
+    display: inline-block;
+    background: #fff !important;
+    color: #879cc2 !important;
+    border-color: #0e3984 !important;
+    border-radius: 12px !important;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 24px;
+    padding: 0.3rem 0.8rem;
+    letter-spacing: .5px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-com.active {
+    background: #edf4ff !important;
+    color: #0e3984 !important;
+}
+
+.btn-com:hover {
+    background: #edf4ff !important;
+    color: #0e3984 !important;
+    text-decoration: none;
+}
+
+.btn-com.active:hover {
+    border-color: #0e3984 !important;
+}
+
+.btn-com.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.bootstrap-table {
+    border-top: 2px solid #dbdbdb;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+.bootstrap-table .table thead th {
+    border-bottom: 2px solid #dbdbdb !important;
+}
+
+.bootstrap-table .table thead td {
+    border-bottom: 1px solid #dbdbdb !important;
+}
+
+.border-action {
+    border: 1px solid #dbdbdb;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.select-custom {
+    text-indent: initial;
+    white-space: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-size: medium;
+    font-style: normal;
+    font-variant: normal;
+}
+
+.action-icon {
+    padding: 6px;
+    height: 50%;
+    width: 33px;
+    cursor:pointer;
+    border-radius: 4px;
+}
+
+.action-icon:hover {
+    background: #dbdbdb;
+}

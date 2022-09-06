@@ -212,6 +212,14 @@
                   </a>
               </li>
               <li class="nav-item dropdown pb-2">
+                  <a href="{{route('manage_com')}}" class="btn btn-lg btn-block text-left menu-kiri d-flex justify-content-center btn-managecom {{request()->is('mannagecommunication/*')  ? ' active' : ''}}" tabindex="-1" role="button">
+                      <i class="fa fa-file-alt bulet-merah-tua" id="merahtua" style="font-size: 25px;"></i>
+                      <span class="px-2 f-20">
+                    Manage Communication Support
+                  </span>
+                  </a>
+              </li>
+              <li class="nav-item dropdown pb-2">
                   <a href="{{route('home')}}" class="btn btn-lg btn-block text-left menu-kiri d-flex justify-content-center btn-uploadproject" tabindex="-1" role="button">
                   <i class="fas fa-sign-out-alt bulet-ungu" id="logout" style="font-size: 25px;"></i>
                   <span class="px-2 f-20">

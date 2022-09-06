@@ -66,6 +66,17 @@
     background-color: #e5fcdc !important;
     color: #2fed64;
   }
+  .btn-managecom {
+    color: #8f0c0c;
+  }
+  .btn-managecom.active {
+    background-color: #ffe2e2 !important;
+    color: #8f0c0c;
+  }
+  .btn-managecom:hover {
+    background-color: #ffe2e2 !important;
+    color: #8f0c0c;
+  }
   .btn-managegamification {
     color: #e3e664;
   }
@@ -176,6 +187,14 @@
     border-radius: 50%;
     text-align: center;
     background: #e2f9e3;
+  }
+  .bulet-merah-tua {
+    width: 60px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 50%;
+    text-align: center;
+    background: #f6cded;
   }
 
   .f-20{

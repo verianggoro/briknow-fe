@@ -122,6 +122,14 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/managelesson/review', 'Admin\ManageLessonLearned@review')->name('manage_lesson.review')->middleware('IsAdmin');
         Route::get('/managelesson', 'Admin\ManageLessonLearned@index')->name('manage_lesson')->middleware('IsAdmin');
 
+    #Dashboard - Management Communication Support
+    Route::get('/mannagecommunication/communicationinitiative/{type}', 'Admin\ManageComSupport@comType')->name('manage_com.type')->middleware('IsAdmin');
+    Route::get('/mannagecommunication/communicationinitiative', 'Admin\ManageComSupport@communicationInitiative')->name('manage_com.com_init')->middleware('IsAdmin');
+    Route::get('/mannagecommunication', 'Admin\ManageComSupport@index')->name('manage_com')->middleware('IsAdmin');
+    Route::get('/communicationinitiative/{type}', 'Admin\ManageComSupport@getAllComInitiative')->name('con_init.type')->middleware('IsAdmin');
+    Route::post('/communicationinitiative/status/{status}/{id}', 'Admin\ManageComSupport@setStatus')->name('con_init.set_status')->middleware('IsAdmin');
+    Route::delete('/communicationinitiative/delete/{id}', 'Admin\ManageComSupport@delete')->name('con_init.delete')->middleware('IsAdmin');
+
 
     #DASHBOARD - MANAGEMENT CONSULTANT
         Route::get('/manageconsultant', 'Admin\ManageConsultantController@index')->name('manage_consultant')->middleware('IsAdmin');
