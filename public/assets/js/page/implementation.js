@@ -33,7 +33,7 @@ for (let i = 0; i < metas.length; i++) {
 }
 
 function hapus(a){
-    const url = `${uri}/communicationinitiative/delete/${a}`
+    const url = `${uri}/implementation/delete/${a}`
     let t = "{{$token_auth}}";
     swal.fire({ title: "Anda yakin akan menghapus Proyek ini?", text: "", icon: "warning", showCancelButton: !0, confirmButtonColor: "#28a745", cancelButtonColor: "#dc3545", confirmButtonText: "OK", cancelButtonText: "CANCEL" }).then((i) => {
         if(i.isConfirmed){
@@ -60,7 +60,7 @@ function hapus(a){
 }
 
 function setStatus(value, row, valueOld) {
-    const url = `${uri}/communicationinitiative/status/${value}/${row}`
+    const url = `${uri}/implementation/status/${value}/${row}`
     let $select = $('#selectStatus'+row)
     let t = "{{$token_auth}}";
     let title = "";
@@ -110,8 +110,8 @@ function setStatus(value, row, valueOld) {
 }
 
 function ajaxRequest(params) {
-    const types = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
-    const url = `${uri}/communicationinitiative/${types}`
+    const step = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
+    const url = `${uri}/implementation/${step}`
     /*$.get({url: url +'?' + $.param(params.data),
         headers: {
             'Authorization' :   `Bearer ${csrf}`,
@@ -269,7 +269,7 @@ function initTable() {
                     width: 120
                 },
                 {
-                    field: 'created_at',
+                    field: 'tanggal_mulai',
                     title: 'Tanggal',
                     sortable: true,
                     align: 'center',

@@ -25,9 +25,9 @@
 
         <div class="my-4 d-flex align-content-between">
             <div class="d-flex mr-auto ml-2 flex-wrap">
-                <a class="btn-com mt-2 mr-3 active disabled" id="communication" role="button">Communication Initiative</a>
+                <a href="{{route('manage_com.com_init')}}" class="btn-com mt-2 mr-3" id="communication" role="button">Communication Initiative</a>
                 <a class="btn-com mt-2 mr-3" id="strategic" role="button">Strategic Initiative</a>
-                <a href="{{route('manage_com.implementation')}}" class="btn-com mt-2 mr-3" id="implementation" role="button">Implementation</a>
+                <a class="btn-com mt-2 mr-3 active disabled" id="implementation" role="button">Implementation</a>
             </div>
             <div class="mr-2" style="margin-top: auto">
                 <a href="{{route('com_init.upload', ['slug'=>'communicationinitiative'])}}" type="button" style="border-radius: 12px; line-height: 2; padding: 0.1rem 1rem" class="btn btn-success"><i class="fa fa-plus mr-3"></i>Upload</a>
@@ -37,11 +37,8 @@
         <hr/>
 
         <div class="mt-4 mb-2 d-flex mx-auto flex-wrap">
-            @forelse($type_list as $item)
-            @if(request()->path() == $item['path'])
-                @php ($type_name = $item['name'])
-            @endif
-            <a href="{{route('com_init.type', ['type'=>$item['id']])}}"  id="{{$item['id']}}" role="button"
+            @forelse($step_list as $item)
+            <a href="{{route('implementation.step', ['step'=>$item['id']])}}"  id="{{$item['id']}}" role="button"
                class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">{{$item['name']}}</a>
             @empty
             @endforelse
@@ -62,7 +59,7 @@
                 <div class="col-auto" style="width: 35%">
                     <label class="sr-only" for="inlineFormInputGroup">Username</label>
                     <div class="input-group mb-2">
-                        <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control" id="inlineFormInputGroup" placeholder="Cari {{$type_name}}">
+                        <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control" id="inlineFormInputGroup" placeholder="Cari project">
                         <div class="input-group-prepend">
                             <div class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;"><i class="fa fa-search fa-sm" aria-hidden="true"></i></div>
                         </div>
@@ -84,22 +81,22 @@
                 </div>-->
             </div>
             <table
-                    id="table"
-                    data-show-columns-toggle-all="true"
-                    data-search="true"
-                    data-search-selector="#inlineFormInputGroup"
-                    data-click-to-select="true"
-                    data-minimum-count-columns="2"
-                    data-pagination="true"
-                    data-id-field="id"
-                    data-page-list="[10, 25, 50, 100, all]"
-                    data-side-pagination="server"
-                    data-ajax="ajaxRequest"
-                    data-response-handler="responseHandler">
+                id="table"
+                data-show-columns-toggle-all="true"
+                data-search="true"
+                data-search-selector="#inlineFormInputGroup"
+                data-click-to-select="true"
+                data-minimum-count-columns="2"
+                data-pagination="true"
+                data-id-field="id"
+                data-page-list="[10, 25, 50, 100, all]"
+                data-side-pagination="server"
+                data-ajax="ajaxRequest"
+                data-response-handler="responseHandler">
             </table>
         </div>
     </div>
-        <!-- REVIEW -->
+    <!-- REVIEW -->
 </div>
 @endsection
 
@@ -110,6 +107,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
 <script src="{{asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js')}}"></script>
-<script src="{{asset_app('assets/js/page/cominitiative.js')}}"></script>
+<script src="{{asset_app('assets/js/page/implementation.js')}}"></script>
 
 @endpush

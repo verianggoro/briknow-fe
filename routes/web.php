@@ -124,14 +124,22 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/managelesson', 'Admin\ManageLessonLearned@index')->name('manage_lesson')->middleware('IsAdmin');
 
     #Dashboard - Management Communication Support
-    Route::get('/mannagecommunication/communicationinitiative/{type}', 'Admin\ManageComSupport@comType')->name('manage_com.type')->middleware('IsAdmin');
+    Route::get('/mannagecommunication/communicationinitiative/{type}', 'Admin\ManageComSupport@comInitType')->name('com_init.type')->middleware('IsAdmin');
     Route::get('/mannagecommunication/communicationinitiative', 'Admin\ManageComSupport@communicationInitiative')->name('manage_com.com_init')->middleware('IsAdmin');
     Route::get('/mannagecommunication', 'Admin\ManageComSupport@index')->name('manage_com')->middleware('IsAdmin');
-    Route::get('/mannagecommunication/upload/{slug}', 'Admin\ManageComSupport@upload_form')->name('manage_com.upload')->middleware('IsAdmin');
-    Route::post('/mannagecommunication/upload/communicationinitiative', 'Admin\ManageComSupport@create_com_init')->name('manage_com.create')->middleware('IsAdmin');
-    Route::get('/communicationinitiative/{type}', 'Admin\ManageComSupport@getAllComInitiative')->name('con_init.type')->middleware('IsAdmin');
-    Route::post('/communicationinitiative/status/{status}/{id}', 'Admin\ManageComSupport@setStatus')->name('con_init.set_status')->middleware('IsAdmin');
-    Route::delete('/communicationinitiative/delete/{id}', 'Admin\ManageComSupport@delete')->name('con_init.delete')->middleware('IsAdmin');
+    Route::get('/mannagecommunication/upload/{slug}', 'Admin\ManageComSupport@uploadFormComInit')->name('com_init.upload')->middleware('IsAdmin');
+    Route::post('/mannagecommunication/upload/communicationinitiative', 'Admin\ManageComSupport@createComInit')->name('com_init.create')->middleware('IsAdmin');
+    Route::get('/communicationinitiative/{type}', 'Admin\ManageComSupport@getAllComInitiative')->name('com_init.get_type')->middleware('IsAdmin');
+    Route::post('/communicationinitiative/status/{status}/{id}', 'Admin\ManageComSupport@setStatusComInit')->name('con_init.set_status')->middleware('IsAdmin');
+    Route::delete('/communicationinitiative/delete/{id}', 'Admin\ManageComSupport@deleteComInit')->name('con_init.delete')->middleware('IsAdmin');
+    #--
+    Route::get('/mannagecommunication/implementation/{step}', 'Admin\ManageComSupport@implementationStep')->name('implementation.step')->middleware('IsAdmin');
+    Route::get('/mannagecommunication/implementation', 'Admin\ManageComSupport@implementation')->name('manage_com.implementation')->middleware('IsAdmin');
+    #Route::get('/mannagecommunication/upload/{slug}', 'Admin\ManageComSupport@uploadFormComInit')->name('com_init.upload')->middleware('IsAdmin');
+    #Route::post('/mannagecommunication/upload/communicationinitiative', 'Admin\ManageComSupport@createComInit')->name('com_init.create')->middleware('IsAdmin');
+    Route::get('/implementation/{step}', 'Admin\ManageComSupport@getAllImplementation')->name('implementation.get_type')->middleware('IsAdmin');
+    Route::post('/implementation/status/{status}/{id}', 'Admin\ManageComSupport@setStatusImplementation')->name('implementation.set_status')->middleware('IsAdmin');
+    Route::delete('/implementation/delete/{id}', 'Admin\ManageComSupport@deleteImplementation')->name('implementation.delete')->middleware('IsAdmin');
 
 
     #DASHBOARD - MANAGEMENT CONSULTANT
