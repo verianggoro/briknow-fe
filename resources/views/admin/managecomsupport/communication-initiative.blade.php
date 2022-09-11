@@ -30,7 +30,7 @@
                 <a class="btn-com mt-2 mr-3" id="implementation" role="button">Implementation</a>
             </div>
             <div class="mr-2" style="margin-top: auto">
-                <button type="button" style="border-radius: 12px; line-height: 2; padding: 0.1rem 1rem" class="btn btn-success"><i class="fa fa-plus mr-3"></i>Upload</button>
+                <a href="{{route('manage_com.upload', ['slug'=>'communicationinitiative'])}}" type="button" style="border-radius: 12px; line-height: 2; padding: 0.1rem 1rem" class="btn btn-success"><i class="fa fa-plus mr-3"></i>Upload</a>
             </div>
         </div>
 
@@ -38,18 +38,18 @@
 
         <div class="mt-4 mb-2 d-flex mx-auto flex-wrap">
             @forelse($type_list as $item)
-            @php ($id = request()->path() == $item['path'] ? $item['id'] : 'artikel')
+            @if(request()->path() == $item['path'])
+                @php ($type_name = $item['name'])
+            @endif
             <a href="{{route('manage_com.type', ['type'=>$item['id']])}}"  id="{{$item['id']}}" role="button"
                class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">{{$item['name']}}</a>
             @empty
             @endforelse
         </div>
 
-        @php ($url = config('app.url')."communicationinitiative/".$id)
         <!-- NAVIGASI -->
         <div class="d-flex bd-highlight">
             <div class="mr-auto p-2 bd-highlight">
-<!--                <h3>{{config('app.url')."communicationinitiative/".$id}}</h3>-->
             </div>
         </div>
         <!-- NAVIGASI -->
@@ -62,7 +62,7 @@
                 <div class="col-auto" style="width: 35%">
                     <label class="sr-only" for="inlineFormInputGroup">Username</label>
                     <div class="input-group mb-2">
-                        <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control" id="inlineFormInputGroup" placeholder="Cari artikel">
+                        <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control" id="inlineFormInputGroup" placeholder="Cari {{$type_name}}">
                         <div class="input-group-prepend">
                             <div class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;"><i class="fa fa-search fa-sm" aria-hidden="true"></i></div>
                         </div>
@@ -97,33 +97,20 @@
                     data-ajax="ajaxRequest"
                     data-response-handler="responseHandler">
             </table>
-            </div>
         </div>
-        <!-- REVIEW -->
     </div>
+        <!-- REVIEW -->
 </div>
 <input type="hidden" value="{{session('personal_number')}}" id="userNumber">
 @endsection
-<!--@section('popup')
-{{-- preview --}}
-<div class="modal fade bd-example-modal-lg modal-preview" id="modalpreview" tabindex="-1" role="dialog" aria-labelledby="preview" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered dialog-preview" role="document">
-        <div class="modal-content content-preview bg-transparent">
-            <div class="w-100 d-flex justify-content-center align-items-center" id="content-preview">
-                <div class="bg-white bg-white w-100 content-preview">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection-->
+
 @push('page-script')
 <script>
     localStorage.clear();
-</script>\
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
 <script src="{{asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js')}}"></script>
-<script src="{{asset_app('assets/js/page/comsupport.js')}}"></script>
+<script src="{{asset_app('assets/js/page/cominitiative.js')}}"></script>
 
 @endpush

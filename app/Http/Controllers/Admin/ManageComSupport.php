@@ -15,13 +15,13 @@ class ManageComSupport extends Controller
 
     public function communicationInitiative()
     {
-        return redirect('mannagecommunication/communicationinitiative/artikel');
+        return redirect('mannagecommunication/communicationinitiative/article');
     }
 
     public function comType($type)
     {
         $type_list = (object) array(
-            array("id" => "artikel", "name" => "Artikel", "path" => "mannagecommunication/communicationinitiative/artikel"),
+            array("id" => "article", "name" => "Articles", "path" => "mannagecommunication/communicationinitiative/article"),
             array("id" => "logo", "name" => "Icon, Logo, Maskot BRIVO", "path" => "mannagecommunication/communicationinitiative/logo"),
             array("id" => "infographics", "name" => "Infographics", "path" => "mannagecommunication/communicationinitiative/infographics"),
             array("id" => "transformation", "name" => "Transformation Journey", "path" => "mannagecommunication/communicationinitiative/transformation"),
@@ -29,7 +29,7 @@ class ManageComSupport extends Controller
             array("id" => "video", "name" => "Video Content", "path" => "mannagecommunication/communicationinitiative/video"),
             array("id" => "instagram", "name" => "Instagram Content", "path" => "mannagecommunication/communicationinitiative/instagram"),
         );
-        $type_array = array("artikel", "logo", "infographics", "transformation", "podcast", "video", "instagram");
+        $type_array = array("article", "logo", "infographics", "transformation", "podcast", "video", "instagram");
         if (!in_array($type, $type_array)) {
             session()->flash('error', 'Halaman tidak ditemukan');
             return back();
@@ -37,13 +37,7 @@ class ManageComSupport extends Controller
         $this->token_auth = session()->get('token');
         $sync_es = 0;
         $token_auth = $this->token_auth;
-        // $data = $this->data;
-        // $data = $this->paginate($data);
-        // $data->withPath('/manageproject/review');
-        // dd($nama_unik);
-        // dd($data);
 
-        // return view('admin.manageproject.review', compact(['data', 'token_auth', 'divisi_unik', 'nama_unik']));
         return view('admin.managecomsupport.communication-initiative', compact(['type', 'type_list', 'sync_es', 'token_auth']));
     }
 
@@ -78,13 +72,6 @@ class ManageComSupport extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil      = json_decode($result);
-
-
-            /*return response()->json([
-                'total'    =>  0,
-                'totalNotFiltered' => 0,
-                'rows'      =>  config('app.url_be')."api/communicationinitiative/$type$query"
-            ],200);*/
 
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
@@ -212,6 +199,101 @@ class ManageComSupport extends Controller
         } catch (\Throwable $th) {
             Session::flash('error',"Something Error, Try Again Please");
             return back();
+        }
+    }
+
+    public function upload_form($slug) {
+        $type_file = (object) array(
+            array("value" => "article", "name" => "Article"),
+            array("value" => "logo", "name" => "Icon, Logo, Maskot BRIVO"),
+            array("value" => "infographics", "name" => "Infographics"),
+            array("value" => "transformation", "name" => "Transformation Journey"),
+            array("value" => "podcast", "name" => "Podcast"),
+            array("value" => "video", "name" => "Video Content"),
+            array("value" => "instagram", "name" => "Instagram Content"),
+        );
+
+        if ($slug == 'communicationinitiative') {
+            return view('admin.managecomsupport.cominitiative-upload',compact(['type_file']));
+        } else if($slug == 'strategicinitiative') {
+            return back();
+        } else if($slug == 'implementation') {
+            return back();
+        }  else {
+            session()->flash('error', 'Halaman tidak ditemukan');
+            return back();
+        }
+    }
+
+    public function create_com_init(){
+        // TODO : SAVE
+        // VALIDASI
+        /*request()->validate([
+            'photo'         => "required"
+        ]);*/
+
+        /*$file = request()->file("file");
+        $s = array();
+        foreach($file as $f){
+            // here is your file object
+//            dd($f->getClientOriginalName());
+            $s[] = $f->getClientOriginalName();
+        }*/
+        dd(request()->all());
+        return response()->json([
+            'status'    =>  0,
+            'data'      =>  $s
+        ],200);
+
+        try {
+            $ch = curl_init();
+            $token      = session()->get('token');
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            $postData = [
+                'photo'         => request()->photo,
+            ];
+            // dd($postData);
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/kontribusi/create');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil = json_decode($result);
+            // dd($hasil);
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    if (request()->project == 0) {
+                        Session::flash('success','Project Berhasil di Simpan');
+                    }else{
+                        Session::flash('success','Project Berhasil Dikirimkan');
+                    }
+                    return redirect('/myproject');
+                }else{
+                    if (isset($hasil->data->error_code)) {
+                        if ($hasil->data->error_code == 0) {
+                            session()->flash('error',$hasil->data->message);
+                            return back()->withInput();
+                        }else{
+                            return back()->withErrors($hasil->data->message)->withInput();
+                        }
+                    }else{
+                        session()->flash('error',$hasil->data->message);
+                        return back()->withInput();
+                    }
+                }
+            }else{
+                session()->flash('error','Something Problem');
+                return back()->withInput();
+            }
+        }catch (\Throwable $th) {
+            session()->flash('error',"Something Error, Try Again Please");
+            return back()->withInput();
         }
     }
 }

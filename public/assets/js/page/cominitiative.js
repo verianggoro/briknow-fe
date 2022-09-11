@@ -128,7 +128,7 @@ function ajaxRequest(params) {
             $('.senddataloader').show();
         },
         success: function(data){
-            const height = data.total === 0 ? 105 : 52 + (data.total * 92)
+            const height = data.total === 0 ? 105 : 52 + (data.total * 108)
             $table.bootstrapTable( 'resetView' , {height: height} );
             $('.senddataloader').hide();
             params.success(data)
@@ -194,7 +194,7 @@ function statusFormatter (value, row, index) {
     if (i !== -1) {
         options.splice(i, 1);
     }*/
-    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +')" style="padding: 0.1rem 1rem;font-size: 14px;border-radius: 6px;">'];
+    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +')" style="padding: 0.1rem 1rem;font-size: 14px;border-radius: 6px;width: 70%">'];
     let $option;
     for (let val in options) {
         $option = '<option value="' + options[val].toLocaleLowerCase() + '"';
@@ -233,9 +233,11 @@ function viewsFormatter(views) {
 
 function titleFormatter(value, row, index) {
     return [
-        '<div class="pl-4" style="padding-top: 0; padding-bottom: 0">',
-        '<img src="'+row.thumbnail+'" alt="'+value+'" width="75" height="75" class="mr-3" style="border-radius: 8px">',
-        value,
+        '<div class="pl-4 d-flex align-items-center" style="padding-top: 0; padding-bottom: 0">',
+            '<img src="'+row.thumbnail+'" alt="'+value+'" width="85" height="85" class="mr-3" style="border-radius: 8px">',
+            '<div style="width: 72%" class="ellipsis-2">',
+                value,
+            '</div>',
         '</div>'
     ].join('')
 }
@@ -254,7 +256,7 @@ function initTable() {
                 cellStyle: {
                     classes: 'font-weight-bold',
                     css: {
-                        padding: '0.5rem 0!important'
+                        padding: '0.7rem 0!important'
                     }
                 },
                 formatter: titleFormatter,
