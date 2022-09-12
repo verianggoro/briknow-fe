@@ -19,6 +19,20 @@
     color: #0F56B3 !important;
   }
 
+.btn-menu-com {
+  color: #0e3984;
+}
+
+.btn-menu-com.active {
+  background-color: #C0E1F7FF !important;
+  color: #092451;
+}
+
+.btn-menu-com:hover {
+  background-color: #c0e1f7 !important;
+  color: #092451;
+}
+
   .btn-manageuser {
     color: #47d15a;
   }

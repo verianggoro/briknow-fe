@@ -96,6 +96,8 @@
                     <a href="{{ route('myproject') }}" class="dropdown-item">My Project</a>
                     <a href="{{ route('myfavorite') }}" class="dropdown-item">My Favorite</a>
                     <a href="{{ route('mylesson') }}" class="dropdown-item">My Lesson Learned</a>
+                    <a href="{{ route('mycomsupport.initiative') }}" class="dropdown-item">Communication Support</a>
+                    <a href="{{ route('mycomsupport.initiative') }}" class="dropdown-item">Communication Support</a>
                     <a href="{{ route('forum.index') }}" class="dropdown-item">Forum</a>
                     @if(session('role') == 3)
                       <a href="{{ route('dashboard.performance') }}" class="dropdown-item">Dashboard Admin</a>

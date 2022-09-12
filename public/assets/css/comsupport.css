@@ -326,3 +326,11 @@ span.loadings {
     padding-right: 40px;
     margin-right: -40px;
 }
+
+
+
+.card-img-up {
+    width: 100%;
+    height: 12vw;
+    object-fit: cover;
+}

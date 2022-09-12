@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use App\Http\Controllers\CommunicationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -163,6 +165,10 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
 
     #My Lesson Learned
         Route::get('/mylesson', 'MyLessonLearnedController@index')->name('mylesson');
+
+    #My Communication Support
+        Route::get('/mycomsupport/initiative/{type}', 'CommunicationController@comInitTypePublic')->name('mycomsupport.initiative.type');
+        Route::get('/mycomsupport/initiative', 'CommunicationController@communicationInitiativePublic')->name('mycomsupport.initiative');
     #Comment
         Route::post('/komentar', 'CommentController@create')->name('comment.create');
         Route::post('/komentarforum', 'CommentController@createforum')->name('comment.createforum');
