@@ -238,7 +238,7 @@ FilePond.registerPlugin(
 const inputattach       = document.querySelector('input[id="attachPiloting"]');
 let attach              = FilePond.create(inputattach,
     {
-        labelIdle           : "Pilih Dokumen Anda",
+        labelIdle           : `<div><h5>Pilih Dokumen Anda <span class="fa fa-file"></span></h5></div>`,
         allowImagePreview   : true,
         allowDrop           : false,
         allowMultiple       : true,
@@ -276,7 +276,7 @@ let attach              = FilePond.create(inputattach,
 const inputRollout      = document.querySelector('input[id="attachRollout"]');
 let attachrolout        = FilePond.create(inputRollout,
     {
-        labelIdle           : "Pilih Dokumen Anda",
+        labelIdle           : `<div><h5>Pilih Dokumen Anda <span class="fa fa-file"></span></h5></div>`,
         allowImagePreview   : true,
         allowDrop           : false,
         allowMultiple       : true,
@@ -314,7 +314,7 @@ attachrolout          = tamping;
 const inputSosialisasi      = document.querySelector('input[id="attachSosialisasi"]');
 let attachSosialisasi        = FilePond.create(inputSosialisasi,
     {
-        labelIdle           : "Pilih Dokumen Anda",
+        labelIdle           : `<div><h5>Pilih Dokumen Anda <span class="fa fa-file"></span></h5></div>`,
         allowImagePreview   : true,
         allowDrop           : false,
         allowMultiple       : true,
@@ -1351,3 +1351,15 @@ const urutFields = () => {
         removeFieldls(urutannya);
     });
 }
+
+$(document).ready(function(){
+    $('input[type="checkbox"]').click(function(){
+        if($(this).prop("checked") == true){
+            $($(this).data('id')).show();
+        }
+        else if($(this).prop("checked") == false){
+            $($(this).data('id')).hide();
+
+        }
+    });
+});
