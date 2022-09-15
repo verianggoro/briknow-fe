@@ -40,4 +40,22 @@ class CommunicationController extends Controller
         return view('communication_initiative', compact(['type', 'type_list', 'sync_es', 'token_auth']));
     }
 
+    // page public strategic initiative
+    public function strategicInit(){
+        $this->token_auth = session()->get('token');
+        $sync_es = 0;
+        $token_auth = $this->token_auth;
+
+        return view('strategic_initiative', compact(['sync_es', 'token_auth']));
+    }
+
+    // page public implementation
+    public function implementationInit(){
+        $this->token_auth = session()->get('token');
+        $sync_es = 0;
+        $token_auth = $this->token_auth;
+
+        return view('implementation', compact(['sync_es', 'token_auth']));
+    }
+
 }

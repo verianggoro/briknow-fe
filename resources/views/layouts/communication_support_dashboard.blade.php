@@ -131,7 +131,7 @@
                 </div>
                 <ul class="sidebar-menu text-center">
                     <li class="nav-item dropdown pb-2">
-                        <a href="{{route('dashboard.performance')}}"
+                        <a href="{{route('mycomsupport.initiative')}}"
                            class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{request()->is('mycomsupport/initiative') || request()->is('mycomsupport/initiative/article') ? ' active' : ''}}"
                            tabindex="-1" role="button">
                             <i class="fas fa-comment" id="biru" style="font-size: 25px;"></i>
@@ -141,8 +141,8 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown pb-2">
-                        <a href="{{route('manage_uker')}}"
-                           class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{request()->is('manageuker') || request()->is('manageuker/create') || request()->is('manageproject/update') ? ' active' : ''}}"
+                        <a href="{{route('mycomsupport.strategic')}}"
+                           class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{request()->is('mycomsupport/strategic')  ? ' active' : ''}}"
                            tabindex="-1" role="button">
                             <i class="fas fa-building" id="cyan" style="font-size: 25px;"></i>
                             <span class="px-2 f-20">
@@ -151,8 +151,8 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown pb-2">
-                        <a href="{{route('manage_user')}}"
-                           class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{request()->is('manageuser') ? ' active' : ''}}"
+                        <a href="{{route('mycomsupport.implementation')}}"
+                           class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{request()->is('mycomsupport/implementation') ? ' active' : ''}}"
                            tabindex="-1" role="button">
                             <i class="fas fa-chart-pie" id="biru" style="font-size: 25px;"></i>
                             <span class="px-2 f-20">
