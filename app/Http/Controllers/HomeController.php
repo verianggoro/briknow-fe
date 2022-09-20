@@ -18,6 +18,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public $rekomendasi;
+    public $cominitiative;
     public $owner_project;
     public $consultant;
     public $suggest;
@@ -58,6 +59,7 @@ class HomeController extends Controller
                     $this->consultant       = $hasil->data->consultant;
                     $this->suggest          = $hasil->data->suggest;
                     $leaderboard            = $hasil->data->leaderboard;
+                    $this->cominitiative    = $hasil->data->cominitiative;
                 }else{
                     $this->default();
                 }
@@ -86,8 +88,9 @@ class HomeController extends Controller
         $owner_project  = $this->owner_project;
         $consultant     = $this->consultant;
         $suggest        = $this->suggest;
+        $recominitiative = $this->cominitiative;
         // dd($leaderboard);
-        return view('index',compact('rekomendasi','owner_project','consultant','suggest','leaderboard'));
+        return view('index',compact('rekomendasi', 'recominitiative','owner_project','consultant','suggest','leaderboard'));
     }
 
     public function indexPOST(){

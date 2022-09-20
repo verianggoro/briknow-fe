@@ -51,11 +51,28 @@ class CommunicationController extends Controller
 
     // page public implementation
     public function implementationInit(){
+        return redirect('mycomsupport/implementation/piloting');
+    }
+
+    //set type implementation
+
+    public function setTypeImplementationInit($type){
+        $type_list = (object) array(
+            array("id" => "piloting", "name" => "Piloting", "path" => "mycomsupport/implementation/piloting"),
+            array("id" => "rollout", "name" => "Rollout", "path" => "mycomsupport/implementation/rollout"),
+            array("id" => "sosialisasi", "name" => "Sosialisasi", "path" => "mycomsupport/implementation/sosialisasi"),
+        );
+        $type_array = array("piloting", "rollout", "sosialisasi");
+        if (!in_array($type, $type_array)) {
+            session()->flash('error', 'Halaman tidak ditemukan');
+            return back();
+        }
         $this->token_auth = session()->get('token');
         $sync_es = 0;
         $token_auth = $this->token_auth;
 
-        return view('implementation', compact(['sync_es', 'token_auth']));
+        return view('implementation', compact(['type', 'type_list', 'sync_es', 'token_auth']));
+
     }
 
 }

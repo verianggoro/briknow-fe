@@ -33,7 +33,7 @@
     <script>
         jQuery(document).ready(function($){
             $('.owl-carousel').owlCarousel({
-                loop:true,
+                loop:false,
                 margin:10,
                 nav:true,
                 dots:false,
@@ -81,11 +81,17 @@
   <div class="main-wrapper master">
     <div class="navbar-bg">
         <img src="{{asset_app('assets/img/bg/jumbotron-bg.png')}}" class="bg-ornament" alt="">
-        <div class="d-flex justify-content-between scaffold">
+        <div class="d-flex justify-content-start scaffold">
             <div>
                 <img src="{{asset_app('assets/img/logo/bri know white.png')}}" class="mt-3 ml-3" alt="">
             </div>
-            <div>
+            <div class="d-flex p-2 align-items-center">
+                <a href="{{asset_app('briknow-addins.zip')}}" target="_blank" class="btn btn-sm btn-link text-white mr-2">Home</a>
+            </div>
+            <div class="d-flex mr-auto p-2 align-items-center">
+                <a href="{{asset_app('briknow-addins.zip')}}" target="_blank" class="btn btn-sm btn-link text-white mr-2">Communication Support</a>
+            </div>
+            <div class="d-flex p-2 align-items-end">
                 <nav class="navbar navbar-expand-lg main-navbar">
                     <a href="{{asset_app('briknow-addins.zip')}}" target="_blank" class="btn btn-sm btn-warning addin mr-2">Download Add-in</a>
                     <ul class="navbar-nav navbar-right">
@@ -176,6 +182,53 @@
             </div>
         </div>
     </div>
+      <div class="px-4 pt-5">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-12 rekomendasi">
+                      <h5 class="text-warning m-0">Communication</h5>
+                      <h2 class="font-weight-bolder">Support</h2>
+                  </div>
+              </div>
+              <div class="row rekomendasi mt-4">
+                  @empty($recominitiative)
+                      <div class="col-sm-12 d-flex justify-content-center">
+                          <span class="text-black-50 font-italic">Tidak Ada Data Rekomendasi Communication</span>
+                      </div>
+                  @else
+                      <div class="owl-carousel owl-theme">
+                          @forelse($recominitiative as $item)
+                              <div class="px-2 item w-100 p-0">
+                                  <a href="{{route('project.index',$item->slug)}}" class="text-decoration-none text-dark">
+                                      <div class="card bg-6sa6ss sh-a22l d-flex justify-content-center align-items-center o-hidden">
+                                          <?php
+                                          if (file_exists(public_path('storage/'.$item->thumbnail))) {
+                                              $item->thumbnail = config('app.url').'storage/'.$item->thumbnail;
+                                          }else{
+                                              $item->thumbnail = config('app.url').'assets/img/boxdefault.svg';
+                                          }
+                                          ?>
+                                          <img class="card-img-top" src="{{$item->thumbnail}}" alt="Card image cap">
+                                          <div class="card-body p-2 w-100">
+                                              <strong class="d-block">{{$item->nama}}</strong>
+                                              <small class="text-time d-block">{{\Carbon\Carbon::create($item->updated_at)->diffForHumans()}}</small>
+                                          </div>
+                                      </div>
+                                  </a>
+                              </div>
+                          @empty
+                              <div class="col-sm-6 d-flex justify-content-center">
+                                  <span class="text-black-50 font-italic">Tidak Ada Data Unggahan Rekomendasi</span>
+                              </div>
+                          @endforelse
+                      </div>
+                      <div class="w-100 d-flex justify-content-center">
+                          <button class="btn btn-primary">Lihat Semua</button>
+                      </div>
+                  @endempty
+              </div>
+          </div>
+      </div>
     <div class="px-4 pt-5">
         <div class="container-fluid">
             <div class="row">
@@ -221,6 +274,73 @@
             </div>
         </div>
     </div>
+      <div class="px-4 pt-5">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-12 rekomendasi">
+                      <h5 class="text-warning m-0">Filter</h5>
+                      <h2 class="font-weight-bolder">Project</h2>
+                  </div>
+              </div>
+              <div class="row rekomendasi mt-4">
+                  <div class="card bg-whitesmoke d-flex w-100" style="border-radius: 16px">
+                      <div class="card-body">
+                          <div class="mt-3">
+                              <div class="d-flex justify-content-start">
+                                  <h5 class="p-2 col-lg-6">Direktorat</h5>
+                                  <h5 class="p-2 col-lg-6">Konsultan/Vendor</h5>
+                              </div>
+                              <div class="d-flex justify-content-start">
+                                  <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
+                                </span>
+                                  </div>
+                                  <input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef" id="search" placeholder="Search Project, Consultant, And More...">
+                                  <div class="input-group-prepend ml-3">
+                                <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
+                                </span>
+                                  </div>
+                                  <input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef" id="search" placeholder="Search Project, Consultant, And More...">
+                              </div>
+                          </div>
+                          <div class="mt-3">
+                              <div class="d-flex justify-content-start">
+                                  <h5 class="p-2 col-lg-6">Divisi</h5>
+                                  <h5 class="p-2 col-lg-6">Lesson Learned</h5>
+                              </div>
+                              <div class="d-flex justify-content-start">
+                                  <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
+                                </span>
+                                  </div>
+                                  <input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef" id="search" placeholder="Search Project, Consultant, And More...">
+                                  <div class="input-group-prepend ml-3">
+                                <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
+                                </span>
+                                  </div>
+                                  <input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef" id="search" placeholder="Search Project, Consultant, And More...">
+                              </div>
+                          </div>
+                          <div class="mt-3">
+                              <div class="d-flex justify-content-start">
+                                  <h5 class="p-2 col-lg-6">Bulan/Tahun</h5>
+                              </div>
+                              <div class="d-flex justify-content-start">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i></span>
+                                  </div>
+                                  <input type="date" name="search" class="col-lg-6 mr-3 form-control main-cari-2iaef" id="search" placeholder="Search Project, Consultant, And More...">
+                              </div>
+                          </div>
+                          <div class="w-100 d-flex mt-4 justify-content-center">
+                              <button class="btn btn-primary">Terapkan</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
     <div class="px-4 pt-5">
         <div class="container-fluid">
             <div class="row">

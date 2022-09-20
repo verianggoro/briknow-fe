@@ -17283,3 +17283,9 @@ readers do not read off random characters that represent icons */
 .select2-container--classic.select2-container--open .select2-dropdown {
   border-color: #5897fb;
 }
+
+.card-img-up {
+  width: 50%;
+  height: 12vw;
+  object-fit: cover;
+}

@@ -319,7 +319,7 @@
                     <hr/>
                     <div id="piloting_view" style="display:none">
                         <div class="mb-4">
-                            <h4>Deskripsi Pilotting</h4>
+                            <h4>Deskripsi Piloting</h4>
                             <div class="form-group row ">
                                 <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>
                                 <div class="col-md-12">
@@ -328,7 +328,7 @@
                             </div>
                         </div>
                         <div class="mb-4">
-                            <h4>Dokumen Pilotting</h4>
+                            <h4>Dokumen Piloting</h4>
                             <div>
                                 @isset($data->data->document)
                                     @forelse($data->data->document as $item)
