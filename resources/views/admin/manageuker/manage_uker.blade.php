@@ -273,6 +273,9 @@
 @endsection
 @push('page-script')
     <script>
+        if(jQuery().select2) {
+            $(".select2").select2();
+        }
         const Tst = Swal.mixin({
             toast: true,
             position: 'top-end',

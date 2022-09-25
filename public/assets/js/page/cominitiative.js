@@ -59,6 +59,10 @@ function hapus(a){
     });
 }
 
+function edit(e) {
+    window.location.href = uri+`/managecommunication/upload/content/${e}`;
+}
+
 function setStatus(value, row, valueOld) {
     const url = `${uri}/communicationinitiative/status/${value}/${row}`
     let $select = $('#selectStatus'+row)
@@ -176,7 +180,7 @@ window.operateEvents = {
         alert('You click like action, row: ' + JSON.stringify(row))
     },
     'click .edit': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row))
+        edit(row.slug)
     },
     'click .remove': function (e, value, row, index) {
         hapus(value)
@@ -229,16 +233,16 @@ function viewsFormatter(views) {
         '</div>',
     ].join('')
 }
-
+// <img src="{{config('app.url').'storage/'.$value->_source->thumbnail??asset_app('assets/img/boxdefault.svg')}}" width="120%" class="card-img-left border-0 rounded thumb">
 function titleFormatter(value, row, index) {
-    return [
-        '<div class="pl-4 d-flex align-items-center" style="padding-top: 0; padding-bottom: 0">',
-            '<img src="'+row.thumbnail+'" alt="'+value+'" width="85" height="85" class="mr-3" style="border-radius: 8px">',
-            '<div style="width: 72%" class="ellipsis-2">',
-                value,
-            '</div>',
-        '</div>'
-    ].join('')
+    let src = `${uri}/storage/${row.thumbnail}`
+    return `
+        <div class="pl-4 d-flex align-items-center" style="padding-top: 0; padding-bottom: 0">
+            <img src="${src}" alt="${value}" width="85" height="85" class="mr-3" style="border-radius: 8px">
+            <div style="width: 72%" class="ellipsis-2">
+                ${value}
+            </div>
+        </div>`
 }
 
 function initTable() {

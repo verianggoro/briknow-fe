@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -10,34 +11,33 @@ class ManageComSupport extends Controller
 {
     public function index()
     {
-        return redirect('mannagecommunication/communicationinitiative');
+        return redirect('managecommunication/communicationinitiative');
     }
 
     public function communicationInitiative()
     {
-        return redirect('mannagecommunication/communicationinitiative/article');
+        return redirect('managecommunication/communicationinitiative/article');
     }
 
     public function implementation()
     {
-        return redirect('mannagecommunication/implementation/piloting');
+        return redirect('managecommunication/implementation/piloting');
     }
 
     public function comInitType($type)
     {
         $type_list = (object) array(
-            array("id" => "article", "name" => "Articles", "path" => "mannagecommunication/communicationinitiative/article"),
-            array("id" => "logo", "name" => "Icon, Logo, Maskot BRIVO", "path" => "mannagecommunication/communicationinitiative/logo"),
-            array("id" => "infographics", "name" => "Infographics", "path" => "mannagecommunication/communicationinitiative/infographics"),
-            array("id" => "transformation", "name" => "Transformation Journey", "path" => "mannagecommunication/communicationinitiative/transformation"),
-            array("id" => "podcast", "name" => "Podcast", "path" => "mannagecommunication/communicationinitiative/podcast"),
-            array("id" => "video", "name" => "Video Content", "path" => "mannagecommunication/communicationinitiative/video"),
-            array("id" => "instagram", "name" => "Instagram Content", "path" => "mannagecommunication/communicationinitiative/instagram"),
+            array("id" => "article", "name" => "Articles", "path" => "managecommunication/communicationinitiative/article"),
+            array("id" => "logo", "name" => "Icon, Logo, Maskot BRIVO", "path" => "managecommunication/communicationinitiative/logo"),
+            array("id" => "infographics", "name" => "Infographics", "path" => "managecommunication/communicationinitiative/infographics"),
+            array("id" => "transformation", "name" => "Transformation Journey", "path" => "managecommunication/communicationinitiative/transformation"),
+            array("id" => "podcast", "name" => "Podcast", "path" => "managecommunication/communicationinitiative/podcast"),
+            array("id" => "video", "name" => "Video Content", "path" => "managecommunication/communicationinitiative/video"),
+            array("id" => "instagram", "name" => "Instagram Content", "path" => "managecommunication/communicationinitiative/instagram"),
         );
         $type_array = array("article", "logo", "infographics", "transformation", "podcast", "video", "instagram");
         if (!in_array($type, $type_array)) {
-            session()->flash('error', 'Halaman tidak ditemukan');
-            return back();
+            abort(404);
         }
         $this->token_auth = session()->get('token');
         $sync_es = 0;
@@ -91,7 +91,7 @@ class ManageComSupport extends Controller
                     return response()->json([
                         'status'    =>  0,
                         'total'    =>  0,
-                        'totalNotFiltered' => 0,
+                        'totalNotFiltered' => $hasil,
                         'rows'      =>  $data
                     ],200);
                 }
@@ -209,9 +209,9 @@ class ManageComSupport extends Controller
     public function implementationStep($step)
     {
         $step_list = (object) array(
-            array("id" => "piloting", "name" => "Piloting", "path" => "mannagecommunication/implementation/piloting"),
-            array("id" => "roll-out", "name" => "Roll Out", "path" => "mannagecommunication/implementation/roll-out"),
-            array("id" => "sosialisasi", "name" => "Sosialisasi", "path" => "mannagecommunication/implementation/sosialisasi")
+            array("id" => "piloting", "name" => "Piloting", "path" => "managecommunication/implementation/piloting"),
+            array("id" => "roll-out", "name" => "Roll Out", "path" => "managecommunication/implementation/roll-out"),
+            array("id" => "sosialisasi", "name" => "Sosialisasi", "path" => "managecommunication/implementation/sosialisasi")
         );
         $step_array = array("piloting", "roll-out", "sosialisasi");
         if (!in_array($step, $step_array)) {
@@ -385,48 +385,76 @@ class ManageComSupport extends Controller
         }
     }
 
-    public function uploadFormComInit($slug) {
-        $type_file = (object) array(
-            array("value" => "article", "name" => "Article"),
-            array("value" => "logo", "name" => "Icon, Logo, Maskot BRIVO"),
-            array("value" => "infographics", "name" => "Infographics"),
-            array("value" => "transformation", "name" => "Transformation Journey"),
-            array("value" => "podcast", "name" => "Podcast"),
-            array("value" => "video", "name" => "Video Content"),
-            array("value" => "instagram", "name" => "Instagram Content"),
-        );
+    public function uploadForm($type, $slug="*") {
 
-        if ($slug == 'communicationinitiative') {
-            return view('admin.managecomsupport.cominitiative-upload',compact(['type_file']));
-        } else if($slug == 'strategicinitiative') {
-            return back();
-        } else if($slug == 'implementation') {
-            return back();
+        try {
+            $data        = [];
+            $token      = session()->get('token');
+            $ch         = curl_init();
+            $headers    = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/form_upload/$type/$slug");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            // return response()->json($hasil);
+//             dd($hasil);
+            $tgl_mulai = Carbon::now();
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    $data   = $hasil->data;
+                }else{
+                    $data   = [];
+                }
+            }else{
+                $data  =  [];
+            }
+        }catch (\Throwable $th) {
+            $data   = [];
+        }
+//        dd($data);
+        if ($type == 'content') {
+            return view('admin.managecomsupport.content-upload',compact(['data']));
+        } else if($type == 'implementation') {
+            return view('admin.managecomsupport.implementation-upload',compact(['data']));
         }  else {
-            session()->flash('error', 'Halaman tidak ditemukan');
-            return back();
+            abort(404);
+            return null;
         }
     }
 
     public function createComInit(){
         // TODO : SAVE
         // VALIDASI
-        /*request()->validate([
-            'photo'         => "required"
-        ]);*/
 
-        /*$file = request()->file("file");
-        $s = array();
-        foreach($file as $f){
-            // here is your file object
-//            dd($f->getClientOriginalName());
-            $s[] = $f->getClientOriginalName();
-        }*/
-        dd(request()->all());
-        return response()->json([
-            'status'    =>  0,
-            'data'      =>  $s
-        ],200);
+//        dd(request()->all());
+        request()->validate([
+            'thumbnail'         => "required",
+            'title'             => "required",
+            'file_type'         => 'required',
+            'deskripsi'         => 'required',
+            'attach'            => 'required',
+        ]);
+
+        if (isset(request()->id)) {
+            $id = request()->id;
+        } else {
+            $id = "*";
+        }
+        if (request()->parent == 1) {
+            request()->validate([
+                'link'    => 'required',
+            ]);
+            $project_id     = request()->link;
+        }else{
+            $project_id     = null;
+        }
 
         try {
             $ch = curl_init();
@@ -437,10 +465,15 @@ class ManageComSupport extends Controller
                 "Authorization: Bearer $token",
             ];
             $postData = [
-                'photo'         => request()->photo,
+                'thumbnail'         => request()->thumbnail,
+                'title'         => request()->title,
+                'file_type'         => request()->file_type,
+                'deskripsi'         => request()->deskripsi,
+                'project_id'         => request()->project_id,
+                'attach'         => request()->attach,
             ];
             // dd($postData);
-            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/kontribusi/create');
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/managecommunication/content/upload/$id");
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -451,12 +484,8 @@ class ManageComSupport extends Controller
             // dd($hasil);
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
-                    if (request()->project == 0) {
-                        Session::flash('success','Project Berhasil di Simpan');
-                    }else{
-                        Session::flash('success','Project Berhasil Dikirimkan');
-                    }
-                    return redirect('/myproject');
+                    Session::flash('success','Content Berhasil di Simpan');
+                    return redirect('/managecommunication');
                 }else{
                     if (isset($hasil->data->error_code)) {
                         if ($hasil->data->error_code == 0) {

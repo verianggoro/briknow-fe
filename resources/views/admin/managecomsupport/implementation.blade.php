@@ -21,7 +21,7 @@
 
 <div class="row">
     <div class="col-md-12" id="konten">
-        <h3 class="pl-2 pt-5">Manage Communication Support</h3>
+        <h3 class="pl-2 pt-5">Manage Implementation</h3>
 
         <div class="my-4 d-flex align-content-between">
             <div class="d-flex mr-auto ml-2 flex-wrap">
@@ -30,7 +30,7 @@
                 <a class="btn-com mt-2 mr-3 active disabled" id="implementation" role="button">Implementation</a>
             </div>
             <div class="mr-2" style="margin-top: auto">
-                <a href="{{route('com_init.upload', ['slug'=>'communicationinitiative'])}}" type="button" style="border-radius: 12px; line-height: 2; padding: 0.1rem 1rem" class="btn btn-success"><i class="fa fa-plus mr-3"></i>Upload</a>
+                <a href="{{route('manage_com.upload_form', ['type'=>'implementation'])}}" type="button" style="border-radius: 12px; line-height: 2; padding: 0.1rem 1rem" class="btn btn-success"><i class="fa fa-plus mr-3"></i>Upload</a>
             </div>
         </div>
 

@@ -126,19 +126,18 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/managelesson', 'Admin\ManageLessonLearned@index')->name('manage_lesson')->middleware('IsAdmin');
 
     #Dashboard - Management Communication Support
-    Route::get('/mannagecommunication/communicationinitiative/{type}', 'Admin\ManageComSupport@comInitType')->name('com_init.type')->middleware('IsAdmin');
-    Route::get('/mannagecommunication/communicationinitiative', 'Admin\ManageComSupport@communicationInitiative')->name('manage_com.com_init')->middleware('IsAdmin');
-    Route::get('/mannagecommunication', 'Admin\ManageComSupport@index')->name('manage_com')->middleware('IsAdmin');
-    Route::get('/mannagecommunication/upload/{slug}', 'Admin\ManageComSupport@uploadFormComInit')->name('com_init.upload')->middleware('IsAdmin');
-    Route::post('/mannagecommunication/upload/communicationinitiative', 'Admin\ManageComSupport@createComInit')->name('com_init.create')->middleware('IsAdmin');
+    Route::get('/managecommunication/communicationinitiative/{type}', 'Admin\ManageComSupport@comInitType')->name('com_init.type')->middleware('IsAdmin');
+    Route::get('/managecommunication/communicationinitiative', 'Admin\ManageComSupport@communicationInitiative')->name('manage_com.com_init')->middleware('IsAdmin');
+    Route::get('/managecommunication', 'Admin\ManageComSupport@index')->name('manage_com')->middleware('IsAdmin');
+    Route::get('/managecommunication/upload/{type}/{slug?}', 'Admin\ManageComSupport@uploadForm')->name('manage_com.upload_form')->middleware('IsAdmin');
+    Route::post('/managecommunication/upload/content', 'Admin\ManageComSupport@createComInit')->name('manage_com.create')->middleware('IsAdmin');
     Route::get('/communicationinitiative/{type}', 'Admin\ManageComSupport@getAllComInitiative')->name('com_init.get_type')->middleware('IsAdmin');
     Route::post('/communicationinitiative/status/{status}/{id}', 'Admin\ManageComSupport@setStatusComInit')->name('con_init.set_status')->middleware('IsAdmin');
     Route::delete('/communicationinitiative/delete/{id}', 'Admin\ManageComSupport@deleteComInit')->name('con_init.delete')->middleware('IsAdmin');
     #--
-    Route::get('/mannagecommunication/implementation/{step}', 'Admin\ManageComSupport@implementationStep')->name('implementation.step')->middleware('IsAdmin');
-    Route::get('/mannagecommunication/implementation', 'Admin\ManageComSupport@implementation')->name('manage_com.implementation')->middleware('IsAdmin');
-    #Route::get('/mannagecommunication/upload/{slug}', 'Admin\ManageComSupport@uploadFormComInit')->name('com_init.upload')->middleware('IsAdmin');
-    #Route::post('/mannagecommunication/upload/communicationinitiative', 'Admin\ManageComSupport@createComInit')->name('com_init.create')->middleware('IsAdmin');
+    Route::get('/managecommunication/implementation/{step}', 'Admin\ManageComSupport@implementationStep')->name('implementation.step')->middleware('IsAdmin');
+    Route::get('/managecommunication/implementation', 'Admin\ManageComSupport@implementation')->name('manage_com.implementation')->middleware('IsAdmin');
+    #Route::post('/managecommunication/upload/implementation', 'Admin\ManageComSupport@createComInit')->name('com_init.create')->middleware('IsAdmin');
     Route::get('/implementation/{step}', 'Admin\ManageComSupport@getAllImplementation')->name('implementation.get_type')->middleware('IsAdmin');
     Route::post('/implementation/status/{status}/{id}', 'Admin\ManageComSupport@setStatusImplementation')->name('implementation.set_status')->middleware('IsAdmin');
     Route::delete('/implementation/delete/{id}', 'Admin\ManageComSupport@deleteImplementation')->name('implementation.delete')->middleware('IsAdmin');
@@ -156,6 +155,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     #PROJECT
         Route::get('/myproject', 'MyProjectController@index')->name('myproject');
         Route::get('/project/{slug}', 'ProjectController@index')->name('project.index');
+        Route::get('/searchproject', 'ProjectController@search')->name('project.search');
         Route::get('/doc_proj/{kunci}/{search}/{sort}', 'ProjectController@doc_project')->name('project.document');
         Route::get('/myproject', 'MyProjectController@index')->name('myproject');
         Route::post('/archive', 'ProjectController@archive')->name('project.archive');
@@ -218,6 +218,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::post('upimgcontent', 'KontribusiController@upimgcontent');
         Route::post('/up/{kategori}','KontribusiController@uploadphoto');
         Route::delete('/up/{kategori}','KontribusiController@delete');
+        Route::post('/delete/{kategori}','KontribusiController@deleteNew');
     #---
 
     #DIVISI

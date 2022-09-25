@@ -49,7 +49,7 @@ class ProjectController extends Controller
                         $tgl_selesai = $this->tgl_selesai;
                         $is_allowed = $this->is_allowed;
                         $is_favorit = $this->is_favorit;
-    
+
                         return view('project', compact(['data', 'tgl_mulai', 'tgl_selesai', 'is_allowed', 'is_favorit']));
                     }else{
                         session()->flash('error','Project Belum Terpublish');
@@ -74,6 +74,91 @@ class ProjectController extends Controller
             session()->flash('error', 'Get Data Bermasalah , Silahkan Coba Lagi');
             return redirect()->back();
         }
+    }
+
+    public function search() {
+        $search     =   request()->input('search')??'*';
+
+        $token_auth = session()->get('token');
+
+        try {
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token_auth",
+            ];
+
+            $postData = [
+                'searchTerm' => $search
+            ];
+            // dd(json_encode($postData));
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/searchproject');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            // dd($result);
+            return response()->json([
+                'status'    =>  1,
+                'items'     =>  $hasil
+            ]);
+        }catch (\Throwable $th) {
+            $data['message']    =   'Get Data Gagal, Mohon Reload Page';
+            return response()->json([
+                'status'    =>  0,
+                'data'      =>  $data
+            ],400);
+        }
+
+        // TODO : search project using elastic search, if needed
+        /*try {
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token_auth",
+            ];
+            $postData = [
+                "search"     => $search,
+            ];
+            // return response()->json(['cek' => $postData]);
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/fit");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            // return response()->json($hasil);
+            if ($hasil->status == 1) {
+                $data = array();
+                foreach ($hasil->data->data as $key) {
+                    $data[]         = array("id"=>$key->_source->id, "text"=>$key->_source->nama);
+                }
+
+                return response()->json([
+                    'status'    =>  1,
+                    'items'     =>  $data
+                ]);
+            }else{
+                return response()->json([
+                    'status'    =>  0,
+                    'items'     =>  '',
+                    'cek'       => $hasil //cek jika ada error
+                ]);
+            }
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status'    =>  0,
+                'items'     =>  ''
+            ]);
+        }*/
     }
 
     public function doc_project($kunci = "",$search="*",$sort = "desc"){
@@ -112,7 +197,7 @@ class ProjectController extends Controller
             'preview'=>$view_preview,
         ]);
     }
-    
+
     public function archive(Request $request){
         if($request->has('data')) {
             try {
@@ -123,7 +208,7 @@ class ProjectController extends Controller
                 $path_zip = public_path('temp_download/'.session()->get('personal_number').'/ex');
                 FacadesFile::deleteDirectory($path_zip);
                 FacadesFile::makeDirectory($path_zip, 777, true, true);
-                
+
                 // temp
                 chdir( sys_get_temp_dir() ); // Zip always get's created in current working dir so move to tmp.
                 $zip = new ZipArchive;
@@ -131,7 +216,7 @@ class ProjectController extends Controller
                 // $zipname = 'package_name.zip'; // True filename used when serving to user.
                 if ( true === $zip->open( $tmp_zipname, ZipArchive::CREATE ) ) {
                     // $zip->addFromString( 'file_name.txt', 'asdasdasddsasd' );
-                    for ($i=0; $i < count($tampung); $i++) { 
+                    for ($i=0; $i < count($tampung); $i++) {
                         $file = storage_path("app/public/".$tampung[$i]);
                         $relativename = basename($file);
                         $zip->addFile($file, $relativename);
@@ -141,12 +226,12 @@ class ProjectController extends Controller
                     // permission
                     chmod(sys_get_temp_dir(). '/' .$tmp_zipname, 0777);
                     chmod(public_path('temp_download/'.session()->get('personal_number').'/ex'), 0777);
-                    
+
                     // move to folder public
                     copy(
-                        sys_get_temp_dir(). '/' .$tmp_zipname, 
+                        sys_get_temp_dir(). '/' .$tmp_zipname,
                         public_path('temp_download/'.session()->get('personal_number').'/ex/'.$zipFileName));
-                    
+
                     // tutup
                     chmod(public_path('temp_download/'.session()->get('personal_number').'/ex'), 0755);
                     unlink( sys_get_temp_dir(). '/' .$tmp_zipname );
