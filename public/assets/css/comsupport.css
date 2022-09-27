@@ -426,6 +426,17 @@ span.loadings {
     line-height: 15px;
 }
 
+.badge-str {
+    font-weight: 400;
+    color: #2f80ed;
+}
+
+.badge-str.disabled:hover {
+    cursor: default;
+    text-decoration: none;
+    color: #2f80ed;
+}
+
 .stepwizard-step {
     display: table-cell;
     text-align: center;

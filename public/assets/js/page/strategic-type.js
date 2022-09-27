@@ -33,7 +33,7 @@ for (let i = 0; i < metas.length; i++) {
 }
 
 function hapus(a){
-    const url = `${uri}/implementation/delete/${a}`
+    const url = `${uri}/communicationinitiative/delete/${a}`
     let t = "{{$token_auth}}";
     swal.fire({ title: "Anda yakin akan menghapus Proyek ini?", text: "", icon: "warning", showCancelButton: !0, confirmButtonColor: "#28a745", cancelButtonColor: "#dc3545", confirmButtonText: "OK", cancelButtonText: "CANCEL" }).then((i) => {
         if(i.isConfirmed){
@@ -59,8 +59,12 @@ function hapus(a){
     });
 }
 
+function edit(e) {
+    window.location.href = uri+`/managecommunication/upload/content/${e}`;
+}
+
 function setStatus(value, row, valueOld) {
-    const url = `${uri}/implementation/status/${value}/${row}`
+    const url = `${uri}/communicationinitiative/status/${value}/${row}`
     let $select = $('#selectStatus'+row)
     let t = "{{$token_auth}}";
     let title = "";
@@ -109,36 +113,6 @@ function setStatus(value, row, valueOld) {
     });
 }
 
-function ajaxRequest(params) {
-    const step = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
-    const url = `${uri}/implementation/${step}`
-    /*$.get({url: url +'?' + $.param(params.data),
-        headers: {
-            'Authorization' :   `Bearer ${csrf}`,
-            "Accept"        :   "application/json"
-        }}).then(function (res) {
-        params.success(res)
-    })*/
-    $.ajax({
-        url: url + '?' + $.param(params.data),
-        type: "get",
-        beforeSend: function(xhr){
-            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
-            $('.senddataloader').show();
-        },
-        success: function(data){
-            const height = data.total === 0 ? 105 : 52 + (data.total * 108)
-            $table.bootstrapTable( 'resetView' , {height: height} );
-            $('.senddataloader').hide();
-            params.success(data)
-        },
-        error : function(e){
-            $('.senddataloader').hide();
-            alert(e);
-        }
-    });
-}
-
 function getIdSelections() {
     return $.map($table.bootstrapTable('getSelections'), function (row) {
         return row.id
@@ -176,7 +150,7 @@ window.operateEvents = {
         alert('You click like action, row: ' + JSON.stringify(row))
     },
     'click .edit': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row))
+        edit(row.slug)
     },
     'click .remove': function (e, value, row, index) {
         hapus(value)
@@ -229,7 +203,7 @@ function viewsFormatter(views) {
         '</div>',
     ].join('')
 }
-
+// <img src="{{config('app.url').'storage/'.$value->_source->thumbnail??asset_app('assets/img/boxdefault.svg')}}" width="120%" class="card-img-left border-0 rounded thumb">
 function titleFormatter(value, row, index) {
     let src = `${uri}/storage/${row.thumbnail}`
     return `
@@ -269,7 +243,7 @@ function initTable() {
                     width: 120
                 },
                 {
-                    field: 'tanggal_mulai',
+                    field: 'created_at',
                     title: 'Tanggal',
                     sortable: true,
                     align: 'center',

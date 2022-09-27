@@ -136,6 +136,12 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::post('/communicationinitiative/status/{status}/{id}', 'Admin\ManageComSupport@setStatusComInit')->name('con_init.set_status')->middleware('IsAdmin');
     Route::delete('/communicationinitiative/delete/{id}', 'Admin\ManageComSupport@deleteComInit')->name('con_init.delete')->middleware('IsAdmin');
     #--
+    Route::get('/managecommunication/strategicinitiative', 'Admin\ManageComSupport@strategic')->name('manage_com.strategic')->middleware('IsAdmin');
+    Route::get('/managecommunication/strategicinitiative/project/{slug}', 'Admin\ManageComSupport@strategicByProject')->name('manage_com.strategicbyproject')->middleware('IsAdmin');
+    Route::get('/managecommunication/strategicinitiative/project/{slug}/{type}', 'Admin\ManageComSupport@strategicByType')->name('manage_com.strategicbyprojectandtype')->middleware('IsAdmin');
+    Route::get('/get/strategicinitiative', 'Admin\ManageComSupport@getAllStrategicInitiative')->name('strategic_init.get_all')->middleware('IsAdmin');
+    Route::get('/get/strategicinitiative/project/{slug}/{type}', 'Admin\ManageComSupport@getAllStrategicInitiativeByProjectAndType')->name('strategic_init.get_allbytype')->middleware('IsAdmin');
+    #--
     Route::get('/managecommunication/implementation/{step}', 'Admin\ManageComSupport@implementationStep')->name('implementation.step')->middleware('IsAdmin');
     Route::get('/managecommunication/implementation', 'Admin\ManageComSupport@implementation')->name('manage_com.implementation')->middleware('IsAdmin');
     #Route::post('/managecommunication/upload/implementation', 'Admin\ManageComSupport@createComInit')->name('com_init.create')->middleware('IsAdmin');

@@ -26,7 +26,7 @@
         <div class="my-4 d-flex align-content-between">
             <div class="d-flex mr-auto ml-2 flex-wrap">
                 <a href="{{route('manage_com.com_init')}}" class="btn-com mt-2 mr-3" id="communication" role="button">Communication Initiative</a>
-                <a class="btn-com mt-2 mr-3" id="strategic" role="button">Strategic Initiative</a>
+                <a href="{{route('manage_com.strategic')}}" class="btn-com mt-2 mr-3" id="strategic" role="button">Strategic Initiative</a>
                 <a class="btn-com mt-2 mr-3 active disabled" id="implementation" role="button">Implementation</a>
             </div>
             <div class="mr-2" style="margin-top: auto">

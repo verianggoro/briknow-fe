@@ -46,6 +46,32 @@ class ManageComSupport extends Controller
         return view('admin.managecomsupport.communication-initiative', compact(['type', 'type_list', 'sync_es', 'token_auth']));
     }
 
+    public function strategic() {
+        $this->token_auth = session()->get('token');
+        $token_auth = $this->token_auth;
+
+        return view('admin.managecomsupport.strategic', compact(['token_auth']));
+    }
+
+    public function strategicByType($slug, $type) {
+        $this->token_auth = session()->get('token');
+        $token_auth = $this->token_auth;
+
+        $type_list = [
+            ["id" => "article", "name" => "Articles"],
+            ["id" => "logo", "name" => "Icon, Logo, Maskot BRIVO"],
+            ["id" => "infographics", "name" => "Infographics"],
+            ["id" => "transformation", "name" => "Transformation Journey"],
+            ["id" => "podcast", "name" => "Podcast"],
+            ["id" => "video", "name" => "Video Content"],
+            ["id" => "instagram", "name" => "Instagram Content"],
+        ];
+        $key = array_search($type, array_column($type_list, 'id'));
+        $tipe = $type_list[$key];
+
+        return view('admin.managecomsupport.strategic-type', compact(['token_auth', 'slug', 'tipe']));
+    }
+
     public function getAllComInitiative(Request $request, $type) {
         $this->token_auth = session()->get('token');
         try {
@@ -203,6 +229,178 @@ class ManageComSupport extends Controller
         } catch (\Throwable $th) {
             Session::flash('error',"Something Error, Try Again Please");
             return back();
+        }
+    }
+
+    public function getAllStrategicInitiative(Request $request) {
+        $this->token_auth = session()->get('token');
+        try {
+            $limit = intval($request->get('limit', 10));
+            $offset = intval($request->get('offset', 0));
+            $query = "?limit=$limit&offset=$offset";
+
+            if($request->get('order')) {
+                $query = $query."&order=".$request->get('order');
+            }
+            if($request->get('sort')) {
+                $query = $query."&sort=".$request->get('sort');
+            }
+
+            if($request->get('search')) {
+                $query = $query."&search=".$request->get('search');
+            }
+
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $this->token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/strategicinitiative$query");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    return response()->json([
+                        "status"    => 1,
+                        'total'    =>  $hasil->total,
+                        'totalNotFiltered' => $hasil->totalData,
+                        "rows"      => $hasil->data,
+                    ],200);
+                }else{
+                    $data['message']    =   'GET Gagal 1';
+                    return response()->json([
+                        'status'    =>  0,
+                        'total'    =>  0,
+                        'totalNotFiltered' => $hasil,
+                        'rows'      =>  $data
+                    ],200);
+                }
+            }else{
+                $data['message']    =   'GET Gagal 2';
+                return response()->json([
+                    'status'    =>  0,
+                    'total'    =>  0,
+                    'totalNotFiltered' => 0,
+                    'rows'      =>  $data
+                ],200);
+            }
+        } catch (\Throwable $th) {
+            $data['message']    =   'GET Gagal 3';
+            return response()->json([
+                'total'    =>  0,
+                'totalNotFiltered' => 0,
+                'rows'      =>  $data
+            ],200);
+        }
+    }
+
+    public function strategicByProject(Request $request, $slug) {
+        $this->token_auth = session()->get('token');
+        try {
+
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $this->token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/strategicinitiative/project/$slug");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    $data   = $hasil->data;
+                }else{
+                    $data   = [];
+                }
+            }else{
+                $data   = [];
+            }
+        } catch (\Throwable $th) {
+            $data   = [];
+        }
+
+//        dd($data);
+        return view('admin.managecomsupport.strategic-byproject', compact(['data', 'slug']));
+    }
+
+    public function getAllStrategicInitiativeByProjectAndType(Request $request, $slug, $type) {
+        $this->token_auth = session()->get('token');
+        try {
+            $limit = intval($request->get('limit', 10));
+            $offset = intval($request->get('offset', 0));
+            $query = "?limit=$limit&offset=$offset";
+
+            if($request->get('order')) {
+                $query = $query."&order=".$request->get('order');
+            }
+            if($request->get('sort')) {
+                $query = $query."&sort=".$request->get('sort');
+            }
+
+            if($request->get('search')) {
+                $query = $query."&search=".$request->get('search');
+            }
+
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $this->token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/strategicinitiative/project/$slug/$type$query");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    return response()->json([
+                        "status"    => 1,
+                        'total'    =>  $hasil->total,
+                        'totalNotFiltered' => $hasil->totalData,
+                        "rows"      => $hasil->data,
+                        "project"   => $hasil->project
+                    ],200);
+                }else{
+                    $data['message']    =   'GET Gagal 1';
+                    return response()->json([
+                        'status'    =>  0,
+                        'total'    =>  0,
+                        'totalNotFiltered' => $hasil,
+                        'rows'      =>  $data
+                    ],200);
+                }
+            }else{
+                $data['message']    =   'GET Gagal 2';
+                return response()->json([
+                    'status'    =>  0,
+                    'total'    =>  0,
+                    'totalNotFiltered' => 0,
+                    'rows'      =>  $data
+                ],200);
+            }
+        } catch (\Throwable $th) {
+            $data['message']    =   'GET Gagal 3';
+            return response()->json([
+                'total'    =>  0,
+                'totalNotFiltered' => 0,
+                'rows'      =>  $data
+            ],200);
         }
     }
 
@@ -624,7 +822,7 @@ class ManageComSupport extends Controller
                 'title'         => request()->title,
                 'file_type'         => request()->file_type,
                 'deskripsi'         => request()->deskripsi,
-                'project_id'         => request()->project_id,
+                'project_id'         => $project_id,
                 'attach'         => request()->attach,
             ];
             // dd($postData);
