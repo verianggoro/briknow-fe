@@ -56,21 +56,23 @@
             <br/>
             <div class="row">
                 <div class="col-lg-4 d-flex justify-content-center">
-                    <div class="card" style="border-radius: 16px">
-                        <img class="card-img-up" src="{{asset_app('assets/img/gamification/avatar/avatar '.session('avatar_id').'.png')}}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <div class="d-flex justify-content-between">
-                                <i class="mr-auto p-2 fas fa-eye">
-                                    <span>1</span>
-                                </i>
-                                <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
-                                <button class="btn fas fa-share-square p-2" style="font-size: 20px"></button>
-                                <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
+                    <a href="{{route('view.comsup')}}" target="_blank">
+                        <div class="card" style="border-radius: 16px">
+                            <img class="card-img-up" src="{{asset_app('assets/img/gamification/avatar/avatar '.session('avatar_id').'.png')}}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <div class="d-flex justify-content-between">
+                                    <i class="mr-auto p-2 fas fa-eye">
+                                        <span>1</span>
+                                    </i>
+                                    <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
+                                    <button class="btn fas fa-share-square p-2" style="font-size: 20px"></button>
+                                    <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card" style="border-radius: 16px">
