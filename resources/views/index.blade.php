@@ -86,10 +86,10 @@
                 <img src="{{asset_app('assets/img/logo/bri know white.png')}}" class="mt-3 ml-3" alt="">
             </div>
             <div class="d-flex p-2 align-items-center">
-                <a href="{{asset_app('briknow-addins.zip')}}" target="_blank" class="btn btn-sm btn-link text-white mr-2">Home</a>
+                <a href="{{route('home')}}" class="btn btn-sm btn-link text-white mr-2">Home</a>
             </div>
             <div class="d-flex mr-auto p-2 align-items-center">
-                <a href="{{asset_app('briknow-addins.zip')}}" target="_blank" class="btn btn-sm btn-link text-white mr-2">Communication Support</a>
+                <a href="{{route('mycomsupport.initiative')}}" class="btn btn-sm btn-link text-white mr-2">Communication Support</a>
             </div>
             <div class="d-flex p-2 align-items-end">
                 <nav class="navbar navbar-expand-lg main-navbar">
@@ -131,7 +131,6 @@
                                 <a href="{{ route('myproject') }}" class="dropdown-item">My Project</a>
                                 <a href="{{ route('myfavorite') }}" class="dropdown-item">My Favorite</a>
                                 <a href="{{ route('mylesson') }}" class="dropdown-item">My Lesson Learned</a>
-                                <a href="{{ route('mycomsupport.initiative') }}" class="dropdown-item">Communication Support</a>
                                 <a href="{{ route('forum.index') }}" class="dropdown-item">Forum</a>
                                 @if(session('role') == 3)
                                     <a href="{{ route('dashboard.performance') }}" class="dropdown-item">Dashboard Admin</a>
@@ -200,20 +199,35 @@
                           @forelse($recominitiative as $item)
                               <div class="px-2 item w-100 p-0">
                                   <a href="{{route('project.index',$item->slug)}}" class="text-decoration-none text-dark">
-                                      <div class="card bg-6sa6ss sh-a22l d-flex justify-content-center align-items-center o-hidden">
-                                          <?php
-                                          if (file_exists(public_path('storage/'.$item->thumbnail))) {
-                                              $item->thumbnail = config('app.url').'storage/'.$item->thumbnail;
-                                          }else{
-                                              $item->thumbnail = config('app.url').'assets/img/boxdefault.svg';
-                                          }
-                                          ?>
-                                          <img class="card-img-top" src="{{$item->thumbnail}}" alt="Card image cap">
-                                          <div class="card-body p-2 w-100">
-                                              <strong class="d-block">{{$item->nama}}</strong>
-                                              <small class="text-time d-block">{{\Carbon\Carbon::create($item->updated_at)->diffForHumans()}}</small>
+                                      <div class="card bg-6sa6ss sh-a22l" style="border-radius: 16px">
+                                          <img class="card-img-up" src="{{asset_app('assets/img/gamification/avatar/avatar '.session('avatar_id').'.png')}}" alt="Card image cap">
+                                          <div class="card-body">
+                                              <h5 class="card-title">Card title</h5>
+                                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                              <div class="d-flex justify-content-between">
+                                                  <i class="mr-auto p-2 fas fa-eye">
+                                                      <span>1</span>
+                                                  </i>
+                                                  <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
+                                                  <button class="btn fas fa-share-square p-2" style="font-size: 20px"></button>
+                                                  <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
+                                              </div>
                                           </div>
                                       </div>
+{{--                                      <div class="card bg-6sa6ss sh-a22l d-flex justify-content-center align-items-center o-hidden">--}}
+{{--                                          <?php--}}
+{{--                                          if (file_exists(public_path('storage/'.$item->thumbnail))) {--}}
+{{--                                              $item->thumbnail = config('app.url').'storage/'.$item->thumbnail;--}}
+{{--                                          }else{--}}
+{{--                                              $item->thumbnail = config('app.url').'assets/img/boxdefault.svg';--}}
+{{--                                          }--}}
+{{--                                          ?>--}}
+{{--                                          <img class="card-img-top" src="{{$item->thumbnail}}" alt="Card image cap">--}}
+{{--                                          <div class="card-body p-2 w-100">--}}
+{{--                                              <strong class="d-block">{{$item->nama}}</strong>--}}
+{{--                                              <small class="text-time d-block">{{\Carbon\Carbon::create($item->updated_at)->diffForHumans()}}</small>--}}
+{{--                                          </div>--}}
+{{--                                      </div>--}}
                                   </a>
                               </div>
                           @empty
@@ -223,7 +237,7 @@
                           @endforelse
                       </div>
                       <div class="w-100 d-flex justify-content-center">
-                          <button class="btn btn-primary">Lihat Semua</button>
+                          <button class="btn btn-primary" onclick="location.href='{{ route('mycomsupport.initiative') }}'">Lihat Semua</button>
                       </div>
                   @endempty
               </div>

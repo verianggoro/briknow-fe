@@ -29,7 +29,7 @@
             <!-- NAVIGASI -->
             <div class="d-flex bd-highlight">
                 <div class="mr-auto p-2 bd-highlight">
-                    <h5>Development</h5>
+                    <h4>Development</h4>
                 </div>
                 <!-- Dropdowns TEMP -->
 
@@ -89,69 +89,71 @@
 
             <!-- REVIEW -->
             <div class="table-responsive" id="review">
-                <table class="table" id="table-init">
-                    <thead class="thead-light text-left justify-content-start align-content-start">
-                    <tr>
-                        <th id="th-line"
-                            style="border-left: 0.5px solid rgba(214, 214, 214, 1); border-top-left-radius: 12px; width: 150px;">
-                            Direktorat
-                        </th>
-                        <th id="th-line" style="width: 170px;">Unit Kerja</th>
-                        <th id="th-line" style="width: 150px;">Nama Project</th>
-                        <th id="th-line" style="width: 170px;">Konsultan/Vendor</th>
-                        <th id="th-line" style="width: 80px">Tahap Project</th>
-                        <th id="th-line" style="width: 270px;">Lesson Learned</th>
-                        <th id="th-line" style="width: 270px;">Detail</th>
-                        <th id="th-line" style="border-right: 2px solid rgba(214, 214, 214, 1); border-top-right-radius: 12px;">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody class="text-left justify-content-start align-content-start">
-                    @foreach($data as $dataRow)
-                        <tr class="py-2 content-table">
-                            <td style="width: 150px; border-left: 1px solid rgba(214, 214, 214, 1);">
-                                <div>{{$dataRow->direktorat}}</div>
-                            </td>
-                            <td style="width: 150px;">
-                                <div>{{$dataRow->divisi}}</div>
-                            </td>
-                            <td style="width: 170px;">
-                                <div>{{$dataRow->project_name}}</div>
-                            </td>
-                            <td style="width: 150px">
-                                <div>{{$dataRow->consultant_name}}</div>
-                            </td>
-                            <td style="width: 80px">
-                                <div>{{$dataRow->tahap}}</div>
-                            </td>
-                            <td style="width: 270px">
-                                <div>{{$dataRow->lesson_learned}}</div>
-                            </td>
-                            <td style="width: 270px">
-                                <div>{{$dataRow->detail}}</div>
-                            </td>
-                            <td style="width: 40px; padding-left: 0 !important; border-right: 1px solid rgba(214, 214, 214, 1);">
-                                <a href="#" id="dropdownMenuLink" style="text-decoration: none; color: black;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    •••
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <button class="btn dropdown-item" onclick="views('51533079-excepturi')">
-                                        <i class="fas fa-eye mr-2"></i>View</button>
-                                    <a href="http://briknow.test:8181/kontribusi/51533079-excepturi" class="btn">
-                                        <i class="fas fa-pencil-alt mr-2"></i>
-                                        Edit
-                                    </a>
-                                    <button class="btn dropdown-item" onclick="unpublish(3)">
-                                        <i class="fas fa-upload mr-2"></i>Unpublish</button><button class="btn dropdown-item" data-toggle="modal" data-target="#modal-log-status3">
-                                        <i class="fas fa-info-circle mr-2"></i>Log Status</button>
-                                    <hr class="m-1">
-                                    <button class="btn dropdown-item" onclick="hapus(3)">
-                                        <i class="fas fa-trash mr-2"></i>Delete</button>
+                <div class="card card-body w-100 d-flex mb-4" style="border-radius: 10px">
+                    <div class="row">
+                        <div class="col-2">
+                            <h6>Direktorat</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Uker</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>Nama Project</h6>
+                        </div>
+                        <div class="col-2">
+                            <h6>Konsultan</h6>
+                        </div>
+                        <div class="col-2">
+                            <h6>Action</h6>
+                        </div>
+                    </div>
+                </div>
+{{--                for each--}}
+                <div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
+                    <div class="row">
+                        <div class="col-2">
+                            <p class="text-primary">Satuan Kerja Audit Intern</p>
+                        </div>
+                        <div class="col-3">
+                            <p class="text-primary">Micro Business Development Division</p>
+                        </div>
+                        <div class="col-3">
+                            <p>Fraud Risk Indicator Framework</p>
+                        </div>
+                        <div class="col-2">
+                            <p class="text-primary">Deloitte</p>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-outline-secondary fas fa-pen"></button>
+                            <button class="btn btn-outline-secondary fas fa-trash"></button>
+                            <button class="btn btn-outline-secondary fas fa-arrow-down" data-toggle="collapse" data-target="#collapsData" aria-expanded="false" aria-controls="collapsData"></button>
+                        </div>
+                    </div>
+                    <div class="collapse" id="collapsData">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <h6>Lesson Learned</h6>
                                 </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                                <div class="col-8">
+                                    <h6>Keterangan</h6>
+                                </div>
+                            </div>
+                            <hr/>
+{{--                            for each--}}
+                            <div class="row">
+                                <div class="col-4">
+                                    <p>Pemulihan Data</p>
+                                </div>
+                                <div class="col-8">
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                </div>
+                            </div>
+                            <hr/>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="d-flex justify-content-sm-end content-pagination" id="pag">
                 </div>
             </div>

@@ -161,6 +161,48 @@
                         </a>
                     </li>
                 </ul>
+                <div class="card g-6sa6ss sh-a22l m-2" style="border-radius: 10px">
+                    <div class="bg-bri text-white p-2" style="border-radius: 10px 10px 0px 0px">
+                        <h4>General</h4>
+                    </div>
+                    <div class="text-dark p-2">
+                        <h5 data-toggle="collapse" data-target="#collapsedirectorat" aria-expanded="false" aria-controls="collapsedirectorat" class="dropdown-toggle">Direktorat</h5>
+                        <ul class="collapse" id="collapsedirectorat">
+                            <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Finance Directorate</a>
+                            <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Consumer Directorate</a>
+                        </ul>
+                    </div>
+                    <div class="text-dark p-2">
+                        <h5 data-toggle="collapse" data-target="#collapsedate" aria-expanded="false" aria-controls="collapsedate" class="dropdown-toggle">Tahun</h5>
+                        <ul class="collapse" id="collapsedate">
+{{--                            foreach date--}}
+                            <div class="row">
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">2019</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">2020</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">2021</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">2022</a>
+                            </div>
+                            <div id="year-list" class="row">
+                                <p>Bulan</p>
+                                <hr/>
+                            </div>
+                            <div>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Jan</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Feb</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Mar</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Apr</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Mei</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Jun</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Jul</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Agu</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Sep</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Okt</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Nov</a>
+                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Des</a>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
             </aside>
         </div>
 
