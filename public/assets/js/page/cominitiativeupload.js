@@ -92,6 +92,13 @@ const $preview = $('#preview')
 const $photo = $('#photo')
 
 function readFile(input) {
+    const type_file = ['application/x-zip-compressed', 'zip', 'rar']
+    const name_file = input.files[0].name;
+    if (type_file.includes(input.files[0].type) || type_file.includes(name_file.split('.')[1])) {
+        $('#file').val('')
+        Toast3.fire({icon: 'error',title: 'Tipe file tidak sesuai !'});
+        return;
+    }
     for (let f in input.files) {
         if (input.files[f] instanceof File) {
             showPreview(input.files[f])
@@ -141,6 +148,7 @@ function readThumbnail(input) {
             xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
         },
         success: function(res){
+            $('#hidden-thumbnail').empty()
             $('#thumbnail-loading').fadeOut(200, function () {$(this).remove()});
             $('#thumbnail-del').removeClass('d-none')
             $('#thumbnail-prev').removeClass('blur-image')
@@ -231,30 +239,9 @@ function showPreview(file) {
         },
         error: function () {
             Toast3.fire({icon: 'error',title: 'Upload Gagal'});
-            removePreview('prev'+timemillis, 'cancel')
+            removePreview(this, 'cancel')
         },
     });
-
-    // TODO : upload attachment
-    /*setTimeout(() => {
-        let $first = $container.children().first().children()
-        $first.addClass('detail-prev')
-
-        let $click = $first.children().last()
-        $click.prop("onclick", null).off("click");
-        $click.on('click', function () {
-            removePreview(id, 'delete')
-        })
-        let $icon = $click.find(':first-child')
-        $icon.removeClass('fa-circle-notch fa-spin')
-        $icon.addClass('fa-times')
-        $icon.prop('title', 'Delete')
-
-        let $last = $container.children().last()
-        $last.children().remove()
-        $last.append('<div class="d-flex align-items-center" style="border-radius: 50%; padding: 6px 5px 4px; border: 2px solid #218838; color: #218838">' +
-            '<i style="font-size: 10px" class="fas fa-check"></i></div>')
-    },5000)*/
 }
 
 function removePreview(id, type) {
@@ -290,9 +277,9 @@ function removePreview(id, type) {
                         if (typeof attr === 'undefined' || attr === false) {
                             $('#file').attr('required', true)
                         }
-                    }
-                    if($('#form').hasClass('was-validated')){
-                        $("#attach-wrap").attr("style", "border:1px solid #e3342f;");
+                        if($('#form').hasClass('was-validated')){
+                            $("#attach-wrap").attr("style", "border:1px solid #e3342f;");
+                        }
                     }
                 });
             },
@@ -404,6 +391,12 @@ $(document).ready(function () {
             $("#thumbnail-prev").attr("style", "border:solid 1px #38c172;");
         }
 
+        if($('#link').hasClass('is-invalid')){
+            $("[aria-labelledby='select2-link-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-link-container']").attr("style", "border-color:#38c172;");
+        }
+
         if($('#file').hasClass('is-invalid')){
             $("#attach-wrap").attr("style", "border:1px solid #e3342f;");
         }else{
@@ -414,6 +407,7 @@ $(document).ready(function () {
 
         if (isValid) {
             $('form#form').submit();
+            $('.senddataloader').show();
         }
 
     })

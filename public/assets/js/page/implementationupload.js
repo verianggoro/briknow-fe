@@ -6,6 +6,14 @@ let old_photo               = '';
 let old_attach              = [];
 let old_attach_rollout      = [];
 let old_attach_sosialisasi  = [];
+let attach_pilot = [];
+let data_attach_pilot = []
+let attach_rollout = [];
+let data_attach_rollout = []
+let attach_sosialisasi = [];
+let data_attach_sosialisasi = []
+
+let $table = $('#table')
 
 //toast
 const Toast3 = Swal.mixin({
@@ -125,6 +133,7 @@ const months = [
 
 $(document).ready(function () {
     var t = 0;
+    let isValid = true;
     var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
         first_page = $('#step-1'),
@@ -165,6 +174,7 @@ $(document).ready(function () {
     });
 
     allNextBtn.click(function(){
+        isValid = true
         var curStep = $(this).closest(".setup-content"),
             curStepBtn = curStep.attr("id");
         var pointer = 0;
@@ -174,8 +184,7 @@ $(document).ready(function () {
         }
 
         var nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a");
-        var curInputs = curStep.find("input[type='text'],input[type='url'],input[type='file'],input[type='date'],input[type='email'],select"),
-            isValid = true;
+        var curInputs = curStep.find("input[type='text'],input[type='url'],input[type='file'],input[type='date'],input[type='email'],select")
 
         $(".form-control").removeClass("is-invalid");
         $(".thumbnail-input").removeClass("is-invalid");
@@ -197,9 +206,9 @@ $(document).ready(function () {
         if (t == 0) {
             // foto
             if($('#photo').hasClass('is-invalid')){
-                $("[id='photo']").attr("style", "border-color:red;");
+                $("#drop-wrap").attr("style", "border:1px solid #e3342f;");
             }else{
-                $("[id='photo']").attr("style", "border-color:#38c172;");
+                $("#thumbnail-prev").attr("style", "border:solid 1px #38c172;");
             }
 
 
@@ -234,60 +243,69 @@ $(document).ready(function () {
                 }else{
                     urut = 0;
                 }
+
+                for (let i=1; i<=counterUser; i++) {
+                    let $nextChild = $(`#restricted-user-${i}`).next().children().children()
+                    if($(`#restricted-user-${i}`).hasClass('is-invalid')){
+                        $nextChild.attr("style", "border-color:red;");
+                    }else{
+                        $nextChild.attr("style", "border-color:#38c172;");
+                    }
+                }
                 // console.log(document.getElementsByClassName("select2-selection select2-selection--multiple"));
-                if($('#restricted-user').hasClass('is-invalid')){
+                /*if($('#restricted-user').hasClass('is-invalid')){
                     document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:red;");
                 }else{
                     document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:#38c172;");
+                }*/
+            }
+
+        }else if(t === 1){
+            // slide 2
+            // console.log('masuk');
+
+            if($('#link').hasClass('is-invalid')){
+                $("[aria-labelledby='select2-link-container']").attr("style", "border-color:red;");
+            }else{
+                $("[aria-labelledby='select2-link-container']").attr("style", "border-color:#38c172;");
+            }
+
+            if (!$('#piloting').is(':checked') && !$('#rollout').is(':checked') && !$('#sosialisasi').is(':checked')) {
+                isValid = false
+                Toast3.fire({icon: 'error',title: 'Pilih setidaknya 1 tahap implementasi!'});
+            }
+
+            if ($('#piloting').is(':checked')) {
+                isValid = checkEditor('editor-deskripsi')
+                if($('#file-piloting').hasClass('is-invalid')){
+                    $("#attach-wrap-piloting").attr("style", "border:1px solid #e3342f;");
+                }else{
+                    $("#attach-wrap-piloting").attr("style", "border:solid 1px #38c172;");
                 }
             }
 
-        }else if(t == 1){
-            // slide 2
-            // console.log('masuk');
-            var msgLengthDeskripsi = CKEDITOR.instances['editor-deskripsi'].getData().replace(/<[^>]*>/gi, '').length;
-            var msgLengthRollout = CKEDITOR.instances['editor-rollout'].getData().replace(/<[^>]*>/gi, '').length;
-            var msgLengthSosialisasi = CKEDITOR.instances['editor-sosialisasi'].getData().replace(/<[^>]*>/gi, '').length;
-            // console.log(msgLengthDeskripsi);
-
-            // validasi ui
-            if(msgLengthDeskripsi <= 200){
-                $("#cke_editor-deskripsi").attr("style", "border-color:red;");
-            }else{
-                $("#cke_editor-deskripsi").attr("style", "border-color:#38c172;");
+            if ($('#rollout').is(':checked')) {
+                isValid = checkEditor('editor-rollout')
+                if($('#file-rollout').hasClass('is-invalid')){
+                    $("#attach-wrap-rollout").attr("style", "border:1px solid #e3342f;");
+                }else{
+                    $("#attach-wrap-rollout").attr("style", "border:solid 1px #38c172;");
+                }
             }
 
-            if(msgLengthRollout <= 200){
-                $("#cke_editor-metodologi").attr("style", "border-color:red;");
-            }else{
-                $("#cke_editor-metodologi").attr("style", "border-color:#38c172;");
+            if ($('#sosialisasi').is(':checked')) {
+                isValid = checkEditor('editor-sosialisasi')
+                if($('#file-sosialisasi').hasClass('is-invalid')){
+                    $("#attach-wrap-sosialisasi").attr("style", "border:1px solid #e3342f;");
+                }else{
+                    $("#attach-wrap-sosialisasi").attr("style", "border:solid 1px #38c172;");
+                }
             }
 
-            // tags
-            if (kolomvendor === '1' && kolomrestricted === '1') {
-                urut = 2;
-            }else if (kolomvendor === '1' || kolomrestricted === '1' ) {
-                urut = 1;
-            }else{
-                urut = 0;
-            }
-            if($('#tags').hasClass('is-invalid')){
-                document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:red;");
-            }else{
-                document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:#38c172;");
-            }
-
-            // validasi alert
-            if(msgLengthDeskripsi  ==  0) {
-                Toast3.fire({icon: 'error',title: 'Deskripsi tidak boleh kosong!'});
-            } else if (msgLengthDeskripsi <= 200) {
-                Toast3.fire({icon: 'error',title: 'Deskripsi kurang dari 200 karakter!'});
-            }else if (msgLengthRollout ==  0) {
-                Toast3.fire({icon: 'error',title: 'Metodologi tidak boleh kosong!'});
-            } else if (msgLengthRollout <= 10) {
-                Toast3.fire({icon: 'error',title: 'Metodologi kurang dari 10 karakter!'});
-            }else if($('#tags').hasClass('is-invalid')){
-                Toast3.fire({icon: 'error',title: 'Tags tidak boleh kosong!'})
+            for(i=0; i<curInputs.length; i++){
+                if (!curInputs[i].validity.valid){
+                    isValid = false;
+                }
             }
 
         }
@@ -304,6 +322,28 @@ $(document).ready(function () {
         // CALL CHECKER FOR SELECT2 COMPONENTS
         checkSelect2Component()
     });
+
+    function checkEditor(instance) {
+        let valid = true;
+        let msgLength = CKEDITOR.instances[instance].getData().replace(/<[^>]*>/gi, '').length;
+
+        $("#cke_"+instance).removeClass('border-none');
+        if(msgLength <= 200){
+            $("#cke_"+instance).attr("style", "border-color:#e3342f");
+        }else{
+            $("#cke_"+instance).attr("style", "border-color:#38c172");
+        }
+
+        if(msgLength  ===  0) {
+            valid = false
+            Toast3.fire({icon: 'error',title: 'Deskripsi tidak boleh kosong!'});
+        } else if (msgLength <= 200) {
+            valid = false
+            Toast3.fire({icon: 'error',title: 'Deskripsi kurang dari 200 karakter!'});
+        }
+
+        return valid;
+    }
 
     allPrevBtn.click(function(){
         var curStep = $(this).closest(".setup-content"),
@@ -371,102 +411,6 @@ $(document).ready(function () {
     });
     getKonsultan();
     // getUser();
-    // console.log(`${base_url}/searchuser/`);
-    /*$('#s-2').on('click',function(){
-        $("#checker").select2({
-            minimumInputLength: 8,
-            maximumInputLength: 8,
-            placeholder: 'Masukan Personal Number',
-            ajax: {
-                url: `${base_url}/searchuser`,
-                type: "get",
-                headers: {'X-CSRF-TOKEN': csrf},
-                data: function (params) {
-                    // Query parameters will be ?pn=[term]
-                    return {
-                        pn: params.term,
-                        mode: 66
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.items
-                    };
-                }
-            }
-        });
-
-        $("#signer").select2({
-            minimumInputLength: 8,
-            maximumInputLength: 8,
-            placeholder: 'Masukan Personal Number',
-            ajax: {
-                url: `${base_url}/searchuser`,
-                type: "get",
-                headers: {'X-CSRF-TOKEN': csrf},
-                data: function (params) {
-                    // Query parameters will be ?pn=[term]
-                    return {
-                        pn: params.term,
-                        mode: 66
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.items
-                    };
-                }
-            }
-        });
-    });
-
-    $('#next-btn').on('click',function(){
-        $("#checker").select2({
-            minimumInputLength: 8,
-            maximumInputLength: 8,
-            placeholder: 'Masukan Personal Number',
-            ajax: {
-                url: `${base_url}/searchuser`,
-                type: "get",
-                headers: {'X-CSRF-TOKEN': csrf},
-                data: function (params) {
-                    // Query parameters will be ?pn=[term]
-                    return {
-                        pn: params.term,
-                        mode: 66
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.items
-                    };
-                }
-            }
-        });
-
-        $("#signer").select2({
-            minimumInputLength: 8,
-            maximumInputLength: 8,
-            placeholder: 'Masukan Personal Number',
-            ajax: {
-                url: `${base_url}/searchuser`,
-                type: "get",
-                headers: {'X-CSRF-TOKEN': csrf},
-                data: function (params) {
-                    // Query parameters will be ?pn=[term]
-                    return {
-                        pn: params.term,
-                        mode: 66
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.items
-                    };
-                }
-            }
-        });
-    });*/
 
     $("#checker").select2({
         minimumInputLength: 8,
@@ -538,6 +482,36 @@ $(document).ready(function () {
         }
     });
 
+    $('#link').select2({
+        placeholder : 'Project Link'
+    });
+
+    $("#link").select2({
+        placeholder: 'Project Link',
+        minimumInputLength: 1,
+        language: {
+            inputTooShort: function (args) {
+                return "Type at least 1 character";
+            },
+        },
+        ajax: {
+            url: `${base_url}/searchproject`,
+            type: "get",
+            headers: {'X-CSRF-TOKEN': csrf},
+            data: function (params) {
+                // Query parameters will be ?search=[term]
+                return {
+                    search: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data.items
+                };
+            }
+        }
+    });
+
 
     function bytesToSize(bytes) {
         var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -547,196 +521,221 @@ $(document).ready(function () {
     }
 
     $('#preview').click(function(){
-        // CHECK SELECT2 COMPONENT
-        let isClicked = 1
-        const check = !(checkSelect2Component(isClicked))
-
-        if(check){
-            isClicked = 0
-            // change name filpond attach
-            $("input[name='attach']").attr('name','attach[]');
-
-            // init
-            // if (typeof(old_photo) !== 'undefined') {
-            //     var t_photo             = uri+"/storage/"+old_photo;
-            // }else{
-            //     var t_photo             = photo_file;
-            // }
-            if (photo_file == uri+"/public/assets/img/boxdefault.svg") {
-                var t_photo             = uri+"/storage/"+old_photo;
-            }else{
-                var t_photo             = photo_file;
-            }
-            var t_direktorat        = $('#direktorat').val();
-            var t_divisi            = $('#divisi :selected').map((_, e) => e.getAttribute("data-value")).get();
-            var t_nama_project      = $('#nama_project').val();
-
-            // waktu mulai
-            var temp_date           = new Date($('#tgl_mulai').val());
-            var t_tgl_mulai         = temp_date.getDate()+" "+ months[temp_date.getMonth()]+" "+temp_date.getFullYear();
-            // console.log("Date inputan user: "+$('#tgl_mulai').val());
-            // console.log("temp_date: "+temp_date);
-            // console.log("t_tgl_mulai: "+t_tgl_mulai);
-            // console.log(temp_date.getUTCHours()); // Hours
-            // console.log(temp_date.getUTCMinutes());
-            // console.log(temp_date.getUTCSeconds());
-
-            var t_stat_project;
-            var t_tgl_selesai;
-            if ($('#stat_project').prop('checked')) {
-                // waktu
-                var temp_date           = new Date($('#tgl_selesai').val());
-                var t_tgl_selesai         = temp_date.getDate()+" "+ months[temp_date.getMonth()]+" "+temp_date.getFullYear();
-
-                t_stat_project      = 'Selesai';
-            }else{
-                t_tgl_selesai = '-';
-                t_stat_project      = 'On Progress';
-            }
-            var t_projectmanager    = $('#projectmanager').val();
-            var t_email             = $('#email').val();
-            var t_jenispekerja      = $('#jenispekerja').val();
-            var vendor;
-            if (t_jenispekerja == 1) {
-                // vendor = $('#konsultant').find(":selected").attr("data-value");
-                vendor = $("#konsultant :selected").map((_, e) => e.getAttribute("data-value")).get();
-            }else{
-                vendor = 'Internal';
-            }
-            var t_user = $('#user').val();
-            var t_deskripsi = CKEDITOR.instances['editor-deskripsi'].getData();
-            var t_metodologi = CKEDITOR.instances['editor-metodologi'].getData();
-            var t_tags = $('#tags').val();
-            var t_lesson = $('.lesson').map((_, e) => e.value).get();
-            var t_lesson_keterangan = $('.lesson_keterangan').map((_, e) => e.value).get();
-            var t_attach = attach_file;
-            var t_checker = $('#checker').val();
-            var t_signer = $('#signer').val();
-
-
-            // empty
-            $('#prev_namaproject').empty();
-            $('#prev_pm').empty();
-
-            // konsultant
-            $('#prev_konsultant').empty();
-            var tampung_vendor = "";
-            if (t_jenispekerja == 1) {
-                if (typeof vendor !== 'undefined') {
-                    if (vendor.length > 1) {
-                        for (let index = 0; index < vendor.length; index++) {
-                            if (index == vendor.length - 1) {
-                                tampung_vendor += `<span class='fs-10'>${vendor[index]}</span>`;
-                            }else{
-                                tampung_vendor += `<span class='fs-10'>${vendor[index]}</span>`+", ";
-                            }
-                        }
-                    }else{
-                        tampung_vendor = `<span class='fs-10'>${vendor}</span>`;
-                    }
-                }else{
-                    tampung_vendor = vendor;
+        // check attach
+        $('#desc-preview').empty();
+        if ($('#piloting').is(':checked')) {
+            data_attach_pilot = []
+            for (let i=0; i<attach_pilot.length; i++) {
+                if (attach_pilot[i] instanceof File) {
+                    const lastModifiedDate = attach_pilot[i].lastModifiedDate
+                    data_attach_pilot.push({'name': attach_pilot[i].name, 'date':lastModifiedDate, 'size': attach_pilot[i].size})
+                } else {
+                    const lastModifiedDate = new Date(attach_pilot[i].updated_at)
+                    data_attach_pilot.push({'name': attach_pilot[i].nama, 'date':lastModifiedDate, 'size': attach_pilot[i].size})
                 }
-            }else{
-                tampung_vendor = vendor;
             }
-            $('#prev_emailpm').empty();
-            $('#prev_divisi').empty();
-            $('#prev_tglmulai').empty();
-            $('#prev_tglselesai').empty();
-            $('#prev_status').empty();
-            $('#prev_keyword').empty();
-            var tampung_tags = "";
-            if (t_tags.length > 1) {
-                for (let index = 0; index < t_tags.length; index++) {
-                    tampung_tags += `<span class="badge badge-cyan-light text-dark mr-1 mb-2">${t_tags[index]}</span>`;
-                }
-            }else{
-                tampung_tags = `<span class="badge badge-cyan-light text-dark mr-1 mb-2">${t_tags}</span>`;
-            }
-            $('#prev_deskripsi').empty();
-            $('#prev_metodologi').empty();
-            $('#prev_lessonlearned').empty();
-            var tampung_lesson = "";
-            if (typeof t_lesson !== 'undefined') {
-                if (t_lesson.length > 1) {
-                    var urutin=1;
-                    for (let index = 0; index < t_lesson.length; index++) {
-                        if (t_lesson[index] === "" && t_lesson_keterangan[index] === "") {
-                        }else{
-                            tampung_lesson += `<tr>
-                                                    <td id="td-metodologi" style="text-align:center !important;"><span>${urutin++}</span></td>
-                                                    <td id="td-metodologi"><span>${t_lesson[index]}</span></td>
-                                                    <td id="td-metodologi"><span>${t_lesson_keterangan[index]}</span></td>
-                                                </tr>`;
-                        }
-                    }
-                }else{
-                    tampung_lesson = `<tr>
-                                            <td id="td-metodologi"><span>1</span></td>
-                                            <td id="td-metodologi"><span>${t_lesson}</span></td>
-                                            <td id="td-metodologi"><span>${t_lesson_keterangan}</span></td>
-                                        </tr>`;
-                }
-            }else{
-                tampung_lesson += `<tr>
-                                        <td id="td-metodologi"><span>-</span></td>
-                                        <td id="td-metodologi"><span>-</span></td>
-                                        <td id="td-metodologi"><span>-</span></td>
-                                    </tr>`;
-            }
+            appendDesc('Piloting', 'editor-deskripsi', data_attach_pilot)
+        }
 
-            $('#prev_document').empty();
-            var tampung_attach = "";
-            // if (typeof(old_attach) !== 'undefined') {
-            //     var urutin=0;
-            //     for (let index = 0; index < old_attach.length; index++) {
-            //         tampung_attach += `<tr>
-            //                                 <td id="td-attachment" class="pl-2"><small>${old_attach[index].nama}</small></td>
-            //                                 <td id="td-attachment" class="pl-1"><small>${old_attach[index].type}</small></td>
-            //                                 <td id="td-attachment" class="pl-1"><small>${old_attach[index].size}</small></td>
-            //                             </tr>`;
-            //     }
-            // }
-
-            if (typeof t_attach !== []) {
-                var urutin=0;
-                for (let index = 0; index < t_attach.length; index++) {
-                    // console.log(t_attach[index]);
-                    tampung_attach += `<tr>
-                                            <td id="td-attachment" class="pl-2"><small>${(typeof (t_attach[index].options) !== 'undefined') ? t_attach[index].options.file.name : t_attach[index].filenameWithoutExtension}</small></td>
-                                            <td id="td-attachment" class="pl-1"><small>${(typeof (t_attach[index].options) !== 'undefined') ? t_attach[index].options.file.type : t_attach[index].fileType}</small></td>
-                                            <td id="td-attachment" class="pl-1"><small>${(typeof (t_attach[index].options) !== 'undefined') ? bytesToSize(t_attach[index].options.file.size) : bytesToSize(t_attach[index].fileSize)}</small></td>
-                                        </tr>`;
+        if ($('#rollout').is(':checked')) {
+            data_attach_rollout = []
+            for (let i=0; i<attach_rollout.length; i++) {
+                if (attach_rollout[i] instanceof File) {
+                    const lastModifiedDate = attach_rollout[i].lastModifiedDate
+                    data_attach_rollout.push({'name': attach_rollout[i].name, 'date':lastModifiedDate, 'size': attach_rollout[i].size})
+                } else {
+                    const lastModifiedDate = new Date(attach_rollout[i].updated_at)
+                    data_attach_rollout.push({'name': attach_rollout[i].nama, 'date':lastModifiedDate, 'size': attach_rollout[i].size})
                 }
-            }else{
-                tampung_attach += `<tr>
-                                        <td id="td-attachment" class="pl-2"><small>-</small></td>
-                                        <td id="td-attachment" class="pl-1"><small>-</small></td>
-                                        <td id="td-attachment" class="pl-1"><small>-</small></td>
-                                    </tr>`;
             }
+            appendDesc('Roll Out', 'editor-rollout', data_attach_rollout)
+        }
 
-            $('#prev_namaproject').append(`${t_nama_project}`);
-            $('#prev_thumbnail').attr('src',`${t_photo}`);
-            $('#prev_konsultant').append(`${tampung_vendor}`);
-            $('#prev_pm').append(t_projectmanager);
-            $('#prev_emailpm').append(`<i class="far fa-envelope mr-1"></i><a href="mailto:${t_email}">${t_email}</a>`);
-            $('#prev_divisi').append(`${t_divisi}`);
-            $('#prev_tglmulai').append(`${t_tgl_mulai}`);
-            $('#prev_tglselesai').append(`${t_tgl_selesai}`);
-            $('#prev_status').append(`${t_stat_project}`);
-            $('#prev_keyword').append(`${tampung_tags}`);
-            $('#prev_deskripsi').append(`${t_deskripsi}`);
-            $('#prev_metodologi').append(`${t_metodologi}`);
-            $('#prev_lessonlearned').append(`${tampung_lesson}`);
-            $('#prev_document').append(`${tampung_attach}`);
-            $('#modalpreview').modal({
+        if ($('#sosialisasi').is(':checked')) {
+            data_attach_sosialisasi = []
+            for (let i=0; i<attach_sosialisasi.length; i++) {
+                if (attach_sosialisasi[i] instanceof File) {
+                    const lastModifiedDate = attach_sosialisasi[i].lastModifiedDate
+                    data_attach_sosialisasi.push({'name': attach_sosialisasi[i].name, 'date':lastModifiedDate, 'size': attach_sosialisasi[i].size})
+                } else {
+                    const lastModifiedDate = new Date(attach_sosialisasi[i].updated_at)
+                    data_attach_sosialisasi.push({'name': attach_sosialisasi[i].nama, 'date':lastModifiedDate, 'size': attach_sosialisasi[i].size})
+                }
+            }
+            appendDesc('Sosialisasi', 'editor-sosialisasi', data_attach_sosialisasi)
+        }
+
+        let t_photo = uri+"/storage/"+$('#thumbnail').val();
+        let t_divisi            = $('#divisi :selected').map((_, e) => e.getAttribute("data-value")).get();
+        let t_email = $('#email').val();
+        let date_mulai          = new Date($('#tgl_mulai').val());
+        let t_tgl_mulai         = date_mulai.getDate()+" "+ months[date_mulai.getMonth()]+" "+date_mulai.getFullYear();
+
+        let t_stat_project;
+        let t_tgl_selesai;
+        if ($('#stat_project').prop('checked')) {
+            // waktu
+            let temp_date           = new Date($('#tgl_selesai').val());
+            t_tgl_selesai         = temp_date.getDate()+" "+ months[temp_date.getMonth()]+" "+temp_date.getFullYear();
+
+            t_stat_project      = 'Selesai';
+        }else{
+            t_tgl_selesai = '-';
+            t_stat_project      = 'On Progress';
+        }
+
+        $('#prev_namaproject').empty();
+        $('#prev_pm').empty();
+        $('#prev_emailpm').empty();
+        $('#prev_divisi').empty();
+        $('#prev_tglmulai').empty();
+        $('#prev_tglselesai').empty();
+        $('#prev_status').empty();
+        /*if (photo_file === uri+"/public/assets/img/boxdefault.svg") {
+            t_photo             = uri+"/storage/"+$('#thumbnail').val();
+        }else{
+            t_photo             = photo_file;
+        }*/
+        $('#prev_thumbnail').attr('src',`${t_photo}`);
+        $('#prev_namaproject').append(`${$('#nama_project').val()}`);
+        $('#prev_pm').append($('#projectmanager').val());
+        $('#prev_emailpm').append(`<i class="far fa-envelope mr-1"></i><a href="mailto:${t_email}">${t_email}</a>`);
+        $('#prev_divisi').append(`${t_divisi}`);
+        $('#prev_tglmulai').append(`${t_tgl_mulai}`);
+        $('#prev_tglselesai').append(`${t_tgl_selesai}`);
+        $('#prev_status').append(`${t_stat_project}`);
+
+        if (isValid) {
+            $('#modal-preview').modal({
                 show : true
             });
         }
     });
+
+    function appendDesc(step, editor, data) {
+        const t_deskripsi = CKEDITOR.instances[editor].getData();
+        let desc = `
+                <div class="col-md-12 d-block w-100 mb-4 mt-2">
+                    <div class="preview-desc-head">${step}</div>
+                    <div class="metodologi-isi wrap" id="prev_deskripsi">${t_deskripsi}</div>
+                </div>
+                <div class="col-md-12 d-block w-100">
+                    <h6>Attachment</h6>
+                </div>
+                <div class="col-md-12 d-block w-100" style="margin-bottom: 4rem">
+                    <div class="row">
+                        <div class="col-md-10 col-sm-12">
+                            <div class="input-group control border-1 pencarian mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text border-0"><i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                                <input type="text" style="border: none;" class="form-control" id="inlineFormInput-${editor}" placeholder="Search files..">
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12" style="padding-left: 8px;">
+                            <select style="border-radius: 8px;" class="form-control" id="select-${editor}" name="select-${editor}">
+                                <option value="" selected disabled>Sort by</option>
+                                <option value="name">Nama</option>
+                                <option value="date">Date Modified</option>
+                                <option value="size">Size</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-12" style="border: 2px solid #cccccc; border-radius: 8px">
+                                <div class="row" style="border-bottom: 2px solid #cccccc;padding: 4px;font-weight: bold">
+                                    <div class="col-md-9">Files</div>
+                                    <div class="col-md-2">Date Modified</div>
+                                    <div class="col-md-1">Size</div>
+                                </div>
+                                <div id="list-${editor}" class="list-files"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
+        $('#desc-preview').append(desc)
+        renderList(data)
+
+        $(`#inlineFormInput-${editor}`).keypress(function (e) {
+            if (e.which === 13) {
+                let a = data.filter(i => i.name.toLowerCase().includes($(this).val().toLowerCase()))
+                renderList(a)
+            }
+        })
+
+        $(`#select-${editor}`).on('change', function () {
+            let prop = $(this).val()
+            let sort;
+            if (prop === 'size') {
+                sort = data.sort(function (a,b) {
+                    return a[prop] - b[prop]
+                })
+            } else if (prop === 'name') {
+                sort = data.sort(function (a,b) {
+                    return a[prop].localeCompare(b[prop])
+                })
+            } else {
+                sort = data.sort(function (a,b) {
+                    return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0)
+                })
+            }
+            renderList(sort)
+        })
+
+        function renderList(data) {
+            let html = '';
+            for (let e in data) {
+                html += `
+                    <div class="row" style="padding: 2px; color: #2f80ed; border-bottom: 1px solid #cccccc; font-weight: 500">
+                        <div class="col-md-9 pl-4"><i class="fas fa-file mr-3"></i>${data[e].name}</div>
+                        <div class="col-md-2">${dateFormat(data[e].date)}</div>
+                        <div class="col-md-1">${bytesToSize(data[e].size)}</div>
+                    </div>
+                `
+            }
+            $(`#list-${editor}`).html(html)
+        }
+
+    }
+
 });
+function dateFormat(date) {
+    return date.getDate()+" "+ months[date.getMonth()]+" "+date.getFullYear();
+}
+
+$('#piloting').change(function () {
+    if ($('#piloting').is(':checked')) {
+        const attr = $('#file-piloting').attr('required');
+        if (typeof attr === 'undefined' || attr === false) {
+            if ($('#preview-piloting').children().length === 0) {
+                $('#file-piloting').attr('required', true)
+            }
+        }
+    }
+})
+
+$('#rollout').change(function () {
+    if ($('#rollout').is(':checked')) {
+        const attr = $('#file-rollout').attr('required');
+        if (typeof attr === 'undefined' || attr === false) {
+            if ($('#preview-rollout').children().length === 0) {
+                $('#file-rollout').attr('required', true)
+            }
+        }
+    }
+})
+
+$('#sosialisasi').change(function () {
+    if ($('#sosialisasi').is(':checked')) {
+        const attr = $('#file-sosialisasi').attr('required');
+        if (typeof attr === 'undefined' || attr === false) {
+            if ($('#preview-sosialisasi').children().length === 0) {
+                $('#file-sosialisasi').attr('required', true)
+            }
+        }
+    }
+})
 
 const getKonsultan = () => {
     var url = `${uri}/getconsultant`;
@@ -847,6 +846,63 @@ $('#restricted-old').change(function(){
     });
 });
 
+let counterUser = 1;
+function addUserAccess() {
+    let $restricted_content = $('#restricted_content')
+    counterUser++;
+    let id = "restricted-user-" + counterUser
+    let content =   `
+                        <div class="form-group row content-restricted">
+                            <label for="" class="col-md-2 col-sm-12 col-form-label label-cus-2">User ${counterUser}</label>
+                            <div class="col-md-10 col-sm-12">
+                                <select name="user[]" id="${id}" class="restricted-user select2 form-control" placeholder='Masukan Personal Number' required></select>
+                            </div>
+                        </div>
+                        `;
+
+    $restricted_content.append(content);
+
+    $('#'+id+'').on('select2:select', function (e) {
+        if($('#'+id+'').hasClass('is-invalid') || $('#'+id+'').hasClass('is-valid')){
+            // console.log(document.getElementsByClassName("select2-selection select2-selection--multiple"));
+            if($('#'+id+'').hasClass('is-invalid')){
+                document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:red;");
+            }else if($('#'+id+'').hasClass('is-valid')){
+                document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:#38c172;");
+            }
+        }
+    });
+
+    $('#'+id+'').select2({
+        placeholder : 'Cari User'
+    });
+
+    $('#'+id+'').select2({
+        minimumInputLength: 8,
+        maximumInputLength: 8,
+        placeholder: 'Masukan Personal Number',
+        ajax: {
+            url: `${base_url}/searchuser`,
+            type: "get",
+            headers: {'X-CSRF-TOKEN': csrf},
+            data: function (params) {
+                var query = {
+                    pn: params.term,
+                    mode: 11
+                }
+                // Query parameters will be ?pn=[term]
+                return query;
+            },
+            processResults: function (data) {
+                return {
+                    results: data.items
+                };
+            }
+        }
+    });
+
+}
+
 $('#restricted').change(function(){
     let sample = $('select[name=restricted] option').filter(':selected').val();
     let $restricted_content = $('#restricted_content')
@@ -857,8 +913,9 @@ $('#restricted').change(function(){
     }else if(sample == 1){
         let content =   `
                         <div class="form-group row content-restricted">
-                            <div class="col-md-12 col-sm-12">
-                                <select name="user[]" id="restricted-user" class="restricted-user select2 form-control" placeholder='Masukan Personal Number'  multiple required></select>
+                            <label for="" class="col-md-2 col-sm-12 col-form-label label-cus-2">User 1</label>
+                            <div class="col-md-10 col-sm-12">
+                                <select name="user[]" id="restricted-user-1" class="restricted-user select2 form-control" placeholder='Masukan Personal Number'  required></select>
                             </div>
                         </div>
                         `;
@@ -866,8 +923,8 @@ $('#restricted').change(function(){
         $restricted_content.append(content);
         $restricted_content.removeClass('d-none')
 
-        $('#restricted-user').on('select2:select', function (e) {
-            if($('#restricted-user').hasClass('is-invalid') || $('#restricted-user').hasClass('is-valid')){
+        $('#restricted-user-1').on('select2:select', function (e) {
+            if($('#restricted-user-1').hasClass('is-invalid') || $('#restricted-user-1').hasClass('is-valid')){
                 var kolomvendor = $('#jenispekerja').val();
                 var urut;
                 if (kolomvendor === '1') {
@@ -876,7 +933,7 @@ $('#restricted').change(function(){
                     urut = 0;
                 }
                 // console.log(document.getElementsByClassName("select2-selection select2-selection--multiple"));
-                if($('#restricted-user').hasClass('is-invalid')){
+                if($('#restricted-user-1').hasClass('is-invalid')){
                     document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:red;");
                 }else if($('#restricted-user').hasClass('is-valid')){
                     document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:#38c172;");
@@ -886,11 +943,11 @@ $('#restricted').change(function(){
     }
 
     // set select2
-    $('#restricted-user').select2({
+    $('#restricted-user-1').select2({
         placeholder : 'Cari User'
     });
 
-    $("#restricted-user").select2({
+    $("#restricted-user-1").select2({
         minimumInputLength: 8,
         maximumInputLength: 8,
         placeholder: 'Masukan Personal Number',
@@ -999,7 +1056,6 @@ const cekDivisi = (valueOld = null) => {
 var divisiVal = document.getElementById('divisi').getAttribute('value');
 if (divisiVal != "") {
     divisiVal   =   parseInt(divisiVal);
-    console.log(divisiVal);
     cekDivisi(divisiVal);
 }
 
@@ -1040,47 +1096,9 @@ $('#restricted-user').on('select2:select', function (e) {
     }
 });
 
-$('#add_lesson').click(function(){
-    lesson_learned_urut++;
-    let element = ` <tr class='ll_field'>
-                <td class="bg-white attr_input"><span class='control_ll'> </span></td>
-                <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="" placeholder="..." required/></td>
-                <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required/></td>
-            </tr>`;
-    $('.content_lesson').append(element);
-    urutFields();
-    if ($('.ll_field').length <= 1) {
-        $('.ll_min').attr("class","ll_min ll_min_disabled");
-    }else{
-        $('.ll_min').attr("class","ll_min");
-    }
-    $(".ll_min").unbind();
-    $(".ll_min").click(function(){
-        var urutannya   =    $('.ll_min').index(this);
-        removeFieldls(urutannya);
-    });
-});
-
 $("#save").click(function(){
-    try {
-        let cek_edit = document.getElementById('id').value;
-        if (typeof(cek_edit) == 'undefined') {
-            $("#project").val('0');
-            $('#form').submit();
-            $('.senddataloader').show();
-        }else{
-            $('#form').attr('action',uri+"/kontribusi/update");
-            // console.log(uri+"/kontribusi/update");
-
-            $("#project").val('0');
-            $('#form').submit();
-            $('.senddataloader').show();
-        }
-    } catch (error) {
-        $("#project").val('0');
-        $('#form').submit();
-        $('.senddataloader').show();
-    }
+    $('#form').submit();
+    $('.senddataloader').show();
 });
 
 $("#send").click(function(){
@@ -1198,6 +1216,7 @@ $(document).ready(function(){
     });
 });
 
+const $photo = $('#photo')
 let $dropWrap = $('.dropzones-wrapper')
 $dropWrap.on('dragover', function(e) {
     e.preventDefault();
@@ -1214,3 +1233,287 @@ $dropWrap.on('drop', function(e) {
     e.stopPropagation();*/
     $(this).removeClass('dragover');
 });
+
+$photo.change(function(){
+    readThumbnail(this);
+});
+
+$('#file-piloting').change(function(){
+    readFile(this, 'piloting');
+});
+
+$('#file-rollout').change(function(){
+    readFile(this, 'rollout');
+});
+
+$('#file-sosialisasi').change(function(){
+    readFile(this, 'sosialisasi');
+});
+
+function readThumbnail(input) {
+    const type_file = ['image/png', 'image/jpg', 'image/jpeg']
+    if (!type_file.includes(input.files[0].type)) {
+        $photo.val('')
+        Toast3.fire({icon: 'error',title: 'Tipe file tidak sesuai !'});
+        return;
+    }
+
+    $('#drop-wrap').css({border: 'none'})
+    $('#thumbnail-prev').remove()
+    $('#thumbnail-del').remove()
+    $('#thumbnail-loading').remove()
+    let src = URL.createObjectURL(input.files[0])
+    photo_file = src
+    let imagePrev = `
+        <img id="thumbnail-prev" class="blur-image thumbnail-prev" src="${src}" alt="thumbnail" />
+        <div id="thumbnail-del" title="Hapus" class="thumbnail-delete d-flex align-items-center justify-content-center d-none" onclick="removeThumbnailPreview()">
+            <i class="fas fa-times" style="font-size: 24px"></i>
+        </div>
+        <div id="thumbnail-loading" style="height: inherit; width: inherit; position:absolute; z-index: 88;" class="d-flex align-items-center justify-content-center">
+            <i class="fas fa-circle-notch fa-spin" style="font-size: 70px"></i>
+        </div>
+    `
+
+    $('#thumbnail-desc').append($(imagePrev).hide().fadeIn(300));
+
+    if($('#form').hasClass('was-validated')){
+        $("#thumbnail-prev").attr("style", "border:solid 1px #38c172;");
+    }
+
+    let form_data = new FormData();
+    form_data.append('thumbnail', input.files[0]);
+
+    $.ajax({
+        url: uri+'/up/thumbnail',
+        data: form_data,
+        type: 'post',
+        contentType: false,
+        processData: false,
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+        },
+        success: function(res){
+            $('#hidden-thumbnail').empty()
+            $('#thumbnail-loading').fadeOut(200, function () {$(this).remove()});
+            $('#thumbnail-del').removeClass('d-none')
+            $('#thumbnail-prev').removeClass('blur-image')
+
+            let hidden_thumb = `<input type="hidden" class="d-none" id="thumbnail" name="thumbnail" value="${res}">`
+            $('#hidden-thumbnail').append(hidden_thumb);
+        },
+        error: function () {
+            Toast3.fire({icon: 'error',title: 'Upload Gagal'});
+            $('#thumbnail-prev').fadeToggle(300, function () {$(this).remove()});
+            $('#thumbnail').remove().val('');
+            $('#thumbnail-del').fadeToggle(300, function () {$(this).remove()});
+            $('#thumbnail-loading').remove();
+            $('#drop-wrap').css({border: 'dashed 1px black'})
+            $photo.val('')
+
+            if($('#form').hasClass('was-validated')){
+                $("#drop-wrap").attr("style", "border:1px solid #e3342f;");
+            }
+        },
+    });
+}
+
+function readFile(input, step) {
+    const type_file = ['application/x-zip-compressed', 'zip', 'rar']
+    const name_file = input.files[0].name;
+    if (type_file.includes(input.files[0].type) || type_file.includes(name_file.split('.')[1])) {
+        $('#file-'+step+'').val('')
+        Toast3.fire({icon: 'error',title: 'Tipe file tidak sesuai !'});
+        return;
+    }
+    for (let f in input.files) {
+        if (input.files[f] instanceof File) {
+            showPreview(input.files[f], step)
+        }
+    }
+}
+
+function showPreview(file, step) {
+    const $preview = $('#preview-'+step+'')
+    const timemillis = Date.now()
+    let htmlPreview = [
+        '<div id="prev-'+step+timemillis+'" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">',
+            '<div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">',
+                '<div class="d-flex align-items-center justify-content-between" style="width: 100%">',
+                    '<div class="d-flex align-items-center justify-content-center">',
+                        '<i class="fas fa-file mr-3"></i>',file.name,
+                    '</div>',
+                    `<div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Cancel" onclick="removePreview(this, \'cancel\', ${step}, ${file})">`,
+                        '<i class="fas fa-circle-notch fa-spin"></i>',
+                    '</div>',
+                '</div>',
+            '</div>',
+            '<div id="loading" class="d-flex align-items-center" style="width: 20px;">',
+                '<p class="m-0 d-flex align-items-center">Uploading&nbsp;<span class="loadings">...</span></p>',
+            '</div>',
+        '</div>'
+    ]
+
+    // $preview.removeClass('hidden');
+    $preview.append($(htmlPreview.join('')).hide().fadeIn(300))
+
+    let $container = $('#prev-'+step+timemillis+'')
+    if (step === 'piloting') {
+        attach_pilot.push(file)
+    } else if (step === 'rollout') {
+        attach_rollout.push(file)
+    } else if (step === 'sosialisasi') {
+        attach_sosialisasi.push(file)
+    }
+    // let id = $container.attr('id')
+
+    /*if($('#form').hasClass('was-validated')){
+        $("#attach-wrap-"+step).attr("style", "border:solid 1px #38c172;");
+    }*/
+
+    let form_data = new FormData();
+    form_data.append(`attach_${step}`, file);
+
+    $.ajax({
+        url: uri+`/up/attach_${step}`,
+        data: form_data,
+        type: 'post',
+        contentType: false,
+        processData: false,
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+        },
+        success: function(res){
+            let $first = $container.children().first().children()
+            $first.addClass('detail-prev')
+
+            let $click = $first.children().last()
+            $click.prop("onclick", null).off("click");
+            $click.on('click', function () {
+                removePreview(this, 'delete', step, file)
+            })
+            let $icon = $click.find(':first-child')
+            $icon.removeClass('fa-circle-notch fa-spin')
+            $icon.addClass('fa-times')
+            $icon.prop('title', 'Delete')
+
+            let $last = $container.children().last()
+            $last.children().remove()
+            $last.append('<div class="d-flex align-items-center" style="border-radius: 50%; padding: 6px 5px 4px; border: 2px solid #218838; color: #218838">' +
+                '<i style="font-size: 10px" class="fas fa-check"></i></div>')
+
+            const input_hidden = `<input type="hidden" name="attach_${step}[]" value="${res}">`
+            $('#prev-'+step+timemillis).append(input_hidden)
+        },
+        error: function () {
+            Toast3.fire({icon: 'error',title: 'Upload Gagal'});
+            removePreview('prev'+timemillis, 'cancel', file)
+        },
+    });
+}
+
+function removePreview(id, type, step, file) {
+    const $preview = $('#preview-'+step+'')
+    if (type === 'cancel') {
+        $(id).parent().parent().parent().fadeOut(300, function () {
+            $(this).remove()
+            if ( $preview.children().length === 0 ) {
+                $('#file-'+step+'').val('')
+            }
+            if($('#form').hasClass('was-validated')){
+                $('#attach-wrap-'+step+'').attr("style", "border:1px solid #e3342f;");
+            }
+        });
+        if (step === 'piloting') {
+            let index = attach_pilot.indexOf(file);
+            attach_pilot.splice(index, 1);
+        } else if (step === 'rollout') {
+            let index = attach_rollout.indexOf(file);
+            attach_rollout.splice(index, 1);
+        } else if (step === 'sosialisasi') {
+            let index = attach_sosialisasi.indexOf(file);
+            attach_sosialisasi.splice(index, 1);
+        }
+    } else {
+        let $last = $(id).parent().parent().parent().children().last()
+        let form_data = new FormData();
+        form_data.append(`attach_${step}`, $last.val());
+        $.ajax({
+            url: uri+`/delete/attach_${step}`,
+            data: form_data,
+            type: 'post',
+            contentType: false,
+            processData: false,
+            beforeSend: function(xhr){
+                xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            },
+            success: function() {
+                $(id).parent().parent().parent().fadeOut(300, function () {
+                    $(this).remove()
+                    if ( $preview.children().length === 0 ) {
+                        $('#file-'+step+'').val('')
+                        const attr = $('#file-'+step+'').attr('required');
+                        if (typeof attr === 'undefined' || attr === false) {
+                            $('#file-'+step+'').attr('required', true)
+                        }
+                        if($('#form').hasClass('was-validated')){
+                            $('#attach-wrap-'+step+'').attr("style", "border:1px solid #e3342f;");
+                        }
+                    }
+                });
+
+                if (step === 'piloting') {
+                    let index = attach_pilot.indexOf(file);
+                    attach_pilot.splice(index, 1);
+                } else if (step === 'rollout') {
+                    let index = attach_rollout.indexOf(file);
+                    attach_rollout.splice(index, 1);
+                } else if (step === 'sosialisasi') {
+                    let index = attach_sosialisasi.indexOf(file);
+                    attach_sosialisasi.splice(index, 1);
+                }
+            },
+            error: function () {
+                Toast3.fire({icon: 'error',title: 'Delete Gagal'});
+            },
+        });
+    }
+
+    /*if ( $preview.children().length === 0 ) {
+        $preview.addClass('hidden')
+    }*/
+}
+
+function removeThumbnailPreview() {
+    let form_data = new FormData();
+    form_data.append('thumbnail', $('#thumbnail').val());
+    $.ajax({
+        url: uri+'/delete/thumbnail',
+        data: form_data,
+        type: 'post',
+        contentType: false,
+        processData: false,
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+        },
+        success: function(){
+            $('#thumbnail-prev').fadeToggle(300, function () {$(this).remove()});
+            $('#thumbnail').remove().val('');
+            $('#thumbnail-del').fadeToggle(300, function () {$(this).remove()});
+            $('#thumbnail-loading').remove();
+            $('#drop-wrap').css({border: 'dashed 1px black'})
+            $photo.val('')
+
+            if($('#form').hasClass('was-validated')){
+                $("#drop-wrap").attr("style", "border:1px solid #e3342f;");
+            }
+
+            const attr = $('#photo').attr('required');
+            if (typeof attr === 'undefined' || attr === false) {
+                $('#photo').attr('required', true)
+            }
+        },
+        error: function () {
+            Toast3.fire({icon: 'error',title: 'Delete Gagal'});
+        },
+    });
+}

@@ -131,6 +131,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::get('/managecommunication', 'Admin\ManageComSupport@index')->name('manage_com')->middleware('IsAdmin');
     Route::get('/managecommunication/upload/{type}/{slug?}', 'Admin\ManageComSupport@uploadForm')->name('manage_com.upload_form')->middleware('IsAdmin');
     Route::post('/managecommunication/upload/content', 'Admin\ManageComSupport@createComInit')->name('manage_com.create')->middleware('IsAdmin');
+    Route::post('/managecommunication/upload/implementation', 'Admin\ManageComSupport@createImplementation')->name('implementation.create')->middleware('IsAdmin');
     Route::get('/communicationinitiative/{type}', 'Admin\ManageComSupport@getAllComInitiative')->name('com_init.get_type')->middleware('IsAdmin');
     Route::post('/communicationinitiative/status/{status}/{id}', 'Admin\ManageComSupport@setStatusComInit')->name('con_init.set_status')->middleware('IsAdmin');
     Route::delete('/communicationinitiative/delete/{id}', 'Admin\ManageComSupport@deleteComInit')->name('con_init.delete')->middleware('IsAdmin');

@@ -8,6 +8,7 @@
 <script src="{{asset_app('assets/js/plugin/ckeditor/ckeditor.js')}}"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/min/dropzone.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/dropzone.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css">
 
 <style>
     .select2-selection__choice__display {
@@ -105,7 +106,7 @@
                 @endif
             </div>
 
-            <form action="" id="form" class="px-3 pb-5" method="post" enctype="multipart/form-data">
+            <form action="{{route('implementation.create')}}" id="form" class="px-3 pb-5" method="post" enctype="multipart/form-data">
                 @csrf
                 {{-- STEP 1 --}}
                 <div class="mb-5 setup-content" id="step-1">
@@ -113,18 +114,37 @@
                         <h4>Data Project</h4>
                     </div>
 
-                    <!--<div class="form-group row">
+                    @isset($data->data->id)
+                    <input type="hidden" name="id" id="id" value="{{$data->data->id}}">
+                    @endisset
+                    <div class="form-group row">
                         <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Thumbnail<span class="text-danger ml-1">*</span></label>
                         <div class="col-md-10 col-sm-12 ">
-                            <div id="drop-wrap" class="dropzones-wrapper d-flex align-items-center justify-content-center" style="width: 175px;height: 175px;box-shadow: none;border: dashed 1px black;border-radius: 8px">
+                            <div id="drop-wrap" class="dropzones-wrapper d-flex align-items-center justify-content-center thumbnail-wrap" style="width: 175px;height: 175px;box-shadow: none;border: dashed 1px black;border-radius: 8px">
                                 <div class="dropzones-desc d-flex align-items-center justify-content-center" id="thumbnail-desc" style="width: inherit; height: inherit">
                                     <p id="thumbnail-text" style="text-align:left;cursor:default;margin-bottom: 0; position:absolute;">Drag image here<br>or <span class="choose-file">choose your file</span></p>
+                                    @isset($data->data->thumbnail)
+                                    <img id="thumbnail-prev" class="thumbnail-prev" src="{{config('app.url').'storage/'.$data->data->thumbnail??asset_app('assets/img/boxdefault.svg')}}" alt="thumbnail" />
+                                    <div id="thumbnail-del" title="Hapus" class="thumbnail-delete d-flex align-items-center justify-content-center d-none" onclick="removeThumbnailPreview()">
+                                        <i class="fas fa-times" style="font-size: 24px"></i>
+                                    </div>
+                                    @endisset
                                 </div>
-                                <input type="file" accept="image/png, image/jpg, image/jpeg" name="photo" class="dropzones form-control" id="photo" style="height: 100% !important;" required>
+                                @isset($data->data->thumbnail)
+                                <input type="file" accept="image/png, image/jpg, image/jpeg" value="{{$data->data->thumbnail}}" name="photo" class="dropzones form-control" id="photo" style="height: 100% !important;z-index: 97">
+                                @else
+                                <input type="file" accept="image/png, image/jpg, image/jpeg" name="photo" class="dropzones form-control" id="photo" style="height: 100% !important;z-index: 97" required>
+                                @endisset
                             </div>
                         </div>
 
-                    </div>-->
+                    </div>
+
+                    <div class="hidden" id="hidden-thumbnail">
+                        @isset($data->data->thumbnail)
+                        <input type="hidden" class="d-none" id="thumbnail" name="thumbnail" value="{{$data->data->thumbnail}}">
+                        @endisset
+                    </div>
 
                     <div class="form-group row">
                         <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Direktorat<span class="text-danger ml-1">*</span></label>
@@ -200,82 +220,8 @@
                         </div>
                     </div>
 
-                    <!--<div class="form-group row">
-                        <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Konsultan/Vendor<span class="text-danger ml-1">*</span></label>
-                        <div class="col-md-10 col-sm-12">
-                            <select style="width: 33%; height: 40px" class="form-control" id="jenispekerja" name="jenispekerja" value="{{old('jenispekerja')}}" required>
-                                <option value="" selected disabled>Pilih Konsultan/Vendor</option>
-                                @if(old('jenispekerja') <> '')
-                                <option value="1" {{old('jenispekerja') == '1' ? 'selected' : ''}}>Vendor</option>
-                                <option value="0" {{old('jenispekerja') == '0' ? 'selected' : ''}}>Internal</option>
-                                @else
-                                <option value="1" {{(isset($data->data->consultant)) ? ($data->data->consultant == [] ? '' : 'selected') : ''}}>Vendor</option>
-                                <option value="0" {{(isset($data->data->consultant)) ? ($data->data->consultant == [] ? 'selected' : '') : ''}}>Internal</option>
-                                @endif
-                            </select>
-                        </div>
-                    </div>
-                    @if(old('konsultant') <> '')
-                    @if(old('konsultant') <> [])
-                    <div class="form-group row content-worker">
-                        <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Konsultan/Vendor<span class='text-danger'>*</span></label>
-                        <div class="col-md-10 col-sm-12">
-                            <select style="width: 33%; height: 40px" class="select2 form-control" id="konsultant" name="konsultant[]" multiple required data-select2-tags="true">
-                                @forelse($data->consultant as $item)
-                                @php
-                                $sudah = 0;
-                                @endphp
-                                @for($i = 0; $i < count(old('konsultant')); $i++)
-                                @if(old('konsultant')[$i] == $item->id)
-                                <option value='{{$item->id}}' data-value='{{$item->nama}}' selected>{{$item->nama}}</option>
-                                @php
-                                $sudah = 1;
-                                @endphp
-                                @endif
-                                @endfor
-                                @if($sudah !== 1)
-                                <option value='{{$item->id}}' data-value='{{$item->nama}}'>{{$item->nama}}</option>
-                                @endif
-                                @empty
-                                @endforelse
-                            </select>
-                        </div>
-                    </div>
-                    @endif
-                    @elseif(isset($data->data->consultant))
-                    @if($data->data->consultant !== [])
-                    <div class="form-group row content-worker">
-                        <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Konsultan/Vendor<span class='text-danger'>*</span></label>
-                        <div class="col-md-10 col-sm-12">
-                            <select style="width: 33%; height: 40px" class="select2 form-control" id="konsultant" name="konsultant[]" multiple required data-select2-tags="true">
-                                @forelse($data->consultant as $item)
-                                @php
-                                $sudah = 0;
-                                @endphp
-                                @forelse($data->data->consultant as $item2)
-                                @if($item2->id == $item->id)
-                                <option value='{{$item->id}}' data-value='{{$item->nama}}' selected>{{$item->nama}}</option>
-                                @php
-                                $sudah = 1;
-                                @endphp
-                                @endif
-                                @empty
-                                @endforelse
-
-                                @if($sudah !== 1)
-                                <option value='{{$item->id}}' data-value='{{$item->nama}}'>{{$item->nama}}</option>
-                                @endif
-                                @empty
-                                @endforelse
-                            </select>
-                        </div>
-                    </div>
-                    @endif
-                    @endisset
-                    <div class="w-100" id="worker"></div>-->
-
                     <div class="form-group row">
-                        <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Restricted Page<span class="text-danger ml-1">*</span></label>
+                        <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Page Restricted<span class="text-danger ml-1">*</span></label>
                         <div class="col-md-10 col-sm-12">
                             <select style="width: 20%; height: 40px" class="form-control" id="restricted" value="{{old('restricted')}}" name="restricted" required>
                                 <option value="" selected disabled>Pilih Opsi</option>
@@ -292,8 +238,9 @@
 
                     <div id="restricted_content" class="d-none" style="padding: 10px 2rem">
                         <div class="form-group w-100 d-flex justify-content-start">
-                            <div>
+                            <div class="d-flex align-items-center">
                                 <label for="" class="col-form-label font-weight-600">User yang mendapatkan Hak Akses<span class='text-danger'>*</span></label>
+                                <button type="button" style="border-radius: 8px; line-height: 2; padding: 0.1rem 1rem" class="btn btn-success ml-3" onclick="addUserAccess()"><i class="fa fa-plus mr-3"></i>Tambah User</button>
                             </div>
                         </div>
                     </div>
@@ -318,11 +265,14 @@
                         <p>Pilih tahap implementasi yang akan diisi :</p>
                     </div>
                     <div class="mb-2">
-                        <input type="checkbox" id="piloting" name="piloting" value="" data-id="#piloting_view">
+                        <input type="hidden" name="piloting" value="0">
+                        <input type="checkbox" id="piloting" name="piloting" value="1" data-id="#piloting_view">
                         <label for="piloting"> Piloting </label><br>
-                        <input type="checkbox" id="rollout" name="rollout" value="" data-id="#rollout_view">
+                        <input type="hidden" name="rollout" value="0">
+                        <input type="checkbox" id="rollout" name="rollout" value="1" data-id="#rollout_view">
                         <label for="rollout"> Roll Out </label><br>
-                        <input type="checkbox" id="sosialisasi" name="sosialisasi" value="" data-id="#sosialisasi_view">
+                        <input type="hidden" name="sosialisasi" value="0">
+                        <input type="checkbox" id="sosialisasi" name="sosialisasi" value="1" data-id="#sosialisasi_view">
                         <label for="sosialisasi"> Sosialisasi </label>
                     </div>
                     <hr/>
@@ -330,17 +280,54 @@
                         <div class="mb-4">
                             <h4>Deskripsi Piloting</h4>
                             <div class="form-group row ">
-                                <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>
+<!--                                <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>-->
                                 <div class="col-md-12">
-                                    <textarea name="deskripsi" class="w-100" name="deskripsi" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-deskripsi">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
+                                    <textarea name="deskripsi_piloting" class="w-100" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-deskripsi">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-4">
-                            <h4>Dokumen Piloting</h4>
+<!--                            <h4>Dokumen Piloting</h4>-->
+                            <div class="form-group mb-1">
+                                <h4>Dokumen Piloting</h4>
+                                <div id="attach-wrap-piloting" class="dropzones-wrapper d-flex align-items-center justify-content-center">
+                                    <div class="dropzones-desc d-flex align-items-center justify-content-center">
+                                        <i class="fa fa-file mr-3" style="font-size: 24px"></i>
+                                        <p style="text-align:left;cursor:default;margin-bottom: 0">Drag file here<br>or <span class="choose-file">choose your file</span></p>
+                                    </div>
+                                    @isset($data->data->attach_file)
+                                    <input type="file" name="file_piloting[]" class="dropzones form-control" id="file-piloting" multiple>
+                                    @else
+                                    <input type="file" name="file_piloting[]" class="dropzones form-control" id="file-piloting" multiple>
+                                    @endisset
+                                </div>
+                            </div>
                             <div class="my-0">
                                 <p class="mb-0"><i>* File Maks 100Mb</i></p>
                                 <p><i>* Tidak Bisa Upload Dengan Format RAR</i></p>
+                            </div>
+
+                            <div class="preview-zone mt-3" id="preview-piloting">
+                                @isset($data->data->attach_file)
+                                @forelse($data->data->attach_file as $item)
+                                    @if($item->tipe == 'pilotting')
+                                        <div id="prev-piloting{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
+                                            <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
+                                                <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <i class="fas fa-file mr-3"></i>{{$item->nama}}
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete', 'piloting')">
+                                                        <i class="fas fa-times"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input id="attach-piloting" type="hidden" name="attach_piloting[]" value="{{$item->url_file}}">
+                                        </div>
+                                    @endif
+                                @empty
+                                @endforelse
+                                @endisset
                             </div>
                         </div>
                         <hr/>
@@ -351,15 +338,51 @@
                             <div class="form-group row ">
                                 <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>
                                 <div class="col-md-12">
-                                    <textarea name="deskripsi" class="w-100" name="deskripsi" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-rollout">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
+                                    <textarea name="deskripsi_rollout" class="w-100" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-rollout">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-4">
-                            <h4>Dokumen Roll Out</h4>
+                            <div class="form-group mb-1">
+                                <h4>Dokumen Roll Out</h4>
+                                <div id="attach-wrap-rollout" class="dropzones-wrapper d-flex align-items-center justify-content-center">
+                                    <div class="dropzones-desc d-flex align-items-center justify-content-center">
+                                        <i class="fa fa-file mr-3" style="font-size: 24px"></i>
+                                        <p style="text-align:left;cursor:default;margin-bottom: 0">Drag file here<br>or <span class="choose-file">choose your file</span></p>
+                                    </div>
+                                    @isset($data->data->attach_file)
+                                    <input type="file" name="file_rollout[]" class="dropzones form-control" id="file-rollout" multiple>
+                                    @else
+                                    <input type="file" name="file_rollout[]" class="dropzones form-control" id="file-rollout" multiple>
+                                    @endisset
+                                </div>
+                            </div>
                             <div class="my-0">
                                 <p class="mb-0"><i>* File Maks 100Mb</i></p>
                                 <p><i>* Tidak Bisa Upload Dengan Format RAR</i></p>
+                            </div>
+
+                            <div class="preview-zone mt-3" id="preview-rollout">
+                                @isset($data->data->attach_file)
+                                @forelse($data->data->attach_file as $item)
+                                @if($item->tipe == 'rollout')
+                                <div id="prev-rollout{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
+                                    <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
+                                        <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-file mr-3"></i>{{$item->nama}}
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete', 'rollout')">
+                                                <i class="fas fa-times"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input id="attach-rollout" type="hidden" name="attach_rollout[]" value="{{$item->url_file}}">
+                                </div>
+                                @endif
+                                @empty
+                                @endforelse
+                                @endisset
                             </div>
                         </div>
                         <hr/>
@@ -370,26 +393,75 @@
                             <div class="form-group row ">
                                 <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Sosialisasi<span class="text-danger ml-1">*</span></label>
                                 <div class="col-md-12">
-                                    <textarea name="deskripsi" class="w-100" name="deskripsi" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-sosialisasi">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
+                                    <textarea name="deskripsi_sosialisasi" class="w-100" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-sosialisasi">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-4">
-                            <h4>Dokumen Sosialisasi</h4>
+                            <div class="form-group mb-1">
+                                <h4>Dokumen Sosialisasi</h4>
+                                <div id="attach-wrap-sosialisasi" class="dropzones-wrapper d-flex align-items-center justify-content-center">
+                                    <div class="dropzones-desc d-flex align-items-center justify-content-center">
+                                        <i class="fa fa-file mr-3" style="font-size: 24px"></i>
+                                        <p style="text-align:left;cursor:default;margin-bottom: 0">Drag file here<br>or <span class="choose-file">choose your file</span></p>
+                                    </div>
+                                    @isset($data->data->attach_file)
+                                    <input type="file" name="file_sosialisasi[]" class="dropzones form-control" id="file-sosialisasi" multiple>
+                                    @else
+                                    <input type="file" name="file_sosialisasi[]" class="dropzones form-control" id="file-sosialisasi" multiple>
+                                    @endisset
+                                </div>
+                            </div>
                             <div class="my-0">
                                 <p class="mb-0"><i>* File Maks 100Mb</i></p>
                                 <p><i>* Tidak Bisa Upload Dengan Format RAR</i></p>
                             </div>
+
+                            <div class="preview-zone mt-3" id="preview-sosialisasi">
+                                @isset($data->data->attach_file)
+                                @forelse($data->data->attach_file as $item)
+                                @if($item->tipe == 'sosialisasi')
+                                <div id="prev-sosialisasi{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
+                                    <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
+                                        <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-file mr-3"></i>{{$item->nama}}
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete', 'sosialisasi')">
+                                                <i class="fas fa-times"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input id="attach-sosialisasi" type="hidden" name="attach_sosialisasi[]" value="{{$item->url_file}}">
+                                </div>
+                                @endif
+                                @empty
+                                @endforelse
+                                @endisset
+                            </div>
                         </div>
                     </div>
 
+
+                    @isset($data->data->nama)
+                    <div class="form-group project-link" style="width: 70%;">
+                        <label for="link" class="label-cus">Project Link <span style="font-size: 14px;font-weight: normal">(jika project existing di BRIKNOW)</span></label>
+                        <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Project Link' required>
+                            <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
+                        </select>
+                    </div>
+                    @endisset
                     <div class="mb-4">
                         <div class="ml-1 row">
                             <h4>Link Project</h4><p>&nbsp;(jika project sudah tersedia di BRIKNOW)</p>
                         </div>
                         <div class="form-group row ">
                             <div class="col-md-12">
-                                <input type="url" class="form-control" id="projectLink" value="" placeholder="" name="projectlink">
+                                <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Project Link' required>
+                                    @isset($data->data->nama)
+                                    <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
+                                    @endisset
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -509,7 +581,7 @@
                     <div class="row mt-4">
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button class="btn btn-outline-primary prevBtn btn-sm mr-2" type="button">Previous</button>
-                            <button class="btn btn-primary text-white nextBtn btn-sm pull-right" type="button" >Preview</button>
+                            <button class="btn btn-primary text-white nextBtn btn-sm pull-right" id="preview" type="button" >Preview</button>
                         </div>
                     </div>
                 </div>
@@ -519,12 +591,27 @@
         </div>
 
     </div>
+
+</div>
+@endsection
+@section('popup')
+<div class="modal fade bd-example-modal-lg modal-preview" id="modal-preview" tabindex="-1" role="dialog" aria-labelledby="preview" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered dialog-preview" role="document">
+        <div class="modal-content content-preview bg-transparent">
+            <div class="w-100 d-flex justify-content-center align-items-center" id="content-preview">
+                <div class="bg-white bg-white w-100">
+                    @include('admin.managecomsupport.preview-implementation')
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 @push('page-script')
 <script>
     localStorage.clear();
 </script>
+<script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
 <script src="{{asset_app('assets/js/select2.min.js')}}"></script>
 <script src="{{asset_app('assets/js/page/implementationupload.js')}}"></script>
 <script>

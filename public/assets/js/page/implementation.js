@@ -231,14 +231,14 @@ function viewsFormatter(views) {
 }
 
 function titleFormatter(value, row, index) {
-    return [
-        '<div class="pl-4 d-flex align-items-center" style="padding-top: 0; padding-bottom: 0">',
-            '<img src="'+row.thumbnail+'" alt="'+value+'" width="85" height="85" class="mr-3" style="border-radius: 8px">',
-            '<div style="width: 72%" class="ellipsis-2">',
-                value,
-            '</div>',
-        '</div>'
-    ].join('')
+    let src = `${uri}/storage/${row.thumbnail}`
+    return `
+        <div class="pl-4 d-flex align-items-center" style="padding-top: 0; padding-bottom: 0">
+            <img src="${src}" alt="${value}" width="85" height="85" class="mr-3" style="border-radius: 8px">
+            <div style="width: 72%" class="ellipsis-2">
+                ${value}
+            </div>
+        </div>`
 }
 
 function initTable() {
