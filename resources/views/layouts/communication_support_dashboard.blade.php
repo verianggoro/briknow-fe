@@ -168,37 +168,40 @@
                     <div class="text-dark p-2">
                         <h5 data-toggle="collapse" data-target="#collapsedirectorat" aria-expanded="false" aria-controls="collapsedirectorat" class="dropdown-toggle">Direktorat</h5>
                         <ul class="collapse" id="collapsedirectorat">
-                            <a role="button" class="btn-com mt-2 mr-3 ">Finance Directorate</a>
-                            <a role="button" class="btn-com mt-2 mr-3 ">Change Management & Transformation Office Directorate</a>
+                            <div class="row spacing-filter">
+                                <a role="button" class="btn-filter col-sm-11 m-1">Finance Directorate</a>
+                            </div>
+                            <div class="row spacing-filter">
+                                <a role="button" class="btn-filter col-sm-11 m-1">Change Management & Transformation Office Directorate</a>
+                            </div>
                         </ul>
                     </div>
                     <div class="text-dark p-2">
                         <h5 data-toggle="collapse" data-target="#collapsedate" aria-expanded="false" aria-controls="collapsedate" class="dropdown-toggle">Tahun</h5>
                         <ul class="collapse" id="collapsedate">
 {{--                            foreach date--}}
-                            <div class="row">
-                                <a role="button" class="btn-com mt-2 mr-3 ">2019</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">2020</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">2021</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">2022</a>
+                            <div class="row spacing-filter">
+                                <a role="button" class="btn-filter col-sm-3 m-1 ">2019</a>
+                                <a role="button" class="btn-filter col-sm-3 m-1 ">2020</a>
+                                <a role="button" class="btn-filter col-sm-3 m-1 ">2021</a>
+                                <a role="button" class="btn-filter col-sm-3 m-1 ">2022</a>
                             </div>
-                            <div id="year-list" class="row">
+                            <div id="year-list" class="row spacing-filter">
                                 <p>Bulan</p>
-                                <hr/>
                             </div>
-                            <div>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Jan</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Feb</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Mar</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Apr</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Mei</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Jun</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Jul</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Agu</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Sep</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Okt</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Nov</a>
-                                <a role="button" class="btn-com mt-2 mr-3 ">Des</a>
+                            <div class="row d-flex spacing-filter align-self-center">
+                                <a role="button" class="btn-filter col-sm-2 m-1">Jan</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1">Feb</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1">Mar</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1">Apr</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1">Mei</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1">Jun</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1 ">Jul</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1 ">Agu</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1 ">Sep</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1 ">Okt</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1 ">Nov</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1 ">Des</a>
                             </div>
                         </ul>
                     </div>
