@@ -168,8 +168,8 @@
                     <div class="text-dark p-2">
                         <h5 data-toggle="collapse" data-target="#collapsedirectorat" aria-expanded="false" aria-controls="collapsedirectorat" class="dropdown-toggle">Direktorat</h5>
                         <ul class="collapse" id="collapsedirectorat">
-                            <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Finance Directorate</a>
-                            <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Consumer Directorate</a>
+                            <a role="button" class="btn-com mt-2 mr-3 ">Finance Directorate</a>
+                            <a role="button" class="btn-com mt-2 mr-3 ">Change Management & Transformation Office Directorate</a>
                         </ul>
                     </div>
                     <div class="text-dark p-2">
@@ -177,28 +177,28 @@
                         <ul class="collapse" id="collapsedate">
 {{--                            foreach date--}}
                             <div class="row">
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">2019</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">2020</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">2021</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">2022</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">2019</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">2020</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">2021</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">2022</a>
                             </div>
                             <div id="year-list" class="row">
                                 <p>Bulan</p>
                                 <hr/>
                             </div>
                             <div>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Jan</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Feb</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Mar</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Apr</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Mei</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Jun</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Jul</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Agu</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Sep</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Okt</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Nov</a>
-                                <a role="button" class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? ' active disabled' : ''}}">Des</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Jan</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Feb</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Mar</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Apr</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Mei</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Jun</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Jul</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Agu</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Sep</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Okt</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Nov</a>
+                                <a role="button" class="btn-com mt-2 mr-3 ">Des</a>
                             </div>
                         </ul>
                     </div>
