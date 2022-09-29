@@ -107,7 +107,7 @@
 
                     @isset($data->data->nama)
                         <div class="form-group project-link" style="width: 70%;">
-                            <label for="link" class="label-cus">Project Link <span style="font-size: 14px;font-weight: normal">(jika project existing di BRIKNOW)</span></label>
+                            <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">(jika project existing di BRIKNOW)</span></label>
                             <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Project Link' required>
                                 <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
                             </select>

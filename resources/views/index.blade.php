@@ -200,10 +200,10 @@
                               <div class="px-2 item w-100 p-0">
                                   <a href="{{route('project.index',$item->slug)}}" class="text-decoration-none text-dark">
                                       <div class="card bg-6sa6ss sh-a22l" style="border-radius: 16px">
-                                          <img class="card-img-up" src="{{asset_app('assets/img/gamification/avatar/avatar '.session('avatar_id').'.png')}}" alt="Card image cap">
+                                          <img class="card-img-up" src="{{url('public/content/tesst_bri.png')}}" alt="Card image cap">
                                           <div class="card-body">
-                                              <h5 class="card-title">Card title</h5>
-                                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                              <h5 class="card-title">BRIvolution 2.0 Akan Sukses Karena Ada 3...</h5>
+                                              <p class="card-text">Siapa yang tidak terpana kalau...</p>
                                               <div class="d-flex justify-content-between">
                                                   <i class="mr-auto p-2 fas fa-eye">
                                                       <span>1</span>

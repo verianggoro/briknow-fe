@@ -14,7 +14,7 @@
     <script src="{{asset_app('assets/js/page/mproject.js')}}"></script>
 @endpush
 
-@section('breadcumb', 'My Project')
+@section('breadcumb', 'My Lesson Learned')
 @section('back', route('home'))
 
 @section('content')
@@ -129,8 +129,7 @@
                             <p class="text-primary">Deloitte</p>
                         </div>
                         <div class="col-2">
-                            <button class="btn btn-outline-secondary fas fa-pen"></button>
-                            <button class="btn btn-outline-secondary fas fa-trash"></button>
+                            <button class="btn btn-outline-secondary fas fa-share"></button>
                             <button class="btn btn-outline-secondary fas fa-arrow-down" data-toggle="collapse" data-target="#collapsData" aria-expanded="false" aria-controls="collapsData"></button>
                         </div>
                     </div>
