@@ -111,6 +111,7 @@ class ManageComSupport extends Controller
                         'total'    =>  $hasil->total,
                         'totalNotFiltered' => $hasil->totalData,
                         "rows"      => $hasil->data,
+                        "totalRow"  => $hasil->totalRow
                     ],200);
                 }else{
                     $data['message']    =   'GET Gagal 1';
@@ -271,6 +272,7 @@ class ManageComSupport extends Controller
                         'total'    =>  $hasil->total,
                         'totalNotFiltered' => $hasil->totalData,
                         "rows"      => $hasil->data,
+                        "totalRow"  => $hasil->totalRow
                     ],200);
                 }else{
                     $data['message']    =   'GET Gagal 1';
@@ -374,6 +376,7 @@ class ManageComSupport extends Controller
                         'total'    =>  $hasil->total,
                         'totalNotFiltered' => $hasil->totalData,
                         "rows"      => $hasil->data,
+                        "totalRow"  => $hasil->totalRow,
                         "project"   => $hasil->project
                     ],200);
                 }else{
@@ -462,6 +465,7 @@ class ManageComSupport extends Controller
                         'total'    =>  $hasil->total,
                         'totalNotFiltered' => $hasil->totalData,
                         "rows"      => $hasil->data,
+                        "totalRow"  => $hasil->totalRow
                     ],200);
                 }else{
                     $data['message']    =   'GET Gagal 1';
