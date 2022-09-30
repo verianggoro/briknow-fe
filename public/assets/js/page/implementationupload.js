@@ -483,11 +483,11 @@ $(document).ready(function () {
     });
 
     $('#link').select2({
-        placeholder : 'Project Link'
+        placeholder : 'Nama Proyek'
     });
 
     $("#link").select2({
-        placeholder: 'Project Link',
+        placeholder: 'Nama Proyek',
         minimumInputLength: 1,
         language: {
             inputTooShort: function (args) {

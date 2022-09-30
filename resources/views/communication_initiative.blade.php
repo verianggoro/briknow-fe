@@ -48,7 +48,7 @@
                         <ul class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#">Judul</a>
                             <a class="dropdown-item" href="#">Tanggal</a>
-                            <a class="dropdown-item" href="#">Terbanyak</a>
+                            <a class="dropdown-item" href="#">View</a>
                         </ul>
                     </div>
                 </div>

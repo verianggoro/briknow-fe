@@ -25,7 +25,7 @@
                         <ul class="dropdown-menu dropdown-menu-left">
                             <a class="dropdown-item" href="#">Judul</a>
                             <a class="dropdown-item" href="#">Tanggal</a>
-                            <a class="dropdown-item" href="#">Terbanyak</a>
+                            <a class="dropdown-item" href="#">View</a>
                         </ul>
                     </div>
                 </div>
@@ -37,6 +37,7 @@
                         <ul class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#">Rollout</a>
                             <a class="dropdown-item" href="#">Piloting</a>
+                            <a class="dropdown-item" href="#">Sosialisasi</a>
                         </ul>
                     </div>
                 </div>

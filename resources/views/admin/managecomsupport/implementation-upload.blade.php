@@ -446,18 +446,18 @@
                     @isset($data->data->nama)
                     <div class="form-group project-link" style="width: 70%;">
                         <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">(jika project existing di BRIKNOW)</span></label>
-                        <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Project Link' required>
+                        <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' required>
                             <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
                         </select>
                     </div>
                     @endisset
                     <div class="mb-4">
                         <div class="ml-1 row">
-                            <h4>Link Project</h4><p>&nbsp;(jika project sudah tersedia di BRIKNOW)</p>
+                            <h4>Nama Proyek</h4><p>&nbsp;(jika project sudah tersedia di BRIKNOW)</p>
                         </div>
                         <div class="form-group row ">
                             <div class="col-md-12">
-                                <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Project Link' required>
+                                <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' required>
                                     @isset($data->data->nama)
                                     <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
                                     @endisset

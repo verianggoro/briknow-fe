@@ -421,7 +421,7 @@
 
                     <div class="mb-4">
                         <div class="ml-1 row">
-                            <h4>Link Project</h4><p>&nbsp;(jika project sudah tersedia di BRIKNOW)</p>
+                            <h4>Nama Proyek</h4><p>&nbsp;(jika project sudah tersedia di BRIKNOW)</p>
                         </div>
                         <div class="form-group row ">
                             <div class="col-md-12">

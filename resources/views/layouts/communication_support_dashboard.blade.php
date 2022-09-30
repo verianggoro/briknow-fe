@@ -168,11 +168,11 @@
                     <div class="text-dark p-2">
                         <h5 data-toggle="collapse" data-target="#collapsedirectorat" aria-expanded="false" aria-controls="collapsedirectorat" class="dropdown-toggle">Direktorat</h5>
                         <ul class="collapse" id="collapsedirectorat">
-                            <div class="row spacing-filter">
-                                <a role="button" class="btn-filter col-sm-11 m-1">Finance Directorate</a>
-                            </div>
-                            <div class="row spacing-filter">
-                                <a role="button" class="btn-filter col-sm-11 m-1">Change Management & Transformation Office Directorate</a>
+                            <div class="row d-flex spacing-filter">
+                                <select name="direktorat" id="direktorat" class="form-control text-black select2" style="height: 44px" value="{{old('direktorat')}}">
+                                    <option value="" disabled selected>Pilih Direktorat</option>
+                                    <option value="finace" data-value="finace">Finance Directorate</option>
+                                </select>
                             </div>
                         </ul>
                     </div>
