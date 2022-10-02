@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class CommunicationController extends Controller
 {
+    public $dataInitiative;
+
     public function index()
     {
         return redirect('mycomsupport/initiative');
@@ -36,8 +39,38 @@ class CommunicationController extends Controller
         $this->token_auth = session()->get('token');
         $sync_es = 0;
         $token_auth = $this->token_auth;
+        try{
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $this->token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/get/communicationinitiative/publish/'.$type);
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
 
-        return view('communication_initiative', compact(['type', 'type_list', 'sync_es', 'token_auth']));
+            if ($hasil->status == 1) {
+                $this->dataInitiative = $hasil->data->data;
+                $data = $this->dataInitiative;
+                return view('communication_initiative', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data']));
+            }else{
+                session()->flash('error',$hasil->data->message);
+            }
+        }catch (\Throwable $th){
+            if(isset($hasil->message)){
+                if ($hasil->message == "Unauthenticated.") {
+                    session()->flush();
+                    session()->flash('error','Session Time Out');
+                    return redirect('/login');
+                }
+            }
+            session()->flash('error','Get Data Bermasalah , Silahkan Coba Lagi');
+        }
     }
 
     // page public strategic initiative
