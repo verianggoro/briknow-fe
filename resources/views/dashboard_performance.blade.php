@@ -23,6 +23,7 @@
             <div class="my-3 d-flex mx-auto flex-wrap">
                 <a href="{{route('dashboard.performance')}}" class="btn btn-outline-primary mt-2 mr-3 active" id="performance" role="button">Performance</a>
                 <a href="{{route('dashboard.alldata')}}" class="btn btn-outline-primary mt-2 mr-3" id="alldata" role="button">All Data</a>
+                <a href="{{route('dashboard.alldata')}}" class="btn btn-outline-primary mt-2 mr-3" id="alldata" role="button">Communication Suppport</a>
             </div>
         <!-- END BUTTONS -->
 
@@ -91,11 +92,104 @@
         <!-- data lesson learned & communication support-->
         <div class="row">
             <!-- lesson learned -->
+            <div class="col-md-12">
+                <h4>Lesson Learned Analytics</h4>
+                <hr/>
+            </div>
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body px-4 pb-0">
                         <div class="row d-flex justify-content-between">
                             <h6>Lesson Learned per Tahap Project</h6>
+                            <div>
+                                <a href="#" class="btn btn-light bg-white" id="dropdownMenuLink" style="text-decoration: none; color: black;"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                                    <a href="{{route('laporan.proyektop5')}}" target="_blank" class="btn dropdown-item">
+                                        <i class="far fa-file-excel mr-2"></i>Xlsx
+                                    </a>
+                                    <a href="{{route('laporan.proyektop5pdf')}}" target="_blank" class="btn dropdown-item">
+                                        <i class="far fa-file-pdf mr-2"></i>PDF
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  pb-3">
+                            <hr class="d-block mt-0 mb-2 w-25 m-0 garis-bawah">
+                        </div>
+                        <div id="graph3" class="d-flex align-items-center justify-content-center" style="height: 500px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- lesson learned -->
+            <div class="col-md-12">
+                <h4>Communication Support Analytics</h4>
+                <hr/>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body px-4 pb-0">
+                        <div class="row d-flex justify-content-between">
+                            <h6>Content Communication Initiative Paling Banyak Dicari</h6>
+                            <div>
+                                <a href="#" class="btn btn-light bg-white" id="dropdownMenuLink" style="text-decoration: none; color: black;"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                                    <a href="{{route('laporan.proyektop5')}}" target="_blank" class="btn dropdown-item">
+                                        <i class="far fa-file-excel mr-2"></i>Xlsx
+                                    </a>
+                                    <a href="{{route('laporan.proyektop5pdf')}}" target="_blank" class="btn dropdown-item">
+                                        <i class="far fa-file-pdf mr-2"></i>PDF
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  pb-3">
+                            <hr class="d-block mt-0 mb-2 w-25 m-0 garis-bawah">
+                        </div>
+                        <div id="graph3" class="d-flex align-items-center justify-content-center" style="height: 500px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body px-4 pb-0">
+                        <div class="row d-flex justify-content-between">
+                            <h6>Project Strategic Initiative Paling Banyak Dicari</h6>
+                            <div>
+                                <a href="#" class="btn btn-light bg-white" id="dropdownMenuLink" style="text-decoration: none; color: black;"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                                    <a href="{{route('laporan.proyektop5')}}" target="_blank" class="btn dropdown-item">
+                                        <i class="far fa-file-excel mr-2"></i>Xlsx
+                                    </a>
+                                    <a href="{{route('laporan.proyektop5pdf')}}" target="_blank" class="btn dropdown-item">
+                                        <i class="far fa-file-pdf mr-2"></i>PDF
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  pb-3">
+                            <hr class="d-block mt-0 mb-2 w-25 m-0 garis-bawah">
+                        </div>
+                        <div id="graph3" class="d-flex align-items-center justify-content-center" style="height: 500px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body px-4 pb-0">
+                        <div class="row d-flex justify-content-between">
+                            <h6>Implementation Yang Paling Banyak Dicari</h6>
                             <div>
                                 <a href="#" class="btn btn-light bg-white" id="dropdownMenuLink" style="text-decoration: none; color: black;"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
