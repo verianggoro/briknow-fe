@@ -132,7 +132,7 @@
                 <ul class="sidebar-menu text-center">
                     <li class="nav-item dropdown pb-2">
                         <a href="{{route('mycomsupport.initiative')}}"
-                           class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{request()->is('mycomsupport/initiative') || request()->is('mycomsupport/initiative/article') ? ' active' : ''}}"
+                           class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{str_contains(request()->path(),'initiative') ? ' active' : ''}}"
                            tabindex="-1" role="button">
                             <i class="fas fa-comment" id="biru" style="font-size: 25px;"></i>
                             <span class="px-2 f-20">
@@ -142,7 +142,7 @@
                     </li>
                     <li class="nav-item dropdown pb-2">
                         <a href="{{route('mycomsupport.strategic')}}"
-                           class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{request()->is('mycomsupport/strategic')  ? ' active' : ''}}"
+                           class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{str_contains(request()->path(),'strategic')  ? ' active' : ''}}"
                            tabindex="-1" role="button">
                             <i class="fas fa-building" id="cyan" style="font-size: 25px;"></i>
                             <span class="px-2 f-20">
@@ -152,7 +152,7 @@
                     </li>
                     <li class="nav-item dropdown pb-2">
                         <a href="{{route('mycomsupport.implementation')}}"
-                           class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{request()->is('mycomsupport/implementation') ? ' active' : ''}}"
+                           class="btn btn-block text-left menu-kiri d-flex justify-content-center btn-menu-com {{str_contains(request()->path(),'implementation') ? ' active' : ''}}"
                            tabindex="-1" role="button">
                             <i class="fas fa-chart-pie" id="biru" style="font-size: 25px;"></i>
                             <span class="px-2 f-20">
