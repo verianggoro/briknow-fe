@@ -1,4 +1,4 @@
-@extends('layouts.communication_support_dashboard')
+@extends('layouts.communication_support_dashboard', ['direktorat' => $direktorat, 'divisi' => $divisi])
 @section('title', 'BRIKNOW')
 @push('style')
     <link rel="stylesheet" href="{{asset_app('assets/css/fa-admin.css')}}">

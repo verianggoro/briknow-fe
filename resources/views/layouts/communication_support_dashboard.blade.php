@@ -8,7 +8,7 @@
     <meta name="csrf" content="@yield('csrf',csrf_token())">
     <meta name="kunci" content="@yield('kunci','*')">
     <title>@yield('title',config('app.name'))</title>
-    <link rel="icon" type="image/png" href="{{asset_app('assets/img/logo/Logo BRI.png')}}" />
+    <link rel="icon" type="image/png" href="{{asset_app('assets/img/logo/Logo BRI.png')}}"/>
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{asset_app('css/app.css')}}">
     <!-- Template CSS -->
@@ -45,7 +45,7 @@
             <ul class="navbar-nav navbar-right align-items-center">
                 <li class="dropdown">
                     <a href="{{route('kontribusi')}}" class="btn bg-white addin btn-sm" role="button"
-                           aria-pressed="true"><i class="fas fa-upload mr-1"></i>Upload Dokumen</a>
+                       aria-pressed="true"><i class="fas fa-upload mr-1"></i>Upload Dokumen</a>
                 </li>
                 @include('layouts.notifikasi')
                 <li class="dropdown">
@@ -166,20 +166,42 @@
                         <h4>General</h4>
                     </div>
                     <div class="text-dark p-2">
-                        <h5 data-toggle="collapse" data-target="#collapsedirectorat" aria-expanded="false" aria-controls="collapsedirectorat" class="dropdown-toggle">Direktorat</h5>
+                        <h5 data-toggle="collapse" data-target="#collapsedirectorat" aria-expanded="false"
+                            aria-controls="collapsedirectorat" class="dropdown-toggle">Direktorat</h5>
                         <ul class="collapse" id="collapsedirectorat">
                             <div class="row d-flex spacing-filter">
-                                <select name="direktorat" id="direktorat" class="form-control text-black select2" style="height: 44px" value="{{old('direktorat')}}">
+                                <select name="direktorat" id="direktorat" class="form-control text-black select2" data-live-search="true"
+                                        style="height: 44px" value="{{old('direktorat')}}">
                                     <option value="" disabled selected>Pilih Direktorat</option>
-                                    <option value="finace" data-value="finace">Finance Directorate</option>
+                                    @if(empty($direktorat))
+                                        <option value="finace" data-value="finace">{{$dataList ?? 'NOT FOUND'}}</option>
+                                    @else
+                                        @foreach($direktorat as $dirContent)
+                                            <option value="{{$dirContent->direktorat }}" data-value="{{ $dirContent->direktorat }}">{{$dirContent->direktorat}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="row d-flex spacing-filter">
+                                <select name="direktorat" id="direktorat" class="form-control text-black select2 mt-2" data-live-search="true"
+                                        style="height: 44px" value="{{old('direktorat')}}">
+                                    <option value="" disabled selected>Pilih Divisi</option>
+                                    @if(empty($divisi))
+                                        <option value="null" data-value="null">{{$divisi ?? 'NOT FOUND'}}</option>
+                                    @else
+                                        @foreach($divisi as $divContent)
+                                            <option value="{{$divContent->divisi }}" data-value="{{ $divContent->divisi }}">{{$divContent->divisi}}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
                         </ul>
                     </div>
                     <div class="text-dark p-2">
-                        <h5 data-toggle="collapse" data-target="#collapsedate" aria-expanded="false" aria-controls="collapsedate" class="dropdown-toggle">Tahun</h5>
+                        <h5 data-toggle="collapse" data-target="#collapsedate" aria-expanded="false"
+                            aria-controls="collapsedate" class="dropdown-toggle">Tahun</h5>
                         <ul class="collapse" id="collapsedate">
-{{--                            foreach date--}}
+                            {{--                            foreach date--}}
                             <div class="row spacing-filter">
                                 <a role="button" class="btn-filter col-sm-3 m-1 ">2019</a>
                                 <a role="button" class="btn-filter col-sm-3 m-1 ">2020</a>
@@ -227,39 +249,39 @@
 <!-- General JS Scripts -->
 <script src="{{asset_app('js/app.js')}}"></script>
 <script src="{{asset_app('assets/js/plugin/jquery.nicescroll.min.js')}}"></script>
-<script src="{{asset_app('assets/js/core.js')}}" ></script>
-<script src="{{asset_app('assets/js/charts.js')}}" ></script>
-<script src="{{asset_app('assets/js/themes/animated.js')}}" ></script>
+<script src="{{asset_app('assets/js/core.js')}}"></script>
+<script src="{{asset_app('assets/js/charts.js')}}"></script>
+<script src="{{asset_app('assets/js/themes/animated.js')}}"></script>
 <script src="{{asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js')}}"></script>
 @isset($congrats->achievements_id)
     {{-- congrats --}}
-    <script src="{{asset_app('assets/js/plugin/TweenMax.min.js')}}" ></script>
+    <script src="{{asset_app('assets/js/plugin/TweenMax.min.js')}}"></script>
     <script type="text/javascript" src="{{asset_app('assets/js/plugin/lodash.min.js')}}"></script>
-    <script src="{{asset_app('assets/js/congrats.js')}}" ></script>
+    <script src="{{asset_app('assets/js/congrats.js')}}"></script>
     <script>
-        $('.btn-continue').click(function(){
-            var token_congrats  = "{{session('token')}}";
-            var id_congrats     = "{{$congrats->id}}";
-            var be_congrats    = "{{config('app.url')}}";
+        $('.btn-continue').click(function () {
+            var token_congrats = "{{session('token')}}";
+            var id_congrats = "{{$congrats->id}}";
+            var be_congrats = "{{config('app.url')}}";
             // update
             var url = `${be_congrats}congrats`;
             $.ajax({
                 url: url,
                 type: "post",
-                data: {id:id_congrats, token:token_congrats},
-                beforeSend: function(xhr)
-                {
-                    xhr.setRequestHeader("X-CSRF-TOKEN",csrf);
+                data: {id: id_congrats, token: token_congrats},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
                     $('.layar-back').hide();
                 },
-                success: function(data){
+                success: function (data) {
                     console.log(data.data.message);
                 },
-                error : function(e){
+                error: function (e) {
                     console.log(e.responseJSON.message);
                 }
             });
         });
+
     </script>
 @endisset
 @if (Session::has('error'))
@@ -277,7 +299,7 @@
         });
 
         var tampung = `{{ Session::get('error')}}`;
-        Toast.fire({icon: 'error',title: tampung});
+        Toast.fire({icon: 'error', title: tampung});
     </script>
 @endif
 @if (Session::has('success'))
@@ -295,7 +317,7 @@
         });
 
         var tampung = `{{ Session::get('success')}}`;
-        Toast.fire({icon: 'success',title: tampung});
+        Toast.fire({icon: 'success', title: tampung});
     </script>
 @endif
 <!-- JS page -->

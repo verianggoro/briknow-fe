@@ -59,7 +59,9 @@ class CommunicationController extends Controller
             if ($hasil->status == 1) {
                 $this->dataInitiative = $hasil->data->data;
                 $data = $this->dataInitiative;
-                return view('communication_initiative', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data']));
+                $direktorat = $hasil->direktorat->direktorat;
+                $divisi = $hasil->direktorat->divisi;
+                return view('communication_initiative', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat', 'divisi']));
             }else{
                 session()->flash('error',$hasil->data->message);
             }
@@ -98,7 +100,9 @@ class CommunicationController extends Controller
             if ($hasil->status == 1) {
                 $this->dataStrategic= $hasil->data;
                 $data = $this->dataStrategic;
-                return view('strategic_initiative', compact(['sync_es', 'token_auth', 'data']));
+                $direktorat = $hasil->direktorat->direktorat;
+                $divisi = $hasil->direktorat->divisi;
+                return view('strategic_initiative', compact(['sync_es', 'token_auth', 'data', 'direktorat', 'divisi']));
             } else {
                 session()->flash('error', $hasil->data->message);
             }
@@ -124,10 +128,10 @@ class CommunicationController extends Controller
     public function setTypeImplementationInit($type){
         $type_list = (object) array(
             array("id" => "piloting", "name" => "Piloting", "path" => "mycomsupport/implementation/piloting"),
-            array("id" => "rollout", "name" => "Rollout", "path" => "mycomsupport/implementation/rollout"),
+            array("id" => "roll-out", "name" => "Rollout", "path" => "mycomsupport/implementation/roll-out"),
             array("id" => "sosialisasi", "name" => "Sosialisasi", "path" => "mycomsupport/implementation/sosialisasi"),
         );
-        $type_array = array("piloting", "rollout", "sosialisasi");
+        $type_array = array("piloting", "roll-out", "sosialisasi");
         if (!in_array($type, $type_array)) {
             session()->flash('error', 'Halaman tidak ditemukan');
             return back();
@@ -135,8 +139,40 @@ class CommunicationController extends Controller
         $this->token_auth = session()->get('token');
         $sync_es = 0;
         $token_auth = $this->token_auth;
+        try{
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $this->token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/get/implementation/all/publish/'.$type);
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
 
-        return view('implementation', compact(['type', 'type_list', 'sync_es', 'token_auth']));
+            if ($hasil->status == 1) {
+                $this->dataInitiative = $hasil->data->data;
+                $data = $this->dataInitiative;
+                $direktorat = $hasil->direktorat->direktorat;
+                $divisi = $hasil->direktorat->divisi;
+                return view('implementation', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat', 'divisi']));
+            }else{
+                session()->flash('error',$hasil->data->message);
+            }
+        }catch (\Throwable $th){
+            if(isset($hasil->message)){
+                if ($hasil->message == "Unauthenticated.") {
+                    session()->flush();
+                    session()->flash('error','Session Time Out');
+                    return redirect('/login');
+                }
+            }
+            session()->flash('error','Get Data Bermasalah , Silahkan Coba Lagi');
+        }
 
     }
 
