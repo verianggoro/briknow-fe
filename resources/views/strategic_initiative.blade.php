@@ -55,30 +55,24 @@
             </div>
             <br/>
             <div class="row">
-                <div class="col-lg-4 d-flex justify-content-center">
-                    <div class="card" style="border-radius: 16px; width: 30rem">
-                        <img class="card-img-up" src="{{asset_app('assets/img/gamification/avatar/avatar '.session('avatar_id').'.png')}}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Teman Simpedes</h5>
+                @if(empty($data))
+                    <div class="container-fluid">
+                        <div class="p-2">
+                            <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 d-flex justify-content-center">
-                    <div class="card" style="border-radius: 16px; width: 30rem">
-                        <img class="card-img-up" src="{{asset_app('assets/img/gamification/avatar/avatar '.session('avatar_id').'.png')}}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">BRIBOX</h5>
+                @else
+                    @foreach($data as $content)
+                        <div class="col-lg-4 d-flex justify-content-center">
+                            <div class="card" style="border-radius: 16px; width: 30rem">
+                                <img class="card-img-up" src="{{asset('storage/'.$content->thumbnail)}}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">{{$content->nama}}</h5>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 d-flex justify-content-center">
-                    <div class="card" style="border-radius: 16px; width: 30rem">
-                        <img class="card-img-up" src="{{asset_app('assets/img/gamification/avatar/avatar '.session('avatar_id').'.png')}}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Agen BRI Digital</h5>
-                        </div>
-                    </div>
-                </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

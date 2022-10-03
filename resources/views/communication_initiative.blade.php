@@ -67,7 +67,7 @@
                             <a href="{{route('view.comsup')}}" target="_blank">
                                 <div class="card" style="border-radius: 16px">
                                     <img class="card-img-up"
-                                         src="{{asset_app('assets/img/gamification/avatar/avatar '.session('avatar_id').'.png')}}"
+                                         src="{{asset('storage/'.$content->thumbnail)}}"
                                          alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title">{{$content->title}}</h5>
