@@ -214,6 +214,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/getuser', 'KontribusiController@getuser')->name('kontribusi.getuser');
         #create process
         Route::post('/kontribusi', 'KontribusiController@create')->name('kontribusi.create');
+        Route::post('/kontribusi/new', 'KontribusiController@createNew')->name('kontribusi.createnew');
         #edit form
         Route::get('/kontribusi/{slug}', 'KontribusiController@edit')->name('kontribusi.edit');
         #update process

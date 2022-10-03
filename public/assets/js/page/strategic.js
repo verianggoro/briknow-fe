@@ -134,11 +134,18 @@ $(function() {
     initTable()
 })
 
+function imgError(image) {
+    let r = Math.floor(Math.random() * 9) + 1
+    image.onerror = "";
+    image.src = `${uri}/assets/img/news/img0${r}.jpg`;
+    return true;
+}
+
 function titleFormatter(value, row, index) {
     let src = `${uri}/storage/${row.thumbnail}`
     return `
         <div class="pl-4 d-flex align-items-center" style="padding-top: 0; padding-bottom: 0">
-            <img src="${src}" alt="${value}" width="85" height="85" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)">
+            <img src="${src}" alt="${value}" onerror="imgError(this)" width="85" height="85" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)">
             <div style="width: 72%" class="ellipsis-2">
                 ${value}
             </div>
@@ -184,7 +191,7 @@ function statusFormatter (value, row, index) {
     } else {
         status_title = value
     }
-    return `<div class="d-flex align-items-center justify-content-center" style="padding: 0.1rem;margin-left:2rem;font-size: 14px;border-radius: 6px;width: 70%; border: 1px solid #cccccc">${status_title}</div>`;
+    return `<div class="d-flex align-items-center justify-content-center" style="padding: 0.1rem;margin-left:auto;margin-right: auto;font-size: 14px;border-radius: 6px;width: 60%; border: 1px solid #cccccc">${status_title}</div>`;
 }
 
 function operateFormatter(value, row, index) {
@@ -193,12 +200,6 @@ function operateFormatter(value, row, index) {
         '<div class="view border-action d-flex align-items-center justify-content-center mr-2 action-icon" title="View">',
         '<i class="fas fa-eye" style="margin: 0; font-size: 19px"></i>',
         '</div>  ',
-        '<div class="edit border-action d-flex align-items-center justify-content-center mr-2 action-icon" title="Edit">',
-        '<i class="fas fa-pencil-alt" style="margin: 0; font-size: 19px"></i>',
-        '</div>',
-        '<div class="remove border-action d-flex align-items-center justify-content-center mr-2 action-icon" title="Remove">',
-        '<i class="fas fa-trash" style="margin: 0; font-size: 19px"></i>',
-        '</div>',
         '<div class="download border-action d-flex align-items-center justify-content-center action-icon" title="Download">',
         '<i class="fas fa-download" style="margin: 0; font-size: 19px"></i>',
         '</div>',
@@ -209,12 +210,6 @@ function operateFormatter(value, row, index) {
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
         window.location.href = uri+`/managecommunication/strategicinitiative/project/${row.slug}`;
-    },
-    'click .edit': function (e, value, row, index) {
-        console.log('You click like action, row: ' + JSON.stringify(row))
-    },
-    'click .remove': function (e, value, row, index) {
-        console.log('You click like action, row: ' + JSON.stringify(row))
     },
     'click .download': function (e, value, row, index) {
         console.log('You click like action, row: ' + JSON.stringify(row))

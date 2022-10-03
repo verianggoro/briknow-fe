@@ -45,7 +45,7 @@ $parent.change(function () {
     if ($(this).val() === "1") {
         let content =   `
             <div class="form-group project-link" style="width: 70%;">
-                <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">(jika project existing di BRIKNOW)</span></label>
+                <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">&nbsp;(jika project existing di BRIKNOW)</span></label>
                 <select class="select2 form-control" id="link" name="link" placeholder='Nama Proyek' required>
                 </select>
 <!--                <input type="text" class="form-control" style="width: 70%; height: 40px" id="link" name="link" placeholder="Project Link">-->
@@ -464,6 +464,13 @@ function checkEditor() {
     }
 
     return valid;
+}
+
+function imgError(image) {
+    let r = Math.floor(Math.random() * 9) + 1
+    image.onerror = "";
+    image.src = `${uri}/assets/img/news/img0${r}.jpg`;
+    return true;
 }
 
 /*

@@ -32,6 +32,13 @@ for (let i = 0; i < metas.length; i++) {
     }
 }
 
+function imgError(image) {
+    let r = Math.floor(Math.random() * 9) + 1
+    image.onerror = "";
+    image.src = `${uri}/assets/img/news/img0${r}.jpg`;
+    return true;
+}
+
 function hapus(a){
     const url = `${uri}/communicationinitiative/delete/${a}`
     let t = "{{$token_auth}}";
@@ -135,6 +142,9 @@ function ajaxRequest(params) {
             $table.bootstrapTable( 'resetView' , {height: height} );
             $('.senddataloader').hide();
             params.success(data)
+            /*if (data.total === 0) {
+                $table.find('tbody').find('.no-records-found').children().text('no data')
+            }*/
         },
         error : function(e){
             $('.senddataloader').hide();
@@ -233,12 +243,12 @@ function viewsFormatter(views) {
         '</div>',
     ].join('')
 }
-// <img src="{{config('app.url').'storage/'.$value->_source->thumbnail??asset_app('assets/img/boxdefault.svg')}}" width="120%" class="card-img-left border-0 rounded thumb">
+
 function titleFormatter(value, row, index) {
     let src = `${uri}/storage/${row.thumbnail}`
     return `
         <div class="pl-4 d-flex align-items-center" style="padding-top: 0; padding-bottom: 0">
-            <img src="${src}" alt="${value}" width="85" height="85" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)">
+            <img src="${src}" alt="${value}" onerror="imgError(this)" width="85" height="85" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)">
             <div style="width: 72%" class="ellipsis-2">
                 ${value}
             </div>

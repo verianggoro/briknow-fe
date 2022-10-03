@@ -64,7 +64,7 @@
                         <div class="dropzones-desc d-flex align-items-center justify-content-center" id="thumbnail-desc" style="width: inherit; height: inherit">
                             <p id="thumbnail-text" style="text-align:left;cursor:default;margin-bottom: 0; position:absolute;">Drag image here<br>or <span class="choose-file">choose your file</span></p>
                             @isset($data->data->thumbnail)
-                            <img id="thumbnail-prev" class="thumbnail-prev" src="{{config('app.url').'storage/'.$data->data->thumbnail??asset_app('assets/img/boxdefault.svg')}}" alt="thumbnail" />
+                            <img id="thumbnail-prev" class="thumbnail-prev" src="{{config('app.url').'storage/'.$data->data->thumbnail}}" onerror="imgError(this)" alt="thumbnail" />
                             <div id="thumbnail-del" title="Hapus" class="thumbnail-delete d-flex align-items-center justify-content-center d-none" onclick="removeThumbnailPreview()">
                                 <i class="fas fa-times" style="font-size: 24px"></i>
                             </div>
@@ -107,7 +107,7 @@
 
                     @isset($data->data->nama)
                         <div class="form-group project-link" style="width: 70%;">
-                            <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">(jika project existing di BRIKNOW)</span></label>
+                            <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">&nbsp;(jika project existing di BRIKNOW)</span></label>
                             <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' required>
                                 <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
                             </select>

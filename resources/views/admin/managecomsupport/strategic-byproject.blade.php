@@ -61,7 +61,7 @@
                     <div class="d-flex justify-content-between pr-5">
                         <div class="d-flex align-items-center">
                             @forelse($item->content as $content)
-                            <img src="{{config('app.url').'storage/'.$content->thumbnail??asset_app('assets/img/boxdefault.svg')}}"
+                            <img src="{{config('app.url').'storage/'.$content->thumbnail}}" onerror="imgError(this)"
                                  alt="{{$content->title}}" title="{{$content->title}}" width="150" height="150" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)">
                             @empty
                             @endforelse
@@ -106,6 +106,13 @@
     }
     function showMore(type, slug) {
         window.location.href = uri+`/managecommunication/strategicinitiative/project/${slug}/${type}`;
+    }
+
+    function imgError(image) {
+        let r = Math.floor(Math.random() * 9) + 1
+        image.onerror = "";
+        image.src = `${uri}/assets/img/news/img0${r}.jpg`;
+        return true;
     }
 </script>
 

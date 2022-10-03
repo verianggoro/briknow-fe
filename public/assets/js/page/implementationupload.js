@@ -597,6 +597,7 @@ $(document).ready(function () {
             t_photo             = photo_file;
         }*/
         $('#prev_thumbnail').attr('src',`${t_photo}`);
+        $('#prev_thumbnail').attr('alt',`${$('#nama_project').val()}`);
         $('#prev_namaproject').append(`${$('#nama_project').val()}`);
         $('#prev_pm').append($('#projectmanager').val());
         $('#prev_emailpm').append(`<i class="far fa-envelope mr-1"></i><a href="mailto:${t_email}">${t_email}</a>`);
@@ -712,6 +713,8 @@ $('#piloting').change(function () {
                 $('#file-piloting').attr('required', true)
             }
         }
+    } else {
+        $('#file-piloting').attr('required', false)
     }
 })
 
@@ -723,6 +726,8 @@ $('#rollout').change(function () {
                 $('#file-rollout').attr('required', true)
             }
         }
+    } else {
+        $('#file-rollout').attr('required', false)
     }
 })
 
@@ -734,6 +739,8 @@ $('#sosialisasi').change(function () {
                 $('#file-sosialisasi').attr('required', true)
             }
         }
+    } else {
+        $('#file-sosialisasi').attr('required', false)
     }
 })
 
@@ -1516,4 +1523,11 @@ function removeThumbnailPreview() {
             Toast3.fire({icon: 'error',title: 'Delete Gagal'});
         },
     });
+}
+
+function imgError(image) {
+    let r = Math.floor(Math.random() * 9) + 1
+    image.onerror = "";
+    image.src = `${uri}/assets/img/news/img0${r}.jpg`;
+    return true;
 }

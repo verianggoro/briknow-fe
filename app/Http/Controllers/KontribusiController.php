@@ -24,7 +24,8 @@ class KontribusiController extends Controller
                 'Accept: application/json',
                 "Authorization: Bearer $token",
             ];
-            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/prepare_form");
+//            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/prepare_form");
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/form_upload/implementation/*");
             curl_setopt($ch, CURLOPT_HTTPGET, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -258,6 +259,161 @@ class KontribusiController extends Controller
                     }else{
                         Session::flash('success','Project Berhasil Dikirimkan');
                     }
+                    return redirect('/myproject');
+                }else{
+                    if (isset($hasil->data->error_code)) {
+                        if ($hasil->data->error_code == 0) {
+                            Session::flash('error',$hasil->data->message);
+                            return back()->withInput();
+                        }else{
+                            return back()->withErrors($hasil->data->message)->withInput();
+                        }
+                    }else{
+                        Session::flash('error',$hasil->data->message);
+                        return back()->withInput();
+                    }
+                }
+            }else{
+                Session::flash('error','Something Problem');
+                return back()->withInput();
+            }
+        }catch (\Throwable $th) {
+            Session::flash('error',"Something Error, Try Again Please");
+            return back()->withInput();
+        }
+    }
+
+    public function createNew() {
+        request()->validate([
+            'thumbnail'     => "required",
+            'direktorat'    => "required",
+            'divisi'        => 'required',
+            'nama_project'  => 'required',
+            'tgl_mulai'     => 'required',
+            'pm'            => 'required',
+            'emailpm'       => 'required',
+            'restricted'    => 'required',
+            'piloting'      => 'required',
+            'rollout'       => 'required',
+            'sosialisasi'   => 'required',
+            'link'          => 'required',
+            'checker'       => 'required',
+            'signer'        => 'required',
+        ]);
+        if (isset(request()->id)) {
+            $id = request()->id;
+        } else {
+            $id = "*";
+        }
+        if (request()->piloting == 1) {
+            request()->validate([
+                'deskripsi_piloting'    => 'required',
+                'attach_piloting'    => 'required',
+            ]);
+            $desc_pilot   = request()->deskripsi_piloting;
+            $attach_pilot   = request()->attach_piloting;
+            $piloting         = 1;
+        }else{
+            $desc_pilot   = null;
+            $attach_pilot   = null;
+            $piloting         = 0;
+        }
+
+        if (request()->rollout == 1) {
+            request()->validate([
+                'deskripsi_rollout'    => 'required',
+                'attach_rollout'    => 'required',
+            ]);
+            $desc_rollout   = request()->deskripsi_rollout;
+            $attach_rollout   = request()->attach_rollout;
+            $rollout         = 1;
+        }else{
+            $desc_rollout   = null;
+            $attach_rollout   = null;
+            $rollout         = 0;
+        }
+
+        if (request()->sosialisasi == 1) {
+            request()->validate([
+                'deskripsi_sosialisasi'    => 'required',
+                'attach_sosialisasi'    => 'required',
+            ]);
+            $desc_sosialisasi   = request()->deskripsi_sosialisasi;
+            $attach_sosialisasi   = request()->attach_sosialisasi;
+            $sosialisasi         = 1;
+        }else{
+            $desc_sosialisasi   = null;
+            $attach_sosialisasi   = null;
+            $sosialisasi         = 0;
+        }
+
+        if (isset(request()->status)) {
+            request()->validate([
+                'tgl_selesai'    => 'required',
+            ]);
+            $tgl_selesai    = request()->tgl_selesai;
+            $status         = 1;
+        }else{
+            $tgl_selesai    = null;
+            $status         = 0;
+        }
+
+        if (request()->restricted == 1) {
+            request()->validate([
+                'user'          => 'required',
+            ]);
+            $user           = request()->user;
+        }else{
+            $user           = '-';
+        }
+
+        try {
+            $ch = curl_init();
+            $token      = session()->get('token');
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            $postData = [
+                'thumbnail'                 => request()->thumbnail,
+                'direktorat'                => request()->direktorat,
+                'divisi'                    => request()->divisi,
+                'nama_project'              => request()->nama_project,
+                'status'                    => $status,
+                'tgl_mulai'                 => request()->tgl_mulai,
+                'tgl_selesai'               => $tgl_selesai,
+                'pm'                        => request()->pm,
+                'emailpm'                   => request()->emailpm,
+                'restricted'                => request()->restricted,
+                'piloting'                  => $piloting,
+                'rollout'                   => $rollout,
+                'sosialisasi'               => $sosialisasi,
+                'deskripsi_pilot'           => $desc_pilot,
+                'attach_pilot'              => $attach_pilot,
+                'deskripsi_rollout'         => $desc_rollout,
+                'attach_rollout'            => $attach_rollout,
+                'deskripsi_sosialisasi'     => $desc_sosialisasi,
+                'attach_sosialisasi'        => $attach_sosialisasi,
+                'project_id'                => request()->link,
+                'user'                      => $user,
+                'checker'                   => request()->checker,
+                'signer'                    => request()->signer,
+                'token_bri'                 => session()->get('token_bri'),
+            ];
+            // dd($postData);
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/managecommunication/implementation/upload/$id");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil = json_decode($result);
+            // dd($hasil);
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    Session::flash('success','Implementasi Berhasil di Simpan');
                     return redirect('/myproject');
                 }else{
                     if (isset($hasil->data->error_code)) {
