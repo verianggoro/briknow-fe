@@ -148,6 +148,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::get('/implementation/{step}', 'Admin\ManageComSupport@getAllImplementation')->name('implementation.get_type')->middleware('IsAdmin');
     Route::post('/implementation/status/{status}/{id}', 'Admin\ManageComSupport@setStatusImplementation')->name('implementation.set_status')->middleware('IsAdmin');
     Route::delete('/implementation/delete/{id}', 'Admin\ManageComSupport@deleteImplementation')->name('implementation.delete')->middleware('IsAdmin');
+    Route::get('/form/implementation/upload/{slug}', 'Admin\ManageComSupport@getDataUpdateImplementation')->name('implementation.update')->middleware('IsAdmin');
 
 
     #DASHBOARD - MANAGEMENT CONSULTANT

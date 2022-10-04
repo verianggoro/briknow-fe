@@ -606,8 +606,6 @@ $(document).ready(function () {
         $('#prev_tglselesai').append(`${t_tgl_selesai}`);
         $('#prev_status').append(`${t_stat_project}`);
 
-        console.log(isValid)
-
         if (isValid) {
             $('#modalpreview').modal({
                 show : true

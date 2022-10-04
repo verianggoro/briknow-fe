@@ -59,6 +59,10 @@ function hapus(a){
     });
 }
 
+function edit(e) {
+    window.location.href = uri+`/managecommunication/upload/implementation/${e}`;
+}
+
 function setStatus(value, row, valueOld) {
     const url = `${uri}/implementation/status/${value}/${row}`
     let $select = $('#selectStatus'+row)
@@ -173,16 +177,16 @@ function operateFormatter(value, row, index) {
 
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row))
+        console.log('You click like action, row: ' + JSON.stringify(row))
     },
     'click .edit': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row))
+        edit(row.slug)
     },
     'click .remove': function (e, value, row, index) {
         hapus(value)
     },
     'click .download': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row))
+        console.log('You click like action, row: ' + JSON.stringify(row))
     },
 }
 

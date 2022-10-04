@@ -103,30 +103,76 @@
                     </select>
                 </div>
 
-                <div id="content-project">
+                <div id="content-project" class="{{isset($data->data->nama) ? '' : 'd-none'}}">
 
-                    @isset($data->data->nama)
-                        <div class="form-group project-link" style="width: 70%;">
-                            <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">&nbsp;(jika project existing di BRIKNOW)</span></label>
-                            <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' required>
-                                <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
-                            </select>
-                        </div>
-                    @endisset
-                    <!--<div class="form-group">
-                        <label for="nama" class="label-cus">Nama Project</label>
-                        <input type="text" class="form-control" style="width: 70%; height: 40px" id="nama" name="nama" placeholder="Nama Project">
+                    <div class="form-group project-link" style="width: 70%;">
+                        <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">&nbsp;(jika project existing di BRIKNOW)</span></label>
+                        <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' {{isset($data->data->nama) ? 'required' : ''}}>
+                            @isset($data->data->nama)
+                            <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
+                            @endisset
+                        </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="link" class="label-cus">Project Link <span style="font-size: 14px;font-weight: normal">(jika project existing di BRIKNOW)</span></label>
-                        <input type="text" class="form-control" style="width: 70%; height: 40px" id="link" name="link" placeholder="Project Link">
-                    </div>-->
+                    <div class="form-group {{isset($data->data->divisi) ? '' : 'd-none'}}" id="form-gr-direktorat" style="width: 70%;">
+                        <label for="direktorat" class="label-cus">Direktorat</label>
+                        <select name="direktorat" id="direktorat" class="form-control text-black select2" value="{{old('direktorat')}}" {{isset($data->data->divisi) ? 'required' : ''}}>
+                            <option value="" disabled selected>Pilih Direktorat</option>
+                            @foreach ($data->direktorat == NULL ? 'Lainnya' : $data->direktorat as $item)
+                            @if($item->direktorat != null)
+                            @isset($data->data->divisi)
+                            @if($data->data->divisi->direktorat == $item->direktorat)
+                            <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}" selected>{{ $item->direktorat }}</option>
+                            @else
+                            <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
+                            @endif
+                            @elseif(old('direktorat') <> null)
+                            @if(old('direktorat') == $item->direktorat)
+                            <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}" selected>{{ $item->direktorat }}</option>
+                            @else
+                            <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
+                            @endif
+                            @else
+                            <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
+                            @endisset
+                            @endif
+                            @endforeach
+                            <option value="NULL">Lainnya</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group {{isset($data->data->divisi) ? '' : 'd-none'}}" id="form-gr-divisi" style="width: 70%;">
+                        <label for="divisi" class="label-cus">Unit Kerja</label>
+                        <select  id="divisi" class="form-control select2" value="{{old('divisi')}}" name="divisi" {{isset($data->data->divisi) ? 'required' : ''}}>
+                            <option value="" selected disabled>Pilih Unit Kerja</option>
+                            @isset($data->data->divisi)
+                            <option value="{{$data->data->divisi->id }}" data-value="{{ $data->data->divisi->divisi }}" selected>{{ $data->data->divisi->divisi }}</option>
+                            @endisset
+                        </select>
+                    </div>
+
                 </div>
 
                 <div class="form-group">
                     <label for="title" class="label-cus">Judul</label>
                     <input type="text" class="form-control" style="width: 70%; height: 40px" id="title" name="title"  value="{{$data->data->title ?? '' }}" placeholder="Judul" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="checkbox" name="status" class="box-shadow-none d-inline mr-2 h-50" id="stat_project" {{isset($data->data->tanggal_selesai) ? 'checked' : ''}}>Project telah selesai
+                </div>
+                <div class="form-group" style="width: 50%;">
+                    <label for="tgl_mulai" class="label-cus">Tanggal Mulai</label>
+                    <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control valid-cus" value="{{(isset($data->data->tanggal_mulai)) ? \Carbon\carbon::create($data->data->tanggal_mulai)->format('Y-m-d') : old('tgl_mulai')}}" id="tgl_mulai" name="tgl_mulai" placeholder="Tanggal mulai" max="{{\Carbon\carbon::now()->format('Y-m-d')}}" required>
+                </div>
+
+                <div class="w-100" id="form_tgl_selesai">
+                    @isset($data->data->tanggal_selesai)
+                    <div class="form-group content-selesai" style="width: 50%;">
+                        <label for="tgl_selesai" class="label-cus">Tanggal Selesai</label>
+                        <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control" value="{{(isset($data->data->tanggal_selesai)) ? \Carbon\carbon::create($data->data->tanggal_selesai)->format('Y-m-d') : old('tgl_selesai')}}" id="tgl_selesai" name="tgl_selesai" placeholder="Tanggal selesai" required>
+                    </div>
+                    @endisset
                 </div>
 
                 <div class="form-group">

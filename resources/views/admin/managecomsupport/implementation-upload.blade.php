@@ -152,23 +152,23 @@
                             <select name="direktorat" id="direktorat" class="form-control text-black select2" value="{{old('direktorat')}}" required>
                                 <option value="" disabled selected>Pilih Direktorat</option>
                                 @foreach ($data->direktorat == NULL ? 'Lainnya' : $data->direktorat as $item)
-                                @if($item->direktorat != null)
-                                @isset($data->data->divisi)
-                                @if($data->data->divisi->direktorat == $item->direktorat)
-                                <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}" selected>{{ $item->direktorat }}</option>
-                                @else
-                                <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
-                                @endif
-                                @elseif(old('direktorat') <> null)
-                                @if(old('direktorat') == $item->direktorat)
-                                <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}" selected>{{ $item->direktorat }}</option>
-                                @else
-                                <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
-                                @endif
-                                @else
-                                <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
-                                @endisset
-                                @endif
+                                    @if($item->direktorat != null)
+                                        @isset($data->data->divisi)
+                                            @if($data->data->divisi->direktorat == $item->direktorat)
+                                                <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}" selected>{{ $item->direktorat }}</option>
+                                            @else
+                                                <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
+                                            @endif
+                                        @elseif(old('direktorat') <> null)
+                                            @if(old('direktorat') == $item->direktorat)
+                                            <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}" selected>{{ $item->direktorat }}</option>
+                                            @else
+                                            <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
+                                            @endif
+                                        @else
+                                            <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
+                                        @endisset
+                                    @endif
                                 @endforeach
                                 <option value="NULL">Lainnya</option>
                             </select>
@@ -188,13 +188,13 @@
                     <div class="form-group row">
                         <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Nama Proyek<span class="text-danger ml-1">*</span></label>
                         <div class="col-md-10 col-sm-12">
-                            <input style="height: 40px" type="text" name="nama_project" id="nama_project" class="form-control" value="{{$data->data->nama ?? old('nama_project')}}" placeholder="Nama Proyek" required>
+                            <input style="height: 40px" type="text" name="nama_project" id="nama_project" class="form-control" value="{{$data->data->title ?? old('nama_project')}}" placeholder="Nama Proyek" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-2 col-sm-12"></div>
                         <div class="col-md-5 col-sm-12">
-                            <input type="checkbox" name="status" class="box-shadow-none d-inline mr-2 h-50" id="stat_project" {{(isset($data->data->status_finish)) ? ($data->data->status_finish == '1' ? 'checked' : '') : (old('status') <> '' ? 'checked' : '')}}>Project telah selesai
+                            <input type="checkbox" name="status" class="box-shadow-none d-inline mr-2 h-50" id="stat_project" {{isset($data->data->tanggal_selesai) ? 'checked' : ''}}>Project telah selesai
                         </div>
                     </div>
                     <div class="form-group row">
@@ -205,6 +205,14 @@
                     </div>
 
                     <div class="w-100" id="form_tgl_selesai">
+                        @isset($data->data->tanggal_selesai)
+                            <div class="form-group row content-selesai">
+                                <label for="tgl_selesai" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center content-selesai label-cus-2">Tanggal Selesai<span class="text-danger ml-1">*</span></label>
+                                <div class="col-md-5 col-sm-12 content-selesai">
+                                    <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control" value="{{(isset($data->data->tanggal_selesai)) ? \Carbon\carbon::create($data->data->tanggal_selesai)->format('Y-m-d') : old('tgl_selesai')}}" id="tgl_selesai" name="tgl_selesai" placeholder="Tanggal selesai" required>
+                                </div>
+                            </div>
+                        @endisset
                     </div>
 
                     <div class="form-group row">
@@ -266,13 +274,13 @@
                     </div>
                     <div class="mb-2">
                         <input type="hidden" name="piloting" value="0">
-                        <input type="checkbox" id="piloting" name="piloting" value="1" data-id="#piloting_view">
+                        <input type="checkbox" id="piloting" name="piloting" value="1" data-id="#piloting_view" {{isset($data->data->desc_piloting) ? 'checked' : ''}}>
                         <label for="piloting"> Piloting </label><br>
                         <input type="hidden" name="rollout" value="0">
-                        <input type="checkbox" id="rollout" name="rollout" value="1" data-id="#rollout_view">
+                        <input type="checkbox" id="rollout" name="rollout" value="1" data-id="#rollout_view" {{isset($data->data->desc_roll_out) ? 'checked' : ''}}>
                         <label for="rollout"> Roll Out </label><br>
                         <input type="hidden" name="sosialisasi" value="0">
-                        <input type="checkbox" id="sosialisasi" name="sosialisasi" value="1" data-id="#sosialisasi_view">
+                        <input type="checkbox" id="sosialisasi" name="sosialisasi" value="1" data-id="#sosialisasi_view" {{isset($data->data->desc_sosialisasi) ? 'checked' : ''}}>
                         <label for="sosialisasi"> Sosialisasi </label>
                     </div>
                     <hr/>
@@ -282,7 +290,7 @@
                             <div class="form-group row ">
 <!--                                <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>-->
                                 <div class="col-md-12">
-                                    <textarea name="deskripsi_piloting" class="w-100" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-deskripsi">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
+                                    <textarea name="deskripsi_piloting" class="w-100" value="{{$data->data->desc_piloting ?? old('deskripsi')}}" id="editor-deskripsi">{{$data->data->desc_piloting ?? old('deskripsi')}}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -310,7 +318,7 @@
                             <div class="preview-zone mt-3" id="preview-piloting">
                                 @isset($data->data->attach_file)
                                 @forelse($data->data->attach_file as $item)
-                                    @if($item->tipe == 'pilotting')
+                                    @if($item->tipe == 'piloting')
                                         <div id="prev-piloting{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
                                             <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
                                                 <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
@@ -336,9 +344,9 @@
                         <div class="mb-4">
                             <h4>Deskripsi Roll Out</h4>
                             <div class="form-group row ">
-                                <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>
+<!--                                <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>-->
                                 <div class="col-md-12">
-                                    <textarea name="deskripsi_rollout" class="w-100" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-rollout">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
+                                    <textarea name="deskripsi_rollout" class="w-100" value="{{$data->data->desc_roll_out ?? old('deskripsi')}}" id="editor-rollout">{{$data->data->desc_roll_out ?? old('deskripsi')}}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -391,9 +399,9 @@
                         <div class="mb-4">
                             <h4>Deskripsi Sosialisasi</h4>
                             <div class="form-group row ">
-                                <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Sosialisasi<span class="text-danger ml-1">*</span></label>
+<!--                                <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Sosialisasi<span class="text-danger ml-1">*</span></label>-->
                                 <div class="col-md-12">
-                                    <textarea name="deskripsi_sosialisasi" class="w-100" value="{{$data->data->deskripsi ?? old('deskripsi')}}" id="editor-sosialisasi">{{$data->data->deskripsi ?? old('deskripsi')}}</textarea>
+                                    <textarea name="deskripsi_sosialisasi" class="w-100" value="{{$data->data->desc_sosialisasi ?? old('deskripsi')}}" id="editor-sosialisasi">{{$data->data->desc_sosialisasi ?? old('deskripsi')}}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -615,6 +623,7 @@
 <script src="{{asset_app('assets/js/select2.min.js')}}"></script>
 <script src="{{asset_app('assets/js/page/implementationupload.js')}}"></script>
 <script>
+
     let tok = '{{csrf_token()}}';
     CKEDITOR.replace('editor-deskripsi', {
         filebrowserUploadUrl: `{{config('app.url')}}upimgcontent`,

@@ -200,9 +200,6 @@ function operateFormatter(value, row, index) {
         '<div class="view border-action d-flex align-items-center justify-content-center mr-2 action-icon" title="View">',
         '<i class="fas fa-eye" style="margin: 0; font-size: 19px"></i>',
         '</div>  ',
-        '<div class="download border-action d-flex align-items-center justify-content-center action-icon" title="Download">',
-        '<i class="fas fa-download" style="margin: 0; font-size: 19px"></i>',
-        '</div>',
         '</div>'
     ].join('')
 }
@@ -210,8 +207,5 @@ function operateFormatter(value, row, index) {
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
         window.location.href = uri+`/managecommunication/strategicinitiative/project/${row.slug}`;
-    },
-    'click .download': function (e, value, row, index) {
-        console.log('You click like action, row: ' + JSON.stringify(row))
     },
 }

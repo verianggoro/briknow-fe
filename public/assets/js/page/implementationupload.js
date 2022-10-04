@@ -7,10 +7,13 @@ let old_attach              = [];
 let old_attach_rollout      = [];
 let old_attach_sosialisasi  = [];
 let attach_pilot = [];
+let input_attach_pilot = [];
 let data_attach_pilot = []
 let attach_rollout = [];
+let input_attach_rollout = [];
 let data_attach_rollout = []
 let attach_sosialisasi = [];
+let input_attach_sosialisasi = [];
 let data_attach_sosialisasi = []
 
 let $table = $('#table')
@@ -140,8 +143,50 @@ $(document).ready(function () {
         allNextBtn = $('.nextBtn');
     allPrevBtn = $('.prevBtn');
 
+
+
+    const slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
+    if (slug !== 'implementation') {
+        const url = `${uri}/form/implementation/upload/${slug}`
+        $.ajax({
+            url: url,
+            type: "get",
+            beforeSend: function(xhr){
+                xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            },
+            success: function(data){
+                const attach = data.data.data.attach_file
+                for (let x = 0; x<attach.length; x++) {
+                    if (attach[x].tipe === 'piloting') {
+                        const array_p = {name: attach[x].nama, date: attach[x].updated_at, size: attach[x].size, url: attach[x].url_file}
+                        input_attach_pilot.push(array_p)
+                    } else if (attach[0].tipe === 'rollout') {
+                        const array_r = {name: attach[x].nama, date: attach[x].updated_at, size: attach[x].size, url: attach[x].url_file}
+                        input_attach_rollout.push(array_r)
+                    } else if (attach[x].tipe === 'sosialisasi') {
+                        const array_s = {name: attach[x].nama, date: attach[x].updated_at, size: attach[x].size, url: attach[x].url_file}
+                        input_attach_sosialisasi.push(array_s)
+                    }
+                }
+            },
+            error : function(e){
+                console.error(e);
+            }
+        });
+    }
+
     allWells.hide();
     first_page.show();
+
+    if ($('#piloting').is(':checked')) {
+        $('#piloting_view').removeAttr("style")
+    }
+    if ($('#rollout').is(':checked')) {
+        $('#rollout_view').removeAttr("style")
+    }
+    if ($('#sosialisasi').is(':checked')) {
+        $('#sosialisasi_view').removeAttr("style")
+    }
 
     navListItems.click(function (e) {
         e.preventDefault();
@@ -522,6 +567,42 @@ $(document).ready(function () {
 
     $('#preview').click(function(){
         // check attach
+        let inputPilot = $('input[name^=attach_piloting]').map(function(idx, elem) {
+            return $(elem).val();
+        }).get();
+        let inputRoll = $('input[name^=attach_rollout]').map(function(idx, elem) {
+            return $(elem).val();
+        }).get();
+        let inputSos = $('input[name^=attach_sosialisasi]').map(function(idx, elem) {
+            return $(elem).val();
+        }).get();
+
+        const slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
+        if (slug !== 'implementation') {
+            for (let i=0; i<input_attach_pilot.length; i++) {
+                if (inputPilot.includes(input_attach_pilot[i].url)) {
+                    if (!attach_pilot.includes(input_attach_pilot[i])) {
+                        attach_pilot.push(input_attach_pilot[i])
+                    }
+                }
+            }
+            for (let i=0; i<input_attach_rollout.length; i++) {
+                if (inputRoll.includes(input_attach_rollout[i].url)) {
+                    if (!attach_rollout.includes(input_attach_rollout[i])) {
+                        attach_rollout.push(input_attach_rollout[i])
+                    }
+                }
+            }
+            for (let i=0; i<input_attach_sosialisasi.length; i++) {
+                if (inputSos.includes(input_attach_sosialisasi[i].url)) {
+                    if (!attach_sosialisasi.includes(input_attach_sosialisasi[i])) {
+                        attach_sosialisasi.push(input_attach_sosialisasi[i])
+                    }
+                }
+            }
+        }
+
+
         $('#desc-preview').empty();
         if ($('#piloting').is(':checked')) {
             data_attach_pilot = []
@@ -530,8 +611,8 @@ $(document).ready(function () {
                     const lastModifiedDate = attach_pilot[i].lastModifiedDate
                     data_attach_pilot.push({'name': attach_pilot[i].name, 'date':lastModifiedDate, 'size': attach_pilot[i].size})
                 } else {
-                    const lastModifiedDate = new Date(attach_pilot[i].updated_at)
-                    data_attach_pilot.push({'name': attach_pilot[i].nama, 'date':lastModifiedDate, 'size': attach_pilot[i].size})
+                    const lastModifiedDate = new Date(attach_pilot[i].date)
+                    data_attach_pilot.push({'name': attach_pilot[i].name, 'date':lastModifiedDate, 'size': attach_pilot[i].size})
                 }
             }
             appendDesc('Piloting', 'editor-deskripsi', data_attach_pilot)
@@ -544,8 +625,8 @@ $(document).ready(function () {
                     const lastModifiedDate = attach_rollout[i].lastModifiedDate
                     data_attach_rollout.push({'name': attach_rollout[i].name, 'date':lastModifiedDate, 'size': attach_rollout[i].size})
                 } else {
-                    const lastModifiedDate = new Date(attach_rollout[i].updated_at)
-                    data_attach_rollout.push({'name': attach_rollout[i].nama, 'date':lastModifiedDate, 'size': attach_rollout[i].size})
+                    const lastModifiedDate = new Date(attach_rollout[i].date)
+                    data_attach_rollout.push({'name': attach_rollout[i].name, 'date':lastModifiedDate, 'size': attach_rollout[i].size})
                 }
             }
             appendDesc('Roll Out', 'editor-rollout', data_attach_rollout)
@@ -558,8 +639,8 @@ $(document).ready(function () {
                     const lastModifiedDate = attach_sosialisasi[i].lastModifiedDate
                     data_attach_sosialisasi.push({'name': attach_sosialisasi[i].name, 'date':lastModifiedDate, 'size': attach_sosialisasi[i].size})
                 } else {
-                    const lastModifiedDate = new Date(attach_sosialisasi[i].updated_at)
-                    data_attach_sosialisasi.push({'name': attach_sosialisasi[i].nama, 'date':lastModifiedDate, 'size': attach_sosialisasi[i].size})
+                    const lastModifiedDate = new Date(attach_sosialisasi[i].date)
+                    data_attach_sosialisasi.push({'name': attach_sosialisasi[i].name, 'date':lastModifiedDate, 'size': attach_sosialisasi[i].size})
                 }
             }
             appendDesc('Sosialisasi', 'editor-sosialisasi', data_attach_sosialisasi)
@@ -1418,7 +1499,7 @@ function showPreview(file, step) {
     });
 }
 
-function removePreview(id, type, step, file) {
+function removePreview(id, type, step, file = null) {
     const $preview = $('#preview-'+step+'')
     if (type === 'cancel') {
         $(id).parent().parent().parent().fadeOut(300, function () {

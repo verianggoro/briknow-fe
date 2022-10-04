@@ -631,6 +631,52 @@ class ManageComSupport extends Controller
         }
     }
 
+    public function getDataUpdateImplementation($slug) {
+
+        try {
+            $data        = [];
+            $token      = session()->get('token');
+            $ch         = curl_init();
+            $headers    = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/form_upload/implementation/$slug");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            // return response()->json($hasil);
+//             dd($hasil);
+            $tgl_mulai = Carbon::now();
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    return response()->json([
+                        "data"      => $hasil->data,
+                    ],200);
+                }else{
+                    $data['message']    =   'GET Gagal 1';
+                    return response()->json([
+                        'data'      =>  $data
+                    ],200);
+                }
+            }else{
+                $data['message']    =   'GET Gagal 2';
+                return response()->json([
+                    'data'      =>  $data
+                ],200);
+            }
+        }catch (\Throwable $th) {
+            $data['message']    =   'GET Gagal 1';
+            return response()->json([
+                'data'      =>  $data
+            ],200);
+        }
+    }
+
     public function createImplementation() {
 //        dd(request()->all());
         request()->validate([
@@ -797,6 +843,7 @@ class ManageComSupport extends Controller
             'file_type'         => 'required',
             'deskripsi'         => 'required',
             'attach'            => 'required',
+            'tgl_mulai'         => 'required',
         ]);
 
         if (isset(request()->id)) {
@@ -807,10 +854,24 @@ class ManageComSupport extends Controller
         if (request()->parent == 1) {
             request()->validate([
                 'link'    => 'required',
+                'divisi'  => 'required',
             ]);
+            $divisi = request()->divisi;
             $project_id     = request()->link;
         }else{
+            $divisi         = null;
             $project_id     = null;
+        }
+
+        if (isset(request()->status)) {
+            request()->validate([
+                'tgl_selesai'    => 'required',
+            ]);
+            $tgl_selesai    = request()->tgl_selesai;
+            $status         = 1;
+        }else{
+            $tgl_selesai    = null;
+            $status         = 0;
         }
 
         try {
@@ -827,6 +888,10 @@ class ManageComSupport extends Controller
                 'file_type'         => request()->file_type,
                 'deskripsi'         => request()->deskripsi,
                 'project_id'         => $project_id,
+                'divisi'            => $divisi,
+                'status'                    => $status,
+                'tgl_mulai'                 => request()->tgl_mulai,
+                'tgl_selesai'               => $tgl_selesai,
                 'attach'         => request()->attach,
             ];
             // dd($postData);

@@ -52,13 +52,37 @@ $parent.change(function () {
             </div>
         `
 
-        $projectContent.append($(content).hide().fadeIn(300));
+        // $projectContent.append($(content).hide().fadeIn(300));
+        $projectContent.fadeIn(300, function () {
+            $(this).removeClass('d-none')
+            $('#form-gr-direktorat').removeClass('d-none')
+            $('#link').attr('required', true)
+            $('#direktorat').attr('required', true)
+            $('#form-gr-divisi').removeClass('d-none')
+            $('#divisi').attr('required', true)
+        })
     } else {
-        $('.project-link').fadeOut(300, function () {$(this).remove()});
+        $projectContent.fadeOut(300, function () {
+            $(this).addClass('d-none')
+            $('#form-gr-direktorat').addClass('d-none')
+            $('#link').attr('required', false)
+            $('#direktorat').attr('required', false)
+            $('#form-gr-divisi').addClass('d-none')
+            $('#divisi').attr('required', false)
+        })
+        // $('.project-link').fadeOut(300, function () {$(this).remove()});
     }
 
     $('#link').select2({
         placeholder : 'Nama Proyek'
+    });
+
+    $('#direktorat').select2({
+        placeholder : 'Pilih Direktorat'
+    });
+
+    $('#divisi').select2({
+        placeholder : 'Pilih Unit Kerja'
     });
 
     $("#link").select2({
@@ -87,6 +111,51 @@ $parent.change(function () {
         }
     });
 })
+
+$('#stat_project').change(function(){
+    if ($('#stat_project').prop('checked')) {
+        var element = `
+                        <div class="form-group content-selesai" style="width: 50%;">
+                            <label for="tgl_selesai" class="label-cus">Tanggal Selesai</label>
+                            <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control" id="tgl_selesai" name="tgl_selesai" placeholder="Tanggal selesai" required>
+                        </div>
+                    `;
+        $('#form_tgl_selesai').append(element);
+    } else {
+        $('.content-selesai').remove();
+    }
+});
+
+$('#stat_project').change(function () {
+    if ($('#stat_project').is(':checked')) {
+        $('#tgl_selesai').change(function () {
+            let res = false;
+            if($('#tgl_mulai').val() !== '' && $('#tgl_selesai').val() !== ''){
+                if($('#tgl_selesai').val() < $('#tgl_mulai').val()){
+                    Toast3.fire({icon: 'error',title: 'Tanggal Selesai tidak boleh kurang dari Tanggal Mulai'});
+                    res = true;
+                }
+            }
+
+            if(res){
+                $('#tgl_selesai').val('');
+            }
+        });
+    }
+});
+
+$('#tgl_mulai').change(function () {
+    let res = false;
+    if($('#tgl_mulai').val() !== '' && $('#tgl_selesai').val() !== ''){
+        if($('#tgl_mulai').val() > $('#tgl_selesai').val()){
+            Toast3.fire({icon: 'error',title: 'Tanggal Mulai Tidak Boleh Lebih Dari Tanggal Selesai'});
+            res = true;
+        }
+    }
+    if(res){
+        $('#tgl_mulai').val('');
+    }
+});
 
 const $preview = $('#preview')
 const $photo = $('#photo')
@@ -397,6 +466,20 @@ $(document).ready(function () {
             $("[aria-labelledby='select2-link-container']").attr("style", "border-color:#38c172;");
         }
 
+        // direktorat
+        if($('#direktorat').hasClass('is-invalid')){
+            $("[aria-labelledby='select2-direktorat-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-direktorat-container']").attr("style", "border-color:#38c172;");
+        }
+
+        // divisi
+        if($('#divisi').hasClass('is-invalid')){
+            $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:#38c172;");
+        }
+
         if($('#file').hasClass('is-invalid')){
             $("#attach-wrap").attr("style", "border:1px solid #e3342f;");
         }else{
@@ -415,6 +498,14 @@ $(document).ready(function () {
     $('#project').select2({
         placeholder : 'Based on project',
         tags: true,
+    });
+
+    $('#direktorat').select2({
+        placeholder : 'Pilih Direktorat'
+    });
+
+    $('#divisi').select2({
+        placeholder : 'Pilih Unit Kerja'
     });
 
     $("#link").select2({
@@ -442,6 +533,76 @@ $(document).ready(function () {
             }
         }
     });
+});
+
+$('#direktorat').change(function(){
+    cekDivisi();
+});
+
+const cekDivisi = (valueOld = null) => {
+    if($('#divisi').hasClass('is-invalid') || $('#divisi').hasClass('is-valid')){
+        if(this.value == ""){
+            $("[aria-labelledby='select2-direktorat-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-direktorat-container']").attr("style", "border-color:#38c172;");
+        }
+    }
+
+    var direktorat  = $('select[name=direktorat] option').filter(':selected').val();
+    var url = `${uri}/getdivisi/${direktorat}`;
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function()
+        {
+            $('.pagination').remove();
+
+            $("#divisi option").each(function() {
+                $(this).remove();
+            });
+
+            $('.senddataloader').show();
+        },
+        success: function(data){
+            var option = "<option value='' selected disabled>Pilih Unit Kerja</option>";
+            $('.senddataloader').hide();
+            // innert html
+            if (data.data.length > 0) {
+                for (let index = 0; index < data.data.length; index++) {
+                    if (valueOld !== null) {
+                        if (valueOld == data.data[index].id) {
+                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
+                        }else{
+                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
+                        }
+                    }else{
+                        option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
+                    }
+                }
+            }
+            $('#divisi').append(option);
+        },
+        error : function(e){
+            $('.senddataloader').hide();
+            alert(e);
+        }
+    });
+}
+
+let divisiVal = document.getElementById('divisi').getAttribute('value');
+if (divisiVal != "") {
+    divisiVal   =   parseInt(divisiVal);
+    cekDivisi(divisiVal);
+}
+
+$('#divisi').change(function(){
+    if($('#divisi').hasClass('is-invalid') || $('#divisi').hasClass('is-valid')){
+        if(this.value == ""){
+            $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:#38c172;");
+        }
+    }
 });
 
 function checkEditor() {
