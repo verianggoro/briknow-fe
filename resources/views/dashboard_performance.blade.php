@@ -154,7 +154,7 @@
                         <div class="row  pb-3">
                             <hr class="d-block mt-0 mb-2 w-25 m-0 garis-bawah">
                         </div>
-                        <div id="graph3" class="d-flex align-items-center justify-content-center" style="height: 500px;"></div>
+                        <div id="graphComInitiative" class="d-flex align-items-center justify-content-center" style="height: 500px;"></div>
                     </div>
                 </div>
             </div>
@@ -181,7 +181,7 @@
                         <div class="row  pb-3">
                             <hr class="d-block mt-0 mb-2 w-25 m-0 garis-bawah">
                         </div>
-                        <div id="graph3" class="d-flex align-items-center justify-content-center" style="height: 500px;"></div>
+                        <div id="graphStraInitiative" class="d-flex align-items-center justify-content-center" style="height: 500px;"></div>
                     </div>
                 </div>
             </div>
@@ -208,7 +208,7 @@
                         <div class="row  pb-3">
                             <hr class="d-block mt-0 mb-2 w-25 m-0 garis-bawah">
                         </div>
-                        <div id="graph3" class="d-flex align-items-center justify-content-center" style="height: 500px;"></div>
+                        <div id="graphImplementation" class="d-flex align-items-center justify-content-center" style="height: 500px;"></div>
                     </div>
                 </div>
             </div>

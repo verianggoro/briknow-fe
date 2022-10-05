@@ -33,6 +33,9 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/profile/{pn}', 'HomeController@profileuser')->name('home.profileuser');
         Route::post('/changeavatar' ,'HomeController@changeavatar')->name('home.changeavatar');
         Route::get('/cntlessontahap', 'HomeController@cntLessonByTahap')->name('home.cntLessonByTahap');
+        Route::get('/cntstrainitiative', 'HomeController@cntStraInitiative')->name('home.cntStraInitiative');
+        Route::get('/cntcominitiative', 'HomeController@cntComInitiative')->name('home.cntComInitiative');
+        Route::get('/cntlimplementation', 'HomeController@cntImplementation')->name('home.cntImplementation');
     #---
 
     #export
@@ -178,6 +181,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/mycomsupport/initiative/{type}', 'CommunicationController@comInitTypePublic')->name('mycomsupport.initiative.type');
         Route::get('/mycomsupport/initiative', 'CommunicationController@communicationInitiativePublic')->name('mycomsupport.initiative');
         Route::get('/mycomsupport/strategic', 'CommunicationController@strategicInit')->name('mycomsupport.strategic');
+        Route::get('/mycomsupport/strategic/{slug}', 'CommunicationController@strategicByProject')->name('mycomsupport.strategic.type');
         Route::get('/mycomsupport/implementation', 'CommunicationController@implementationInit')->name('mycomsupport.implementation');
         Route::get('/mycomsupport/implementation/{type}', 'CommunicationController@setTypeImplementationInit')->name('mycomsupport.implementation.type');
         Route::get('/view/content', 'ContentComsupController@index')->name('view.comsup');

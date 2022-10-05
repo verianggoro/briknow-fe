@@ -674,4 +674,97 @@ class HomeController extends Controller
             return compact('out');
         }
     }
+
+    public function cntStraInitiative(){
+        try {
+            $out = [];
+            $token = session()->get('token');
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/cntStrategicInitiative");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil = json_decode($result);
+            if ($hasil->status == 1) {
+                $out=$hasil->data;
+            }else{
+                $out=[];
+            }
+        }catch (\Throwable $th) {
+            $out=[];
+        }
+
+        if (request()->ajax()) {
+            return compact('out');
+        }
+    }
+
+    public function cntComInitiative(){
+        try {
+            $out = [];
+            $token = session()->get('token');
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/cntComInitiative");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil = json_decode($result);
+            if ($hasil->status == 1) {
+                $out=$hasil->data;
+            }else{
+                $out=[];
+            }
+        }catch (\Throwable $th) {
+            $out=[];
+        }
+
+        if (request()->ajax()) {
+            return compact('out');
+        }
+    }
+
+    public function cntImplementation(){
+        try {
+            $out = [];
+            $token = session()->get('token');
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/cntImplementation");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil = json_decode($result);
+            if ($hasil->status == 1) {
+                $out=$hasil->data;
+            }else{
+                $out=[];
+            }
+        }catch (\Throwable $th) {
+            $out=[];
+        }
+
+        if (request()->ajax()) {
+            return compact('out');
+        }
+    }
 }
