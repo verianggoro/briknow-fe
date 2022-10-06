@@ -581,3 +581,11 @@ select.was-validated .form-control:valid, .form-control.is-valid {
 .list-files div:last-child {
     border-bottom: none !important;
 }
+
+.project-parent-link {
+    cursor: pointer;
+}
+
+.project-parent-link:hover {
+    text-decoration: underline;
+}

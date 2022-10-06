@@ -648,6 +648,7 @@ $(document).ready(function () {
 
         let t_photo = uri+"/storage/"+$('#thumbnail').val();
         let t_divisi            = $('#divisi :selected').map((_, e) => e.getAttribute("data-value")).get();
+        let t_direktorat            = $('#direktorat :selected').map((_, e) => e.getAttribute("data-value")).get();
         let t_email = $('#email').val();
         let date_mulai          = new Date($('#tgl_mulai').val());
         let t_tgl_mulai         = date_mulai.getDate()+" "+ months[date_mulai.getMonth()]+" "+date_mulai.getFullYear();
@@ -669,6 +670,7 @@ $(document).ready(function () {
         $('#prev_pm').empty();
         $('#prev_emailpm').empty();
         $('#prev_divisi').empty();
+        $('#prev_direktorat').empty();
         $('#prev_tglmulai').empty();
         $('#prev_tglselesai').empty();
         $('#prev_status').empty();
@@ -683,6 +685,7 @@ $(document).ready(function () {
         $('#prev_pm').append($('#projectmanager').val());
         $('#prev_emailpm').append(`<i class="far fa-envelope mr-1"></i><a href="mailto:${t_email}">${t_email}</a>`);
         $('#prev_divisi').append(`${t_divisi}`);
+        $('#prev_direktorat').append(`${t_direktorat}`);
         $('#prev_tglmulai').append(`${t_tgl_mulai}`);
         $('#prev_tglselesai').append(`${t_tgl_selesai}`);
         $('#prev_status').append(`${t_stat_project}`);

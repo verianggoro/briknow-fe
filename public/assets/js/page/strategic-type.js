@@ -5,6 +5,21 @@ var uri;
 var csrf = '';
 var be      = '';
 
+const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+];
+
 const Toast2 = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -61,6 +76,173 @@ function hapus(a){
 
 function edit(e) {
     window.location.href = uri+`/managecommunication/upload/content/${e}`;
+}
+
+function toProject(slug) {
+    window.location.href = uri+`/project/${slug}`;
+}
+
+function view(row) {
+    $('#desc-preview').empty();
+    let data_attach = []
+    let attach = row.attach_file
+    for (let i=0; i<attach.length; i++) {
+        const lastModifiedDate = new Date(attach[i].updated_at)
+        data_attach.push({'name': attach[i].nama, 'date':lastModifiedDate, 'size': attach[i].size})
+    }
+    appendDesc(row.desc, data_attach)
+
+    $('#prev_namaproject').empty();
+    // $('#prev_project').empty();
+    $('.paren-project-desc').remove();
+    $('#prev_tglmulai').empty();
+    $('#prev_tglselesai').empty();
+    $('#prev_status').empty();
+
+    let divisi = row.divisi
+    if (divisi !== null) {
+        $('#prev_divisi').empty();
+        $('#prev_direktorat').empty();
+        $('#prev_divisi').append(`${divisi.divisi}`);
+        $('#prev_direktorat').append(`${divisi.direktorat}`);
+    } else {
+        $('#prev_divisi').empty();
+        $('#prev_direktorat').empty();
+        $('#prev_divisi').append(`-`);
+        $('#prev_direktorat').append(`-`);
+    }
+
+    let t_project = ``
+    if (row.project_id !== null) {
+        t_project = `<div onclick="toProject('${row.slug_project}')" class="text-dark project-parent-link paren-project-desc">${row.nama}</div>`
+    } else {
+        t_project = `<span class="paren-project-desc">General</span>`
+    }
+
+    let date_mulai          = new Date(row.tanggal_mulai);
+    let t_tgl_mulai         = dateFormat(date_mulai);
+
+    let t_tgl_selesai;
+    if (row.tanggal_selesai !== null) {
+        // waktu
+        let temp_date           = new Date(row.tanggal_selesai);
+        t_tgl_selesai         = dateFormat(temp_date);
+
+    }else{
+        t_tgl_selesai = '-';
+    }
+
+    const titleCase = (s) =>
+        s.replace(/^_*(.)|_+(.)/g, (s, c, d) => c ? c.toUpperCase() : ' ' + d.toUpperCase())
+
+    $('#prev_thumbnail').attr('src',`${uri}/storage/${row.thumbnail}`);
+    $('#prev_thumbnail').attr('alt',`${row.title}`);
+    $('#prev_namaproject').append(`${row.title}`);
+    $('#prev_project').append(`${t_project}`);
+    $('#prev_tglmulai').append(`${t_tgl_mulai}`);
+    $('#prev_tglselesai').append(`${t_tgl_selesai}`);
+    $('#prev_status').append(`${titleCase(row.status)}`);
+
+    $('#modal-preview-1').modal({
+        show : true
+    });
+}
+
+function dateFormat(date) {
+    return date.getDate()+" "+ months[date.getMonth()]+" "+date.getFullYear();
+}
+
+function bytesToSize(bytes) {
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return '0 Byte';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+}
+
+function appendDesc(caption, data) {
+    let desc = `
+                <div class="col-md-12 d-block w-100 mb-4 mt-2">
+                    <div class="preview-desc-head">Caption</div>
+                    <div class="metodologi-isi wrap" id="prev_deskripsi">${caption}</div>
+                </div>
+                <div class="col-md-12 d-block w-100">
+                    <h6>Attachment</h6>
+                </div>
+                <div class="col-md-12 d-block w-100" style="margin-bottom: 4rem">
+                    <div class="row">
+                        <div class="col-md-10 col-sm-12">
+                            <div class="input-group control border-1 pencarian mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text border-0"><i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                                <input type="text" style="border: none;" class="form-control" id="inlineFormInput-search" placeholder="Search files..">
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12" style="padding-left: 8px;">
+                            <select style="border-radius: 8px;" class="form-control" id="select-file" name="select-file">
+                                <option value="" selected disabled>Sort by</option>
+                                <option value="name">Nama</option>
+                                <option value="date">Date Modified</option>
+                                <option value="size">Size</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-12" style="border: 2px solid #cccccc; border-radius: 8px">
+                                <div class="row" style="border-bottom: 2px solid #cccccc;padding: 4px;font-weight: bold">
+                                    <div class="col-md-9">Files</div>
+                                    <div class="col-md-2">Date Modified</div>
+                                    <div class="col-md-1">Size</div>
+                                </div>
+                                <div id="list-file" class="list-files"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
+    $('#desc-preview').append(desc)
+    renderList(data)
+
+    $(`#inlineFormInput-search`).keypress(function (e) {
+        if (e.which === 13) {
+            let a = data.filter(i => i.name.toLowerCase().includes($(this).val().toLowerCase()))
+            renderList(a)
+        }
+    })
+
+    $(`#select-file`).on('change', function () {
+        let prop = $(this).val()
+        let sort;
+        if (prop === 'size') {
+            sort = data.sort(function (a,b) {
+                return a[prop] - b[prop]
+            })
+        } else if (prop === 'name') {
+            sort = data.sort(function (a,b) {
+                return a[prop].localeCompare(b[prop])
+            })
+        } else {
+            sort = data.sort(function (a,b) {
+                return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0)
+            })
+        }
+        renderList(sort)
+    })
+
+    function renderList(data) {
+        let html = '';
+        for (let e in data) {
+            html += `
+                    <div class="row" style="padding: 2px; color: #2f80ed; border-bottom: 1px solid #cccccc; font-weight: 500">
+                        <div class="col-md-9 pl-4"><i class="fas fa-file mr-3"></i>${data[e].name}</div>
+                        <div class="col-md-2">${dateFormat(data[e].date)}</div>
+                        <div class="col-md-1">${bytesToSize(data[e].size)}</div>
+                    </div>
+                `
+        }
+        $(`#list-file`).html(html)
+    }
+
 }
 
 function setStatus(value, row, valueOld) {
@@ -147,7 +329,7 @@ function operateFormatter(value, row, index) {
 
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row))
+        view(row)
     },
     'click .edit': function (e, value, row, index) {
         edit(row.slug)

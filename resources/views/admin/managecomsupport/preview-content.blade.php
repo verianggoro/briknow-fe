@@ -1,6 +1,6 @@
-<div class="navbar-bg sticky-top navbar-gray bg-gray pr-0 mr-0">
-    <div class="d-flex justify-content-between header-nav">
-        <div class="d-flex align-items-center pl-3">
+<div class="navbar-bg sticky-top navbar-gray bg-gray pr-0 mr-0" style="height: 80px">
+    <div class="d-flex justify-content-between flex-row-reverse header-nav">
+        <div class="d-flex align-items-center px-4">
             <button type="button" class="close d-inline bg-tranparent text-light" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -9,8 +9,6 @@
             <nav class="prev-navbar navbar navbar-expand-lg main-navbar">
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown">
-                        <button class="btn btn-light box-shadow-none btn-sm mx-1" data-dismiss="modal" aria-label="Close"><i class="fas fa-pencil-alt mr-1"></i> Edit</button>
-                        <button class="btn btn-success box-shadow-none btn-sm mx-1" id="save"><i class="fas fa-save mr-1"></i> Save</button>
                     </li>
                 </ul>
             </nav>
@@ -18,7 +16,7 @@
     </div>
 </div>
 <div class="cardbg-white bg-white w-100 px-3 pb-5">
-    <div class="row judul mt-4">
+    <div class="row judul mt-4" style="min-height: 185px;">
         <div class="col-md-2 col-sm-12 d-flex justify-content-center mb-2">
             <img src="{{asset_app('assets/img/boxdefault.svg')}}" alt="" onerror="imgError(this)" id="prev_thumbnail" class="img-detail">
         </div>
@@ -29,10 +27,8 @@
                         <h2 class="d-block" id="prev_namaproject">-</h2>
                     </div>
                     <div class="row">
-                        <div class="col-6">
-                            <span class="d-block font-weight-bold">Project Manager</span>
-                            <span id="prev_pm"></span>
-                            <span class="d-block" id="prev_emailpm">-</span>
+                        <div class="col-6" id="prev_project">
+                            <span class="d-block font-weight-bold">Parent Project</span>
                         </div>
                     </div>
                 </div>

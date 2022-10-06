@@ -2,9 +2,10 @@
 @section('title', 'BRIKNOW')
 @push('style')
 <link rel="stylesheet" href="{{asset_app('assets/css/select2-bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{ asset_app('assets/css/fa-admin.css') }}">
+<link rel="stylesheet" href="{{asset_app('assets/css/fa.css')}}">
+<!--<link rel="stylesheet" href="{{ asset_app('assets/css/fa-admin.css') }}">-->
 <link rel="stylesheet" href="{{ asset_app('assets/css/fa-oth.css') }}">
-<link rel="stylesheet" href="{{ asset_app('assets/css/fa-proj.css') }}">
+<!--<link rel="stylesheet" href="{{ asset_app('assets/css/fa-proj.css') }}">-->
 <link rel="stylesheet" href="{{ asset_app('assets/css/comsupport.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css">
 @endpush
@@ -77,7 +78,19 @@
     </div>
 </div>
 @endsection
-
+@section('popup')
+<div class="modal fade bd-example-modal-lg modal-preview" id="modal-preview-1" tabindex="-1" role="dialog" aria-labelledby="preview" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered dialog-preview" role="document">
+        <div class="modal-content content-preview bg-transparent">
+            <div class="w-100 d-flex justify-content-center align-items-center" id="content-preview">
+                <div class="bg-white bg-white w-100">
+                    @include('admin.managecomsupport.preview-content')
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
 @push('page-script')
 <script>
     localStorage.clear();
