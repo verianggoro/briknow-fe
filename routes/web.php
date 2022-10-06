@@ -172,6 +172,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::post('/archive', 'ProjectController@archive')->name('project.archive');
         Route::get('/myproject/preview/{slug}', 'MyProjectController@preview')->name('myproject.preview');
         Route::get('/myproject/preview2/{slug}', 'MyProjectController@preview2')->name('myproject.preview2');
+        Route::get('/project/view/{slug}', 'ViewProjectController@index')->name('project.view');
     #---
 
     #My Lesson Learned

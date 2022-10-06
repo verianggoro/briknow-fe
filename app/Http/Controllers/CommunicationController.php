@@ -11,6 +11,8 @@ class CommunicationController extends Controller
     public $dataInitiative;
     public $dataStrategic;
     public $dataImplementation;
+    public $direktorat;
+    public $divisi;
 
     public function index()
     {
@@ -43,6 +45,7 @@ class CommunicationController extends Controller
         $token_auth = $this->token_auth;
         try{
             $ch = curl_init();
+            $chDiv = curl_init();
             $headers  = [
                 'Content-Type: application/json',
                 'Accept: application/json',
@@ -56,12 +59,26 @@ class CommunicationController extends Controller
             $result     = curl_exec ($ch);
             $hasil      = json_decode($result);
 
+            curl_setopt($chDiv, CURLOPT_URL, config('app.url_be') . 'api/divisi/all');
+            curl_setopt($chDiv, CURLOPT_HTTPGET, 1);
+            curl_setopt($chDiv, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($chDiv, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($chDiv, CURLOPT_HTTPHEADER, $headers);
+            $resultDivisi = curl_exec($chDiv);
+            $hasilDivisi = json_decode($resultDivisi);
+            $direktorat = [];
+
+            if ($hasilDivisi->status == 1){
+                $this->direktorat = $hasilDivisi->data->data;
+                $direktorat = $this->direktorat;
+            }else{
+                session()->flash('error', $hasilDivisi->data->message);
+            }
+
             if ($hasil->status == 1) {
                 $this->dataInitiative = $hasil->data->data;
                 $data = $this->dataInitiative;
-                $direktorat = $hasil->direktorat->direktorat;
-                $divisi = $hasil->direktorat->divisi;
-                return view('communication_initiative', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat', 'divisi']));
+                return view('communication_initiative', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat']));
             }else{
                 session()->flash('error',$hasil->data->message);
             }
@@ -84,6 +101,7 @@ class CommunicationController extends Controller
         $token_auth = $this->token_auth;
         try {
             $ch = curl_init();
+            $chDiv = curl_init();
             $headers = [
                 'Content-Type: application/json',
                 'Accept: application/json',
@@ -97,12 +115,26 @@ class CommunicationController extends Controller
             $result = curl_exec($ch);
             $hasil = json_decode($result);
 
+            curl_setopt($chDiv, CURLOPT_URL, config('app.url_be') . 'api/divisi/all');
+            curl_setopt($chDiv, CURLOPT_HTTPGET, 1);
+            curl_setopt($chDiv, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($chDiv, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($chDiv, CURLOPT_HTTPHEADER, $headers);
+            $resultDivisi = curl_exec($chDiv);
+            $hasilDivisi = json_decode($resultDivisi);
+            $direktorat = [];
+
+            if ($hasilDivisi->status == 1){
+                $this->direktorat = $hasilDivisi->data->data;
+                $direktorat = $this->direktorat;
+            }else{
+                session()->flash('error', $hasilDivisi->data->message);
+            }
+
             if ($hasil->status == 1) {
                 $this->dataStrategic= $hasil->data;
                 $data = $this->dataStrategic;
-                $direktorat = $hasil->direktorat->direktorat;
-                $divisi = $hasil->direktorat->divisi;
-                return view('strategic_initiative', compact(['sync_es', 'token_auth', 'data', 'direktorat', 'divisi']));
+                return view('strategic_initiative', compact(['sync_es', 'token_auth', 'data', 'direktorat']));
             } else {
                 session()->flash('error', $hasil->data->message);
             }
@@ -116,6 +148,13 @@ class CommunicationController extends Controller
             }
             session()->flash('error','Get Data Bermasalah , Silahkan Coba Lagi');
         }
+    }
+
+    public function strategicByProject($slug){
+        $this->token_auth = session()->get('token');
+        $sync_es = 0;
+        $token_auth = $this->token_auth;
+        return view('strategic_by_project', compact(['sync_es', 'token_auth', 'slug']));
     }
 
     // page public implementation
@@ -141,6 +180,7 @@ class CommunicationController extends Controller
         $token_auth = $this->token_auth;
         try{
             $ch = curl_init();
+            $chDiv = curl_init();
             $headers  = [
                 'Content-Type: application/json',
                 'Accept: application/json',
@@ -154,12 +194,26 @@ class CommunicationController extends Controller
             $result     = curl_exec ($ch);
             $hasil      = json_decode($result);
 
+            curl_setopt($chDiv, CURLOPT_URL, config('app.url_be') . 'api/divisi/all');
+            curl_setopt($chDiv, CURLOPT_HTTPGET, 1);
+            curl_setopt($chDiv, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($chDiv, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($chDiv, CURLOPT_HTTPHEADER, $headers);
+            $resultDivisi = curl_exec($chDiv);
+            $hasilDivisi = json_decode($resultDivisi);
+            $direktorat = [];
+
+            if ($hasilDivisi->status == 1){
+                $this->direktorat = $hasilDivisi->data->data;
+                $direktorat = $this->direktorat;
+            }else{
+                session()->flash('error', $hasilDivisi->data->message);
+            }
+
             if ($hasil->status == 1) {
                 $this->dataInitiative = $hasil->data->data;
                 $data = $this->dataInitiative;
-                $direktorat = $hasil->direktorat->direktorat;
-                $divisi = $hasil->direktorat->divisi;
-                return view('implementation', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat', 'divisi']));
+                return view('implementation', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat']));
             }else{
                 session()->flash('error',$hasil->data->message);
             }

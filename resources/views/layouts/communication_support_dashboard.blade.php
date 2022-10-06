@@ -186,13 +186,13 @@
                                 <select name="direktorat" id="direktorat" class="form-control text-black select2 mt-2" data-live-search="true"
                                         style="height: 44px" value="{{old('direktorat')}}">
                                     <option value="" disabled selected>Pilih Divisi</option>
-                                    @if(empty($divisi))
-                                        <option value="null" data-value="null">{{$divisi ?? 'NOT FOUND'}}</option>
-                                    @else
-                                        @foreach($divisi as $divContent)
-                                            <option value="{{$divContent->divisi }}" data-value="{{ $divContent->divisi }}">{{$divContent->divisi}}</option>
-                                        @endforeach
-                                    @endif
+{{--                                    @if(empty($divisi))--}}
+{{--                                        <option value="null" data-value="null">{{$divisi ?? 'NOT FOUND'}}</option>--}}
+{{--                                    @else--}}
+{{--                                        @foreach($divisi as $divContent)--}}
+{{--                                            <option value="{{$divContent->divisi }}" data-value="{{ $divContent->divisi }}">{{$divContent->divisi}}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    @endif--}}
                                 </select>
                             </div>
                         </ul>
