@@ -149,12 +149,12 @@
                     <div class="form-group row">
                         <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Direktorat<span class="text-danger ml-1">*</span></label>
                         <div class="col-md-10 col-sm-12">
-                            <select name="direktorat" id="direktorat" class="form-control text-black select2" value="{{old('direktorat')}}" required>
+                            <select name="direktorat" id="direktorat" class="form-control text-black select2" value="{{old('direktorat')}}" required {{isset($data->data->project) ? 'readonly' : ''}}>
                                 <option value="" disabled selected>Pilih Direktorat</option>
                                 @foreach ($data->direktorat == NULL ? 'Lainnya' : $data->direktorat as $item)
                                     @if($item->direktorat != null)
-                                        @isset($data->data->divisi)
-                                            @if($data->data->divisi->direktorat == $item->direktorat)
+                                        @isset($data->data->project->divisi)
+                                            @if($data->data->project->divisi->direktorat == $item->direktorat)
                                                 <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}" selected>{{ $item->direktorat }}</option>
                                             @else
                                                 <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
@@ -177,10 +177,10 @@
                     <div class="form-group row">
                         <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Unit Kerja<span class="text-danger ml-1">*</span></label>
                         <div class="col-md-10 col-sm-12">
-                            <select  id="divisi" class="form-control select2" value="{{old('divisi')}}" name="divisi" required>
+                            <select  id="divisi" class="form-control select2" value="{{old('divisi')}}" name="divisi" required {{isset($data->data->project) ? 'readonly' : ''}}>
                                 <option value="" selected disabled>Pilih Unit Kerja</option>
-                                @isset($data->data->divisi)
-                                <option value="{{$data->data->divisi->id }}" data-value="{{ $data->data->divisi->divisi }}" selected>{{ $data->data->divisi->divisi }}</option>
+                                @isset($data->data->project->divisi)
+                                <option value="{{$data->data->project->divisi->id }}" data-value="{{ $data->data->project->divisi->divisi }}" selected>{{ $data->data->project->divisi->divisi }}</option>
                                 @endisset
                             </select>
                         </div>
@@ -461,18 +461,20 @@
                     @endisset-->
                     <div class="mb-4">
                         <div class="ml-1 row">
-                            <h4>Nama Proyek</h4><p>&nbsp;(jika project sudah tersedia di BRIKNOW)</p>
+                            <h4>Nama Proyek</h4>
                         </div>
                         <div class="form-group row ">
                             <div class="col-md-12">
                                 <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' required>
-                                    @isset($data->data->nama)
-                                    <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
+                                    @isset($data->data->project->nama)
+                                    <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->project->nama}}</option>
                                     @endisset
                                 </select>
                             </div>
                         </div>
                     </div>
+
+                    <input type="hidden" name="is_new" id="is_new" value="1">
 
                     <!--<div class="row d-flex">
                         <div class="col-md-12">

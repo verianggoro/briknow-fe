@@ -24,8 +24,7 @@ class KontribusiController extends Controller
                 'Accept: application/json',
                 "Authorization: Bearer $token",
             ];
-//            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/prepare_form");
-            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/form_upload/implementation/*");
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/prepare_form");
             curl_setopt($ch, CURLOPT_HTTPGET, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -49,6 +48,43 @@ class KontribusiController extends Controller
         }
 
         return view('kontribusi',compact(['data', 'tgl_mulai']));
+    }
+
+    public function formKontribusiImplementation() {
+        try {
+            $data        = [];
+            $token      = session()->get('token');
+            $ch         = curl_init();
+            $headers    = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/form_upload/implementation/*");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            // return response()->json($hasil);
+            // dd($hasil);
+            $tgl_mulai = Carbon::now();
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    $data   = $hasil->data;
+                }else{
+                    $data   = [];
+                }
+            }else{
+                $data  =  [];
+            }
+        }catch (\Throwable $th) {
+            $data   = [];
+        }
+
+        return view('kontribusi-implementation',compact(['data', 'tgl_mulai']));
     }
 
     public function validasikontribusi(){
@@ -283,7 +319,7 @@ class KontribusiController extends Controller
         }
     }
 
-    public function createNew() {
+    public function createImplementation() {
         request()->validate([
             'thumbnail'     => "required",
             'direktorat'    => "required",
@@ -395,7 +431,8 @@ class KontribusiController extends Controller
                 'attach_rollout'            => $attach_rollout,
                 'deskripsi_sosialisasi'     => $desc_sosialisasi,
                 'attach_sosialisasi'        => $attach_sosialisasi,
-                'project_id'                => request()->link,
+                'project'                   => request()->link,
+                'is_new_project'            => request()->is_new,
                 'user'                      => $user,
                 'checker'                   => request()->checker,
                 'signer'                    => request()->signer,
@@ -414,7 +451,7 @@ class KontribusiController extends Controller
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
                     Session::flash('success','Implementasi Berhasil di Simpan');
-                    return redirect('/myproject');
+                    return redirect('/mycomsupport/implementation');
                 }else{
                     if (isset($hasil->data->error_code)) {
                         if ($hasil->data->error_code == 0) {

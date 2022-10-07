@@ -217,12 +217,13 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
 
     #KONTRIBUSI
         Route::get('/kontribusi', 'KontribusiController@index')->name('kontribusi');
+        Route::get('/kontribusi/implementation', 'KontribusiController@formKontribusiImplementation')->name('kontribusi.implementation');
         #create form
         Route::get('/getconsultant', 'ConsultantController@getConsultant')->name('consultant.getdata');
         Route::get('/getuser', 'KontribusiController@getuser')->name('kontribusi.getuser');
         #create process
         Route::post('/kontribusi', 'KontribusiController@create')->name('kontribusi.create');
-        Route::post('/kontribusi/new', 'KontribusiController@createNew')->name('kontribusi.createnew');
+        Route::post('/kontribusi/implementation', 'KontribusiController@createImplementation')->name('kontribusi.createimplementation');
         #edit form
         Route::get('/kontribusi/{slug}', 'KontribusiController@edit')->name('kontribusi.edit');
         #update process

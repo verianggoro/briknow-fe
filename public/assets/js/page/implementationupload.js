@@ -15,6 +15,7 @@ let data_attach_rollout = []
 let attach_sosialisasi = [];
 let input_attach_sosialisasi = [];
 let data_attach_sosialisasi = []
+let project = [];
 
 let $table = $('#table')
 
@@ -533,7 +534,9 @@ $(document).ready(function () {
 
     $("#link").select2({
         placeholder: 'Nama Proyek',
+        tags: true,
         minimumInputLength: 1,
+        templateResult: formatSelect,
         language: {
             inputTooShort: function (args) {
                 return "Type at least 1 character";
@@ -785,8 +788,23 @@ $(document).ready(function () {
     }
 
 });
+
 function dateFormat(date) {
     return date.getDate()+" "+ months[date.getMonth()]+" "+date.getFullYear();
+}
+
+function formatSelect(project) {
+    let contents = `<div class="d-flex align-items-center" id="container">`;
+    if (project !== null && project !== undefined) {
+        if (project.image !== null && project.image !== undefined) {
+            let src = `${uri}/storage/${project.image}`
+            contents += `<div><img src='${src}' alt="${project.text}" onerror="imgError(this)" width="50" height="50" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)"></div> `
+        }
+        contents += `<div>${project.text}</div>`
+    }
+    contents += `</div>`
+
+    return $(contents);
 }
 
 $('#piloting').change(function () {
@@ -1091,8 +1109,50 @@ $('#photo').change(function(){
 });
 
 $('#direktorat').change(function(){
-    cekDivisi();
+    if ($(this).val() !== null) {
+        cekDivisi();
+    }
 });
+
+$('#link').change(function () {
+    cekProject($(this).val())
+})
+
+function cekProject(id) {
+    if (!isNaN(id)) {
+        let url = `${uri}/getproject/${id}`;
+        $.ajax({
+            url: url,
+            type: "get",
+            beforeSend: function()
+            {
+                $('.senddataloader').show();
+            },
+            success: function(data){
+                $('.senddataloader').hide();
+                project = data.data
+                const divisi = data.data.divisi
+                $("#direktorat").val(divisi.direktorat).trigger('change');
+                $("#direktorat").attr("readonly", "readonly");
+                $("#divisi").attr("readonly", "readonly");
+                $('#is_new').val(0)
+                /*$("#direktorat").select2(divisi.direktorat);
+                $("#divisi").select2(divisi.id, divisi.divisi);*/
+            },
+            error : function(e){
+                $('.senddataloader').hide();
+                alert(e);
+            }
+        });
+    } else {
+        project = []
+        $("#direktorat").val(null).trigger('change');
+        $("#divisi").val(null).trigger('change');
+        $("#direktorat").removeAttr('readonly');
+        $("#divisi").removeAttr('readonly');
+        $('#is_new').val(1)
+    }
+}
 
 const cekDivisi = (valueOld = null) => {
     if($('#divisi').hasClass('is-invalid') || $('#divisi').hasClass('is-valid')){
@@ -1125,12 +1185,18 @@ const cekDivisi = (valueOld = null) => {
             if (data.data.length > 0) {
                 for (let index = 0; index < data.data.length; index++) {
                     if (valueOld !== null) {
-                        if (valueOld == data.data[index].id) {
+                        if (valueOld === data.data[index].id) {
                             option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
                         }else{
                             option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
                         }
-                    }else{
+                    } else if (project.length !== 0) {
+                        if (project.divisi.id === data.data[index].id) {
+                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
+                        }else{
+                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
+                        }
+                    } else{
                         option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
                     }
                 }
@@ -1144,8 +1210,8 @@ const cekDivisi = (valueOld = null) => {
     });
 }
 
-var divisiVal = document.getElementById('divisi').getAttribute('value');
-if (divisiVal != "") {
+let divisiVal = $('#divisi').val();
+if (divisiVal !== "" && divisiVal !== null) {
     divisiVal   =   parseInt(divisiVal);
     cekDivisi(divisiVal);
 }
