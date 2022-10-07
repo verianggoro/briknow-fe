@@ -110,7 +110,7 @@ function view(row) {
     $('#prev_tglselesai').empty();
     $('#prev_status').empty();
 
-    let divisi = row.divisi
+    let divisi = row.project.divisi
     if (divisi !== null) {
         $('#prev_divisi').empty();
         $('#prev_direktorat').empty();
@@ -125,7 +125,7 @@ function view(row) {
 
     let t_project = ``
     if (row.project_id !== null) {
-        t_project = `<div onclick="toProject('${row.slug_project}')" style="font-size: 18px" class="d-block font-weight-bold project-parent-link paren-project-desc">${row.nama}</div>`
+        t_project = `<div onclick="toProject('${row.project.slug}')" style="font-size: 18px" class="d-block font-weight-bold project-parent-link paren-project-desc">${row.project.nama}</div>`
     } else {
         t_project = `<span class="paren-project-desc d-block font-weight-bold">General</span>`
     }

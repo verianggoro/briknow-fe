@@ -926,8 +926,8 @@ class KontribusiController extends Controller
         try {
             $this->token_auth = session()->get('token');
             $path = request()->get($kategori);
-            if(File::exists($path)){
-                File::delete($path);
+            if(File::exists(public_path("storage/".$path))){
+                File::delete(public_path("storage/".$path));
             }
 
             $ch = curl_init();

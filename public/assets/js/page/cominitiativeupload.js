@@ -3,6 +3,7 @@ let uri                     = '';
 let base_url                = '';
 let token                   = '';
 let csrf                   = '';
+let project = [];
 
 const Toast3 = Swal.mixin({
     toast: true,
@@ -45,7 +46,7 @@ $parent.change(function () {
     if ($(this).val() === "1") {
         let content =   `
             <div class="form-group project-link" style="width: 70%;">
-                <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">&nbsp;(jika project existing di BRIKNOW)</span></label>
+                <label for="link" class="label-cus">Nama Proyek</label>
                 <select class="select2 form-control" id="link" name="link" placeholder='Nama Proyek' required>
                 </select>
 <!--                <input type="text" class="form-control" style="width: 70%; height: 40px" id="link" name="link" placeholder="Project Link">-->
@@ -87,7 +88,9 @@ $parent.change(function () {
 
     $("#link").select2({
         placeholder: 'Nama Proyek',
+        tags: true,
         minimumInputLength: 1,
+        templateResult: formatSelect,
         language: {
             inputTooShort: function (args) {
                 return "Type at least 1 character";
@@ -433,6 +436,17 @@ $('.remove-preview').on('click', function() {
     reset(dropzones);
 });
 
+function cekValid() {
+    const $form = $('#form')
+    let curInputs = $form.find("input[type='text'],input[type='url'],input[type='file'],input[type='date'],input[type='email'],select")
+    for(let i=0; i<curInputs.length; i++){
+        if (!curInputs[i].validity.valid){
+            return false;
+        }
+    }
+    return checkEditor()
+}
+
 $(document).ready(function () {
     CKEDITOR.on("instanceReady", function(event) {
         $("#cke_deskripsi").addClass('border-none');
@@ -440,7 +454,7 @@ $(document).ready(function () {
     $('#submit').on('click', function () {
         const $form = $('#form')
         let curInputs = $form.find("input[type='text'],input[type='url'],input[type='file'],input[type='date'],input[type='email'],select")
-        let isValid = true;
+        let isValid;
 
         $(".form-control").removeClass("is-invalid");
         // $(".thumbnail-input").removeClass("is-invalid");
@@ -486,7 +500,8 @@ $(document).ready(function () {
             $("#attach-wrap").attr("style", "border:solid 1px #38c172;");
         }
 
-        isValid = checkEditor()
+        checkEditor()
+        isValid = cekValid()
 
         if (isValid) {
             $('form#form').submit();
@@ -510,7 +525,9 @@ $(document).ready(function () {
 
     $("#link").select2({
         placeholder: 'Nama Proyek',
+        tags: true,
         minimumInputLength: 1,
+        templateResult: formatSelect,
         language: {
             inputTooShort: function (args) {
                 return "Type at least 1 character";
@@ -535,9 +552,65 @@ $(document).ready(function () {
     });
 });
 
+function formatSelect(project) {
+    let contents = `<div class="d-flex align-items-center" id="container">`;
+    if (project !== null && project !== undefined) {
+        if (project.image !== null && project.image !== undefined) {
+            let src = `${uri}/storage/${project.image}`
+            contents += `<div><img src='${src}' alt="${project.text}" onerror="imgError(this)" width="50" height="50" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)"></div> `
+        }
+        contents += `<div>${project.text}</div>`
+    }
+    contents += `</div>`
+
+    return $(contents);
+}
+
 $('#direktorat').change(function(){
-    cekDivisi();
+    if ($(this).val() !== null) {
+        cekDivisi();
+    }
 });
+
+$('#link').change(function () {
+    cekProject($(this).val())
+})
+
+function cekProject(id) {
+    if (!isNaN(id)) {
+        let url = `${uri}/getproject/${id}`;
+        $.ajax({
+            url: url,
+            type: "get",
+            beforeSend: function()
+            {
+                $('.senddataloader').show();
+            },
+            success: function(data){
+                $('.senddataloader').hide();
+                project = data.data
+                const divisi = data.data.divisi
+                $("#direktorat").val(divisi.direktorat).trigger('change');
+                $("#direktorat").attr("readonly", "readonly");
+                $("#divisi").attr("readonly", "readonly");
+                $('#is_new').val(0)
+                /*$("#direktorat").select2(divisi.direktorat);
+                $("#divisi").select2(divisi.id, divisi.divisi);*/
+            },
+            error : function(e){
+                $('.senddataloader').hide();
+                alert(e);
+            }
+        });
+    } else {
+        project = []
+        $("#direktorat").val(null).trigger('change');
+        $("#divisi").val(null).trigger('change');
+        $("#direktorat").removeAttr('readonly');
+        $("#divisi").removeAttr('readonly');
+        $('#is_new').val(1)
+    }
+}
 
 const cekDivisi = (valueOld = null) => {
     if($('#divisi').hasClass('is-invalid') || $('#divisi').hasClass('is-valid')){
@@ -570,12 +643,18 @@ const cekDivisi = (valueOld = null) => {
             if (data.data.length > 0) {
                 for (let index = 0; index < data.data.length; index++) {
                     if (valueOld !== null) {
-                        if (valueOld == data.data[index].id) {
+                        if (valueOld === data.data[index].id) {
                             option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
                         }else{
                             option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
                         }
-                    }else{
+                    } else if (project.length !== 0) {
+                        if (project.divisi.id === data.data[index].id) {
+                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
+                        }else{
+                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
+                        }
+                    } else{
                         option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
                     }
                 }
@@ -589,8 +668,8 @@ const cekDivisi = (valueOld = null) => {
     });
 }
 
-let divisiVal = document.getElementById('divisi').getAttribute('value');
-if (divisiVal != "") {
+let divisiVal = $('#divisi').val();
+if (divisiVal !== "" && divisiVal !== null) {
     divisiVal   =   parseInt(divisiVal);
     cekDivisi(divisiVal);
 }

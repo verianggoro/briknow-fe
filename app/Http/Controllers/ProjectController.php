@@ -161,6 +161,36 @@ class ProjectController extends Controller
         }*/
     }
 
+
+
+    public function getProject($id) {
+        $token      = session()->get('token');
+        try {
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/projectbyid/$id");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+//            dd($hasil);
+            return response()->json([
+                'data'      =>  $hasil->data,
+            ],200);
+        } catch (\Throwable $th) {
+            $data['message']    =   'GET Gagal 3';
+            return response()->json([
+                'data'      =>  $data
+            ],200);
+        }
+    }
+
     public function doc_project($kunci = "",$search="*",$sort = "desc"){
         try {
             $search = str_replace(' ', '_', $search);

@@ -152,7 +152,8 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::post('/implementation/status/{status}/{id}', 'Admin\ManageComSupport@setStatusImplementation')->name('implementation.set_status')->middleware('IsAdmin');
     Route::delete('/implementation/delete/{id}', 'Admin\ManageComSupport@deleteImplementation')->name('implementation.delete')->middleware('IsAdmin');
     Route::get('/form/implementation/upload/{slug}', 'Admin\ManageComSupport@getDataUpdateImplementation')->name('implementation.update')->middleware('IsAdmin');
-
+    #--
+    Route::post('/attach/download', 'Admin\ManageComSupport@download_attach')->name('com_support.download')->middleware('IsAdmin');
 
     #DASHBOARD - MANAGEMENT CONSULTANT
         Route::get('/manageconsultant', 'Admin\ManageConsultantController@index')->name('manage_consultant')->middleware('IsAdmin');
@@ -167,6 +168,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/myproject', 'MyProjectController@index')->name('myproject');
         Route::get('/project/{slug}', 'ProjectController@index')->name('project.index');
         Route::get('/searchproject', 'ProjectController@search')->name('project.search');
+        Route::get('/getproject/{id}', 'ProjectController@getProject')->name('project.by_id');
         Route::get('/doc_proj/{kunci}/{search}/{sort}', 'ProjectController@doc_project')->name('project.document');
         Route::get('/myproject', 'MyProjectController@index')->name('myproject');
         Route::post('/archive', 'ProjectController@archive')->name('project.archive');

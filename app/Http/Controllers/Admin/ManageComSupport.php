@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use ZipArchive;
+use Illuminate\Support\Facades\File;
 
 class ManageComSupport extends Controller
 {
@@ -857,10 +859,12 @@ class ManageComSupport extends Controller
                 'divisi'  => 'required',
             ]);
             $divisi = request()->divisi;
-            $project_id     = request()->link;
+            $project     = request()->link;
+            $is_new = request()->is_new;
         }else{
             $divisi         = null;
-            $project_id     = null;
+            $project     = null;
+            $is_new = 0;
         }
 
         if (isset(request()->status)) {
@@ -887,7 +891,8 @@ class ManageComSupport extends Controller
                 'title'         => request()->title,
                 'file_type'         => request()->file_type,
                 'deskripsi'         => request()->deskripsi,
-                'project_id'         => $project_id,
+                'is_new_project'         => $is_new,
+                'project'         => $project,
                 'divisi'            => $divisi,
                 'status'                    => $status,
                 'tgl_mulai'                 => request()->tgl_mulai,
@@ -929,5 +934,33 @@ class ManageComSupport extends Controller
             session()->flash('error',"Something Error, Try Again Please");
             return back()->withInput();
         }
+    }
+
+    public function download_attach() {
+        $token      = session()->get('token');
+        $files = request()->data;
+        $zip = new ZipArchive;
+        $fileName = 'attach_download.zip';
+
+        if ($zip->open(public_path("storage/".$fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+            foreach ($files as $key => $value) {
+//                dd(public_path('storage/'.$value['url_file']));
+//                $files = File::files(public_path('storage/'.$value['url_file']));
+                $relativeNameInZipFile = basename($value['tipe']."-".$value['nama']);
+                $zip->addFile(public_path('storage/'.$value['url_file']), $relativeNameInZipFile);
+            }
+
+            $zip->close();
+        }
+
+        $headers = array(
+            "Authorization: Bearer $token",
+        );
+
+        return response()->download(public_path("storage/".$fileName), $fileName.'-'.now()->timestamp, $headers);
+//        dd(request()->all());
+        /*return response()->json([
+            'data'      =>  request()->data
+        ],200);*/
     }
 }

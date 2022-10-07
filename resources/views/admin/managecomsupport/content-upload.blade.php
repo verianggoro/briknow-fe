@@ -103,25 +103,27 @@
                     </select>
                 </div>
 
-                <div id="content-project" class="{{isset($data->data->nama) ? '' : 'd-none'}}">
+                <div id="content-project" class="{{isset($data->data->project->nama) ? '' : 'd-none'}}">
 
                     <div class="form-group project-link" style="width: 70%;">
-                        <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">&nbsp;(jika project existing di BRIKNOW)</span></label>
-                        <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' {{isset($data->data->nama) ? 'required' : ''}}>
-                            @isset($data->data->nama)
-                            <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
+                        <label for="link" class="label-cus">Nama Proyek</label>
+                        <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' {{isset($data->data->project->nama) ? 'required' : ''}}>
+                            @isset($data->data->project->nama)
+                            <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->project->nama}}</option>
                             @endisset
                         </select>
                     </div>
 
-                    <div class="form-group {{isset($data->data->divisi) ? '' : 'd-none'}}" id="form-gr-direktorat" style="width: 70%;">
+                    <input type="hidden" name="is_new" id="is_new" value="1">
+
+                    <div class="form-group {{isset($data->data->project->divisi) ? '' : 'd-none'}}" id="form-gr-direktorat" style="width: 70%;">
                         <label for="direktorat" class="label-cus">Direktorat</label>
-                        <select name="direktorat" id="direktorat" class="form-control text-black select2" value="{{old('direktorat')}}" {{isset($data->data->divisi) ? 'required' : ''}}>
+                        <select name="direktorat" id="direktorat" class="form-control text-black select2" value="{{old('direktorat')}}" {{isset($data->data->project->divisi) ? 'required' : ''}} {{isset($data->data->project) ? 'readonly' : ''}}>
                             <option value="" disabled selected>Pilih Direktorat</option>
                             @foreach ($data->direktorat == NULL ? 'Lainnya' : $data->direktorat as $item)
                             @if($item->direktorat != null)
-                            @isset($data->data->divisi)
-                            @if($data->data->divisi->direktorat == $item->direktorat)
+                            @isset($data->data->project->divisi)
+                            @if($data->data->project->divisi->direktorat == $item->direktorat)
                             <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}" selected>{{ $item->direktorat }}</option>
                             @else
                             <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
@@ -141,12 +143,12 @@
                         </select>
                     </div>
 
-                    <div class="form-group {{isset($data->data->divisi) ? '' : 'd-none'}}" id="form-gr-divisi" style="width: 70%;">
+                    <div class="form-group {{isset($data->data->project->divisi) ? '' : 'd-none'}}" id="form-gr-divisi" style="width: 70%;">
                         <label for="divisi" class="label-cus">Unit Kerja</label>
-                        <select  id="divisi" class="form-control select2" value="{{old('divisi')}}" name="divisi" {{isset($data->data->divisi) ? 'required' : ''}}>
+                        <select  id="divisi" class="form-control select2" value="{{old('divisi')}}" name="divisi" {{isset($data->data->project->divisi) ? 'required' : ''}} {{isset($data->data->project) ? 'readonly' : ''}}>
                             <option value="" selected disabled>Pilih Unit Kerja</option>
-                            @isset($data->data->divisi)
-                            <option value="{{$data->data->divisi->id }}" data-value="{{ $data->data->divisi->divisi }}" selected>{{ $data->data->divisi->divisi }}</option>
+                            @isset($data->data->project->divisi)
+                            <option value="{{$data->data->project->divisi->id }}" data-value="{{ $data->data->project->divisi->divisi }}" selected>{{ $data->data->project->divisi->divisi }}</option>
                             @endisset
                         </select>
                     </div>

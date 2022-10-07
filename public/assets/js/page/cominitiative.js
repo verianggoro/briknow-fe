@@ -127,12 +127,12 @@ function view(row) {
     $('#prev_tglselesai').empty();
     $('#prev_status').empty();
 
-    let divisi = row.divisi
-    if (divisi !== null) {
+    let project = row.project
+    if (project !== null) {
         $('#prev_divisi').empty();
         $('#prev_direktorat').empty();
-        $('#prev_divisi').append(`${divisi.divisi}`);
-        $('#prev_direktorat').append(`${divisi.direktorat}`);
+        $('#prev_divisi').append(`${project.divisi.divisi}`);
+        $('#prev_direktorat').append(`${project.divisi.direktorat}`);
     } else {
         $('#prev_divisi').empty();
         $('#prev_direktorat').empty();
@@ -142,7 +142,7 @@ function view(row) {
 
     let t_project = ``
     if (row.project_id !== null) {
-        t_project = `<div onclick="toProject('${row.slug_project}')" class="text-dark project-parent-link paren-project-desc">${row.nama}</div>`
+        t_project = `<div onclick="toProject('${row.project.slug}')" class="text-dark project-parent-link paren-project-desc">${row.project.nama}</div>`
     } else {
         t_project = `<span class="paren-project-desc">General</span>`
     }
@@ -399,7 +399,7 @@ window.operateEvents = {
         hapus(value)
     },
     'click .download': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row))
+        download(row.attach_file);
     },
 }
 
