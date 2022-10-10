@@ -122,29 +122,27 @@ function view(row) {
 
     $('#prev_namaproject').empty();
     // $('#prev_project').empty();
-    $('.paren-project-desc').remove();
+    $('.parent-project-desc').remove();
     $('#prev_tglmulai').empty();
     $('#prev_tglselesai').empty();
     $('#prev_status').empty();
+    $('#prev_divisi').empty();
+    $('#prev_direktorat').empty();
 
     let project = row.project
     if (project !== null) {
-        $('#prev_divisi').empty();
-        $('#prev_direktorat').empty();
-        $('#prev_divisi').append(`${project.divisi.divisi}`);
-        $('#prev_direktorat').append(`${project.divisi.direktorat}`);
+        $('#prev_direktorat').append(`<a class="font-weight-bold" href="${uri}/divisi/${project.divisi.id}">${project.divisi.direktorat}</a>`);
+        $('#prev_divisi').append(`<a class="font-weight-bold" href="${uri}/divisi/${project.divisi.id}">${project.divisi.divisi}</a>`);
     } else {
-        $('#prev_divisi').empty();
-        $('#prev_direktorat').empty();
         $('#prev_divisi').append(`-`);
         $('#prev_direktorat').append(`-`);
     }
 
     let t_project = ``
     if (row.project_id !== null) {
-        t_project = `<div onclick="toProject('${row.project.slug}')" class="text-dark project-parent-link paren-project-desc">${row.project.nama}</div>`
+        t_project = `<a class="font-weight-bold fs-18 parent-project-desc" href="${uri}/project/${project.slug}">${project.nama}</a>`;
     } else {
-        t_project = `<span class="paren-project-desc">General</span>`
+        t_project = `<span class="parent-project-desc">General</span>`
     }
 
     let date_mulai          = new Date(row.tanggal_mulai);
@@ -155,13 +153,12 @@ function view(row) {
         // waktu
         let temp_date           = new Date(row.tanggal_selesai);
         t_tgl_selesai         = dateFormat(temp_date);
+        $('#prev_status').append(`Selesai`);
 
     }else{
         t_tgl_selesai = '-';
+        $('#prev_status').append(`On Progress`);
     }
-
-    const titleCase = (s) =>
-        s.replace(/^_*(.)|_+(.)/g, (s, c, d) => c ? c.toUpperCase() : ' ' + d.toUpperCase())
 
     $('#prev_thumbnail').attr('src',`${uri}/storage/${row.thumbnail}`);
     $('#prev_thumbnail').attr('alt',`${row.title}`);
@@ -169,7 +166,6 @@ function view(row) {
     $('#prev_project').append(`${t_project}`);
     $('#prev_tglmulai').append(`${t_tgl_mulai}`);
     $('#prev_tglselesai').append(`${t_tgl_selesai}`);
-    $('#prev_status').append(`${titleCase(row.status)}`);
 
     $('#modal-preview-1').modal({
         show : true

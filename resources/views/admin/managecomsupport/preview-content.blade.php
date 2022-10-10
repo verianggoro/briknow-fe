@@ -48,27 +48,32 @@
             <div class="row">
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Direktorat</div>
-                    <div class="col-md-8 px-0 pl-3 d-min font-weight-bold" id="prev_direktorat">-</div>
+                    <div class="col-md-1 pr-0 pl-3">:</div>
+                    <div class="col-md-7 px-0 d-min" id="prev_direktorat">-</div>
                 </div>
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Pemilik Proyek</div>
-                    <div class="col-md-8 px-0 pl-3 d-min font-weight-bold" id="prev_divisi">-</div>
+                    <div class="col-md-1 pr-0 pl-3">:</div>
+                    <div class="col-md-7 px-0 d-min" id="prev_divisi">-</div>
                 </div>
-                <div class="row col-md-12 col-sm-6 col-xs-6 mt-2">
+                <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Tanggal Mulai</div>
-                    <div class="col-md-8 px-0 pl-3 d-min font-weight-bold" id="prev_tglmulai">-</div>
+                    <div class="col-md-1 pr-0 pl-3">:</div>
+                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_tglmulai">-</div>
                 </div>
-                <div class="row col-md-12 col-sm-6 col-xs-6 mt-2">
+                <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Tanggal Selesai</div>
-                    <div class="col-md-8 px-0 pl-3 d-min font-weight-bold" id="prev_tglselesai">-</div>
+                    <div class="col-md-1 pr-0 pl-3">:</div>
+                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_tglselesai">-</div>
                 </div>
-                <div class="row col-md-12 col-sm-6 col-xs-6 mt-2">
+                <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Status</div>
-                    <div class="col-md-8 px-0 pl-3 d-min font-weight-bold" id="prev_status">-</div>
+                    <div class="col-md-1 pr-0 pl-3">:</div>
+                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_status">-</div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-9 col-md-8 col-sm-12 px-0 text-justify">
+        <div class="col-lg-9 col-md-8 col-sm-12 pr-0 pl-4 text-justify">
             <div class="row" id="desc-preview">
             </div>
         </div>

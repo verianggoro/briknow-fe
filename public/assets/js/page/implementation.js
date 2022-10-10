@@ -104,55 +104,79 @@ function view(row) {
     if (row.desc_sosialisasi !== null) appendDesc('Sosialisasi', 'sos', row.desc_sosialisasi, data_sos)
 
     $('#prev_namaproject').empty();
-    $('#prev_project').empty();
+    $('.konsultan').remove();
     $('.paren-project-desc').remove();
     $('#prev_tglmulai').empty();
     $('#prev_tglselesai').empty();
     $('#prev_status').empty();
+    $('#prev_divisi').empty();
+    $('#prev_direktorat').empty();
 
     let divisi = row.project.divisi
     if (divisi !== null) {
-        $('#prev_divisi').empty();
-        $('#prev_direktorat').empty();
-        $('#prev_divisi').append(`${divisi.divisi}`);
-        $('#prev_direktorat').append(`${divisi.direktorat}`);
+        $('#prev_direktorat').append(`<a class="font-weight-bold" href="${uri}/divisi/${divisi.id}">${divisi.direktorat}</a>`);
+        $('#prev_divisi').append(`<a class="font-weight-bold" href="${uri}/divisi/${divisi.id}">${divisi.divisi}</a>`);
     } else {
-        $('#prev_divisi').empty();
-        $('#prev_direktorat').empty();
-        $('#prev_divisi').append(`-`);
         $('#prev_direktorat').append(`-`);
+        $('#prev_divisi').append(`-`);
     }
 
-    let t_project = ``
-    if (row.project_id !== null) {
-        t_project = `<div onclick="toProject('${row.project.slug}')" style="font-size: 18px" class="d-block font-weight-bold project-parent-link paren-project-desc">${row.project.nama}</div>`
+    let consultant = row.project.consultant
+    if (consultant.length === 0) {
+        let con = `<div class="konsultan"><span>Internal</span></div>`
+        $('#prev_const').append(con)
     } else {
-        t_project = `<span class="paren-project-desc d-block font-weight-bold">General</span>`
+        for (let i=0; i<consultant.length; i++) {
+            let con = `<a href="${uri}/consultant/${consultant[i].id}" class="fs-12"><span>${consultant[i].nama}</span></a>`
+            if (i !== consultant.length - 1) {
+                con += ', '
+            }
+            $('#prev_const').append(con)
+        }
     }
 
-    let date_mulai          = new Date(row.tanggal_mulai);
-    let t_tgl_mulai         = dateFormat(date_mulai);
+    if (row.project.project_managers !== null) {
+        $('#prev_pm').empty();
+        $('#prev_emailpm').empty();
+        $('#prev_pm').append(row.project.project_managers.nama);
+        $('#prev_emailpm').append(row.project.project_managers.email);
+        $('#prev_emailpm').attr('href', `"mailto:${row.project.project_managers.email}`);
+    }
+
+    let tags = row.project.keywords
+    if (tags.length > 0) {
+        $('#prev_tag').empty()
+        for (let i=0; i<tags.length; i++) {
+            let content_tags = `<span class="badge badge-cyan-light text-dark mr-1 mb-2">${tags[i].nama}</span>`
+            $('#prev_tag').append(content_tags)
+        }
+    }
+
+    let date_mulai   = new Date(row.project.tanggal_mulai);
+    let t_tgl_mulai  = dateFormat(date_mulai);
 
     let t_tgl_selesai;
-    if (row.tanggal_selesai !== null) {
+    if (row.project.tanggal_selesai !== null) {
         // waktu
-        let temp_date           = new Date(row.tanggal_selesai);
-        t_tgl_selesai         = dateFormat(temp_date);
+        let temp_date  = new Date(row.project.tanggal_selesai);
+        t_tgl_selesai  = dateFormat(temp_date);
 
     }else{
         t_tgl_selesai = '-';
     }
 
-    const titleCase = (s) =>
-        s.replace(/^_*(.)|_+(.)/g, (s, c, d) => c ? c.toUpperCase() : ' ' + d.toUpperCase())
+    if (row.project.status_finish === 0) {
+        $('#prev_status').append(`On Progress`);
+    } else {
+        $('#prev_status').append(`Selesai`);
+    }
 
-    $('#prev_thumbnail').attr('src',`${uri}/storage/${row.thumbnail}`);
-    $('#prev_thumbnail').attr('alt',`${row.title}`);
-    $('#prev_namaproject').append(`${row.title}`);
-    $('#prev_project').append(`${t_project}`);
+    $('#prev_thumbnail').attr('src',`${uri}/storage/${row.project.thumbnail}`);
+    $('#prev_thumbnail').attr('alt',`${row.project.nama}`);
+    $('#prev_namaproject').attr('href', `${uri}/project/${row.project.slug}`);
+    $('#prev_namaproject').append(`${row.project.nama}`);
     $('#prev_tglmulai').append(`${t_tgl_mulai}`);
     $('#prev_tglselesai').append(`${t_tgl_selesai}`);
-    $('#prev_status').append(`${titleCase(row.status)}`);
 
     $('#modal-preview-1').modal({
         show : true
@@ -428,7 +452,7 @@ function viewsFormatter(views) {
 }
 
 function titleFormatter(value, row, index) {
-    let src = `${uri}/storage/${row.thumbnail}`
+    let src = `${uri}/storage/${row.project.thumbnail}`
     return `
         <div class="pl-4 d-flex align-items-center" style="padding-top: 0; padding-bottom: 0">
             <img src="${src}" alt="${value}" onerror="imgError(this)" width="85" height="85" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)">
@@ -446,7 +470,7 @@ function initTable() {
         classes: 'table',
         columns: [
             [{
-                field: 'title',
+                field: 'project.nama',
                 title: 'Judul',
                 // align: 'center',
                 cellStyle: {
@@ -466,7 +490,7 @@ function initTable() {
                     width: 120
                 },
                 {
-                    field: 'tanggal_mulai',
+                    field: 'created_at',
                     title: 'Tanggal',
                     sortable: true,
                     align: 'center',

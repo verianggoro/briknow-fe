@@ -610,7 +610,7 @@
         <div class="modal-content content-preview bg-transparent">
             <div class="w-100 d-flex justify-content-center align-items-center" id="content-preview">
                 <div class="bg-white bg-white w-100">
-                    @include('admin.managecomsupport.preview-implementation')
+                    @include('admin.managecomsupport.preview-save')
                 </div>
             </div>
         </div>
