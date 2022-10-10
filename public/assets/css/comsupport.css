@@ -604,3 +604,7 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
 select[readonly].select2-hidden-accessible + .select2-container .select2-selection__clear {
     display: none;
 }
+
+.select2-container--default .select2-results__option--disabled {
+    background: #f4f4f4;
+}

@@ -549,7 +549,8 @@ $(document).ready(function () {
             data: function (params) {
                 // Query parameters will be ?search=[term]
                 return {
-                    search: params.term
+                    search: params.term,
+                    impl: 'Y'
                 };
             },
             processResults: function (data) {
@@ -794,7 +795,7 @@ function dateFormat(date) {
 }
 
 function formatSelect(project) {
-    let contents = `<div class="d-flex align-items-center" id="container">`;
+    let contents = `<div class="d-flex align-items-center">`;
     if (project !== null && project !== undefined) {
         if (project.image !== null && project.image !== undefined) {
             let src = `${uri}/storage/${project.image}`

@@ -78,6 +78,7 @@ class ProjectController extends Controller
 
     public function search() {
         $search     =   request()->input('search')??'*';
+        $impl     =   request()->input('impl')??'*';
 
         $token_auth = session()->get('token');
 
@@ -90,7 +91,8 @@ class ProjectController extends Controller
             ];
 
             $postData = [
-                'searchTerm' => $search
+                'searchTerm' => $search,
+                'impl'       => $impl
             ];
             // dd(json_encode($postData));
             curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/searchproject');
