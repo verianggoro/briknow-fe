@@ -227,6 +227,35 @@ class CommunicationController extends Controller
             }
             session()->flash('error','Get Data Bermasalah , Silahkan Coba Lagi');
         }
+    }
+
+    public function getOneImplementation($slug){
+        $this->token_auth = session()->get('token');
+        $sync_es = 0;
+        $token_auth = $this->token_auth;
+            $ch = curl_init();
+            $chDiv = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $this->token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/get/implementation/publish/'.$slug);
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+
+            Log::info("INPOH MASEH IMPEEMNT ", [$hasil]);
+            if ($hasil->status == 1) {
+                $this->dataImplementation = $hasil->data;
+                $data = $this->dataImplementation;
+                return view('view_implementation', compact(['sync_es', 'token_auth', 'data']));
+            }else{
+                session()->flash('error',$hasil->data->message);
+            }
 
     }
 

@@ -188,6 +188,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/mycomsupport/implementation', 'CommunicationController@implementationInit')->name('mycomsupport.implementation');
         Route::get('/mycomsupport/implementation/{type}', 'CommunicationController@setTypeImplementationInit')->name('mycomsupport.implementation.type');
         Route::get('/view/content', 'ContentComsupController@index')->name('view.comsup');
+        Route::get('/view/implementation/{slug}', 'CommunicationController@getOneImplementation')->name('view.implement');
 
 
     #Comment

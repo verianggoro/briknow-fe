@@ -68,7 +68,7 @@
                 @else
                     @foreach($data as $content)
                         <div class="container-fluid">
-                            <a href="{{route('project.view', $content->slug)}}">
+                            <a href="{{route('view.implement', $content->slug)}}">
                                 <div class="card d-flex w-100 p-2" style="border-radius: 16px; width: 30rem">
                                     <div class="row">
                                         <div class="col-lg-3">
