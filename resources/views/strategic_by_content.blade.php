@@ -8,14 +8,13 @@
     <link rel="stylesheet" href="{{ asset_app('assets/css/comsupport.css') }}">
 @endpush
 
-@section('breadcumb', 'Admin')
+@section('breadcumb', 'Strategic')
 @section('back', route('katalog.index'))
 
 @section('content')
-
     <div class="row mx-0">
         <div class="col-md-12" id="konten">
-            <h3 class="pl-2 pt-5">Strategic Initiative</h3>
+            <h3 class="pl-2 pt-5">{{$slug}}</h3>
             <div class="d-flex justify-content-between mt-3">
                 <div class="mr-auto p-2">
                     <div class="dropdown">
@@ -26,18 +25,6 @@
                             <a class="dropdown-item" href="#">Judul</a>
                             <a class="dropdown-item" href="#">Tanggal</a>
                             <a class="dropdown-item" href="#">View</a>
-                        </ul>
-                    </div>
-                </div>
-                <div class="p-2">
-                    <div class="dropdown">
-                        <button data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle">
-                            Implementation
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Rollout</a>
-                            <a class="dropdown-item" href="#">Piloting</a>
-                            <a class="dropdown-item" href="#">Sosialisasi</a>
                         </ul>
                     </div>
                 </div>
@@ -53,33 +40,40 @@
                     </div>
                 </div>
             </div>
+            <hr/>
             <br/>
             <div class="row">
-                @if(empty($data))
-                    <div class="container-fluid">
-                        <div class="p-2">
-                            <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
-                        </div>
-                    </div>
-                @else
-                    @foreach($data as $content)
-                        <div class="col-lg-4 d-flex justify-content-center">
-                            <a href="{{route('mycomsupport.strategic.type', $content->slug)}}">
-                                <div class="card" style="border-radius: 16px; width: 30rem">
-                                    <img class="card-img-up" src="{{asset('storage/'.$content->thumbnail)}}"
-                                         alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-center">{{$content->nama}}</h5>
+                <div class="col-12">
+                    <h4>{{$type}}</h4>
+                </div>
+                @forelse($data as $content)
+                    <div class="col-lg-4 d-flex justify-content-center">
+                        <a href="#" target="_blank" style="width: inherit">
+                            <div class="card" style="border-radius: 16px;">
+                                <img class="card-img-up"
+                                     src="{{asset('storage/'.$content->thumbnail)}}"
+                                     alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{$content->title}}</h5>
+                                    <div class="d-flex justify-content-between">
+                                        <i class="mr-auto p-2 fas fa-eye">
+                                            <span>{{$content->views}}</span>
+                                        </i>
+                                        <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
+                                        <button class="btn fas fa-share-square p-2"
+                                                style="font-size: 20px"></button>
+                                        <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
                                     </div>
                                 </div>
-                            </a>
-                        </div>
-                    @endforeach
-                @endif
+                            </div>
+                        </a>
+                    </div>
+                @empty
+                    EMPTY
+                @endforelse
             </div>
         </div>
     </div>
-
 @endsection
 @push('page-script')
     <script src="{{asset_app('assets/js/core.js')}}" ></script>

@@ -184,7 +184,8 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/mycomsupport/initiative/{type}', 'CommunicationController@comInitTypePublic')->name('mycomsupport.initiative.type');
         Route::get('/mycomsupport/initiative', 'CommunicationController@communicationInitiativePublic')->name('mycomsupport.initiative');
         Route::get('/mycomsupport/strategic', 'CommunicationController@strategicInit')->name('mycomsupport.strategic');
-        Route::get('/mycomsupport/strategic/{slug}', 'CommunicationController@strategicByProject')->name('mycomsupport.strategic.type');
+        Route::get('/mycomsupport/strategic/{slug}', 'CommunicationController@strategicByProjectPublic')->name('mycomsupport.strategic.type');
+        Route::get('/mycomsupport/strategic/{slug}/{type}', 'CommunicationController@strategicByProjectType')->name('mycomsupport.strategic.type.content');
         Route::get('/mycomsupport/implementation', 'CommunicationController@implementationInit')->name('mycomsupport.implementation');
         Route::get('/mycomsupport/implementation/{type}', 'CommunicationController@setTypeImplementationInit')->name('mycomsupport.implementation.type');
         Route::get('/view/content', 'ContentComsupController@index')->name('view.comsup');
