@@ -71,26 +71,26 @@
                             <a href="{{route('view.implement', $content->slug)}}">
                                 <div class="card d-flex w-100 p-2" style="border-radius: 16px; width: 30rem">
                                     <div class="row">
-                                        <div class="col-lg-3">
-                                            <img class="img-fluid" src="{{asset('storage/'.$content->thumbnail)}}" alt="Card image cap">
+                                        <div class="col-lg-2">
+                                            <img class="card-img" style="height: auto; width: 15rem" src="{{asset('storage/'.$content->thumbnail)}}" alt="Card image cap">
                                         </div>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-10">
                                             <h4>{{$content->title}}</h4>
                                             @if(str_contains(request()->path(), 'piloting'))
                                                 <div style="background-color: #0a53be; border-radius: 10px;">
                                                     <p class="text-white m-2">PILOTING</p>
                                                 </div>
-                                                {!! \Illuminate\Support\Str::limit($content->desc_piloting, 500, '...') !!}
+                                                {!! \Illuminate\Support\Str::limit($content->desc_piloting, 200, '... Baca Selengkapnya') !!}
                                             @elseif(str_contains(request()->path(), 'roll-out'))
                                                 <div style="background-color: #0a53be; border-radius: 10px;">
                                                     <p class="text-white m-2">ROLLOUT</p>
                                                 </div>
-                                                {!! \Illuminate\Support\Str::limit($content->desc_roll_out, 500, '...') !!}
+                                                {!! \Illuminate\Support\Str::limit($content->desc_roll_out, 200, '... Baca Selengkapnya') !!}
                                             @elseif(str_contains(request()->path(), 'sosialisasi'))
                                                 <div style="background-color: #0a53be; border-radius: 10px;">
                                                     <p class="text-white m-2">SOSIALISASI</p>
                                                 </div>
-                                                {!! \Illuminate\Support\Str::limit($content->desc_sosialisasi, 500, '...') !!}
+                                                {!! \Illuminate\Support\Str::limit($content->desc_sosialisasi, 200, '... Baca Selengkapnya') !!}
                                             @endif
                                         </div>
                                     </div>
