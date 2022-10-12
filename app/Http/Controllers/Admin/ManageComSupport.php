@@ -964,4 +964,50 @@ class ManageComSupport extends Controller
             'data'      =>  request()->data
         ],200);*/
     }
+
+    function viewsContent($table, $id) {
+        try {
+            $ch = curl_init();
+            $token      = session()->get('token');
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/communication/views/$table/$id");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil = json_decode($result);
+
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    return response()->json([
+                        "status"    => 1,
+                        "data"      => $hasil->data,
+                    ],200);
+                }else{
+                    $data['message']    =   'Gagal';
+                    return response()->json([
+                        'status'    =>  0,
+                        'data'      =>  $hasil,
+                        'error'     => $data
+                    ],400);
+                }
+            }else{
+                $data['message']    =   'Gagal';
+                return response()->json([
+                    'status'    =>  0,
+                    'data'      =>  $hasil,
+                    'error'     => $data
+                ],400);
+            }
+        } catch (\Throwable $th) {
+            session()->flash('error',"Something Error, Try Again Please");
+            return back()->withInput();
+        }
+    }
 }

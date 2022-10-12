@@ -1,5 +1,4 @@
 let $table = $('#table')
-let $remove = $('#remove');
 let selections = [];
 var uri;
 var csrf = '';
@@ -34,22 +33,7 @@ for (let i = 0; i < metas.length; i++) {
 
 function ajaxRequest(params) {
     const url = `${uri}/get/strategicinitiative`
-    // const url2 = `${uri}/get/strategicinitiative/project/5`
 
-    /*$.ajax({
-        url: url2,
-        type: "get",
-        beforeSend: function(xhr){
-            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
-        },
-        success: function(data){
-            console.log(data)
-        },
-        error : function(e){
-            $('.senddataloader').hide();
-            alert(e);
-        }
-    });*/
     $.ajax({
         url: url + '?' + $.param(params.data),
         type: "get",
@@ -58,7 +42,8 @@ function ajaxRequest(params) {
             $('.senddataloader').show();
         },
         success: function(data){
-            const height = data.total === 0 ? 105 : 52 + (data.total * 108)
+            let pagination_height = data.totalRow === data.total ? 0 : 54
+            const height = data.totalRow === 0 ? 105 : 52 + (data.totalRow * 108) + pagination_height
             $table.bootstrapTable( 'resetView' , {height: height} );
             $('.senddataloader').hide();
             params.success(data)
@@ -152,11 +137,16 @@ function titleFormatter(value, row, index) {
         </div>`
 }
 
-function viewsFormatter(views) {
+function viewsFormatter(value, row, index) {
+    let view = 0
+    const com = row.communication_support
+    for (let i=0; i<com.length; i++) {
+        view += com[i].views
+    }
     return [
         '<div class="pl-4">',
         '<i class="fas fa-eye mr-2"></i>',
-        0,
+        view,
         '</div>',
     ].join('')
 }

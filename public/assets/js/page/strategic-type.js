@@ -1,5 +1,4 @@
 let $table = $('#table')
-let $remove = $('#remove');
 let selections = [];
 var uri;
 var csrf = '';
@@ -78,11 +77,7 @@ function edit(e) {
     window.location.href = uri+`/managecommunication/upload/content/${e}`;
 }
 
-function toProject(slug) {
-    window.location.href = uri+`/project/${slug}`;
-}
-
-function view(row) {
+function view(row, index) {
     $('#desc-preview').empty();
     let data_attach = []
     let attach = row.attach_file
@@ -132,15 +127,36 @@ function view(row) {
         $('#prev_status').append(`On Progress`);
     }
 
-    const titleCase = (s) =>
-        s.replace(/^_*(.)|_+(.)/g, (s, c, d) => c ? c.toUpperCase() : ' ' + d.toUpperCase())
-
     $('#prev_thumbnail').attr('src',`${uri}/storage/${row.thumbnail}`);
     $('#prev_thumbnail').attr('alt',`${row.title}`);
     $('#prev_namaproject').append(`${row.title}`);
     $('#prev_project').append(`${t_project}`);
     $('#prev_tglmulai').append(`${t_tgl_mulai}`);
     $('#prev_tglselesai').append(`${t_tgl_selesai}`);
+
+    const url = `${uri}/communication/views/content/${row.id}`
+    let t = "{{$token_auth}}";
+
+    $.ajax({
+        url: url,
+        data: {data: attach},
+        type: 'post',
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+        },
+        success: function (data) {
+            let view = data.data.views
+            $table.bootstrapTable('updateRow', {
+                index: index,
+                row: {
+                    views: view
+                }
+            })
+        },
+        error: function () {
+            Toast2.fire({icon: 'error',title: 'Gagal'});
+        },
+    })
 
     $('#modal-preview-1').modal({
         show : true
@@ -328,7 +344,7 @@ function operateFormatter(value, row, index) {
 
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        view(row)
+        view(row, index)
     },
     'click .edit': function (e, value, row, index) {
         edit(row.slug)
@@ -465,14 +481,6 @@ function initTable() {
     $table.on('all.bs.table', function (e, name, args) {
         console.log(name, args)
     })*/
-    $remove.click(function () {
-        var ids = getIdSelections()
-        $table.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
-        })
-        $remove.prop('disabled', true)
-    })
 }
 
 $(function() {

@@ -121,7 +121,8 @@
                     style="font-size: 22px; font-weight: 600; text-decoration: underline from-font">${data.project.nama}</a>`
                 $project.append(html)
                 $project.addClass('mb-3')
-                const height = data.total === 0 ? 105 : 52 + (data.total * 108)
+                let pagination_height = data.totalRow === data.total ? 0 : 54
+                const height = data.totalRow === 0 ? 105 : 52 + (data.totalRow * 108) + pagination_height
                 $table.bootstrapTable( 'resetView' , {height: height} );
                 $('.senddataloader').hide();
                 params.success(data)

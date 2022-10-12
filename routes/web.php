@@ -189,7 +189,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/mycomsupport/implementation/{type}', 'CommunicationController@setTypeImplementationInit')->name('mycomsupport.implementation.type');
         Route::get('/view/content', 'ContentComsupController@index')->name('view.comsup');
         Route::get('/view/implementation/{slug}', 'CommunicationController@getOneImplementation')->name('view.implement');
-
+        Route::post('/communication/views/{table}/{id}', 'Admin\ManageComSupport@viewsContent')->name('com_support.views');
 
     #Comment
         Route::post('/komentar', 'CommentController@create')->name('comment.create');

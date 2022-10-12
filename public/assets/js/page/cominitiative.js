@@ -1,5 +1,4 @@
 let $table = $('#table')
-let $remove = $('#remove');
 let selections = [];
 var uri;
 var csrf = '';
@@ -106,11 +105,7 @@ function download(attach) {
     })
 }
 
-function toProject(slug) {
-    window.location.href = uri+`/project/${slug}`;
-}
-
-function view(row) {
+function view(row, index) {
     $('#desc-preview').empty();
     let data_attach = []
     let attach = row.attach_file
@@ -166,6 +161,30 @@ function view(row) {
     $('#prev_project').append(`${t_project}`);
     $('#prev_tglmulai').append(`${t_tgl_mulai}`);
     $('#prev_tglselesai').append(`${t_tgl_selesai}`);
+
+    const url = `${uri}/communication/views/content/${row.id}`
+    let t = "{{$token_auth}}";
+
+    $.ajax({
+        url: url,
+        data: {data: attach},
+        type: 'post',
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+        },
+        success: function (data) {
+            let view = data.data.views
+            $table.bootstrapTable('updateRow', {
+                index: index,
+                row: {
+                    views: view
+                }
+            })
+        },
+        error: function () {
+            Toast2.fire({icon: 'error',title: 'Gagal'});
+        },
+    })
 
     $('#modal-preview-1').modal({
         show : true
@@ -322,13 +341,7 @@ function setStatus(value, row, valueOld) {
 function ajaxRequest(params) {
     const types = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
     const url = `${uri}/communicationinitiative/${types}`
-    /*$.get({url: url +'?' + $.param(params.data),
-        headers: {
-            'Authorization' :   `Bearer ${csrf}`,
-            "Accept"        :   "application/json"
-        }}).then(function (res) {
-        params.success(res)
-    })*/
+
     $.ajax({
         url: url + '?' + $.param(params.data),
         type: "get",
@@ -337,7 +350,8 @@ function ajaxRequest(params) {
             $('.senddataloader').show();
         },
         success: function(data){
-            const height = data.total === 0 ? 105 : 52 + (data.total * 108)
+            let pagination_height = data.totalRow === data.total ? 0 : 54
+            const height = data.totalRow === 0 ? 105 : 52 + (data.totalRow * 108) + pagination_height
             $table.bootstrapTable( 'resetView' , {height: height} );
             $('.senddataloader').hide();
             params.success(data)
@@ -386,7 +400,7 @@ function operateFormatter(value, row, index) {
 
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        view(row)
+        view(row, index)
     },
     'click .edit': function (e, value, row, index) {
         edit(row.slug)
@@ -523,14 +537,6 @@ function initTable() {
     $table.on('all.bs.table', function (e, name, args) {
         console.log(name, args)
     })*/
-    $remove.click(function () {
-        var ids = getIdSelections()
-        $table.bootstrapTable('remove', {
-            field: 'id',
-            values: ids
-        })
-        $remove.prop('disabled', true)
-    })
 }
 
 $(function() {
