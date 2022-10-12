@@ -17,7 +17,8 @@
             <div class="my-3 d-flex mx-auto flex-wrap">
                 <a href="{{route('dashboard.performance')}}" class="btn btn-outline-primary mt-2 mr-3" id="performance" role="button">Performance</a>
                 <a href="{{route('dashboard.alldata')}}" class="btn btn-outline-primary mt-2 mr-3 active" id="alldata" role="button">All Data</a>
-            </div>  
+                <a href="{{route('dashboard.comsuport')}}" class="btn btn-outline-primary mt-2 mr-3" id="comsuport" role="button">Communication Suppport</a>
+            </div>
         <!-- END BUTTONS -->
 
         <!-- CHART 1 -->
@@ -74,7 +75,7 @@
                 </div>
             </div>
         <!-- END CHART 1 -->
-        
+
         <div class="row">
             <!-- Most USER -->
                 <div class="col-md-6">
@@ -103,7 +104,7 @@
                                     </div>
                                 </div>
                             @empty
-                                
+
                             @endforelse
                             @while ($x <= 10)
                                 <hr>
@@ -143,7 +144,7 @@
                                     </div>
                                 </div>
                             @empty
-                                
+
                             @endforelse
                             @while ($y <= 10)
                                 <hr>

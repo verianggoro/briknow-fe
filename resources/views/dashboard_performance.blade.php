@@ -23,7 +23,7 @@
             <div class="my-3 d-flex mx-auto flex-wrap">
                 <a href="{{route('dashboard.performance')}}" class="btn btn-outline-primary mt-2 mr-3 active" id="performance" role="button">Performance</a>
                 <a href="{{route('dashboard.alldata')}}" class="btn btn-outline-primary mt-2 mr-3" id="alldata" role="button">All Data</a>
-                <a href="{{route('dashboard.alldata')}}" class="btn btn-outline-primary mt-2 mr-3" id="alldata" role="button">Communication Suppport</a>
+                <a href="{{route('dashboard.comsuport')}}" class="btn btn-outline-primary mt-2 mr-3" id="comsuport" role="button">Communication Suppport</a>
             </div>
         <!-- END BUTTONS -->
 

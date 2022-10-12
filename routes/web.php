@@ -68,6 +68,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/dashboard', 'Admin\DashboardController@redirect')->name('dashboard')->middleware('IsAdmin');
         Route::get('/dashboard/performance', 'Admin\DashboardController@performance')->name('dashboard.performance')->middleware('IsAdmin');
         Route::get('/dashboard/alldata', 'Admin\DashboardController@alldata')->name('dashboard.alldata')->middleware('IsAdmin');
+        Route::get('/dashboard/comsumport', 'Admin\DashboardController@dashboard_comsuport')->name('dashboard.comsuport')->middleware('IsAdmin');
         Route::get('/dashboard/getalldata', 'Admin\DashboardController@getalldata')->name('getalldata')->middleware('IsAdmin');
         Route::get('/dashboard/getprojectvisitor', 'Admin\DashboardController@getProjectVisitor')->name('getprojectvisitor')->middleware('IsAdmin');
         Route::get('/dashboard/getprojectconsultant', 'Admin\DashboardController@getprojectConsultant')->name('getprojectconsultant')->middleware('IsAdmin');

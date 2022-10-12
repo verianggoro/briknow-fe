@@ -32,13 +32,13 @@ class DashboardController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil      = json_decode($result);
-            // dd($hasil); 
+            // dd($hasil);
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
                     $raw = $hasil->data;
                     $most = $hasil->data->most;
                     $mostUk = $hasil->data->mostUK;
-                    
+
                     return view('dashboard_alldata', compact(['most', 'mostUk', 'raw']));
                 }else{
                     session()->flash('error',$hasil->data->message);
@@ -291,7 +291,7 @@ class DashboardController extends Controller
             }
             session()->flash('error','Get Data Bermasalah , Silahkan Coba Lagi');
         }
-        
+
         $raw = $this->raw;
         $data = $this->raw->data;
         $most = [];
@@ -482,7 +482,7 @@ class DashboardController extends Controller
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));           
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil = json_decode($result);
@@ -526,7 +526,7 @@ class DashboardController extends Controller
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));           
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil = json_decode($result);
@@ -570,7 +570,7 @@ class DashboardController extends Controller
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));           
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil = json_decode($result);
@@ -965,5 +965,10 @@ class DashboardController extends Controller
                 'data'      =>  $data
             ],400);
         }
+    }
+
+    public function dashboard_comsuport(){
+        $token_auth = session()->get('token');
+        return view('dashboard_comsuport', compact(['token_auth',]));
     }
 }
