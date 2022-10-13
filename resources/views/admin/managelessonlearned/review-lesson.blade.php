@@ -109,51 +109,65 @@
                     </div>
                 </div>
 {{--                for each--}}
-                <div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
-                    <div class="row">
-                        <div class="col-2">
-                            <p class="text-primary">Satuan Kerja Audit Intern</p>
-                        </div>
-                        <div class="col-3">
-                            <p class="text-primary">Micro Business Development Division</p>
-                        </div>
-                        <div class="col-3">
-                            <p>Fraud Risk Indicator Framework</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="text-primary">Deloitte</p>
-                        </div>
-                        <div class="col-2">
-                            <button class="btn btn-outline-secondary fas fa-pen"></button>
-                            <button class="btn btn-outline-secondary fas fa-trash"></button>
-                            <button class="btn btn-outline-secondary fas fa-arrow-down" data-toggle="collapse" data-target="#collapsData" aria-expanded="false" aria-controls="collapsData"></button>
-                        </div>
-                    </div>
-                    <div class="collapse" id="collapsData">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-4">
-                                    <h6>Lesson Learned</h6>
+                @forelse($data as $value)
+                    <div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
+                        <div class="row">
+                            <div class="col-2">
+                                <p class="text-primary">{{$value->divisi->direktorat}}</p>
+                            </div>
+                            <div class="col-3">
+                                <p class="text-primary">{{$value->divisi->divisi}}</p>
+                            </div>
+                            <div class="col-3">
+                                <p>{{$value->nama}}</p>
+                            </div>
+                            @forelse($value->consultant as $consultValue)
+                                <div class="col-2">
+                                    <p class="text-primary">{{$consultValue->nama}}</p>
                                 </div>
-                                <div class="col-8">
-                                    <h6>Keterangan</h6>
+                            @empty
+                                <div class="col-2">
+                                    <p class="text-primary">Internal</p>
+                                </div>
+                            @endforelse
+                            <div class="col-2">
+                                <a href="{{route('kontribusi.edit', $value->slug)}}" class="btn btn-outline-secondary fas fa-pen"></a>
+                                <button class="btn btn-outline-secondary fas fa-trash"></button>
+                                @if(!empty($value->lesson_learned))
+                                    <button class="btn btn-outline-secondary fas fa-arrow-down" data-toggle="collapse" href="#{{trim($value->nama)}}" aria-expanded="false" aria-controls="{{trim($value->nama)}}"></button>
+                                @endif
+                            </div>
+                        </div>
+                            <div class="collapse" id="{{trim($value->nama)}}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <h6>Lesson Learned</h6>
+                                        </div>
+                                        <div class="col-8">
+                                            <h6>Keterangan</h6>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    @forelse($value->lesson_learned as $lessonLearned)
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <p>{{$lessonLearned->lesson_learned}}</p>
+                                            </div>
+                                            <div class="col-8">
+                                                <p>{{$lessonLearned->detail}}</p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                    @empty
+                                        EMPTY
+                                    @endforelse
                                 </div>
                             </div>
-                            <hr/>
-{{--                            for each--}}
-                            <div class="row">
-                                <div class="col-4">
-                                    <p>Pemulihan Data</p>
-                                </div>
-                                <div class="col-8">
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </div>
-                            </div>
-                            <hr/>
-                        </div>
                     </div>
-                </div>
-
+                @empty
+                    EMPTY
+                @endforelse
                 <div class="d-flex justify-content-sm-end content-pagination" id="pag">
                 </div>
             </div>
@@ -181,22 +195,22 @@
                     <form id="form-sort-1">
                         <div class="row d-flex">
                             <div class="col-md-12" id="list-pemilik-proyek">
-                                <div id="listnya" class="ml-1">
-                                    @forelse ($divisi_unik as $key => $val)
-                                        <div class="input-group mb-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input fil_div" type="checkbox" value="{{$val}}">
-                                                <label class="form-check-label">
-                                                    <span>{{$val}}</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    @empty
-                                        <div class="d-flex justify-content-center">
-                                            Tidak ada data.
-                                        </div>
-                                    @endforelse
-                                </div>
+{{--                                <div id="listnya" class="ml-1">--}}
+{{--                                    @forelse ($divisi_unik as $key => $val)--}}
+{{--                                        <div class="input-group mb-3">--}}
+{{--                                            <div class="form-check">--}}
+{{--                                                <input class="form-check-input fil_div" type="checkbox" value="{{$val}}">--}}
+{{--                                                <label class="form-check-label">--}}
+{{--                                                    <span>{{$val}}</span>--}}
+{{--                                                </label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    @empty--}}
+{{--                                        <div class="d-flex justify-content-center">--}}
+{{--                                            Tidak ada data.--}}
+{{--                                        </div>--}}
+{{--                                    @endforelse--}}
+{{--                                </div>--}}
                                 <div id="group-btn">
                                     <button class="btn btn-success fil-div-app float-right mr-3" type="button" id="btn-apply-sort-pemilik">Terapkan</button>
                                     <button class="btn btn-danger fil-div-res float-right mr-2" type="button">Reset</button>
@@ -219,22 +233,22 @@
                     <form id="form-sort-2">
                         <div class="row d-flex">
                             <div class="col-md-12" id="list-nama-proyek">
-                                <div id="listnya" class="ml-1">
-                                    @forelse ($nama_unik as $key => $val)
-                                        <div class="input-group mb-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input fil_kon" type="checkbox" value="{{$val}}">
-                                                <label class="form-check-label" for="{{$key}}-check-sort-nama">
-                                                    <span>{{$val}}</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    @empty
-                                        <div class="d-flex justify-content-center">
-                                            Tidak ada data.
-                                        </div>
-                                    @endforelse
-                                </div>
+{{--                                <div id="listnya" class="ml-1">--}}
+{{--                                    @forelse ($nama_unik as $key => $val)--}}
+{{--                                        <div class="input-group mb-3">--}}
+{{--                                            <div class="form-check">--}}
+{{--                                                <input class="form-check-input fil_kon" type="checkbox" value="{{$val}}">--}}
+{{--                                                <label class="form-check-label" for="{{$key}}-check-sort-nama">--}}
+{{--                                                    <span>{{$val}}</span>--}}
+{{--                                                </label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    @empty--}}
+{{--                                        <div class="d-flex justify-content-center">--}}
+{{--                                            Tidak ada data.--}}
+{{--                                        </div>--}}
+{{--                                    @endforelse--}}
+{{--                                </div>--}}
                                 <div id="group-btn">
                                     <button class="btn btn-success fil-kon-app float-right mr-3" type="button">Terapkan</button>
                                     <button class="btn btn-danger fil-kon-res float-right mr-2" type="button">Reset</button>

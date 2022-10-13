@@ -29,31 +29,13 @@ class ManageLessonLearned extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil      = json_decode($result);
+            $dataLesson = [];
             // dd($result);
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
-                    $this->data = $hasil->data->data;
                     $sync_es = 0;
-                    $projects= [];
-                    $projeks = [];
+                    $dataLesson = $hasil->data;
 
-                    foreach ($this->data as $lesson){
-                        $shortDetail = strlen($lesson->detail) > 40 ? substr($lesson->detail,0,40)."..." : $lesson->detail;
-                        $shortLessonTitle = strlen($lesson->lesson_learned) > 30 ? substr($lesson->lesson_learned, 0, 40)."..." : $lesson->lesson_learned;
-
-                        $lesson->detail = $shortDetail;
-                        $lesson->lesson_learned = $shortLessonTitle;
-                    }
-                    // divisi
-//                    foreach ($this->data as $proj) {
-//                        $projects[$proj->divisi->id] = $proj->divisi->divisi;
-//                        foreach ($proj->consultant as $cons) {
-//                            $projeks[$cons->id] = $cons->nama;
-//                        }
-//                    }
-                    $divisi_unik = array_unique($projects);
-                    // nama project
-                    $nama_unik = array_unique($projeks);
                 }else{
                     $sync_es = 0;
                     $this->data = [];
@@ -67,14 +49,14 @@ class ManageLessonLearned extends Controller
                 return back();
             }
             $token_auth = $this->token_auth;
-            $data = $this->data;
+            $data = $dataLesson;
             // $data = $this->paginate($data);
             // $data->withPath('/manageproject/review');
             // dd($nama_unik);
             // dd($data);
 
             // return view('admin.manageproject.review', compact(['data', 'token_auth', 'divisi_unik', 'nama_unik']));
-            return view('admin.managelessonlearned.review-lesson', compact(['token_auth', 'data', 'divisi_unik', 'nama_unik', 'sync_es']));
+            return view('admin.managelessonlearned.review-lesson', compact(['token_auth', 'data', 'sync_es']));
 //        }catch (\Throwable $th) {
 //            if (isset($hasil->message)) {
 //                if ($hasil->message == "Unauthenticated.") {

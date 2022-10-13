@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 class ManageProjectController extends Controller
 {
@@ -40,6 +41,8 @@ class ManageProjectController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil      = json_decode($result);
+
+            Log::info("INPOH PROJECT ", [$hasil]);
             // dd($result);
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
@@ -258,7 +261,7 @@ class ManageProjectController extends Controller
         $this->token_auth = session()->get('token');
         $page             = request()->page??1;
         $search           = str_replace(" ","_",urldecode($search));
-        
+
         try {
             $fil_div    =   urldecode($fil_div);
             $fil_kon    =   urldecode($fil_kon);
