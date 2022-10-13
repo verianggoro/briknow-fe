@@ -170,11 +170,11 @@
                             aria-controls="collapsedirectorat" class="dropdown-toggle">Direktorat</h5>
                         <ul class="collapse" id="collapsedirectorat">
                             <div class="row d-flex spacing-filter">
-                                <select name="direktorat" id="direktorat" class="form-control text-black select2" data-live-search="true"
+                                <select name="direktorat" id="direktorat-lay" class="form-control text-black select2" data-live-search="true"
                                         style="height: 44px" value="{{old('direktorat')}}">
                                     <option value="" disabled selected>Pilih Direktorat</option>
                                     @if(empty($direktorat))
-                                        <option value="finace" data-value="finace">{{$dataList ?? 'NOT FOUND'}}</option>
+                                        <option value="finance" data-value="finance">{{$dataList ?? 'NOT FOUND'}}</option>
                                     @else
                                         @foreach($direktorat as $dirContent)
                                             <option value="{{$dirContent->direktorat }}" data-value="{{ $dirContent->direktorat }}">{{$dirContent->direktorat}}</option>
@@ -186,13 +186,13 @@
                                 <select name="direktorat" id="direktorat" class="form-control text-black select2 mt-2" data-live-search="true"
                                         style="height: 44px" value="{{old('direktorat')}}">
                                     <option value="" disabled selected>Pilih Divisi</option>
-{{--                                    @if(empty($divisi))--}}
-{{--                                        <option value="null" data-value="null">{{$divisi ?? 'NOT FOUND'}}</option>--}}
-{{--                                    @else--}}
-{{--                                        @foreach($divisi as $divContent)--}}
-{{--                                            <option value="{{$divContent->divisi }}" data-value="{{ $divContent->divisi }}">{{$divContent->divisi}}</option>--}}
-{{--                                        @endforeach--}}
-{{--                                    @endif--}}
+                                    @if(empty($divisiRes))
+                                        <option value="null" data-value="null">{{$divisi ?? 'NOT FOUND'}}</option>
+                                    @else
+                                        @foreach($divisiRes as $divContent)
+                                            <option value="{{$divContent->divisi }}" data-value="{{ $divContent->divisi }}">{{$divContent->divisi}}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
                         </ul>
@@ -326,4 +326,5 @@
 <script src="{{asset_app('assets/js/temp/scripts.js')}}"></script>
 <script src="{{asset_app('assets/js/temp/custom.js')}}"></script>
 <script src="{{asset_app('assets/js/page/notification.js')}}"></script>
+<script src="{{asset_app('assets/js/page/cominitiativeupload.js')}}"></script>
 </body>

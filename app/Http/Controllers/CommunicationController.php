@@ -67,9 +67,11 @@ class CommunicationController extends Controller
             $resultDivisi = curl_exec($chDiv);
             $hasilDivisi = json_decode($resultDivisi);
             $direktorat = [];
+            $divisiRes = [];
 
             if ($hasilDivisi->status == 1) {
-                $this->direktorat = $hasilDivisi->data->data;
+                $this->direktorat = $hasilDivisi->data->direktorat;
+                $divisiRes = $hasilDivisi->data->divisi;
                 $direktorat = $this->direktorat;
             } else {
                 session()->flash('error', $hasilDivisi->data->message);
@@ -78,7 +80,7 @@ class CommunicationController extends Controller
             if ($hasil->status == 1) {
                 $this->dataInitiative = $hasil->data->data;
                 $data = $this->dataInitiative;
-                return view('communication_initiative', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat']));
+                return view('communication_initiative', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat', 'divisiRes']));
             } else {
                 session()->flash('error', $hasil->data->message);
             }
@@ -124,9 +126,11 @@ class CommunicationController extends Controller
             $resultDivisi = curl_exec($chDiv);
             $hasilDivisi = json_decode($resultDivisi);
             $direktorat = [];
+            $divisiRes = [];
 
             if ($hasilDivisi->status == 1) {
-                $this->direktorat = $hasilDivisi->data->data;
+                $this->direktorat = $hasilDivisi->data->direktorat;
+                $divisiRes = $hasilDivisi->data->divisi;
                 $direktorat = $this->direktorat;
             } else {
                 session()->flash('error', $hasilDivisi->data->message);
@@ -135,7 +139,7 @@ class CommunicationController extends Controller
             if ($hasil->status == 1) {
                 $this->dataStrategic = $hasil->data;
                 $data = $this->dataStrategic;
-                return view('strategic_initiative', compact(['sync_es', 'token_auth', 'data', 'direktorat']));
+                return view('strategic_initiative', compact(['sync_es', 'token_auth', 'data', 'direktorat', 'divisiRes']));
             } else {
                 session()->flash('error', $hasil->data->message);
             }
@@ -180,9 +184,11 @@ class CommunicationController extends Controller
             $resultDivisi = curl_exec($chDiv);
             $hasilDivisi = json_decode($resultDivisi);
             $direktorat = [];
+            $divisiRes = [];
 
             if ($hasilDivisi->status == 1) {
-                $this->direktorat = $hasilDivisi->data->data;
+                $this->direktorat = $hasilDivisi->data->direktorat;
+                $divisiRes = $hasilDivisi->data->divisi;
                 $direktorat = $this->direktorat;
             } else {
                 session()->flash('error', $hasilDivisi->data->message);
@@ -192,7 +198,7 @@ class CommunicationController extends Controller
                 $content = $hasil->data->content;
                 $data = $hasil->data->project;
 
-                return view('strategic_by_project', compact(['sync_es', 'token_auth', 'slug', 'data', 'direktorat', 'content']));
+                return view('strategic_by_project', compact(['sync_es', 'token_auth', 'slug', 'data', 'direktorat', 'content', 'divisiRes']));
             } else {
                 session()->flash('error', $hasil->data->message);
             }
@@ -237,9 +243,11 @@ class CommunicationController extends Controller
             $resultDivisi = curl_exec($chDiv);
             $hasilDivisi = json_decode($resultDivisi);
             $direktorat = [];
+            $divisiRes = [];
 
             if ($hasilDivisi->status == 1) {
-                $this->direktorat = $hasilDivisi->data->data;
+                $this->direktorat = $hasilDivisi->data->direktorat;
+                $divisiRes = $hasilDivisi->data->divisi;
                 $direktorat = $this->direktorat;
             } else {
                 session()->flash('error', $hasilDivisi->data->message);
@@ -248,7 +256,7 @@ class CommunicationController extends Controller
             if ($hasil->status == 1) {
                 $data = $hasil->data;
 
-                return view('strategic_by_content', compact(['sync_es', 'token_auth', 'slug', 'data', 'type', 'direktorat']));
+                return view('strategic_by_content', compact(['sync_es', 'token_auth', 'slug', 'data', 'type', 'direktorat', 'divisiRes']));
             } else {
                 session()->flash('error', $hasil->data->message);
             }
@@ -311,9 +319,11 @@ class CommunicationController extends Controller
             $resultDivisi = curl_exec($chDiv);
             $hasilDivisi = json_decode($resultDivisi);
             $direktorat = [];
+            $divisiRes = [];
 
             if ($hasilDivisi->status == 1) {
-                $this->direktorat = $hasilDivisi->data->data;
+                $this->direktorat = $hasilDivisi->data->direktorat;
+                $divisiRes = $hasilDivisi->data->divisi;
                 $direktorat = $this->direktorat;
             } else {
                 session()->flash('error', $hasilDivisi->data->message);
@@ -322,7 +332,7 @@ class CommunicationController extends Controller
             if ($hasil->status == 1) {
                 $this->dataInitiative = $hasil->data->data;
                 $data = $this->dataInitiative;
-                return view('implementation', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat']));
+                return view('implementation', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat', 'divisiRes']));
             } else {
                 session()->flash('error', $hasil->data->message);
             }
