@@ -326,5 +326,4 @@
 <script src="{{asset_app('assets/js/temp/scripts.js')}}"></script>
 <script src="{{asset_app('assets/js/temp/custom.js')}}"></script>
 <script src="{{asset_app('assets/js/page/notification.js')}}"></script>
-<script src="{{asset_app('assets/js/page/cominitiativeupload.js')}}"></script>
 </body>

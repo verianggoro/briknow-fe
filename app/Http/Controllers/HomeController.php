@@ -22,6 +22,8 @@ class HomeController extends Controller
     public $owner_project;
     public $consultant;
     public $suggest;
+    public $direktorat;
+    public $divisi;
 
     public function __construct()
     {
@@ -50,7 +52,6 @@ class HomeController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil = json_decode($result);
-            Log::info("DEFAULT HOME FE", [$hasil]);
             // dd($hasil);
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
@@ -60,6 +61,8 @@ class HomeController extends Controller
                     $this->suggest          = $hasil->data->suggest;
                     $leaderboard            = $hasil->data->leaderboard;
                     $this->cominitiative    = $hasil->data->cominitiative;
+                    $this->direktorat       = $hasil->data->direktorat;
+                    $this->divisi           = $hasil->data->divisi;
                 }else{
                     $this->default();
                 }
@@ -89,8 +92,11 @@ class HomeController extends Controller
         $consultant     = $this->consultant;
         $suggest        = $this->suggest;
         $recominitiative = $this->cominitiative;
+        $direk          = $this->direktorat;
+        $divisi         = $this->divisi;
+
         // dd($leaderboard);
-        return view('index',compact('rekomendasi', 'recominitiative','owner_project','consultant','suggest','leaderboard'));
+        return view('index',compact('rekomendasi', 'direk', 'divisi', 'recominitiative','owner_project','consultant','suggest','leaderboard'));
     }
 
     public function indexPOST(){

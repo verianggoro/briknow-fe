@@ -1683,6 +1683,121 @@ function profile() {
     window.open(uri+"/profile", "_blank");
 };
 
+let BE                      = '';
+let base_url                = '';
+let token                   = '';
+let csrf                   = '';
+let project = [];
+
+function cekValid() {
+    const $form = $('#form')
+    let curInputs = $form.find("input[type='text'],input[type='url'],input[type='file'],input[type='date'],input[type='email'],select")
+    for(let i=0; i<curInputs.length; i++){
+        if (!curInputs[i].validity.valid){
+            return false;
+        }
+    }
+    return checkEditor()
+}
+
+$(document).ready(function () {
+
+    $('#direktoratIndex').select2({
+        placeholder : 'Pilih Direktorat'
+    });
+
+    $('#divisi').select2({
+        placeholder : 'Pilih Unit Kerja'
+    });
+
+});
+
+
+$('#direktoratIndex').change(function(){
+    if ($(this).val() !== null) {
+        cekDivisi();
+        console.log("INI APAA")
+    }
+    console.log("INI APAA")
+});
+
+const cekDivisi = (valueOld = null) => {
+    if($('#divisi').hasClass('is-invalid') || $('#divisi').hasClass('is-valid')){
+        if(this.value == ""){
+            $("[aria-labelledby='select2-direktorat-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-direktorat-container']").attr("style", "border-color:#38c172;");
+        }
+    }
+
+    var direktorat  = $('select[name=direktorat] option').filter(':selected').val();
+    var url = `${uri}/getdivisi/${direktorat}`;
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function()
+        {
+            $('.pagination').remove();
+
+            $("#divisi option").each(function() {
+                $(this).remove();
+            });
+
+            $('.senddataloader').show();
+        },
+        success: function(data){
+            var option = "<option value='' selected disabled>Pilih Unit Kerja</option>";
+            $('.senddataloader').hide();
+            // innert html
+            if (data.data.length > 0) {
+                for (let index = 0; index < data.data.length; index++) {
+                    if (valueOld !== null) {
+                        if (valueOld === data.data[index].id) {
+                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
+                        }else{
+                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
+                        }
+                    } else if (project.length !== 0) {
+                        if (project.divisi.id === data.data[index].id) {
+                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
+                        }else{
+                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
+                        }
+                    } else{
+                        option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
+                    }
+                }
+            }
+            $('#divisi').append(option);
+        },
+        error : function(e){
+            $('.senddataloader').hide();
+            alert(e);
+        }
+    });
+}
+
+let divisiVal = $('#divisi').val();
+if (divisiVal !== "" && divisiVal !== null) {
+    divisiVal   =   parseInt(divisiVal);
+    cekDivisi(divisiVal);
+}
+
+$('#divisi').change(function(){
+    if($('#divisi').hasClass('is-invalid') || $('#divisi').hasClass('is-valid')){
+        if(this.value == ""){
+            $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:#38c172;");
+        }
+    }
+});
+
+
+/*
+*/
+
+
 datarekap();
 datarekap2();
 dataStrategic();

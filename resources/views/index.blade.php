@@ -202,11 +202,11 @@
                                       <div class="card bg-6sa6ss sh-a22l" style="border-radius: 16px">
                                           <img class="card-img-up" style="max-width: 100%; height: auto" src="{{ asset('storage/'.$item->thumbnail)}}" alt="Card image cap">
                                           <div class="card-body">
-                                              <h5 class="card-title">BRIvolution 2.0 Akan Sukses Karena Ada 3...</h5>
-                                              <p class="card-text">Siapa yang tidak terpana kalau...</p>
+                                              <h5 class="card-title">{{$item->nama}}</h5>
+                                              {!! \Illuminate\Support\Str::limit($item->desc, 20, ' ...') !!}
                                               <div class="d-flex justify-content-between">
                                                   <i class="mr-auto p-2 fas fa-eye">
-                                                      <span>1</span>
+                                                      <span>{{$item->view}}</span>
                                                   </i>
                                                   <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
                                                   <button class="btn fas fa-share-square p-2" style="font-size: 20px"></button>
@@ -309,12 +309,35 @@
                                 <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
                                 </span>
                                   </div>
-                                  <input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef" id="search" placeholder="Search Project, Consultant, And More...">
+                                  <select onchange="cekDivisi()" name="direktorat" id="direktorat"
+                                          class="mr-auto p-2 form-control text-black select2"
+                                          value="{{old('direktorat')}}" >
+                                      <option value="" disabled selected>Pilih Direktorat</option>
+                                      @foreach ($direk == NULL ? 'Lainnya' : $direk as $item)
+                                          @isset($divisi)
+                                              @if($divisi == $item->direktorat)
+                                                  <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}" selected>{{ $item->direktorat }}</option>
+                                              @else
+                                                  <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
+                                              @endif
+                                          @elseif(old('direktorat') <> null)
+                                              @if(old('direktorat') == $item->direktorat)
+                                                  <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}" selected>{{ $item->direktorat }}</option>
+                                              @else
+                                                  <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
+                                              @endif
+                                          @else
+                                              <option value="{{$item->direktorat }}" data-value="{{ $item->direktorat }}">{{ $item->direktorat }}</option>
+                                          @endisset
+                                      @endforeach
+                                      <option value="NULL">Lainnya</option>
+                                  </select>
                                   <div class="input-group-prepend ml-3">
                                 <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
                                 </span>
                                   </div>
-                                  <input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef" id="search" placeholder="Search Project, Consultant, And More...">
+                                  <input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef"
+                                         id="search" placeholder="Konsultan...">
                               </div>
                           </div>
                           <div class="mt-3">
@@ -327,12 +350,21 @@
                                 <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
                                 </span>
                                   </div>
-                                  <input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef" id="search" placeholder="Search Project, Consultant, And More...">
+                                  <select  id="divisi" class="mr-auto p-2 form-control select2" value="{{old('divisi')}}" name="divisi">
+                                      <option value="" selected disabled>Pilih Unit Kerja</option>
+                                  </select>
                                   <div class="input-group-prepend ml-3">
                                 <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
                                 </span>
                                   </div>
-                                  <input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef" id="search" placeholder="Search Project, Consultant, And More...">
+                                  <select  id="lessonLearned" class="mr-auto p-2 form-control select2" value="plan" name="lessonLearned">
+                                      <option value="" selected disabled>Pilih Lesson Learned</option>
+                                      <option value="plan" data-value="plan" >Plan</option>
+                                      <option value="procurement" data-value="procurement" >Procurement</option>
+                                      <option value="development" data-value="development" >Development</option>
+                                      <option value="pilot" data-value="pilot" >Pilot Run</option>
+                                      <option value="implementation" data-value="implementation" >Implementation</option>
+                                  </select>
                               </div>
                           </div>
                           <div class="mt-3">
@@ -341,9 +373,11 @@
                               </div>
                               <div class="d-flex justify-content-start">
                                   <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i></span>
+                                      <span class="input-group-text"><i class="fa fa-search fa-lg"
+                                                                        aria-hidden="true"></i></span>
                                   </div>
-                                  <input type="date" name="search" class="col-lg-6 mr-3 form-control main-cari-2iaef" id="search" placeholder="Search Project, Consultant, And More...">
+                                  <input type="date" name="search" class="col-lg-6 mr-3 form-control main-cari-2iaef"
+                                         id="search" placeholder="Search Project, Consultant, And More...">
                               </div>
                           </div>
                           <div class="w-100 d-flex mt-4 justify-content-center">
