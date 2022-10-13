@@ -204,9 +204,9 @@
                             {{--                            foreach date--}}
                             <div class="row spacing-filter">
                                 <a role="button" class="btn-filter col-sm-3 m-1 ">2019</a>
-                                <a role="button" class="btn-filter col-sm-3 m-1 ">2020</a>
+                                <a role="button" class="btn-filter col-sm-3 m-1 active">2020</a>
                                 <a role="button" class="btn-filter col-sm-3 m-1 ">2021</a>
-                                <a role="button" class="btn-filter col-sm-3 m-1 ">2022</a>
+                                <a role="button" class="btn-filter col-sm-3 m-1 active">2022</a>
                             </div>
                             <div id="year-list" class="row spacing-filter">
                                 <p>Bulan</p>
@@ -215,10 +215,10 @@
                                 <a role="button" class="btn-filter col-sm-2 m-1">Jan</a>
                                 <a role="button" class="btn-filter col-sm-2 m-1">Feb</a>
                                 <a role="button" class="btn-filter col-sm-2 m-1">Mar</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1">Apr</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1 active">Apr</a>
                                 <a role="button" class="btn-filter col-sm-2 m-1">Mei</a>
                                 <a role="button" class="btn-filter col-sm-2 m-1">Jun</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Jul</a>
+                                <a role="button" class="btn-filter col-sm-2 m-1 active">Jul</a>
                                 <a role="button" class="btn-filter col-sm-2 m-1 ">Agu</a>
                                 <a role="button" class="btn-filter col-sm-2 m-1 ">Sep</a>
                                 <a role="button" class="btn-filter col-sm-2 m-1 ">Okt</a>
