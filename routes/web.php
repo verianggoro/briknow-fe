@@ -154,7 +154,8 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::delete('/implementation/delete/{id}', 'Admin\ManageComSupport@deleteImplementation')->name('implementation.delete')->middleware('IsAdmin');
     Route::get('/form/implementation/upload/{slug}', 'Admin\ManageComSupport@getDataUpdateImplementation')->name('implementation.update')->middleware('IsAdmin');
     #--
-    Route::post('/attach/download', 'Admin\ManageComSupport@download_attach')->name('com_support.download')->middleware('IsAdmin');
+    Route::get('/attach/download/content/{id}', 'Admin\ManageComSupport@download_content')->name('com_support.download');
+    Route::get('/attach/download/implementation/{id}', 'Admin\ManageComSupport@download_implementation')->name('implementation.download');
 
     #DASHBOARD - MANAGEMENT CONSULTANT
         Route::get('/manageconsultant', 'Admin\ManageConsultantController@index')->name('manage_consultant')->middleware('IsAdmin');

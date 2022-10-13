@@ -84,25 +84,8 @@ function edit(e) {
     window.location.href = uri+`/managecommunication/upload/content/${e}`;
 }
 
-function download(attach) {
-    const url = `${uri}/attach/download`
-    let t = "{{$token_auth}}";
-
-    $.ajax({
-        url: url,
-        data: {data: attach},
-        type: 'post',
-        beforeSend: function(xhr){
-            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
-            $('.senddataloader').show();
-        },
-        success: function () {
-            $('.senddataloader').hide();
-        },
-        error: function () {
-            $('.senddataloader').hide();
-        },
-    })
+function download(id) {
+    window.location.href = uri+`/attach/download/content/${id}`;
 }
 
 function view(row, index) {
@@ -409,7 +392,7 @@ window.operateEvents = {
         hapus(value)
     },
     'click .download': function (e, value, row, index) {
-        download(row.attach_file);
+        download(row.id);
     },
 }
 

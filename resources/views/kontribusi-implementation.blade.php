@@ -290,11 +290,8 @@
                                         <i class="fa fa-file mr-3" style="font-size: 24px"></i>
                                         <p style="text-align:left;cursor:default;margin-bottom: 0">Drag file here<br>or <span class="choose-file">choose your file</span></p>
                                     </div>
-                                    @isset($data->data->attach_file)
+
                                     <input type="file" name="file_piloting[]" class="dropzones form-control" id="file-piloting" multiple>
-                                    @else
-                                    <input type="file" name="file_piloting[]" class="dropzones form-control" id="file-piloting" multiple>
-                                    @endisset
                                 </div>
                             </div>
                             <div class="my-0">
@@ -345,11 +342,8 @@
                                         <i class="fa fa-file mr-3" style="font-size: 24px"></i>
                                         <p style="text-align:left;cursor:default;margin-bottom: 0">Drag file here<br>or <span class="choose-file">choose your file</span></p>
                                     </div>
-                                    @isset($data->data->attach_file)
+
                                     <input type="file" name="file_rollout[]" class="dropzones form-control" id="file-rollout" multiple>
-                                    @else
-                                    <input type="file" name="file_rollout[]" class="dropzones form-control" id="file-rollout" multiple>
-                                    @endisset
                                 </div>
                             </div>
                             <div class="my-0">
@@ -400,11 +394,8 @@
                                         <i class="fa fa-file mr-3" style="font-size: 24px"></i>
                                         <p style="text-align:left;cursor:default;margin-bottom: 0">Drag file here<br>or <span class="choose-file">choose your file</span></p>
                                     </div>
-                                    @isset($data->data->attach_file)
+
                                     <input type="file" name="file_sosialisasi[]" class="dropzones form-control" id="file-sosialisasi" multiple>
-                                    @else
-                                    <input type="file" name="file_sosialisasi[]" class="dropzones form-control" id="file-sosialisasi" multiple>
-                                    @endisset
                                 </div>
                             </div>
                             <div class="my-0">

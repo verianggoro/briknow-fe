@@ -77,8 +77,8 @@ function edit(e) {
     window.location.href = uri+`/managecommunication/upload/implementation/${e}`;
 }
 
-function toProject(slug) {
-    window.location.href = uri+`/project/${slug}`;
+function download(id) {
+    window.location.href = uri+`/attach/download/implementation/${id}`;
 }
 
 function view(row, index) {
@@ -421,7 +421,7 @@ window.operateEvents = {
         hapus(value)
     },
     'click .download': function (e, value, row, index) {
-        console.log('You click like action, row: ' + JSON.stringify(row))
+        download(row.id);
     },
 }
 

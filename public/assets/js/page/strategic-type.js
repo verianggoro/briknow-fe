@@ -77,6 +77,10 @@ function edit(e) {
     window.location.href = uri+`/managecommunication/upload/content/${e}`;
 }
 
+function download(id) {
+    window.location.href = uri+`/attach/download/content/${id}`;
+}
+
 function view(row, index) {
     $('#desc-preview').empty();
     let data_attach = []
@@ -353,7 +357,7 @@ window.operateEvents = {
         hapus(value)
     },
     'click .download': function (e, value, row, index) {
-        alert('You click like action, row: ' + JSON.stringify(row))
+        download(row.id);
     },
 }
 
