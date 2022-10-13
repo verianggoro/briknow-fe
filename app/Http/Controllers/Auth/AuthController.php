@@ -48,6 +48,7 @@ class AuthController extends Controller
             'captcha'               =>  'required|captcha'
         ]);
 
+        try {
             $ch = curl_init();
             $headers  = [
                         'Content-Type: application/json',
@@ -118,6 +119,10 @@ class AuthController extends Controller
                 Session::flash('error','Something Problem');
                 return back();
             }
+        }catch (\Throwable $th) {
+            Session::flash('error',"Something Error, Try Again Please".$th);
+            return back();
+        }
     }
 
     public function logout(Request $request)
