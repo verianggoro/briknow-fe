@@ -303,11 +303,8 @@
                                         <i class="fa fa-file mr-3" style="font-size: 24px"></i>
                                         <p style="text-align:left;cursor:default;margin-bottom: 0">Drag file here<br>or <span class="choose-file">choose your file</span></p>
                                     </div>
-                                    @isset($data->data->attach_file)
+
                                     <input type="file" name="file_piloting[]" class="dropzones form-control" id="file-piloting" multiple>
-                                    @else
-                                    <input type="file" name="file_piloting[]" class="dropzones form-control" id="file-piloting" multiple>
-                                    @endisset
                                 </div>
                             </div>
                             <div class="my-0">
@@ -316,9 +313,8 @@
                             </div>
 
                             <div class="preview-zone mt-3" id="preview-piloting">
-                                @isset($data->data->attach_file)
-                                @forelse($data->data->attach_file as $item)
-                                    @if($item->tipe == 'piloting')
+                                @isset($data->data->piloting)
+                                    @forelse($data->data->piloting as $item)
                                         <div id="prev-piloting{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
                                             <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
                                                 <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
@@ -332,9 +328,8 @@
                                             </div>
                                             <input id="attach-piloting" type="hidden" name="attach_piloting[]" value="{{$item->url_file}}">
                                         </div>
-                                    @endif
-                                @empty
-                                @endforelse
+                                    @empty
+                                    @endforelse
                                 @endisset
                             </div>
                         </div>
@@ -358,11 +353,8 @@
                                         <i class="fa fa-file mr-3" style="font-size: 24px"></i>
                                         <p style="text-align:left;cursor:default;margin-bottom: 0">Drag file here<br>or <span class="choose-file">choose your file</span></p>
                                     </div>
-                                    @isset($data->data->attach_file)
+
                                     <input type="file" name="file_rollout[]" class="dropzones form-control" id="file-rollout" multiple>
-                                    @else
-                                    <input type="file" name="file_rollout[]" class="dropzones form-control" id="file-rollout" multiple>
-                                    @endisset
                                 </div>
                             </div>
                             <div class="my-0">
@@ -371,25 +363,23 @@
                             </div>
 
                             <div class="preview-zone mt-3" id="preview-rollout">
-                                @isset($data->data->attach_file)
-                                @forelse($data->data->attach_file as $item)
-                                @if($item->tipe == 'rollout')
-                                <div id="prev-rollout{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
-                                    <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
-                                        <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <i class="fas fa-file mr-3"></i>{{$item->nama}}
+                                @isset($data->data->rollout)
+                                    @forelse($data->data->rollout as $item)
+                                        <div id="prev-rollout{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
+                                            <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
+                                                <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <i class="fas fa-file mr-3"></i>{{$item->nama}}
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete', 'rollout')">
+                                                        <i class="fas fa-times"></i>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete', 'rollout')">
-                                                <i class="fas fa-times"></i>
-                                            </div>
+                                            <input id="attach-rollout" type="hidden" name="attach_rollout[]" value="{{$item->url_file}}">
                                         </div>
-                                    </div>
-                                    <input id="attach-rollout" type="hidden" name="attach_rollout[]" value="{{$item->url_file}}">
-                                </div>
-                                @endif
-                                @empty
-                                @endforelse
+                                    @empty
+                                    @endforelse
                                 @endisset
                             </div>
                         </div>
@@ -413,11 +403,8 @@
                                         <i class="fa fa-file mr-3" style="font-size: 24px"></i>
                                         <p style="text-align:left;cursor:default;margin-bottom: 0">Drag file here<br>or <span class="choose-file">choose your file</span></p>
                                     </div>
-                                    @isset($data->data->attach_file)
+
                                     <input type="file" name="file_sosialisasi[]" class="dropzones form-control" id="file-sosialisasi" multiple>
-                                    @else
-                                    <input type="file" name="file_sosialisasi[]" class="dropzones form-control" id="file-sosialisasi" multiple>
-                                    @endisset
                                 </div>
                             </div>
                             <div class="my-0">
@@ -426,25 +413,23 @@
                             </div>
 
                             <div class="preview-zone mt-3" id="preview-sosialisasi">
-                                @isset($data->data->attach_file)
-                                @forelse($data->data->attach_file as $item)
-                                @if($item->tipe == 'sosialisasi')
-                                <div id="prev-sosialisasi{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
-                                    <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
-                                        <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <i class="fas fa-file mr-3"></i>{{$item->nama}}
+                                @isset($data->data->sosialisasi)
+                                    @forelse($data->data->sosialisasi as $item)
+                                        <div id="prev-sosialisasi{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
+                                            <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
+                                                <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <i class="fas fa-file mr-3"></i>{{$item->nama}}
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete', 'sosialisasi')">
+                                                        <i class="fas fa-times"></i>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete', 'sosialisasi')">
-                                                <i class="fas fa-times"></i>
-                                            </div>
+                                            <input id="attach-sosialisasi" type="hidden" name="attach_sosialisasi[]" value="{{$item->url_file}}">
                                         </div>
-                                    </div>
-                                    <input id="attach-sosialisasi" type="hidden" name="attach_sosialisasi[]" value="{{$item->url_file}}">
-                                </div>
-                                @endif
-                                @empty
-                                @endforelse
+                                    @empty
+                                    @endforelse
                                 @endisset
                             </div>
                         </div>
