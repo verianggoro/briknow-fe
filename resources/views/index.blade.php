@@ -347,7 +347,7 @@
                               </div>
                           </div>
                           <div class="w-100 d-flex mt-4 justify-content-center">
-                              <button class="btn btn-primary">Terapkan</button>
+                              <a class="btn btn-primary" href="{{route('katalog.pencarian','test')}}">Terapkan</a>
                           </div>
                       </div>
                   </div>
