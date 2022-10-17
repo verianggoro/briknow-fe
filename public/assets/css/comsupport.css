@@ -3,7 +3,7 @@
     padding: 0px 0px 0px 20px !important;
     height: 50px;
     text-align: left;
-    background: white;
+    background: var(--bs-table-accent-bg);
 }
 
 .table:not(.table-sm) thead th {
@@ -359,7 +359,7 @@ tbody tr:last-child td {
     color: #c82333;
 }
 .prev-item {
-    width: 85%;
+    width: 92%;
     height: 100%;
     box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%);
     background: #FFFFFF;
@@ -607,4 +607,18 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
 
 .select2-container--default .select2-results__option--disabled {
     background: #f4f4f4;
+}
+
+.table-hover>tbody>tr:hover>* {
+    /*--bs-table-accent-bg: rgba(0, 0, 0, 0.075);*/
+    color: #212529;
+    cursor: pointer;
+}
+
+.text-elip {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 95%;
+    text-align: left;
 }

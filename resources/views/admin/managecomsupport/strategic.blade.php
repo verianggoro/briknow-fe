@@ -66,6 +66,20 @@
     </div>
 </div>
 @endsection
+@section('popup')
+{{-- preview --}}
+<div class="modal fade bd-example-modal-lg modal-preview" id="modalpreview" tabindex="-1" role="dialog" aria-labelledby="preview" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered dialog-preview" role="document">
+        <div class="modal-content content-preview bg-transparent">
+            <div class="w-100 d-flex justify-content-center align-items-center" id="content-preview">
+                <div class="bg-white bg-white w-100 content-preview">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
 
 @push('page-script')
 <script>

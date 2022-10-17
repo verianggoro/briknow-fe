@@ -303,7 +303,7 @@ function appendDesc(step, editor, caption, data) {
 
 }
 
-function setStatus(value, row, valueOld) {
+function setStatus(value, row, valueOld, index) {
     const url = `${uri}/implementation/status/${value}/${row}`
     let $select = $('#selectStatus'+row)
     let t = "{{$token_auth}}";
@@ -338,7 +338,12 @@ function setStatus(value, row, valueOld) {
                 success: function (data) {
                     $('.senddataloader').hide();
                     Toast2.fire({icon: 'success',title: data.data.toast});
-                    location.reload();
+                    $table.bootstrapTable('updateRow', {
+                        index: index,
+                        row: {
+                            status: value
+                        }
+                    })
                 },
                 error: function (error) {
                     const resError = JSON.parse(error.responseText);
@@ -426,13 +431,26 @@ window.operateEvents = {
 }
 
 function statusFormatter (value, row, index) {
-    const options = ['Unpublish', 'Approve', 'Publish', 'Reject'];
+    const options1 = ['Pending Review', 'Approve', 'Reject'];
+    const options2 = ['Approve', 'Reject'];
+    const options3 = ['Approve', 'Publish', 'Unpublish'];
+    const options4 = ['Publish', 'Unpublish'];
+    let options;
+    if (value === 'pending review') {
+        options = options1
+    } else if (value === 'reject') {
+        options = options2
+    } else if (value === 'approve') {
+        options = options3
+    } else if (value === 'publish' || value === 'unpublish') {
+        options = options4
+    }
     const val = "'" + value + "'"
     /*let i = options.indexOf(value);
     if (i !== -1) {
         options.splice(i, 1);
     }*/
-    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +')" style="padding: 0.1rem 1rem;font-size: 14px;border-radius: 6px;width: 70%">'];
+    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +','+ index +')" style="padding: 0.1rem 1rem;font-size: 14px;border-radius: 6px;width: 70%">'];
     let $option;
     for (let val in options) {
         $option = '<option value="' + options[val].toLocaleLowerCase() + '"';

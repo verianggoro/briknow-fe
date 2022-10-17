@@ -1499,11 +1499,12 @@ function showPreview(file, step) {
     const $preview = $('#preview-'+step+'')
     const timemillis = Date.now()
     let htmlPreview = [
-        '<div id="prev-'+step+timemillis+'" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">',
+        '<div id="prev-'+step+timemillis+'" class="d-flex align-items-center mb-3" style=" width: 50%; height: 40px;">',
             '<div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">',
                 '<div class="d-flex align-items-center justify-content-between" style="width: 100%">',
-                    '<div class="d-flex align-items-center justify-content-center">',
-                        '<i class="fas fa-file mr-3"></i>',file.name,
+                    '<div class="d-flex align-items-center">',
+                        '<i class="fas fa-file mr-3"></i>',
+                        '<div class="text-elip">',file.name,'</div>',
                     '</div>',
                     `<div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Cancel" onclick="removePreview(this, \'cancel\', ${step}, ${file})">`,
                         '<i class="fas fa-circle-notch fa-spin"></i>',

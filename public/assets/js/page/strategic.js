@@ -60,7 +60,7 @@ function initTable() {
         height: 660,
         locale: 'id-ID',
         paginationParts: 'pageList',
-        classes: 'table',
+        classes: 'table table-hover',
         columns: [
             [
                 {
@@ -112,6 +112,10 @@ function initTable() {
                     formatter: operateFormatter
                 }]
         ]
+    })
+
+    $table.on('click-row.bs.table', function (e, name, args) {
+        window.location.href = uri+`/managecommunication/strategicinitiative/project/${name.slug}`;
     })
 }
 
@@ -190,12 +194,89 @@ function operateFormatter(value, row, index) {
         '<div class="view border-action d-flex align-items-center justify-content-center mr-2 action-icon" title="View">',
         '<i class="fas fa-eye" style="margin: 0; font-size: 19px"></i>',
         '</div>  ',
+        '<div class="edit border-action d-flex align-items-center justify-content-center mr-2 action-icon" title="Edit">',
+        '<i class="fas fa-pencil-alt" style="margin: 0; font-size: 19px"></i>',
+        '</div>',
+        '<div class="remove border-action d-flex align-items-center justify-content-center mr-2 action-icon" title="Remove">',
+        '<i class="fas fa-trash" style="margin: 0; font-size: 19px"></i>',
+        '</div>',
+        '<div class="download border-action d-flex align-items-center justify-content-center action-icon" title="Download">',
+        '<i class="fas fa-download" style="margin: 0; font-size: 19px"></i>',
+        '</div>',
         '</div>'
     ].join('')
 }
 
 window.operateEvents = {
     'click .view': function (e, value, row, index) {
-        window.location.href = uri+`/managecommunication/strategicinitiative/project/${row.slug}`;
+        views(e, row.slug);
     },
+    'click .edit': function (e, value, row, index) {
+        edit(e, row.slug)
+    },
+    'click .remove': function (e, value, row, index) {
+        hapus(e, value)
+    },
+}
+
+function edit(e, slug) {
+    e.stopPropagation();
+    window.location.href = uri+`/kontribusi/${slug}`;
+}
+
+function hapus(e, a){
+    e.stopPropagation();
+    let t = "{{$token_auth}}";
+    console.log(a)
+    swal.fire({ title: "Anda yakin akan menghapus Proyek ini?", text: "", icon: "warning", showCancelButton: !0, confirmButtonColor: "#28a745", cancelButtonColor: "#dc3545", confirmButtonText: "OK", cancelButtonText: "CANCEL" }).then((i) => {
+        if(i.isConfirmed){
+            $.ajax({
+                url: "{{ url('').'/manageproject/review/destroy/' }}" + a,
+                type: "DELETE",
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+                    $('.senddataloader').show();
+                },
+                success: function () {
+                    $('.senddataloader').hide();
+                    Toast2.fire({icon: 'success',title: 'Berhasil dihapus'}); //PERLU DIGANTI BAHASANYA
+                    if(i.isConfirmed){
+                        location.reload();
+                    }else{
+                        location.reload();
+                    }
+                },
+                error: function () {
+                    $('.senddataloader').hide();
+                    Toast2.fire({icon: 'error',title: 'Gagal dihapus'}); //PERLU DIGANTI BAHASANYA
+                },
+            })
+        }
+    });
+}
+
+function views(e, slug) {
+    e.stopPropagation();
+    var url = `${uri}/myproject/preview2/`+slug;
+    $.ajax({
+        url: url,
+        headers: {'X-CSRF-TOKEN': csrf},
+        type: "get",
+        beforeSend: function()
+        {
+            $('.senddataloader').show();
+            $('.content-preview').empty();
+        },
+        success: function(data){
+            $('.senddataloader').hide();
+            $('.content-preview').append(data.html);
+            $('#modalpreview').modal({
+                show : true
+            });
+        },
+        error : function(e){
+            $('.senddataloader').hide();
+            alert(e);
+        }
+    });
 }

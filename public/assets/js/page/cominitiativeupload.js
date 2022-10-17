@@ -252,10 +252,10 @@ function showPreview(file) {
     const unique_name = Date.now().toString(36) + Math.random().toString(36).substring(2) + file.name.replace(/ /g, "")
     const timemillis = Date.now()
     let htmlPreview = [
-        '<div id="prev'+timemillis+'" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">',
+        '<div id="prev'+timemillis+'" class="d-flex align-items-center mb-3" style=" width: 50%; height: 40px;">',
             '<div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">',
                 '<div class="d-flex align-items-center justify-content-between" style="width: 100%">',
-                    '<div class="d-flex align-items-center justify-content-center">',
+                    '<div class="align-items-center text-elip">',
                         '<i class="fas fa-file mr-3"></i>',file.name,
                     '</div>',
                     '<div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Cancel" onclick="removePreview(this, \'cancel\')">',

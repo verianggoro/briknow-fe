@@ -315,10 +315,10 @@
                             <div class="preview-zone mt-3" id="preview-piloting">
                                 @isset($data->data->piloting)
                                     @forelse($data->data->piloting as $item)
-                                        <div id="prev-piloting{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
+                                        <div id="prev-piloting{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 50%; height: 40px;">
                                             <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
                                                 <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
-                                                    <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="align-items-center text-elip">
                                                         <i class="fas fa-file mr-3"></i>{{$item->nama}}
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete', 'piloting')">
@@ -365,10 +365,10 @@
                             <div class="preview-zone mt-3" id="preview-rollout">
                                 @isset($data->data->rollout)
                                     @forelse($data->data->rollout as $item)
-                                        <div id="prev-rollout{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
+                                        <div id="prev-rollout{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 50%; height: 40px;">
                                             <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
                                                 <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
-                                                    <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="align-items-center text-elip">
                                                         <i class="fas fa-file mr-3"></i>{{$item->nama}}
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete', 'rollout')">
@@ -415,10 +415,10 @@
                             <div class="preview-zone mt-3" id="preview-sosialisasi">
                                 @isset($data->data->sosialisasi)
                                     @forelse($data->data->sosialisasi as $item)
-                                        <div id="prev-sosialisasi{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 55%; height: 40px;">
+                                        <div id="prev-sosialisasi{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 50%; height: 40px;">
                                             <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
                                                 <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
-                                                    <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="align-items-center text-elip">
                                                         <i class="fas fa-file mr-3"></i>{{$item->nama}}
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete', 'sosialisasi')">
