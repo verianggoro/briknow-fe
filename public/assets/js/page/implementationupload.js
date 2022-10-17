@@ -16,6 +16,8 @@ let attach_sosialisasi = [];
 let input_attach_sosialisasi = [];
 let data_attach_sosialisasi = []
 let project = [];
+const slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
+let formSubmitting = false;
 
 let $table = $('#table')
 
@@ -1255,6 +1257,7 @@ $('#restricted-user').on('select2:select', function (e) {
 });
 
 $("#save").click(function(){
+    formSubmitting = true;
     $('#form').submit();
     $('.senddataloader').show();
 });
@@ -1559,7 +1562,7 @@ function showPreview(file, step) {
             $last.append('<div class="d-flex align-items-center" style="border-radius: 50%; padding: 6px 5px 4px; border: 2px solid #218838; color: #218838">' +
                 '<i style="font-size: 10px" class="fas fa-check"></i></div>')
 
-            const input_hidden = `<input type="hidden" name="attach_${step}[]" value="${res}">`
+            const input_hidden = `<input type="hidden" name="attach_${step}[]" id="attach" value="${res}">`
             $('#prev-'+step+timemillis).append(input_hidden)
         },
         error: function () {
@@ -1595,6 +1598,7 @@ function removePreview(id, type, step, file = null) {
         let $last = $(id).parent().parent().parent().children().last()
         let form_data = new FormData();
         form_data.append(`attach_${step}`, $last.val());
+        form_data.append('isNew', slug === 'implementation' ? "1" : "0");
         $.ajax({
             url: uri+`/delete/attach_${step}`,
             data: form_data,
@@ -1604,7 +1608,7 @@ function removePreview(id, type, step, file = null) {
             beforeSend: function(xhr){
                 xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
             },
-            success: function() {
+            success: function(response) {
                 $(id).parent().parent().parent().fadeOut(300, function () {
                     $(this).remove()
                     if ( $preview.children().length === 0 ) {
@@ -1629,6 +1633,11 @@ function removePreview(id, type, step, file = null) {
                     let index = attach_sosialisasi.indexOf(file);
                     attach_sosialisasi.splice(index, 1);
                 }
+
+                if (slug !== 'implementation') {
+                    const hidden_del = `<input type="hidden" name="temp_delete[]" value="${response.request.path}">`
+                    $('#temp_delete').append(hidden_del)
+                }
             },
             error: function () {
                 Toast3.fire({icon: 'error',title: 'Delete Gagal'});
@@ -1644,6 +1653,7 @@ function removePreview(id, type, step, file = null) {
 function removeThumbnailPreview() {
     let form_data = new FormData();
     form_data.append('thumbnail', $('#thumbnail').val());
+    form_data.append('isNew', slug === 'implementation' ? "1" : "0");
     $.ajax({
         url: uri+'/delete/thumbnail',
         data: form_data,
@@ -1653,7 +1663,7 @@ function removeThumbnailPreview() {
         beforeSend: function(xhr){
             xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
         },
-        success: function(){
+        success: function(response){
             $('#thumbnail-prev').fadeToggle(300, function () {$(this).remove()});
             $('#thumbnail').remove().val('');
             $('#thumbnail-del').fadeToggle(300, function () {$(this).remove()});
@@ -1669,12 +1679,59 @@ function removeThumbnailPreview() {
             if (typeof attr === 'undefined' || attr === false) {
                 $('#photo').attr('required', true)
             }
+
+            if (slug !== 'implementation') {
+                const hidden_del = `<input type="hidden" name="temp_delete[]" value="${response.request.path}">`
+                $('#temp_delete').append(hidden_del)
+            }
         },
         error: function () {
             Toast3.fire({icon: 'error',title: 'Delete Gagal'});
         },
     });
 }
+
+window.onload = function() {
+    window.addEventListener("beforeunload", function (e) {
+        if (formSubmitting) {
+            return undefined;
+        }
+        let temp_upload = [];
+        if ($('#thumbnail').val()) {
+            temp_upload.push($('#thumbnail').val())
+        }
+        if ($('#attach').val()) {
+            $('input#attach').each(function () {
+                temp_upload.push($(this).val())
+            })
+        }
+
+        if (temp_upload.length > 0) {
+
+            let form_data = new FormData();
+            form_data.append('temp', temp_upload.toString());
+
+            $.ajax({
+                url: uri+'/deleteonleave',
+                data: form_data,
+                type: 'post',
+                contentType: false,
+                processData: false,
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+                },
+                success: function(){
+                    return undefined;
+                },
+                error: function () {
+                    return undefined;
+                },
+            });
+        }
+
+        return undefined;
+    });
+};
 
 function imgError(image) {
     let r = Math.floor(Math.random() * 9) + 1

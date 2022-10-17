@@ -581,6 +581,7 @@
                     </div>
                 </div>
                 {{-- END STEP 2 --}}
+                <div id="temp_delete"></div>
 
             </form>
         </div>

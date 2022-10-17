@@ -135,7 +135,6 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::get('/managecommunication', 'Admin\ManageComSupport@index')->name('manage_com')->middleware('IsAdmin');
     Route::get('/managecommunication/upload/{type}/{slug?}', 'Admin\ManageComSupport@uploadForm')->name('manage_com.upload_form')->middleware('IsAdmin');
     Route::post('/managecommunication/upload/content', 'Admin\ManageComSupport@createComInit')->name('manage_com.create')->middleware('IsAdmin');
-    Route::post('/managecommunication/upload/implementation', 'Admin\ManageComSupport@createImplementation')->name('implementation.create')->middleware('IsAdmin');
     Route::get('/communicationinitiative/{type}', 'Admin\ManageComSupport@getAllComInitiative')->name('com_init.get_type')->middleware('IsAdmin');
     Route::post('/communicationinitiative/status/{status}/{id}', 'Admin\ManageComSupport@setStatusComInit')->name('con_init.set_status')->middleware('IsAdmin');
     Route::delete('/communicationinitiative/delete/{id}', 'Admin\ManageComSupport@deleteComInit')->name('con_init.delete')->middleware('IsAdmin');
@@ -149,6 +148,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::get('/managecommunication/implementation/{step}', 'Admin\ManageComSupport@implementationStep')->name('implementation.step')->middleware('IsAdmin');
     Route::get('/managecommunication/implementation', 'Admin\ManageComSupport@implementation')->name('manage_com.implementation')->middleware('IsAdmin');
     #Route::post('/managecommunication/upload/implementation', 'Admin\ManageComSupport@createComInit')->name('com_init.create')->middleware('IsAdmin');
+    Route::post('/managecommunication/upload/implementation', 'Admin\ManageComSupport@createImplementation')->name('implementation.create')->middleware('IsAdmin');
     Route::get('/implementation/{step}', 'Admin\ManageComSupport@getAllImplementation')->name('implementation.get_type')->middleware('IsAdmin');
     Route::post('/implementation/status/{status}/{id}', 'Admin\ManageComSupport@setStatusImplementation')->name('implementation.set_status')->middleware('IsAdmin');
     Route::delete('/implementation/delete/{id}', 'Admin\ManageComSupport@deleteImplementation')->name('implementation.delete')->middleware('IsAdmin');
@@ -241,6 +241,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::post('/up/{kategori}','KontribusiController@uploadphoto');
         Route::delete('/up/{kategori}','KontribusiController@delete');
         Route::post('/delete/{kategori}','KontribusiController@deleteNew');
+        Route::post('/deleteonleave','KontribusiController@deleteOnLeave');
     #---
 
     #DIVISI

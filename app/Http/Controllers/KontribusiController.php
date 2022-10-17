@@ -963,8 +963,11 @@ class KontribusiController extends Controller
         try {
             $this->token_auth = session()->get('token');
             $path = request()->get($kategori);
-            if(File::exists(public_path("storage/".$path))){
-                File::delete(public_path("storage/".$path));
+            if (request()->isNew == "1") {
+                if(File::exists(public_path("storage/".$path))){
+                    File::delete(public_path("storage/".$path));
+                    File::deleteDirectory(dirname(public_path("storage/".$path)));
+                }
             }
 
             $ch = curl_init();
@@ -987,15 +990,44 @@ class KontribusiController extends Controller
             $result     = curl_exec ($ch);
             $hasil      = json_decode($result);
             return response()->json(['request' => $post_data]);
-            if (isset($hasil->status)) {
-                if ($hasil->status == 1) {
-                    return $hasil->data;
-                }else{
-                    return 0;
+
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
+
+    public function deleteOnLeave(){
+        try {
+//            dd(request()->all());
+            $temp = explode(",", request()->temp);
+            $this->token_auth = session()->get('token');
+            foreach ($temp as $t) {
+                if(File::exists(public_path("storage/".$t))){
+                    File::delete(public_path("storage/".$t));
+                    File::deleteDirectory(dirname(public_path("storage/".$t)));
                 }
-            }else{
-                return 0;
             }
+
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $this->token_auth",
+            ];
+            // dd(request()->file($kategori));
+            $post_data = array(
+                'path'          => $temp,
+            );
+
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/deleteonleave");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            return response()->json(['request' => $hasil], 200);
 
         } catch (\Throwable $th) {
             return $th;

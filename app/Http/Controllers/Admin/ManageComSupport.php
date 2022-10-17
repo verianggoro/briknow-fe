@@ -109,36 +109,36 @@ class ManageComSupport extends Controller
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
                     return response()->json([
-                        "status"    => 1,
-                        'total'    =>  $hasil->total,
-                        'totalNotFiltered' => $hasil->totalData,
-                        "rows"      => $hasil->data,
-                        "totalRow"  => $hasil->totalRow
+                        "status"            => 1,
+                        'total'             =>  $hasil->total,
+                        'totalNotFiltered'  => $hasil->totalData,
+                        "rows"              => $hasil->data,
+                        "totalRow"          => $hasil->totalRow
                     ],200);
                 }else{
                     $data['message']    =   'GET Gagal 1';
                     return response()->json([
-                        'status'    =>  0,
-                        'total'    =>  0,
-                        'totalNotFiltered' => $hasil,
-                        'rows'      =>  $data
+                        'status'            =>  0,
+                        'total'             =>  0,
+                        'totalNotFiltered'  => $hasil,
+                        'rows'              =>  $data
                     ],200);
                 }
             }else{
                 $data['message']    =   'GET Gagal 2';
                 return response()->json([
-                    'status'    =>  0,
-                    'total'    =>  0,
-                    'totalNotFiltered' => 0,
-                    'rows'      =>  $data
+                    'status'            =>  0,
+                    'total'             =>  0,
+                    'totalNotFiltered'  => 0,
+                    'rows'              =>  $data
                 ],200);
             }
         } catch (\Throwable $th) {
             $data['message']    =   'GET Gagal 3';
             return response()->json([
-                'total'    =>  0,
-                'totalNotFiltered' => 0,
-                'rows'      =>  $data
+                'total'             =>  0,
+                'totalNotFiltered'  => 0,
+                'rows'              =>  $data
             ],200);
         }
     }
@@ -170,7 +170,7 @@ class ManageComSupport extends Controller
                     ],200);
                 }else{
                     $data['message']    =   $status.' Gagal';
-                    $data['toast']    =   $status == 'Publish' ? 'Project gagal diterbitkan!' : $status.' Proyek Gagal.';
+                    $data['toast']      =   $status == 'Publish' ? 'Project gagal diterbitkan!' : $status.' Proyek Gagal.';
                     return response()->json([
                         'status'    =>  0,
                         'data'      =>  $data
@@ -178,7 +178,7 @@ class ManageComSupport extends Controller
                 }
             }else{
                 $data['message']    =   $status.' Gagal';
-                $data['toast']    =   $status == 'Publish' ? 'Project gagal diterbitkan!' : $status.' Proyek Gagal.';
+                $data['toast']      =   $status == 'Publish' ? 'Project gagal diterbitkan!' : $status.' Proyek Gagal.';
                 return response()->json([
                     'status'    =>  0,
                     'data'      =>  $data
@@ -270,36 +270,36 @@ class ManageComSupport extends Controller
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
                     return response()->json([
-                        "status"    => 1,
-                        'total'    =>  $hasil->total,
-                        'totalNotFiltered' => $hasil->totalData,
-                        "rows"      => $hasil->data,
-                        "totalRow"  => $hasil->totalRow
+                        "status"            => 1,
+                        'total'             =>  $hasil->total,
+                        'totalNotFiltered'  => $hasil->totalData,
+                        "rows"              => $hasil->data,
+                        "totalRow"          => $hasil->totalRow
                     ],200);
                 }else{
                     $data['message']    =   'GET Gagal 1';
                     return response()->json([
-                        'status'    =>  0,
-                        'total'    =>  0,
-                        'totalNotFiltered' => $hasil,
-                        'rows'      =>  $data
+                        'status'            =>  0,
+                        'total'             =>  0,
+                        'totalNotFiltered'  => $hasil,
+                        'rows'              =>  $data
                     ],200);
                 }
             }else{
                 $data['message']    =   'GET Gagal 2';
                 return response()->json([
-                    'status'    =>  0,
-                    'total'    =>  0,
-                    'totalNotFiltered' => 0,
-                    'rows'      =>  $data
+                    'status'            =>  0,
+                    'total'             =>  0,
+                    'totalNotFiltered'  => 0,
+                    'rows'              =>  $data
                 ],200);
             }
         } catch (\Throwable $th) {
             $data['message']    =   'GET Gagal 3';
             return response()->json([
-                'total'    =>  0,
-                'totalNotFiltered' => 0,
-                'rows'      =>  $data
+                'total'             =>  0,
+                'totalNotFiltered'  => 0,
+                'rows'              =>  $data
             ],200);
         }
     }
@@ -374,37 +374,37 @@ class ManageComSupport extends Controller
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
                     return response()->json([
-                        "status"    => 1,
-                        'total'    =>  $hasil->total,
-                        'totalNotFiltered' => $hasil->totalData,
-                        "rows"      => $hasil->data,
-                        "totalRow"  => $hasil->totalRow,
-                        "project"   => $hasil->project
+                        "status"            => 1,
+                        'total'             =>  $hasil->total,
+                        'totalNotFiltered'  => $hasil->totalData,
+                        "rows"              => $hasil->data,
+                        "totalRow"          => $hasil->totalRow,
+                        "project"           => $hasil->project
                     ],200);
                 }else{
                     $data['message']    =   'GET Gagal 1';
                     return response()->json([
-                        'status'    =>  0,
-                        'total'    =>  0,
-                        'totalNotFiltered' => $hasil,
-                        'rows'      =>  $data
+                        'status'            =>  0,
+                        'total'             =>  0,
+                        'totalNotFiltered'  => $hasil,
+                        'rows'              =>  $data
                     ],200);
                 }
             }else{
                 $data['message']    =   'GET Gagal 2';
                 return response()->json([
-                    'status'    =>  0,
-                    'total'    =>  0,
-                    'totalNotFiltered' => 0,
-                    'rows'      =>  $data
+                    'status'            =>  0,
+                    'total'             =>  0,
+                    'totalNotFiltered'  => 0,
+                    'rows'              =>  $data
                 ],200);
             }
         } catch (\Throwable $th) {
             $data['message']    =   'GET Gagal 3';
             return response()->json([
-                'total'    =>  0,
-                'totalNotFiltered' => 0,
-                'rows'      =>  $data
+                'total'             =>  0,
+                'totalNotFiltered'  => 0,
+                'rows'              =>  $data
             ],200);
         }
     }
@@ -412,8 +412,8 @@ class ManageComSupport extends Controller
     public function implementationStep($step)
     {
         $step_list = (object) array(
-            array("id" => "piloting", "name" => "Piloting", "path" => "managecommunication/implementation/piloting"),
-            array("id" => "roll-out", "name" => "Roll Out", "path" => "managecommunication/implementation/roll-out"),
+            array("id" => "piloting", "name"    => "Piloting", "path" => "managecommunication/implementation/piloting"),
+            array("id" => "roll-out", "name"    => "Roll Out", "path" => "managecommunication/implementation/roll-out"),
             array("id" => "sosialisasi", "name" => "Sosialisasi", "path" => "managecommunication/implementation/sosialisasi")
         );
         $step_array = array("piloting", "roll-out", "sosialisasi");
@@ -463,36 +463,36 @@ class ManageComSupport extends Controller
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
                     return response()->json([
-                        "status"    => 1,
-                        'total'    =>  $hasil->total,
-                        'totalNotFiltered' => $hasil->totalData,
-                        "rows"      => $hasil->data,
-                        "totalRow"  => $hasil->totalRow
+                        "status"            => 1,
+                        'total'             =>  $hasil->total,
+                        'totalNotFiltered'  => $hasil->totalData,
+                        "rows"              => $hasil->data,
+                        "totalRow"          => $hasil->totalRow
                     ],200);
                 }else{
                     $data['message']    =   'GET Gagal 1';
                     return response()->json([
-                        'status'    =>  0,
-                        'total'    =>  0,
-                        'totalNotFiltered' => 0,
-                        'rows'      =>  $data
+                        'status'            =>  0,
+                        'total'             =>  0,
+                        'totalNotFiltered'  => 0,
+                        'rows'              =>  $data
                     ],200);
                 }
             }else{
                 $data['message']    =   'GET Gagal 2';
                 return response()->json([
-                    'status'    =>  0,
-                    'total'    =>  0,
-                    'totalNotFiltered' => 0,
-                    'rows'      =>  $data
+                    'status'            =>  0,
+                    'total'             =>  0,
+                    'totalNotFiltered'  => 0,
+                    'rows'              =>  $data
                 ],200);
             }
         } catch (\Throwable $th) {
             $data['message']    =   'GET Gagal 3';
             return response()->json([
-                'total'    =>  0,
-                'totalNotFiltered' => 0,
-                'rows'      =>  $data
+                'total'             =>  0,
+                'totalNotFiltered'  => 0,
+                'rows'              =>  $data
             ],200);
         }
     }
@@ -532,7 +532,7 @@ class ManageComSupport extends Controller
                 }
             }else{
                 $data['message']    =   $status.' Gagal';
-                $data['toast']    =   $status == 'Publish' ? 'Project gagal diterbitkan!' : $status.' Proyek Gagal.';
+                $data['toast']      =   $status == 'Publish' ? 'Project gagal diterbitkan!' : $status.' Proyek Gagal.';
                 return response()->json([
                     'status'    =>  0,
                     'data'      =>  $data
@@ -705,43 +705,43 @@ class ManageComSupport extends Controller
         if (request()->piloting == 1) {
             request()->validate([
                 'deskripsi_piloting'    => 'required',
-                'attach_piloting'    => 'required',
+                'attach_piloting'       => 'required',
             ]);
-            $desc_pilot   = request()->deskripsi_piloting;
+            $desc_pilot     = request()->deskripsi_piloting;
             $attach_pilot   = request()->attach_piloting;
-            $piloting         = 1;
+            $piloting       = 1;
         }else{
-            $desc_pilot   = null;
+            $desc_pilot     = null;
             $attach_pilot   = null;
-            $piloting         = 0;
+            $piloting       = 0;
         }
 
         if (request()->rollout == 1) {
             request()->validate([
-                'deskripsi_rollout'    => 'required',
-                'attach_rollout'    => 'required',
+                'deskripsi_rollout'     => 'required',
+                'attach_rollout'        => 'required',
             ]);
-            $desc_rollout   = request()->deskripsi_rollout;
-            $attach_rollout   = request()->attach_rollout;
-            $rollout         = 1;
+            $desc_rollout       = request()->deskripsi_rollout;
+            $attach_rollout     = request()->attach_rollout;
+            $rollout            = 1;
         }else{
-            $desc_rollout   = null;
-            $attach_rollout   = null;
-            $rollout         = 0;
+            $desc_rollout       = null;
+            $attach_rollout     = null;
+            $rollout            = 0;
         }
 
         if (request()->sosialisasi == 1) {
             request()->validate([
-                'deskripsi_sosialisasi'    => 'required',
-                'attach_sosialisasi'    => 'required',
+                'deskripsi_sosialisasi'     => 'required',
+                'attach_sosialisasi'        => 'required',
             ]);
-            $desc_sosialisasi   = request()->deskripsi_sosialisasi;
-            $attach_sosialisasi   = request()->attach_sosialisasi;
-            $sosialisasi         = 1;
+            $desc_sosialisasi       = request()->deskripsi_sosialisasi;
+            $attach_sosialisasi     = request()->attach_sosialisasi;
+            $sosialisasi            = 1;
         }else{
-            $desc_sosialisasi   = null;
-            $attach_sosialisasi   = null;
-            $sosialisasi         = 0;
+            $desc_sosialisasi       = null;
+            $attach_sosialisasi     = null;
+            $sosialisasi            = 0;
         }
 
         if (isset(request()->status)) {
@@ -764,9 +764,18 @@ class ManageComSupport extends Controller
             $user           = '-';
         }
 
+        if (isset(request()->temp_delete)) {
+            foreach (request()->temp_delete as $path) {
+                if(File::exists(public_path("storage/".$path))){
+                    File::delete(public_path("storage/".$path));
+                    File::deleteDirectory(dirname(public_path("storage/".$path)));
+                }
+            }
+        }
+
         try {
             $ch = curl_init();
-            $token      = session()->get('token');
+            $token    = session()->get('token');
             $headers  = [
                 'Content-Type: application/json',
                 'Accept: application/json',
@@ -792,7 +801,7 @@ class ManageComSupport extends Controller
                 'attach_rollout'            => $attach_rollout,
                 'deskripsi_sosialisasi'     => $desc_sosialisasi,
                 'attach_sosialisasi'        => $attach_sosialisasi,
-                'project'                  => request()->link,
+                'project'                   => request()->link,
                 'is_new_project'            => request()->is_new,
                 'user'                      => $user,
                 'checker'                   => request()->checker,
@@ -859,13 +868,13 @@ class ManageComSupport extends Controller
                 'link'    => 'required',
                 'divisi'  => 'required',
             ]);
-            $divisi = request()->divisi;
-            $project     = request()->link;
-            $is_new = request()->is_new;
+            $divisi     = request()->divisi;
+            $project    = request()->link;
+            $is_new     = request()->is_new;
         }else{
-            $divisi         = null;
-            $project     = null;
-            $is_new = 0;
+            $divisi     = null;
+            $project    = null;
+            $is_new     = 0;
         }
 
         if (isset(request()->status)) {
@@ -879,6 +888,15 @@ class ManageComSupport extends Controller
             $status         = 0;
         }
 
+        if (isset(request()->temp_delete)) {
+            foreach (request()->temp_delete as $path) {
+                if(File::exists(public_path("storage/".$path))){
+                    File::delete(public_path("storage/".$path));
+                    File::deleteDirectory(dirname(public_path("storage/".$path)));
+                }
+            }
+        }
+
         try {
             $ch = curl_init();
             $token      = session()->get('token');
@@ -889,16 +907,16 @@ class ManageComSupport extends Controller
             ];
             $postData = [
                 'thumbnail'         => request()->thumbnail,
-                'title'         => request()->title,
+                'title'             => request()->title,
                 'file_type'         => request()->file_type,
                 'deskripsi'         => request()->deskripsi,
-                'is_new_project'         => $is_new,
-                'project'         => $project,
+                'is_new_project'    => $is_new,
+                'project'           => $project,
                 'divisi'            => $divisi,
-                'status'                    => $status,
-                'tgl_mulai'                 => request()->tgl_mulai,
-                'tgl_selesai'               => $tgl_selesai,
-                'attach'         => request()->attach,
+                'status'            => $status,
+                'tgl_mulai'         => request()->tgl_mulai,
+                'tgl_selesai'       => $tgl_selesai,
+                'attach'            => request()->attach,
             ];
             // dd($postData);
             curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/managecommunication/content/upload/$id");
@@ -1075,7 +1093,7 @@ class ManageComSupport extends Controller
                         $zip->close();
                     }
 
-                    foreach ($zipFiles as $key => $value) {
+                    foreach ($zipFiles as $value) {
                         File::delete(public_path("storage/".$value));
                     }
 

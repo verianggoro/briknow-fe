@@ -239,6 +239,8 @@
                     @endisset
                 </div>
 
+                <div id="temp_delete"></div>
+
                 <button class="btn btn-primary button-upload mt-3" type="submit" id="submit">Upload</button>
             </form>
         </div>

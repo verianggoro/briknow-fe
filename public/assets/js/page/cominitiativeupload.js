@@ -4,6 +4,8 @@ let base_url                = '';
 let token                   = '';
 let csrf                   = '';
 let project = [];
+const slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
+let formSubmitting = false;
 
 const Toast3 = Swal.mixin({
     toast: true,
@@ -306,7 +308,7 @@ function showPreview(file) {
             $last.append('<div class="d-flex align-items-center" style="border-radius: 50%; padding: 6px 5px 4px; border: 2px solid #218838; color: #218838">' +
                 '<i style="font-size: 10px" class="fas fa-check"></i></div>')
 
-            const input_hidden = `<input type="hidden" name="attach[]" value="${res}">`
+            const input_hidden = `<input type="hidden" name="attach[]" id="attach" value="${res}">`
             $('#prev'+timemillis).append(input_hidden)
         },
         error: function () {
@@ -331,6 +333,7 @@ function removePreview(id, type) {
         let $last = $(id).parent().parent().parent().children().last()
         let form_data = new FormData();
         form_data.append(`content_communication_support`, $last.val());
+        form_data.append('isNew', slug === 'content' ? "1" : "0");
         $.ajax({
             url: uri+`/delete/content_communication_support`,
             data: form_data,
@@ -340,7 +343,7 @@ function removePreview(id, type) {
             beforeSend: function(xhr){
                 xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
             },
-            success: function(){
+            success: function(response){
                 $(id).parent().parent().parent().fadeOut(300, function () {
                     $(this).remove()
                     if ( $preview.children().length === 0 ) {
@@ -351,6 +354,11 @@ function removePreview(id, type) {
                         }
                         if($('#form').hasClass('was-validated')){
                             $("#attach-wrap").attr("style", "border:1px solid #e3342f;");
+                        }
+
+                        if (slug !== 'content') {
+                            const hidden_del = `<input type="hidden" name="temp_delete[]" value="${response.request.path}">`
+                            $('#temp_delete').append(hidden_del)
                         }
                     }
                 });
@@ -369,6 +377,7 @@ function removePreview(id, type) {
 function removeThumbnailPreview() {
     let form_data = new FormData();
     form_data.append('thumbnail', $('#thumbnail').val());
+    form_data.append('isNew', slug === 'content' ? "1" : "0");
     $.ajax({
         url: uri+'/delete/thumbnail',
         data: form_data,
@@ -378,7 +387,7 @@ function removeThumbnailPreview() {
         beforeSend: function(xhr){
             xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
         },
-        success: function(){
+        success: function(response){
             $('#thumbnail-prev').fadeToggle(300, function () {$(this).remove()});
             $('#thumbnail').remove().val('');
             $('#thumbnail-del').fadeToggle(300, function () {$(this).remove()});
@@ -388,6 +397,11 @@ function removeThumbnailPreview() {
 
             if($('#form').hasClass('was-validated')){
                 $("#drop-wrap").attr("style", "border:1px solid #e3342f;");
+            }
+
+            if (slug !== 'content') {
+                const hidden_del = `<input type="hidden" name="temp_delete[]" value="${response.request.path}">`
+                $('#temp_delete').append(hidden_del)
             }
 
             const attr = $('#photo').attr('required');
@@ -504,6 +518,7 @@ $(document).ready(function () {
         isValid = cekValid()
 
         if (isValid) {
+            formSubmitting = true;
             $('form#form').submit();
             $('.senddataloader').show();
         }
@@ -705,6 +720,48 @@ function checkEditor() {
 
     return valid;
 }
+
+window.onload = function() {
+    window.addEventListener("beforeunload", function (e) {
+        if (formSubmitting) {
+            return undefined;
+        }
+        let temp_upload = [];
+        if ($('#thumbnail').val()) {
+            temp_upload.push($('#thumbnail').val())
+        }
+        if ($('#attach').val()) {
+            $('input#attach').each(function () {
+                temp_upload.push($(this).val())
+            })
+        }
+
+        if (temp_upload.length > 0) {
+
+            let form_data = new FormData();
+            form_data.append('temp', temp_upload.toString());
+
+            $.ajax({
+                url: uri+'/deleteonleave',
+                data: form_data,
+                type: 'post',
+                contentType: false,
+                processData: false,
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+                },
+                success: function(){
+                    return undefined;
+                },
+                error: function () {
+                    return undefined;
+                },
+            });
+        }
+
+        return undefined;
+    });
+};
 
 function imgError(image) {
     let r = Math.floor(Math.random() * 9) + 1
