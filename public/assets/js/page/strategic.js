@@ -185,7 +185,7 @@ function statusFormatter (value, row, index) {
     } else {
         status_title = value
     }
-    return `<div class="d-flex align-items-center justify-content-center" style="padding: 0.1rem;margin-left:auto;margin-right: auto;font-size: 14px;border-radius: 6px;width: 60%; border: 1px solid #cccccc">${status_title}</div>`;
+    return `<div class="d-flex align-items-center justify-content-center" style="padding: 0.1rem;margin-left:auto;margin-right: auto;font-size: 14px;border-radius: 6px;width: 150px; border: 1px solid #cccccc">${status_title}</div>`;
 }
 
 function operateFormatter(value, row, index) {
@@ -217,6 +217,14 @@ window.operateEvents = {
     'click .remove': function (e, value, row, index) {
         hapus(e, value)
     },
+    'click .download': function (e, value, row, index) {
+        download(e, row.id);
+    },
+}
+
+function download(e, id) {
+    e.stopPropagation();
+    window.location.href = uri+`/attach/download/project/${id}`;
 }
 
 function edit(e, slug) {
@@ -227,11 +235,11 @@ function edit(e, slug) {
 function hapus(e, a){
     e.stopPropagation();
     let t = "{{$token_auth}}";
-    console.log(a)
+    const url = `${uri}/manageproject/review/destroy/${a}`
     swal.fire({ title: "Anda yakin akan menghapus Proyek ini?", text: "", icon: "warning", showCancelButton: !0, confirmButtonColor: "#28a745", cancelButtonColor: "#dc3545", confirmButtonText: "OK", cancelButtonText: "CANCEL" }).then((i) => {
         if(i.isConfirmed){
             $.ajax({
-                url: "{{ url('').'/manageproject/review/destroy/' }}" + a,
+                url: url,
                 type: "DELETE",
                 beforeSend: function(xhr){
                     xhr.setRequestHeader("X-CSRF-TOKEN", csrf);

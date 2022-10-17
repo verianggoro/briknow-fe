@@ -156,6 +156,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     #--
     Route::get('/attach/download/content/{id}', 'Admin\ManageComSupport@download_content')->name('com_support.download');
     Route::get('/attach/download/implementation/{id}', 'Admin\ManageComSupport@download_implementation')->name('implementation.download');
+    Route::get('/attach/download/project/{id}', 'Admin\ManageComSupport@download_attach_project')->name('project.download');
 
     #DASHBOARD - MANAGEMENT CONSULTANT
         Route::get('/manageconsultant', 'Admin\ManageConsultantController@index')->name('manage_consultant')->middleware('IsAdmin');

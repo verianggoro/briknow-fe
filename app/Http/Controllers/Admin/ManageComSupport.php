@@ -1120,6 +1120,66 @@ class ManageComSupport extends Controller
         }
     }
 
+    public function download_attach_project($id) {
+        try {
+            $token = session()->get('token');
+            $ch = curl_init();
+            $headers = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL, config('app.url_be') . "api/download/file/project/$id");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result = curl_exec($ch);
+            $hasil = json_decode($result);
+            // return response()->json($hasil);
+//            dd($hasil);
+
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+
+                    $data = $hasil->data;
+                    $files = $data->document;
+                    $zip = new ZipArchive;
+                    $fileName = 'attach_project.zip';
+                    $fileNameDownload = "attach_project-".\Str::slug($data->nama)."-".now()->timestamp.".zip";
+
+                    if ($zip->open(public_path("storage/" . $fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+                        foreach ($files as $key => $value) {
+                            $relativeNameInZipFile = basename($value->nama);
+                            $zip->addFile(public_path('storage/' . $value->url_file), $relativeNameInZipFile);
+                        }
+
+                        $zip->close();
+                    }
+
+                    $headers = array(
+                        "Authorization" => "Bearer $token",
+                        'Content-Description' => 'File Transfer',
+                        'Content-Type' => 'application/zip',
+                        'Content-Length' => filesize(public_path("storage/" . $fileName)),
+                    );
+
+                    return response()->download(public_path("storage/" . $fileName), $fileNameDownload, $headers)->deleteFileAfterSend(true);
+                }else{
+                    session()->flash('error',"Something Error, Try Again Please");
+                    return back();
+                }
+            }else{
+                session()->flash('error',"Something Error, Try Again Please");
+                return back();
+            }
+
+        } catch (\Throwable $th) {
+            session()->flash('error', "Something Error, Try Again Please");
+            return back();
+        }
+    }
+
     function viewsContent($table, $id) {
         try {
             $ch = curl_init();

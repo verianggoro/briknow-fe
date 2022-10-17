@@ -1,5 +1,5 @@
 <div class="navbar-bg sticky-top navbar-gray bg-gray pr-0 mr-0" style="height: 80px">
-    <div class="d-flex justify-content-between flex-row-reverse header-nav">
+    <div class="d-flex justify-content-between header-nav">
         <div class="d-flex align-items-center px-4">
             <button type="button" class="close d-inline bg-tranparent text-light" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -25,6 +25,11 @@
                 <div class="col-md-8 col-sm-12 mb-2">
                     <div class="col-sm-12 px-0">
                         <h2 class="d-block" id="prev_namaproject">-</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="d-block font-weight-bold" id="prev_type">-</span>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-6" id="prev_project">

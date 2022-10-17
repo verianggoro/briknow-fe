@@ -122,7 +122,7 @@ function view(row, index) {
 
     let consultant = row.project.consultant
     if (consultant.length === 0) {
-        let con = `<div class="konsultan"><span>Internal</span></div>`
+        let con = `<div class="konsultan"><span>-</span></div>`
         $('#prev_const').append(con)
     } else {
         for (let i=0; i<consultant.length; i++) {
@@ -450,7 +450,7 @@ function statusFormatter (value, row, index) {
     if (i !== -1) {
         options.splice(i, 1);
     }*/
-    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +','+ index +')" style="padding: 0.1rem 1rem;font-size: 14px;border-radius: 6px;width: 70%">'];
+    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +','+ index +')" style="padding: 0.1rem 1rem;font-size: 14px;border-radius: 6px;width: 75%">'];
     let $option;
     for (let val in options) {
         $option = '<option value="' + options[val].toLocaleLowerCase() + '"';

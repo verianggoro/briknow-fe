@@ -1,5 +1,5 @@
 <div class="navbar-bg sticky-top navbar-gray bg-gray pr-0 mr-0" style="height: 80px">
-    <div class="d-flex justify-content-between flex-row-reverse header-nav">
+    <div class="d-flex justify-content-between header-nav">
         <div class="d-flex align-items-center px-4">
             <button type="button" class="close d-inline bg-tranparent text-light" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

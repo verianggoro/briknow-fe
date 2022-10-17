@@ -19,6 +19,16 @@ const months = [
     'December'
 ];
 
+const type = [
+    {'id': 'article', 'name': 'Articles'},
+    {"id": "logo", "name": "Icon, Logo, Maskot BRIVO"},
+    {"id": "infographics", "name": "Infographics"},
+    {"id": "transformation", "name": "Transformation Journey"},
+    {"id": "podcast", "name": "Podcast"},
+    {"id": "video", "name": "Video Content"},
+    {"id": "instagram", "name": "Instagram Content"}
+]
+
 const Toast2 = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -92,6 +102,7 @@ function view(row, index) {
     appendDesc(row.desc, data_attach)
 
     $('#prev_namaproject').empty();
+    $('#prev_type').empty();
     // $('#prev_project').empty();
     $('.parent-project-desc').remove();
     $('#prev_tglmulai').empty();
@@ -130,10 +141,14 @@ function view(row, index) {
         t_tgl_selesai = '-';
         $('#prev_status').append(`On Progress`);
     }
+    let result = type.filter(obj => {
+        return obj.id === row.type_file
+    })
 
     $('#prev_thumbnail').attr('src',`${uri}/storage/${row.thumbnail}`);
     $('#prev_thumbnail').attr('alt',`${row.title}`);
     $('#prev_namaproject').append(`${row.title}`);
+    $('#prev_type').append(`${result[0].name}`);
     $('#prev_project').append(`${t_project}`);
     $('#prev_tglmulai').append(`${t_tgl_mulai}`);
     $('#prev_tglselesai').append(`${t_tgl_selesai}`);
@@ -386,7 +401,7 @@ function statusFormatter (value, row, index) {
     if (i !== -1) {
         options.splice(i, 1);
     }*/
-    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +','+ index +')" style="padding: 0.1rem 1rem;font-size: 14px;border-radius: 6px;width: 70%">'];
+    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +','+ index +')" style="padding: 0.1rem 1rem;font-size: 14px;border-radius: 6px;width: 75%">'];
     let $option;
     for (let val in options) {
         $option = '<option value="' + options[val].toLocaleLowerCase() + '"';
