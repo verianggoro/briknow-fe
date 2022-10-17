@@ -1460,7 +1460,9 @@ function readThumbnail(input) {
             $('#thumbnail-prev').removeClass('blur-image')
 
             let hidden_thumb = `<input type="hidden" class="d-none" id="thumbnail" name="thumbnail" value="${res}">`
+            let hidden_temp = `<input type="hidden" class="d-none" id="temp" name="temp[]" value="${res}">`
             $('#hidden-thumbnail').append(hidden_thumb);
+            $('#hidden-thumbnail').append(hidden_temp);
         },
         error: function () {
             Toast3.fire({icon: 'error',title: 'Upload Gagal'});
@@ -1563,7 +1565,9 @@ function showPreview(file, step) {
                 '<i style="font-size: 10px" class="fas fa-check"></i></div>')
 
             const input_hidden = `<input type="hidden" name="attach_${step}[]" id="attach" value="${res}">`
+            const temp_hidden = `<input type="hidden" name="temp[]" id="temp" value="${res}">`
             $('#prev-'+step+timemillis).append(input_hidden)
+            $('#prev-'+step+timemillis).append(temp_hidden)
         },
         error: function () {
             Toast3.fire({icon: 'error',title: 'Upload Gagal'});
@@ -1697,11 +1701,8 @@ window.onload = function() {
             return undefined;
         }
         let temp_upload = [];
-        if ($('#thumbnail').val()) {
-            temp_upload.push($('#thumbnail').val())
-        }
-        if ($('#attach').val()) {
-            $('input#attach').each(function () {
+        if ($('#temp').val()) {
+            $('input#temp').each(function () {
                 temp_upload.push($(this).val())
             })
         }
