@@ -20,7 +20,8 @@
         "maatwebsite/excel": "^3.1",
         "mews/captcha": "^3.2",
         "slim/psr7": "^1.4",
-        "stevebauman/location": "^6.1"
+        "stevebauman/location": "^6.1",
+        "ext-zip": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
