@@ -399,17 +399,17 @@ function responseHandler(res) {
 function operateFormatter(value, row, index) {
     return [
         '<div class="d-flex align-items-center justify-content-center" style="padding-top: 0; padding-bottom: 0">',
-        '<div class="view border-action d-flex align-items-center justify-content-center mr-2 action-icon" title="View">',
-        '<i class="fas fa-eye" style="margin: 0; font-size: 19px"></i>',
+        '<div class="view border-action d-flex align-items-center justify-content-center mr-1 action-icon" title="View">',
+        '<i class="fas fa-eye" style="margin: 0; font-size: 18px"></i>',
         '</div>  ',
-        '<div class="edit border-action d-flex align-items-center justify-content-center mr-2 action-icon" title="Edit">',
-        '<i class="fas fa-pencil-alt" style="margin: 0; font-size: 19px"></i>',
+        '<div class="edit border-action d-flex align-items-center justify-content-center mr-1 action-icon" title="Edit">',
+        '<i class="fas fa-pencil-alt" style="margin: 0; font-size: 18px"></i>',
         '</div>',
-        '<div class="remove border-action d-flex align-items-center justify-content-center mr-2 action-icon" title="Remove">',
-        '<i class="fas fa-trash" style="margin: 0; font-size: 19px"></i>',
+        '<div class="remove border-action d-flex align-items-center justify-content-center mr-1 action-icon" title="Remove">',
+        '<i class="fas fa-trash" style="margin: 0; font-size: 18px"></i>',
         '</div>',
         '<div class="download border-action d-flex align-items-center justify-content-center action-icon" title="Download">',
-        '<i class="fas fa-download" style="margin: 0; font-size: 19px"></i>',
+        '<i class="fas fa-download" style="margin: 0; font-size: 18px"></i>',
         '</div>',
         '</div>'
     ].join('')
@@ -480,7 +480,7 @@ function dateFormater(date) {
 
 function viewsFormatter(views) {
     return [
-        '<div class="pl-4">',
+        '<div class="pl-2">',
         '<i class="fas fa-eye mr-2"></i>',
         views,
         '</div>',
@@ -492,10 +492,29 @@ function titleFormatter(value, row, index) {
     return `
         <div class="pl-4 d-flex align-items-center" style="padding-top: 0; padding-bottom: 0">
             <img src="${src}" alt="${value}" onerror="imgError(this)" width="85" height="85" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)">
-            <div style="width: 72%" class="ellipsis-2">
+            <a href="${uri}/project/${row.project.slug}" style="width: fit-content; text-align: left" class="ellipsis-2 link-format-table font-weight-bold">
                 ${value}
-            </div>
+            </a>
         </div>`
+}
+
+function divisiFormatter(value) {
+    return `
+            <a href="${uri}/katalog" onclick="toKatalog('${value.shortname}')" oncontextmenu="toKatalog('${value.shortname}')" onmousedown="toKatalog('${value.shortname}')" class="ellipsis-2 link-format-table" id="divdirek">
+                ${value.divisi}
+            </a>`
+}
+
+function direkFormatter(value) {
+    return `
+            <a href="${uri}/katalog" onclick="toKatalog('${value.shortname}')" oncontextmenu="toKatalog('${value.shortname}')" onmousedown="toKatalog('${value.shortname}')" class="ellipsis-2 link-format-table" id="divdirek">
+                ${value.direktorat}
+            </a>`;
+}
+
+function toKatalog(short) {
+    localStorage.removeItem("fil_div");
+    localStorage.setItem("fil_div",short);
 }
 
 function initTable() {
@@ -516,14 +535,28 @@ function initTable() {
                     }
                 },
                 formatter: titleFormatter,
-                width: 410
+                width: 275
             },
+                {
+                    field: 'project.divisi',
+                    title: 'Direktorat',
+                    align: 'center',
+                    formatter: direkFormatter,
+                    width: 170
+                },
+                {
+                    field: 'project.divisi',
+                    title: 'Divisi',
+                    align: 'center',
+                    formatter: divisiFormatter,
+                    width: 170
+                },
                 {
                     field: 'views',
                     title: 'Views',
                     align: 'center',
                     formatter: viewsFormatter,
-                    width: 120
+                    width: 85
                 },
                 {
                     field: 'created_at',
@@ -534,13 +567,14 @@ function initTable() {
                     cellStyle: {
                         classes: 'font-weight-bold',
                     },
-                    width: 200
+                    width: 100
                 },
                 {
                     field: 'status',
                     title: 'Status',
                     align: 'center',
-                    formatter: statusFormatter
+                    formatter: statusFormatter,
+                    width: 210
                 },
                 {
                     field: 'id',

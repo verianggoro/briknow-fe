@@ -611,8 +611,12 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
 
 .table-hover>tbody>tr:hover>* {
     /*--bs-table-accent-bg: rgba(0, 0, 0, 0.075);*/
-    color: #212529;
+    color: #6c757d;
     cursor: pointer;
+}
+
+.table-hover tbody tr:hover {
+    color: #6c757d;
 }
 
 .text-elip {
@@ -621,4 +625,27 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
     text-overflow: ellipsis;
     width: 95%;
     text-align: left;
+}
+
+.elip-table {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 120px;
+}
+
+.link-format-table {
+    color: #6c757d;
+    text-align: center;
+    font-weight: 500;
+}
+
+.img-com {
+    border-radius: 8px;
+    box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%);
+    cursor:pointer;
+}
+
+.container-img:hover .img-com {
+    opacity: 0.5;
 }

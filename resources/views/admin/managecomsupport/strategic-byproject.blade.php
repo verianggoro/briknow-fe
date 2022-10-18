@@ -60,10 +60,10 @@
                     <div class="d-flex justify-content-between pr-5">
                         <div class="d-flex align-items-center">
                             @forelse($item->content as $content)
-                            <div>
+                            <div class="container-img mr-3">
                                 <div class="d-none">{{json_encode($content)}}</div>
                                 <img src="{{config('app.url').'storage/'.$content->thumbnail}}" onclick="view(this)" onerror="imgError(this)"
-                                     alt="{{$content->title}}" title="{{$content->title}}" width="150" height="150" class="mr-3 " style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%); cursor:pointer;">
+                                     alt="{{$content->title}}" title="{{$content->title}}" width="150" height="150" class="img-com">
                             </div>
                             @empty
                             @endforelse
