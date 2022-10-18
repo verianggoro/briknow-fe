@@ -120,11 +120,17 @@ function view(row, index) {
 
     let project = row.project
     if (project !== null) {
-        $('#prev_direktorat').append(`<a class="font-weight-bold" href="${uri}/divisi/${project.divisi.id}">${project.divisi.direktorat}</a>`);
-        $('#prev_divisi').append(`<a class="font-weight-bold" href="${uri}/divisi/${project.divisi.id}">${project.divisi.divisi}</a>`);
+        $('#prev_direktorat').append(
+            `<a class="font-weight-bold" href="${uri}/katalog" onclick="toKatalog('${project.divisi.shortname}')" oncontextmenu="toKatalog('${project.divisi.shortname}')" onmousedown="toKatalog('${project.divisi.shortname}')">
+                ${project.divisi.direktorat}
+            </a>`);
+        $('#prev_divisi').append(
+            `<a class="font-weight-bold" href="${uri}/katalog" onclick="toKatalog('${project.divisi.shortname}')" oncontextmenu="toKatalog('${project.divisi.shortname}')" onmousedown="toKatalog('${project.divisi.shortname}')">
+                ${project.divisi.divisi}
+            </a>`);
     } else {
-        $('#prev_divisi').append(`-`);
-        $('#prev_direktorat').append(`-`);
+        $('#prev_divisi').append(`General`);
+        $('#prev_direktorat').append(`General`);
     }
 
     let t_project = ``
@@ -354,7 +360,7 @@ function ajaxRequest(params) {
         },
         success: function(data){
             let pagination_height = data.totalRow === data.total ? 0 : 54
-            const height = data.totalRow === 0 ? 105 : 52 + (data.totalRow * 108) + pagination_height
+            const height = data.totalRow === 0 ? 105 : 51 + (data.totalRow * 108) + pagination_height
             $table.bootstrapTable( 'resetView' , {height: height} );
             $('.senddataloader').hide();
             params.success(data)

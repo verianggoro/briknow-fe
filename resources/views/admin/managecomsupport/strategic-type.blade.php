@@ -122,7 +122,7 @@
                 $project.append(html)
                 $project.addClass('mb-3')
                 let pagination_height = data.totalRow === data.total ? 0 : 54
-                const height = data.totalRow === 0 ? 105 : 52 + (data.totalRow * 108) + pagination_height
+                const height = data.totalRow === 0 ? 105 : 51 + (data.totalRow * 108) + pagination_height
                 $table.bootstrapTable( 'resetView' , {height: height} );
                 $('.senddataloader').hide();
                 params.success(data)

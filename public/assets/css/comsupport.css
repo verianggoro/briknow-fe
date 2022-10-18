@@ -54,6 +54,7 @@ table {
 .table>thead>tr>th {
     border-bottom: 1px solid #dbdbdb;
     text-align: center;
+    font-size: 14px;
 }
 
 .select2-container--bootstrap .select2-selection--single {
