@@ -813,7 +813,7 @@
         </script>
     @endif
 
-    <script src="{{asset_app('assets/js/script/index.js')}}"></script>
+    <script src="{{asset_app('assets/js/script/home.js')}}"></script>
     <!-- Template JS File -->
     <script src="{{asset_app('assets/js/select2.min.js')}}"></script>
     <script src="{{asset_app('assets/js/temp/scripts.js')}}"></script>
