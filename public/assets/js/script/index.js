@@ -1676,6 +1676,7 @@ const getGraphImplement = (data) => {
                 if (item.isActive) {
                     point_imp = urut;
                     any_opened_imp = true;
+                    item.isActive = false;
                 }
                 urut++;
             })
