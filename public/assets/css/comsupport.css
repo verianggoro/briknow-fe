@@ -203,11 +203,15 @@ tbody tr:last-child td {
 }
 
 .select-custom {
+    padding: 0.1rem 1rem 0.1rem 0.1rem;
+    font-size: 14px;
+    text-align:center;
+    border-radius: 6px;
+    width: 75%;
     text-indent: initial;
     white-space: normal;
     line-height: normal;
     font-weight: normal;
-    font-size: medium;
     font-style: normal;
     font-variant: normal;
 }
@@ -617,6 +621,7 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
 }
 
 .table-hover tbody tr:hover {
+    background-color: rgb(100 100 100 / 8%);
     color: #6c757d;
 }
 

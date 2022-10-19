@@ -21,6 +21,7 @@ class HomeController extends Controller
     public $cominitiative;
     public $owner_project;
     public $consultant;
+    public $consultant_filter;
     public $suggest;
     public $direktorat;
     public $divisi;
@@ -58,6 +59,7 @@ class HomeController extends Controller
                     $this->rekomendasi      = $hasil->data->rekomendasi;
                     $this->owner_project    = $hasil->data->owner_project;
                     $this->consultant       = $hasil->data->consultant;
+                    $this->consultant_filter       = $hasil->data->consultant_filter;
                     $this->suggest          = $hasil->data->suggest;
                     $leaderboard            = $hasil->data->leaderboard;
                     $this->cominitiative    = $hasil->data->cominitiative;
@@ -90,13 +92,14 @@ class HomeController extends Controller
         $rekomendasi    = $this->rekomendasi;
         $owner_project  = $this->owner_project;
         $consultant     = $this->consultant;
+        $consultant_filter     = $this->consultant_filter;
         $suggest        = $this->suggest;
         $recominitiative = $this->cominitiative;
         $direk          = $this->direktorat;
         $divisi         = $this->divisi;
 
         // dd($leaderboard);
-        return view('index',compact('rekomendasi', 'direk', 'divisi', 'recominitiative','owner_project','consultant','suggest','leaderboard'));
+        return view('index',compact('rekomendasi', 'direk', 'divisi', 'recominitiative','owner_project','consultant','suggest','leaderboard', 'consultant_filter'));
     }
 
     public function indexPOST(){

@@ -407,7 +407,7 @@ function statusFormatter (value, row, index) {
     if (i !== -1) {
         options.splice(i, 1);
     }*/
-    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +','+ index +')" style="padding: 0.1rem 1rem;font-size: 14px;border-radius: 6px;width: 75%">'];
+    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +','+ index +')">'];
     let $option;
     for (let val in options) {
         $option = '<option value="' + options[val].toLocaleLowerCase() + '"';

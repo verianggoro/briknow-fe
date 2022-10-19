@@ -177,9 +177,9 @@
                     @endisset
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-4" style="padding-left: 0">
                     <label for="file_type" class="label-cus">Jenis File</label>
-                    <select class="form-control" id="file_type" name="file_type" style="width: 33%; height: 40px; padding: 5px 15px" required>
+                    <select class="form-control select2" id="file_type" name="file_type" style="width: 33%; height: 40px; padding: 5px 15px" required>
                         <option value="" selected disabled>Pilih Jenis File</option>
                         @forelse($data->type_file as $item)
                             @isset($data->data->type_file)

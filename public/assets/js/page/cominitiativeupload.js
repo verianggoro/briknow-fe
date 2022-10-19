@@ -512,6 +512,13 @@ $(document).ready(function () {
             $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:#38c172;");
         }
 
+        // file type
+        if($('#file_type').hasClass('is-invalid')){
+            $("[aria-labelledby='select2-file_type-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-file_type-container']").attr("style", "border-color:#38c172;");
+        }
+
         if($('#file').hasClass('is-invalid')){
             $("#attach-wrap").attr("style", "border:1px solid #e3342f;");
         }else{
@@ -540,6 +547,10 @@ $(document).ready(function () {
 
     $('#divisi').select2({
         placeholder : 'Pilih Unit Kerja'
+    });
+
+    $('#file_type').select2({
+        placeholder : 'Pilih Jenis File'
     });
 
     $("#link").select2({
@@ -699,6 +710,16 @@ $('#divisi').change(function(){
             $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:red;");
         }else{
             $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:#38c172;");
+        }
+    }
+});
+
+$('#file_type').change(function(){
+    if($('#file_type').hasClass('is-invalid') || $('#file_type').hasClass('is-valid')){
+        if(this.value == ""){
+            $("[aria-labelledby='select2-file_type-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-file_type-container']").attr("style", "border-color:#38c172;");
         }
     }
 });

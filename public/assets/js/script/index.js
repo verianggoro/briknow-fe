@@ -10,6 +10,11 @@ for (let i = 0; i < metas.length; i++) {
     }
 }
 
+const monthAll = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+let currentYear = new Date().getFullYear()
+let currentMonth = new Date().getMonth()
+let div_short = [];
+
 const datarekap = () =>{
     $.ajax({
         url: uri+"/tpvend",
@@ -867,7 +872,7 @@ const getgraph3 = (data) => {
     }); // end am4core.ready()
 }
 
-const getGraphComInit = (data) => {
+/*const getGraphComInit = (data) => {
     $('#ChartComInit').remove();
     if (data.out.data.length == 0) {
         $('#graphComInitiative').append(`
@@ -1126,9 +1131,9 @@ const getGraphComInit = (data) => {
         chart.cursor = new am4charts.XYCursor();
         chart.cursor.behavior = "panX";
     }); // end am4core.ready()
-}
+}*/
 
-const getGraphStraInit = (data) => {
+/*const getGraphStraInit = (data) => {
     $('#ChartStrategic').remove();
     if (data.out.data.length == 0) {
         $('#graphStraInitiative').append(`
@@ -1387,9 +1392,9 @@ const getGraphStraInit = (data) => {
         chart.cursor = new am4charts.XYCursor();
         chart.cursor.behavior = "panX";
     }); // end am4core.ready()
-}
+}*/
 
-const getGraphImplement = (data) => {
+/*const getGraphImplement = (data) => {
     $('#ChartImplement').remove();
     if (data.out.data.length == 0) {
         $('#graphImplementation').append(`
@@ -1605,9 +1610,9 @@ const getGraphImplement = (data) => {
         //     }
         // });
     }); // end am4core.ready()
-}
+}*/
 
-const dataComInit = () =>{
+/*const dataComInit = () =>{
     $.ajax({
         url: uri+"/cntcominitiative",
         type: "get",
@@ -1629,9 +1634,9 @@ const dataComInit = () =>{
             $('.senddataloader').hide();
             alert('Server Not Responding.. , Please Refresh');
         });
-}
+}*/
 
-const dataStrategic = () =>{
+/*const dataStrategic = () =>{
     $.ajax({
         url: uri+"/cntstrainitiative",
         type: "get",
@@ -1653,9 +1658,9 @@ const dataStrategic = () =>{
             $('.senddataloader').hide();
             alert('Server Not Responding.. , Please Refresh');
         });
-}
+}*/
 
-const dataImplementation = () =>{
+/*const dataImplementation = () =>{
     $.ajax({
         url: uri+"/cntlimplementation",
         type: "get",
@@ -1677,7 +1682,7 @@ const dataImplementation = () =>{
             $('.senddataloader').hide();
             alert('Server Not Responding.. , Please Refresh');
         });
-}
+}*/
 
 function profile() {
     window.open(uri+"/profile", "_blank");
@@ -1702,7 +1707,7 @@ function cekValid() {
 
 $(document).ready(function () {
 
-    $('#direktoratIndex').select2({
+    $('#direktorat').select2({
         placeholder : 'Pilih Direktorat'
     });
 
@@ -1710,18 +1715,67 @@ $(document).ready(function () {
         placeholder : 'Pilih Unit Kerja'
     });
 
-});
+    $('#consultant').select2({
+        placeholder : 'Cari Konsultan/Vendor'
+    });
 
+    $('#lessonLearned').select2({
+        placeholder : 'Pilih Lesson Learned'
+    });
 
-$('#direktoratIndex').change(function(){
-    if ($(this).val() !== null) {
-        cekDivisi();
-        console.log("INI APAA")
+    let startYear = 2000;
+    let endYear = currentYear;
+    let years = []
+    while ( startYear <= endYear ) {
+        years.push(endYear--);
     }
-    console.log("INI APAA")
+    for (let i=0; i<years.length; i++) {
+        let option = `<option value="${years[i]}">${years[i]}</option>`
+        $('#selectYear').append(option)
+    }
+
+    $('#selectYear').select2({
+        placeholder : 'Pilih Tahun'
+    });
+
 });
 
-const cekDivisi = (valueOld = null) => {
+function toKatalog() {
+    let yearSelected = $('#selectYear').val()
+    let divisiSelected = $('#divisi').val()
+    let conSelected = $('#consultant').val()
+    localStorage.removeItem("fil_thn");
+    localStorage.removeItem("fil_div");
+    localStorage.removeItem("fil_kon");
+
+    if (yearSelected !== null && yearSelected !== '') {
+        let month;
+        if (yearSelected.toString() === currentYear.toString()) {
+            month = monthAll.slice(0, currentMonth).map(i => `${$('#selectYear').val()}-` + i)
+        } else {
+            month = monthAll.map(i => `${$('#selectYear').val()}-` + i)
+        }
+        localStorage.setItem("fil_thn",month.join(','));
+    }
+
+    if (divisiSelected.length > 0) {
+        localStorage.setItem("fil_div",divisiSelected.join(','));
+    }
+
+    if (conSelected.length > 0) {
+        localStorage.setItem("fil_kon",conSelected.join(','));
+    }
+}
+
+$('#direktorat').on('select2:select', function (e) {
+    cekDivisi('select', e.params.data.id)
+})
+
+$('#direktorat').on('select2:unselect', function(e){
+    cekDivisi('unselect', e.params.data.id)
+});
+
+const cekDivisi = (selOrUn, value) => {
     if($('#divisi').hasClass('is-invalid') || $('#divisi').hasClass('is-valid')){
         if(this.value == ""){
             $("[aria-labelledby='select2-direktorat-container']").attr("style", "border-color:red;");
@@ -1730,8 +1784,8 @@ const cekDivisi = (valueOld = null) => {
         }
     }
 
-    var direktorat  = $('select[name=direktorat] option').filter(':selected').val();
-    var url = `${uri}/getdivisi/${direktorat}`;
+    // var direktorat  = $('select[name=direktorat] option').filter(':selected').val();
+    var url = `${uri}/getdivisi/${value}`;
     $.ajax({
         url: url,
         type: "get",
@@ -1739,36 +1793,32 @@ const cekDivisi = (valueOld = null) => {
         {
             $('.pagination').remove();
 
-            $("#divisi option").each(function() {
+            /*$("#divisi option").each(function() {
                 $(this).remove();
-            });
+            });*/
 
             $('.senddataloader').show();
         },
         success: function(data){
-            var option = "<option value='' selected disabled>Pilih Unit Kerja</option>";
+            // var option = "<option value='' selected disabled>Pilih Unit Kerja</option>";
+            let option = '';
             $('.senddataloader').hide();
             // innert html
             if (data.data.length > 0) {
                 for (let index = 0; index < data.data.length; index++) {
-                    if (valueOld !== null) {
-                        if (valueOld === data.data[index].id) {
-                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
-                        }else{
-                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
-                        }
-                    } else if (project.length !== 0) {
-                        if (project.divisi.id === data.data[index].id) {
-                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
-                        }else{
-                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
-                        }
-                    } else{
-                        option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
+                    if (selOrUn === 'select') {
+                        // div_short.push(data.data[index].shortname)
+                        //option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
+                        $('#divisi').append(`<option value='${data.data[index].shortname}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`);
+                    } else {
+                        $(`#divisi option[value="${data.data[index].shortname}"]`).detach();
+                        // div_short.push(data.data[index].shortname)
+                        //option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
+                        //$('#divisi').append(`<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`);
                     }
                 }
             }
-            $('#divisi').append(option);
+            // $('#divisi').append(option);
         },
         error : function(e){
             $('.senddataloader').hide();
@@ -1777,22 +1827,6 @@ const cekDivisi = (valueOld = null) => {
     });
 }
 
-let divisiVal = $('#divisi').val();
-if (divisiVal !== "" && divisiVal !== null) {
-    divisiVal   =   parseInt(divisiVal);
-    cekDivisi(divisiVal);
-}
-
-$('#divisi').change(function(){
-    if($('#divisi').hasClass('is-invalid') || $('#divisi').hasClass('is-valid')){
-        if(this.value == ""){
-            $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:red;");
-        }else{
-            $("[aria-labelledby='select2-divisi-container']").attr("style", "border-color:#38c172;");
-        }
-    }
-});
-
 
 /*
 */
@@ -1800,7 +1834,7 @@ $('#divisi').change(function(){
 
 datarekap();
 datarekap2();
-dataStrategic();
+/*dataStrategic();
 dataImplementation();
-dataComInit();
+dataComInit();*/
 dataRekapLesson();

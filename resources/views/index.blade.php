@@ -18,6 +18,22 @@
     <link rel="stylesheet" href="{{asset_app('assets/css/components.css')}}">
     <link rel="stylesheet" href="{{asset_app('assets/css/fa.css')}}">
 
+    <style>
+
+        .select2-selection--multiple {
+            max-height: 42px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            height: 42px;
+            /*-ms-overflow-style: none;
+            overflow: -moz-scrollbars-none;
+            scrollbar-width: none;*/
+        }
+        /*.select2-selection--multiple::-webkit-scrollbar {
+            display: none
+        }*/
+    </style>
+
     @if($congrats <> [])
         {{-- congrats --}}
         <link rel="stylesheet" href="{{asset_app('assets/css/congrats.css')}}">
@@ -28,9 +44,11 @@
     <script src="{{asset_app('assets/js/core.js')}}" ></script>
     <script src="{{asset_app('assets/js/charts.js')}}" ></script>
     <script src="{{asset_app('assets/js/themes/animated.js')}}" ></script>
-    <script src="{{asset_app('assets/js/script/index.js')}}"></script>
 
     <script>
+        if(jQuery().select2) {
+            $(".select2").select2();
+        }
         jQuery(document).ready(function($){
             $('.owl-carousel').owlCarousel({
                 loop:false,
@@ -309,10 +327,10 @@
                                 <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
                                 </span>
                                   </div>
-                                  <select onchange="cekDivisi()" name="direktorat" id="direktorat"
+                                  <select name="direktorat" id="direktorat"
                                           class="mr-auto p-2 form-control text-black select2"
-                                          value="{{old('direktorat')}}" >
-                                      <option value="" disabled selected>Pilih Direktorat</option>
+                                          value="{{old('direktorat')}}" multiple>
+{{--                                      <option value="" disabled selected>Pilih Direktorat</option>--}}
                                       @foreach ($direk == NULL ? 'Lainnya' : $direk as $item)
                                           @isset($divisi)
                                               @if($divisi == $item->direktorat)
@@ -336,8 +354,13 @@
                                 <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
                                 </span>
                                   </div>
-                                  <input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef"
-                                         id="search" placeholder="Konsultan...">
+                                  <select id="consultant" class="mr-auto p-2 form-control select2" value="{{old('consultant')}}" name="consultant" multiple>
+                                      @foreach ($consultant_filter == NULL ? 'Lainnya' : $consultant_filter as $item)
+                                          <option value="{{$item->nama }}" data-value="{{ $item->nama }}">{{ $item->nama }}</option>
+                                      @endforeach
+                                  </select>
+                                  {{--<input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef"
+                                         id="searchCons" placeholder="Konsultan...">--}}
                               </div>
                           </div>
                           <div class="mt-3">
@@ -350,8 +373,8 @@
                                 <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
                                 </span>
                                   </div>
-                                  <select  id="divisi" class="mr-auto p-2 form-control select2" value="{{old('divisi')}}" name="divisi">
-                                      <option value="" selected disabled>Pilih Unit Kerja</option>
+                                  <select id="divisi" class="mr-auto p-2 form-control select2" value="{{old('divisi')}}" name="divisi[]" multiple>
+{{--                                      <option value="" selected disabled>Pilih Unit Kerja</option>--}}
                                   </select>
                                   <div class="input-group-prepend ml-3">
                                 <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
@@ -367,21 +390,24 @@
                                   </select>
                               </div>
                           </div>
-                          <div class="mt-3">
+                          <div class="mt-3 w-50">
                               <div class="d-flex justify-content-start">
-                                  <h5 class="p-2 col-lg-6">Bulan/Tahun</h5>
+                                  <h5 class="p-2 col-lg-6">Tahun</h5>
                               </div>
                               <div class="d-flex justify-content-start">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fa fa-search fa-lg"
                                                                         aria-hidden="true"></i></span>
                                   </div>
-                                  <input type="date" name="search" class="col-lg-6 mr-3 form-control main-cari-2iaef"
-                                         id="search" placeholder="Search Project, Consultant, And More...">
+{{--                                  <input type="date" name="search" class="col-lg-6 mr-3 form-control main-cari-2iaef"--}}
+{{--                                         id="search" placeholder="Search Project, Consultant, And More...">--}}
+                                  <select id="selectYear" class="mr-auto p-2 form-control select2" name="selectYear">
+                                      <option value="" selected disabled>Pilih Tahun</option>
+                                  </select>
                               </div>
                           </div>
                           <div class="w-100 d-flex mt-4 justify-content-center">
-                              <a class="btn btn-primary" href="{{route('katalog.pencarian','test')}}">Terapkan</a>
+                              <a class="btn btn-primary" href="{{route('katalog.index')}}" onclick="toKatalog()" oncontextmenu="toKatalog()" onmousedown="toKatalog()">Terapkan</a>
                           </div>
                       </div>
                   </div>
@@ -787,10 +813,12 @@
         </script>
     @endif
 
+    <script src="{{asset_app('assets/js/script/index.js')}}"></script>
     <!-- Template JS File -->
-    <script src="{{asset_app('assets/js/scripts.js')}}"></script>
-    <script src="{{asset_app('assets/js/custom.js')}}"></script>
-    <script src="{{asset_app('assets/js/page/notification.js')}}"></script>
+    <script src="{{asset_app('assets/js/select2.min.js')}}"></script>
+    <script src="{{asset_app('assets/js/temp/scripts.js')}}"></script>
+    <script src="{{asset_app('assets/js/temp/custom.js')}}"></script>
+    <script src="{{asset_app('assets/js/page/notification.js')}}"></script>>
     @if(Session::has('term'))
         <script>
             $('#myModal').modal({backdrop: 'static', keyboard: false})
