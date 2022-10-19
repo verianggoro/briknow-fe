@@ -13,7 +13,6 @@ for (let i = 0; i < metas.length; i++) {
 const monthAll = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 let currentYear = new Date().getFullYear()
 let currentMonth = new Date().getMonth()
-let div_short = [];
 
 const datarekap = () =>{
     $.ajax({

@@ -229,6 +229,7 @@ const renderChartProjectK = (data) => {
         label.ellipsis = "...";
         
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.maxPrecision = 0
         valueAxis.renderer.minWidth = 50;
         valueAxis.min = 0;
         valueAxis.cursorTooltipEnabled = false;
@@ -264,11 +265,20 @@ const renderChartProjectK = (data) => {
         // Cursor
         chart.cursor = new am4charts.XYCursor();
         chart.cursor.behavior = "panX";
+
+        series.columns.template.events.on("hit", function(ev) {
+            localStorage.removeItem("fil_thn");
+            localStorage.removeItem("fil_div");
+            localStorage.removeItem("fil_kon");
+
+            let source = ev.target.dataItem._dataContext;
+            localStorage.setItem("fil_kon",source.nama_consultant);
+            open(uri+'/katalog', '_blank');
+        }, this);
     }); // end am4core.ready()
 }
 
 const renderChartProjectD = (data) => {
-    console.log(data);
 
     $('#chart_projectD').remove();
 
@@ -312,6 +322,7 @@ const renderChartProjectD = (data) => {
         label.ellipsis = "...";
         
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.maxPrecision = 0
         valueAxis.renderer.minWidth = 50;
         valueAxis.min = 0;
         valueAxis.cursorTooltipEnabled = false;
@@ -344,15 +355,24 @@ const renderChartProjectD = (data) => {
             return chart.colors.getIndex(target.dataItem.index);
         })
         
-        
         // Cursor
         chart.cursor = new am4charts.XYCursor();
         chart.cursor.behavior = "panX";
+
+        series.columns.template.events.on("hit", function(ev) {
+            localStorage.removeItem("fil_thn");
+            localStorage.removeItem("fil_div");
+            localStorage.removeItem("fil_kon");
+
+            let source = ev.target.dataItem._dataContext;
+            localStorage.setItem("fil_div",source.short);
+            open(uri+'/katalog', '_blank');
+        }, this);
     }); // end am4core.ready()
 }
 
 const renderChartProjectT = (data) => {
-    console.log(data);
+    // console.log(data);
 
     $('#chart_projectT').remove();
 
@@ -388,6 +408,7 @@ const renderChartProjectT = (data) => {
     label.ellipsis = "...";
     
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.maxPrecision = 0
     valueAxis.renderer.minWidth = 50;
     valueAxis.min = 0;
     valueAxis.cursorTooltipEnabled = false;
@@ -410,6 +431,28 @@ const renderChartProjectT = (data) => {
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.behavior = "zoomY";
     chart.cursor.lineX.disabled = true;
+
+    const monthAll = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+    let currentYear = new Date().getFullYear()
+    let currentMonth = new Date().getMonth()
+
+    series.segments.template.interactionsEnabled = true;
+    series.segments.template.events.on("hit", function(ev) {
+        localStorage.removeItem("fil_thn");
+        localStorage.removeItem("fil_div");
+        localStorage.removeItem("fil_kon");
+
+        let item = ev.target.dataItem.component.tooltipDataItem.dataContext;
+
+        let month;
+        if (item.tahun.toString() === currentYear.toString()) {
+            month = monthAll.slice(0, currentMonth).map(i => `${item.tahun}-` + i)
+        } else {
+            month = monthAll.map(i => `${item.tahun}-` + i)
+        }
+        localStorage.setItem("fil_thn",month.join(','));
+        open(uri+'/katalog', '_blank');
+    }, this);
     
     }); // end am4core.ready()
 }
