@@ -29,9 +29,10 @@
             overflow: -moz-scrollbars-none;
             scrollbar-width: none;*/
         }
-        /*.select2-selection--multiple::-webkit-scrollbar {
-            display: none
-        }*/
+
+        .btn-link-com:hover {
+            background-color: rgba(36, 36, 36, 0.2) !important;
+        }
     </style>
 
     @if($congrats <> [])
@@ -103,11 +104,8 @@
             <div>
                 <img src="{{asset_app('assets/img/logo/bri know white.png')}}" class="mt-3 ml-3" alt="">
             </div>
-            <div class="d-flex p-2 align-items-center">
-                <a href="{{route('home')}}" class="btn btn-sm btn-link text-white mr-2">Home</a>
-            </div>
-            <div class="d-flex mr-auto p-2 align-items-center">
-                <a href="{{route('mycomsupport.initiative')}}" class="btn btn-sm btn-link text-white mr-2">Communication Support</a>
+            <div class="d-flex mr-auto p-2 pl-4 align-items-center">
+                <a href="{{route('mycomsupport.initiative')}}" class="btn btn-sm btn-link btn-link-com text-white mr-2">Communication Support</a>
             </div>
             <div class="d-flex p-2 align-items-end">
                 <nav class="navbar navbar-expand-lg main-navbar">
@@ -514,7 +512,7 @@
             </div>
         </div>
     </div>
-    <div class="px-4 pt-5">
+    <div class="px-4 pt-5 pb-5">
           <div class="container-fluid">
               <div class="row p-3 rekomendasi h-100">
                   <div class="col-md-4 d-flex align-items-center">
@@ -649,49 +647,6 @@
               </div>
           </div>
       </div>
-    <div class="container-fluid mt-5 bg-6sa6ss">
-        <div class="row rekomendasi lkatego">
-            <div class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center comp2">
-                <div>
-                    <img src="{{asset_app('assets/img/login/bawah beranda.png')}}" alt="">
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-12 col-sm-12 mt-5">
-                <span class="bg-warning px-2 py-1 font-weight-bold text-white head-text">Pemilik Proyek</span>
-                <hr class="bg-warning head_pro mb-2">
-                <ul class="list mt-2 p-0">
-                    @forelse($owner_project as $item)
-                        <a href="{{route('divisi',$item->id)}}" class="text-decoration-none text-dark">
-                            <li class="font-weight-bold item-pro">{{$item->divisi}}<span class="ml-1">({{$item->project_count}})</span></li>
-                        </a>
-                    @empty
-                    <small class="text-black-50 font-italic">Tidak Ada Data Pemilik Proyek</small>
-                    @endforelse
-                </ul>
-            </div>
-
-            <div class="col-lg-4 col-md-12 col-sm-12 mt-5">
-                <span class="bg-warning px-2 py-1 font-weight-bold text-white head-text">Konsultan</span>
-                <hr class="bg-warning head_pro mb-2">
-                <ul class="list mt-2 p-0">
-                    @forelse($consultant as $item)
-                        <a href="{{route('consultant.index',$item->id)}}" class="text-decoration-none text-dark">
-                            <li class="font-weight-bold item-pro">{{$item->nama}}<span class="ml-1">({{$item->project_count}})</span></li>
-                        </a>
-                    @empty
-                    <small class="text-black-50 font-italic">Tidak Ada Data Konsultan</small>
-                    @endforelse
-                </ul>
-            </div>
-
-            <div class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center comp">
-                <div>
-                    <img src="{{asset_app('assets/img/login/bawah beranda.png')}}" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
     <svg id="bot" width="677" height="804" viewBox="0 0 677 804" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path opacity="0.2" d="M254.176 586.981C-8.18269 644.209 -8.49086 827.079 16.1758 885.445H1392.18V0C1383.51 20.5609 1304.18 70.4377 1056.18 105.458C808.176 140.477 674.176 281.883 638.176 348.209C602.176 414.534 500.469 533.257 254.176 586.981Z" fill="#ED832F"/>
         <path opacity="0.2" d="M248.176 659.981C-14.1827 717.209 -14.4909 900.079 10.1758 958.445H1386.18V73C1377.51 93.5609 1298.18 143.438 1050.18 178.458C802.176 213.477 668.176 354.883 632.176 421.209C596.176 487.534 494.469 606.257 248.176 659.981Z" fill="#ED832F"/>
