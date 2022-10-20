@@ -53,11 +53,11 @@ return [
     */
 
     //local
-    'url' => env('APP_URL', 'http://briknow-fe.test/'),
-    'url_be' => env('APP_URL_BE', 'http://127.0.0.1:8000/'),
-    'api_htspace' => env('APP_URL_API', 'http://10.35.65.113/bristars/app/check'),
-    'api_app_id' => env('API_APP_ID', 276),
-    'asset_url' => env('ASSET_URL', null),
+    // 'url' => env('APP_URL', 'https://briknow.me/'),
+    // 'url_be' => env('APP_URL_BE', 'http://bff.me/'),
+    // 'api_htspace' => env('APP_URL_API', 'http://10.35.65.113/bristars/app/check'),
+    // 'api_app_id' => env('API_APP_ID', 276),
+    // 'asset_url' => env('ASSET_URL', null),
 
     //development
     // 'url' => env('APP_URL', 'https://172.18.54.178/briknow/'),
@@ -67,11 +67,11 @@ return [
     // 'asset_url' => env('ASSET_URL', null),
 
     // production
-    // 'url' => env('APP_URL', 'https://briknow.bri.co.id/'),
-    // 'url_be' => env('APP_URL_BE', 'http://172.18.39.68/'),
-    // 'api_htspace' => env('APP_URL_API', 'https://bristars.bri.co.id/bristars/app/check'),
-    // 'api_app_id' => env('API_APP_ID', 197),
-    // 'asset_url' => env('ASSET_URL', null),
+    'url' => env('APP_URL', 'https://briknow.bri.co.id/'),
+    'url_be' => env('APP_URL_BE', 'http://172.18.39.68/'),
+    'api_htspace' => env('APP_URL_API', 'https://bristars.bri.co.id/bristars/app/check'),
+    'api_app_id' => env('API_APP_ID', 197),
+    'asset_url' => env('ASSET_URL', null),
 
     /*
     |--------------------------------------------------------------------------
