@@ -205,7 +205,7 @@ function statusFormatter (value, row, index) {
 
 function operateFormatter(value, row, index) {
     return [
-        '<div class="d-flex align-items-center justify-content-center" style="padding-top: 0; padding-bottom: 0">',
+        '<div class="d-flex pr-4 align-items-center justify-content-center" style="padding-top: 0; padding-bottom: 0">',
         '<div class="view border-action d-flex align-items-center justify-content-center mr-1 action-icon" title="View">',
         '<i class="fas fa-eye" style="margin: 0; font-size: 18px"></i>',
         '</div>  ',
@@ -321,4 +321,8 @@ function views(e, slug) {
             alert(e);
         }
     });
+}
+
+function downloadDoc(name, source) {
+    window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
 }

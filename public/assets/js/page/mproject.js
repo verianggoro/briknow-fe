@@ -50,6 +50,10 @@ const views = (slug) =>{
     });
 }
 
+function downloadDoc(name, source) {
+    window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
+}
+
 const closemodal = () =>{
     $('#modalpreview').modal({
         show : false

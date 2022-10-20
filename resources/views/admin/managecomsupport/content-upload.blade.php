@@ -172,7 +172,8 @@
                     @isset($data->data->tanggal_selesai)
                     <div class="form-group content-selesai" style="width: 50%;">
                         <label for="tgl_selesai" class="label-cus">Tanggal Selesai</label>
-                        <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control" value="{{(isset($data->data->tanggal_selesai)) ? \Carbon\carbon::create($data->data->tanggal_selesai)->format('Y-m-d') : old('tgl_selesai')}}" id="tgl_selesai" name="tgl_selesai" placeholder="Tanggal selesai" required>
+                        <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control" value="{{(isset($data->data->tanggal_selesai)) ? \Carbon\carbon::create($data->data->tanggal_selesai)->format('Y-m-d') : old('tgl_selesai')}}"
+                               id="tgl_selesai" name="tgl_selesai" placeholder="Tanggal selesai" min="{{(isset($data->data->tanggal_mulai)) ? \Carbon\carbon::create($data->data->tanggal_mulai)->format('Y-m-d') : old('tgl_mulai')}}" max="{{\Carbon\carbon::now()->format('Y-m-d')}}" required>
                     </div>
                     @endisset
                 </div>

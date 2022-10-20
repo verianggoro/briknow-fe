@@ -163,7 +163,7 @@ $(document).ready(function () {
                     if (attach[x].tipe === 'piloting') {
                         const array_p = {name: attach[x].nama, date: attach[x].updated_at, size: attach[x].size, url: attach[x].url_file}
                         input_attach_pilot.push(array_p)
-                    } else if (attach[0].tipe === 'rollout') {
+                    } else if (attach[x].tipe === 'rollout') {
                         const array_r = {name: attach[x].nama, date: attach[x].updated_at, size: attach[x].size, url: attach[x].url_file}
                         input_attach_rollout.push(array_r)
                     } else if (attach[x].tipe === 'sosialisasi') {
@@ -250,7 +250,6 @@ $(document).ready(function () {
         var kolomvendor     = $('#jenispekerja').val();
         var kolomrestricted = $('#restricted').val();
 
-        // console.log(t);
         if (t == 0) {
             // foto
             if($('#photo').hasClass('is-invalid')){
@@ -300,17 +299,10 @@ $(document).ready(function () {
                         $nextChild.attr("style", "border-color:#38c172;");
                     }
                 }
-                // console.log(document.getElementsByClassName("select2-selection select2-selection--multiple"));
-                /*if($('#restricted-user').hasClass('is-invalid')){
-                    document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:red;");
-                }else{
-                    document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:#38c172;");
-                }*/
             }
 
         }else if(t === 1){
             // slide 2
-            // console.log('masuk');
 
             if($('#link').hasClass('is-invalid')){
                 $("[aria-labelledby='select2-link-container']").attr("style", "border-color:red;");
@@ -360,9 +352,7 @@ $(document).ready(function () {
 
         if (isValid){
             if (pointer > t) {
-                // console.log('masuk');
                 t = t+1;
-                // console.log(t);
             }
             nextStepWizard.removeAttr('disabled').trigger('click');
         }
@@ -585,40 +575,42 @@ $(document).ready(function () {
 
         const slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
         if (slug !== 'implementation') {
-            for (let i=0; i<input_attach_pilot.length; i++) {
+            let length = input_attach_pilot.length;
+            for (let i=length-1; i>=0; i--) {
                 if (inputPilot.includes(input_attach_pilot[i].url)) {
                     if (!attach_pilot.includes(input_attach_pilot[i])) {
-                        attach_pilot.push(input_attach_pilot[i])
+                        attach_pilot.unshift(input_attach_pilot[i])
                     }
                 }
             }
-            for (let i=0; i<input_attach_rollout.length; i++) {
+            length = input_attach_rollout.length
+            for (let i=length-1; i>=0; i--) {
                 if (inputRoll.includes(input_attach_rollout[i].url)) {
                     if (!attach_rollout.includes(input_attach_rollout[i])) {
-                        attach_rollout.push(input_attach_rollout[i])
+                        attach_rollout.unshift(input_attach_rollout[i])
                     }
                 }
             }
-            for (let i=0; i<input_attach_sosialisasi.length; i++) {
+            length = input_attach_sosialisasi.length
+            for (let i=length-1; i>=0; i--) {
                 if (inputSos.includes(input_attach_sosialisasi[i].url)) {
                     if (!attach_sosialisasi.includes(input_attach_sosialisasi[i])) {
-                        attach_sosialisasi.push(input_attach_sosialisasi[i])
+                        attach_sosialisasi.unshift(input_attach_sosialisasi[i])
                     }
                 }
             }
         }
 
-
         $('#desc-preview').empty();
         if ($('#piloting').is(':checked')) {
             data_attach_pilot = []
             for (let i=0; i<attach_pilot.length; i++) {
-                if (attach_pilot[i] instanceof File) {
-                    const lastModifiedDate = attach_pilot[i].lastModifiedDate
-                    data_attach_pilot.push({'name': attach_pilot[i].name, 'date':lastModifiedDate, 'size': attach_pilot[i].size})
+                if (attach_pilot[i].file instanceof File) {
+                    const lastModifiedDate = attach_pilot[i].file.lastModifiedDate
+                    data_attach_pilot.push({'name': attach_pilot[i].file.name, 'date':lastModifiedDate, 'size': attach_pilot[i].file.size, 'source': attach_pilot[i].url})
                 } else {
                     const lastModifiedDate = new Date(attach_pilot[i].date)
-                    data_attach_pilot.push({'name': attach_pilot[i].name, 'date':lastModifiedDate, 'size': attach_pilot[i].size})
+                    data_attach_pilot.push({'name': attach_pilot[i].name, 'date':lastModifiedDate, 'size': attach_pilot[i].size, 'source': attach_pilot[i].url})
                 }
             }
             appendDesc('Piloting', 'editor-deskripsi', data_attach_pilot)
@@ -627,12 +619,12 @@ $(document).ready(function () {
         if ($('#rollout').is(':checked')) {
             data_attach_rollout = []
             for (let i=0; i<attach_rollout.length; i++) {
-                if (attach_rollout[i] instanceof File) {
-                    const lastModifiedDate = attach_rollout[i].lastModifiedDate
-                    data_attach_rollout.push({'name': attach_rollout[i].name, 'date':lastModifiedDate, 'size': attach_rollout[i].size})
+                if (attach_rollout[i].file instanceof File) {
+                    const lastModifiedDate = attach_rollout[i].file.lastModifiedDate
+                    data_attach_rollout.push({'name': attach_rollout[i].file.name, 'date':lastModifiedDate, 'size': attach_rollout[i].file.size, 'source': attach_rollout[i].url})
                 } else {
                     const lastModifiedDate = new Date(attach_rollout[i].date)
-                    data_attach_rollout.push({'name': attach_rollout[i].name, 'date':lastModifiedDate, 'size': attach_rollout[i].size})
+                    data_attach_rollout.push({'name': attach_rollout[i].name, 'date':lastModifiedDate, 'size': attach_rollout[i].size, 'source': attach_rollout[i].url})
                 }
             }
             appendDesc('Roll Out', 'editor-rollout', data_attach_rollout)
@@ -641,12 +633,12 @@ $(document).ready(function () {
         if ($('#sosialisasi').is(':checked')) {
             data_attach_sosialisasi = []
             for (let i=0; i<attach_sosialisasi.length; i++) {
-                if (attach_sosialisasi[i] instanceof File) {
-                    const lastModifiedDate = attach_sosialisasi[i].lastModifiedDate
-                    data_attach_sosialisasi.push({'name': attach_sosialisasi[i].name, 'date':lastModifiedDate, 'size': attach_sosialisasi[i].size})
+                if (attach_sosialisasi[i].file instanceof File) {
+                    const lastModifiedDate = attach_sosialisasi[i].file.lastModifiedDate
+                    data_attach_sosialisasi.push({'name': attach_sosialisasi[i].file.name, 'date':lastModifiedDate, 'size': attach_sosialisasi[i].file.size, 'source': attach_sosialisasi[i].url})
                 } else {
                     const lastModifiedDate = new Date(attach_sosialisasi[i].date)
-                    data_attach_sosialisasi.push({'name': attach_sosialisasi[i].name, 'date':lastModifiedDate, 'size': attach_sosialisasi[i].size})
+                    data_attach_sosialisasi.push({'name': attach_sosialisasi[i].name, 'date':lastModifiedDate, 'size': attach_sosialisasi[i].size, 'source': attach_sosialisasi[i].url})
                 }
             }
             appendDesc('Sosialisasi', 'editor-sosialisasi', data_attach_sosialisasi)
@@ -779,9 +771,13 @@ $(document).ready(function () {
             for (let e in data) {
                 html += `
                     <div class="row" style="padding: 2px; color: #2f80ed; border-bottom: 1px solid #cccccc; font-weight: 500">
-                        <div class="col-md-9 pl-4"><i class="fas fa-file mr-3"></i>${data[e].name}</div>
-                        <div class="col-md-2">${dateFormat(data[e].date)}</div>
-                        <div class="col-md-1">${bytesToSize(data[e].size)}</div>
+                        <div class="col-md-9 pl-4">
+                            <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="d-flex align-items-center cur-point" style="width: fit-content">
+                                <i class="fas fa-file mr-3"></i>${data[e].name}
+                            </div>
+                        </div>
+                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-2 cur-point">${dateFormat(data[e].date)}</div>
+                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-1 cur-point">${bytesToSize(data[e].size)}</div>
                     </div>
                 `
             }
@@ -791,6 +787,10 @@ $(document).ready(function () {
     }
 
 });
+
+function downloadDoc(name, source) {
+    window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
+}
 
 function dateFormat(date) {
     return date.getDate()+" "+ months[date.getMonth()]+" "+date.getFullYear();
@@ -976,7 +976,6 @@ function addUserAccess() {
 
     $('#'+id+'').on('select2:select', function (e) {
         if($('#'+id+'').hasClass('is-invalid') || $('#'+id+'').hasClass('is-valid')){
-            // console.log(document.getElementsByClassName("select2-selection select2-selection--multiple"));
             if($('#'+id+'').hasClass('is-invalid')){
                 document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:red;");
             }else if($('#'+id+'').hasClass('is-valid')){
@@ -1044,7 +1043,6 @@ $('#restricted').change(function(){
                 }else{
                     urut = 0;
                 }
-                // console.log(document.getElementsByClassName("select2-selection select2-selection--multiple"));
                 if($('#restricted-user-1').hasClass('is-invalid')){
                     document.getElementsByClassName("select2-selection select2-selection--multiple")[urut].setAttribute("style", "border-color:red;");
                 }else if($('#restricted-user').hasClass('is-valid')){
@@ -1084,6 +1082,19 @@ $('#restricted').change(function(){
     });
 });
 
+function todayFormatter(date = today) {
+    let d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 
 $('#stat_project').change(function(){
     if ($('#stat_project').prop('checked')) {
@@ -1091,11 +1102,17 @@ $('#stat_project').change(function(){
                         <div class="form-group row content-selesai">
                             <label for="tgl_selesai" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center content-selesai label-cus-2">Tanggal Selesai<span class="text-danger ml-1">*</span></label>
                             <div class="col-md-5 col-sm-12 content-selesai">
-                                <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control" id="tgl_selesai" name="tgl_selesai" placeholder="Tanggal selesai" required>
+                                <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control" id="tgl_selesai" name="tgl_selesai" placeholder="Tanggal selesai" max="${todayFormatter()}" required>
                             </div>
                         </div>
                     `;
         $('#form_tgl_selesai').append(element);
+
+        if ($('#tgl_mulai').val() !== '') {
+            let date = new Date($('#tgl_mulai').val())
+            date.setDate(date.getDate() + 1)
+            $('#tgl_selesai').attr({"min" : todayFormatter(date)});
+        }
     } else {
         $('.content-selesai').remove();
     }
@@ -1286,7 +1303,6 @@ $("#send").click(function(){
                 }else{
                     $('.senddataloader').show();
                     $('#form').attr('action',uri+"/kontribusi/update");
-                    // console.log(uri+"/kontribusi/update");
 
                     $("#project").val('1');
                     $('#form').submit();
@@ -1330,6 +1346,11 @@ $('#tgl_mulai').change(function () {
             Toast3.fire({icon: 'error',title: 'Tanggal Mulai Tidak Boleh Lebih Dari Tanggal Selesai'});
             res = true;
         }
+    }
+    if ($('#tgl_mulai').val() !== '' && $('#stat_project').is(':checked')) {
+        let date = new Date($('#tgl_mulai').val())
+        date.setDate(date.getDate() + 1)
+        $('#tgl_selesai').attr({"min" : todayFormatter(date)});
     }
     if(res){
         $('#tgl_mulai').val('');
@@ -1521,13 +1542,6 @@ function showPreview(file, step) {
     $preview.append($(htmlPreview.join('')).hide().fadeIn(300))
 
     let $container = $('#prev-'+step+timemillis+'')
-    if (step === 'piloting') {
-        attach_pilot.push(file)
-    } else if (step === 'rollout') {
-        attach_rollout.push(file)
-    } else if (step === 'sosialisasi') {
-        attach_sosialisasi.push(file)
-    }
     // let id = $container.attr('id')
 
     /*if($('#form').hasClass('was-validated')){
@@ -1547,6 +1561,14 @@ function showPreview(file, step) {
             xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
         },
         success: function(res){
+            if (step === 'piloting') {
+                attach_pilot.push({file: file, url: res})
+            } else if (step === 'rollout') {
+                attach_rollout.push({file: file, url: res})
+            } else if (step === 'sosialisasi') {
+                attach_sosialisasi.push({file: file, url: res})
+            }
+
             let $first = $container.children().first().children()
             $first.addClass('detail-prev')
 
@@ -1590,13 +1612,13 @@ function removePreview(id, type, step, file = null) {
             }
         });
         if (step === 'piloting') {
-            let index = attach_pilot.indexOf(file);
+            let index = attach_pilot.findIndex(elem => elem['file'] === file);
             attach_pilot.splice(index, 1);
         } else if (step === 'rollout') {
-            let index = attach_rollout.indexOf(file);
+            let index = attach_rollout.findIndex(elem => elem['file'] === file);
             attach_rollout.splice(index, 1);
         } else if (step === 'sosialisasi') {
-            let index = attach_sosialisasi.indexOf(file);
+            let index = attach_sosialisasi.findIndex(elem => elem['file'] === file);
             attach_sosialisasi.splice(index, 1);
         }
     } else {
@@ -1629,13 +1651,13 @@ function removePreview(id, type, step, file = null) {
                 });
 
                 if (step === 'piloting') {
-                    let index = attach_pilot.indexOf(file);
+                    let index = attach_pilot.findIndex(elem => elem['file'] === file);
                     attach_pilot.splice(index, 1);
                 } else if (step === 'rollout') {
-                    let index = attach_rollout.indexOf(file);
+                    let index = attach_rollout.findIndex(elem => elem['file'] === file);
                     attach_rollout.splice(index, 1);
                 } else if (step === 'sosialisasi') {
-                    let index = attach_sosialisasi.indexOf(file);
+                    let index = attach_sosialisasi.findIndex(elem => elem['file'] === file);
                     attach_sosialisasi.splice(index, 1);
                 }
 

@@ -6,6 +6,7 @@ let csrf                   = '';
 let project = [];
 const slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
 let formSubmitting = false;
+const today = new Date();
 
 const Toast3 = Swal.mixin({
     toast: true,
@@ -117,15 +118,35 @@ $parent.change(function () {
     });
 })
 
+function todayFormatter(date = today) {
+    let d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
 $('#stat_project').change(function(){
     if ($('#stat_project').prop('checked')) {
         var element = `
                         <div class="form-group content-selesai" style="width: 50%;">
                             <label for="tgl_selesai" class="label-cus">Tanggal Selesai</label>
-                            <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control" id="tgl_selesai" name="tgl_selesai" placeholder="Tanggal selesai" required>
+                            <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control" id="tgl_selesai" name="tgl_selesai" placeholder="Tanggal selesai" max="${todayFormatter()}" required>
                         </div>
                     `;
         $('#form_tgl_selesai').append(element);
+
+        if ($('#tgl_mulai').val() !== '') {
+            let date = new Date($('#tgl_mulai').val())
+            date.setDate(date.getDate() + 1)
+            $('#tgl_selesai').attr({"min" : todayFormatter(date)});
+        }
     } else {
         $('.content-selesai').remove();
     }
@@ -156,6 +177,11 @@ $('#tgl_mulai').change(function () {
             Toast3.fire({icon: 'error',title: 'Tanggal Mulai Tidak Boleh Lebih Dari Tanggal Selesai'});
             res = true;
         }
+    }
+    if ($('#tgl_mulai').val() !== '' && $('#stat_project').is(':checked')) {
+        let date = new Date($('#tgl_mulai').val())
+        date.setDate(date.getDate() + 1)
+        $('#tgl_selesai').attr({"min" : todayFormatter(date)});
     }
     if(res){
         $('#tgl_mulai').val('');

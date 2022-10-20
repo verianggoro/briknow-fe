@@ -97,7 +97,7 @@ function view(row, index) {
     let attach = row.attach_file
     for (let i=0; i<attach.length; i++) {
         const lastModifiedDate = new Date(attach[i].updated_at)
-        data_attach.push({'name': attach[i].nama, 'date':lastModifiedDate, 'size': attach[i].size})
+        data_attach.push({'name': attach[i].nama, 'date':lastModifiedDate, 'size': attach[i].size, 'source': attach[i].url_file})
     }
     appendDesc(row.desc, data_attach)
 
@@ -274,15 +274,23 @@ function appendDesc(caption, data) {
         for (let e in data) {
             html += `
                     <div class="row" style="padding: 2px; color: #2f80ed; border-bottom: 1px solid #cccccc; font-weight: 500">
-                        <div class="col-md-9 pl-4"><i class="fas fa-file mr-3"></i>${data[e].name}</div>
-                        <div class="col-md-2">${dateFormat(data[e].date)}</div>
-                        <div class="col-md-1">${bytesToSize(data[e].size)}</div>
+                        <div class="col-md-9 pl-4">
+                            <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="d-flex align-items-center cur-point" style="width: fit-content">
+                                <i class="fas fa-file mr-3"></i>${data[e].name}
+                            </div>
+                        </div>
+                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-2 cur-point">${dateFormat(data[e].date)}</div>
+                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-1 cur-point">${bytesToSize(data[e].size)}</div>
                     </div>
                 `
         }
         $(`#list-file`).html(html)
     }
 
+}
+
+function downloadDoc(name, source) {
+    window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
 }
 
 function setStatus(value, row, valueOld, index) {
@@ -355,7 +363,7 @@ function responseHandler(res) {
 
 function operateFormatter(value, row, index) {
     return [
-        '<div class="d-flex align-items-center justify-content-center" style="padding-top: 0; padding-bottom: 0">',
+        '<div class="d-flex pr-4 align-items-center justify-content-center" style="padding-top: 0; padding-bottom: 0">',
         '<div class="view border-action d-flex align-items-center justify-content-center mr-1 action-icon" title="View">',
         '<i class="fas fa-eye" style="margin: 0; font-size: 18px"></i>',
         '</div>  ',
@@ -388,34 +396,33 @@ window.operateEvents = {
 }
 
 function statusFormatter (value, row, index) {
-    const options1 = ['Pending Review', 'Approve', 'Reject'];
-    const options2 = ['Approve', 'Reject'];
-    const options3 = ['Approve', 'Publish', 'Unpublish'];
-    const options4 = ['Publish', 'Unpublish'];
+    const options1 = ['Approve', 'Reject'];
+    const options2 = ['Approve'];
+    const options3 = ['Publish', 'Unpublish'];
+    const options4 = ['Publish'];
+    const options5 = ['Unpublish'];
+    let selected = '';
     let options;
-    if (value === 'pending review') {
+    if (value === 'review') {
         options = options1
+        selected = 'Review'
     } else if (value === 'reject') {
         options = options2
+        selected = 'Rejected'
     } else if (value === 'approve') {
         options = options3
-    } else if (value === 'publish' || value === 'unpublish') {
+        selected = 'Approved'
+    } else if (value === 'publish') {
+        options = options5
+        selected = 'Published'
+    } else {
         options = options4
+        selected = 'Unpublished'
     }
-    const val = "'" + value + "'"
-    /*let i = options.indexOf(value);
-    if (i !== -1) {
-        options.splice(i, 1);
-    }*/
-    let $select = ['<select id="selectStatus'+row.id+'" class="select-custom" onchange="setStatus(value,'+ row.id +','+ val +','+ index +')">'];
-    let $option;
+    let $select = [`<select id="selectStatus'${row.id}'" class="select-custom" onchange="setStatus(value,'${row.id}','${value}','${index}')">`];
+    $select.push(`<option value="${value}" selected>${selected}</option>`)
     for (let val in options) {
-        $option = '<option value="' + options[val].toLocaleLowerCase() + '"';
-        if (options[val].toLocaleLowerCase() === value) {
-            $option = $option + 'selected';
-        }
-        $option = $option + '>' + options[val] + '</option>'
-        $select.push($option);
+        $select.push(`<option value="${options[val].toLocaleLowerCase()}">${options[val]}</option>`);
     }
     $select.push('</select>')
     return $select.join('');
