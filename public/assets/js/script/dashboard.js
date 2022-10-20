@@ -1,6 +1,10 @@
 // meta url
 var uri;
 
+const monthAll = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+let currentYear = new Date().getFullYear()
+let currentMonth = new Date().getMonth()
+
 let meta = document.getElementsByTagName('meta');
 for (let i = 0; i < meta.length; i++) {
     if (meta[i].getAttribute('name') === "pages") {
@@ -28,7 +32,7 @@ const getDataAll = () =>{
         $('.senddataloader').hide();
         renderChartVisitor(data);
         renderChartProjectK(data);
-        renderChartProjectD(data);
+        renderChartProjectD(data.out.divisi);
         renderChartProjectT(data);
     })
     .fail(function(jqXHR, ajaxOptions, thrownError){
@@ -244,7 +248,9 @@ const renderChartProjectK = (data) => {
         series.tooltip.keepTargetHover = true;
         // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
         series.columns.template.strokeWidth = 0;
-        series.columns.template.tooltipHTML = '<a class="text-decoration-none" href="{urlField}" target="_blank"><b>{categoryX} : {valueY}</b></a>';
+        series.columns.template.tooltipHTML =
+            `<a class="text-decoration-none" href="${uri}/katalog" target="_blank" onclick="toKatalogK('{categoryX}')" onmousedown="toKatalogK('{categoryX}')" oncontextmenu="toKatalogK('{categoryX}')"><b>{categoryX} : {valueY}</b></a>`;
+        // series.columns.template.tooltipHTML = '<a class="text-decoration-none" href="{urlField}" target="_blank"><b>{categoryX} : {valueY}</b></a>';
         
         series.tooltip.pointerOrientation = "vertical";
         
@@ -278,13 +284,25 @@ const renderChartProjectK = (data) => {
     }); // end am4core.ready()
 }
 
+function toKatalogK(t) {
+    localStorage.removeItem("fil_thn");
+    localStorage.removeItem("fil_div");
+    localStorage.removeItem("fil_kon");
+    localStorage.setItem("fil_kon",t);
+}
+let div_short;
 const renderChartProjectD = (data) => {
 
     $('#chart_projectD').remove();
 
-    if (data.out.divisi.length == 0) {
+    if (data.length === 0) {
         return;
     }
+
+    div_short = [];
+    $.each(data, function (i, div) {
+        div_short[div.short] = div.nama_divisi
+    })
 
     $('#graph_projectD').append('<div id="chart_projectD" style="height: 350px;" class="pr-4 pt-0"><div>');
     am4core.ready(function() {
@@ -293,7 +311,7 @@ const renderChartProjectD = (data) => {
         var chart = am4core.create("chart_projectD", am4charts.XYChart);
         chart.scrollbarX = new am4core.Scrollbar();
         
-        chart.data = data.out.divisi;
+        chart.data = data;
         chart.exporting.menu = new am4core.ExportMenu();
         chart.exporting.filePrefix = "project per Direktorat"; 
         chart.exporting.timeoutDelay = 60000;
@@ -337,7 +355,8 @@ const renderChartProjectD = (data) => {
         series.tooltip.keepTargetHover = true;
         // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
         series.columns.template.strokeWidth = 0;
-        series.columns.template.tooltipHTML = '<a class="text-decoration-none" href="{urlField}" target="_blank"><b>{categoryX} : {valueY}</b></a>';
+        series.columns.template.tooltipHTML =
+            `<a class="text-decoration-none" href="${uri}/katalog" target="_blank" onclick="toKatalogD('{categoryX}')" onmousedown="toKatalogD('{categoryX}')" oncontextmenu="toKatalogD('{categoryX}')"><b>{categoryX} : {valueY}</b></a>`;
         
         series.tooltip.pointerOrientation = "vertical";
         
@@ -371,8 +390,15 @@ const renderChartProjectD = (data) => {
     }); // end am4core.ready()
 }
 
+function toKatalogD(t) {
+    const short = Object.keys(div_short).find(key => div_short[key] === t);
+    localStorage.removeItem("fil_thn");
+    localStorage.removeItem("fil_div");
+    localStorage.removeItem("fil_kon");
+    localStorage.setItem("fil_div",short);
+}
+
 const renderChartProjectT = (data) => {
-    // console.log(data);
 
     $('#chart_projectT').remove();
 
@@ -421,7 +447,8 @@ const renderChartProjectT = (data) => {
     series.fillOpacity = 0.5;
     series.tooltip.label.interactionsEnabled = true;
     series.tooltip.keepTargetHover = true;
-    series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+    // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+    series.tooltipHTML = `<a class="text-decoration-none" href="${uri}/katalog" target="_blank" onclick="toKatalogT('{categoryX}')" onmousedown="toKatalogT('{categoryX}')" oncontextmenu="toKatalogT('{categoryX}')"><b>{valueY}</b></a>`;
 
     // Add vertical scrollbar
     chart.scrollbarX = new am4core.Scrollbar();
@@ -431,10 +458,6 @@ const renderChartProjectT = (data) => {
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.behavior = "zoomY";
     chart.cursor.lineX.disabled = true;
-
-    const monthAll = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-    let currentYear = new Date().getFullYear()
-    let currentMonth = new Date().getMonth()
 
     series.segments.template.interactionsEnabled = true;
     series.segments.template.events.on("hit", function(ev) {
@@ -455,6 +478,19 @@ const renderChartProjectT = (data) => {
     }, this);
     
     }); // end am4core.ready()
+}
+
+function toKatalogT(t) {
+    localStorage.removeItem("fil_thn");
+    localStorage.removeItem("fil_div");
+    localStorage.removeItem("fil_kon");
+    let month;
+    if (t.toString() === currentYear.toString()) {
+        month = monthAll.slice(0, currentMonth).map(i => `${t}-` + i)
+    } else {
+        month = monthAll.map(i => `${t}-` + i)
+    }
+    localStorage.setItem("fil_thn",month.join(','));
 }
 
 getDataAll();

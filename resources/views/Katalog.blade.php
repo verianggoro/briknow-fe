@@ -69,7 +69,7 @@
   <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
     <div class="row">
         <i class="fa fa-filter filter-search" aria-hidden="true"></i>
-        <h5 class="font-weight-bolder">Filter</h6>
+        <h5 class="font-weight-bolder">Filter</h5>
     </div>
     <div class="row mb-4">
       <div class="row col-md-12 mx-0 mb-2">
@@ -128,9 +128,15 @@
                         <?php $urut=0; ?>
                         @forelse($divisi as $value)
                             <?php $urut++; ?>
-                            <div class="w-100">
-                                <div class="text-dark px-2 font-weight-bolder">{{$value->direktorat}}</div>
-                            </div>
+                            @if(!empty($value->direktorat))
+                                <div class="w-100">
+                                    <div class="text-dark px-2 font-weight-bolder">{{$value->direktorat}}</div>
+                                </div>
+                            @else
+                                <div class="w-100">
+                                    <div class="text-dark px-2 font-weight-bolder">Lainnya</div>
+                                </div>
+                            @endif
 
                             @if(!empty($value->divisi))
                                 <div class="w-100 mt-1 mb-2">
