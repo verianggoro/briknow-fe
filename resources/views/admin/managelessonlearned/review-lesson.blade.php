@@ -134,7 +134,7 @@
                                 <a href="{{route('kontribusi.edit', $value->slug)}}" class="btn btn-outline-secondary fas fa-pen"></a>
                                 <button class="btn btn-outline-secondary fas fa-trash"></button>
                                 @if(!empty($value->lesson_learned))
-                                    <button class="btn btn-outline-secondary fas fa-arrow-down" data-toggle="collapse" href="#{{trim($value->nama)}}" aria-expanded="false" aria-controls="{{trim($value->nama)}}"></button>
+                                    <button class="btn btn-outline-secondary fas fa-caret-down" data-toggle="collapse" href="#{{trim($value->nama)}}" aria-expanded="false" aria-controls="{{trim($value->nama)}}"></button>
                                 @endif
                             </div>
                         </div>

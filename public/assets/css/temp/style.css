@@ -2470,7 +2470,7 @@ pre {
   position: fixed;
   top: 70px;
   height: 100%;
-  width: 250px;
+  width: 300px;
   background-color: #fff;
   z-index: 880;
   left: 0; }
@@ -2880,7 +2880,9 @@ body.layout-3 .main-footer {
   padding-right: 30px;
   padding-top: 80px;
   width: 100%;
-  position: relative; }
+  position: relative;
+  margin-left: 3rem;
+}
 
 .main-footer {
   padding: 20px 30px 20px 280px;

@@ -20,15 +20,15 @@
 @section('content')
     <div class="row">
         <div class="col-md-12" id="konten">
-            <h3 class="pl-2 pt-5">Manage Lesson Learned</h3>
+            <div class=" pl-2 dropdown show ">
+                <a class="btn btn-outline-secondary bg-white text-black-50 btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                   data-toggle="modal" data-target="#modal-sort-nama" aria-haspopup="true" aria-expanded="false">
+                    Tahap Project
+                </a>
+            </div>
             <div class="d-flex justify-content-start mb-3 px-3">
                 <div class="p-2 bd-highlight" id="drop-nama-proyek">
-                    <div class="dropdown show">
-                        <a class="btn btn-outline-secondary bg-white text-black-50 btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                           data-toggle="modal" data-target="#modal-sort-nama" aria-haspopup="true" aria-expanded="false">
-                            Tahap Project
-                        </a>
-                    </div>
+
                 </div>
             </div>
             <!-- NAVIGASI -->
@@ -117,20 +117,27 @@
                 <div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
                     <div class="row">
                         <div class="col-2">
-                            <p class="text-primary">Satuan Kerja Audit Intern</p>
+                            <a href="#">
+                                <p class="text-primary">Satuan Kerja Audit Intern</p>
+                            </a>
                         </div>
                         <div class="col-3">
-                            <p class="text-primary">Micro Business Development Division</p>
+                            <a href="#">
+                                <p class="text-primary">Micro Business Development Division</p>
+                            </a>
                         </div>
                         <div class="col-3">
-                            <p>Fraud Risk Indicator Framework</p>
+                            <a href="#">
+                                <p class="text-primary">Fraud Risk Indicator Framework</p>
+                            </a>
                         </div>
                         <div class="col-2">
                             <p class="text-primary">Deloitte</p>
                         </div>
                         <div class="col-2">
                             <button class="btn btn-outline-secondary fas fa-share"></button>
-                            <button class="btn btn-outline-secondary fas fa-arrow-down" data-toggle="collapse" data-target="#collapsData" aria-expanded="false" aria-controls="collapsData"></button>
+                            <button class="btn btn-outline-secondary fas fa-star"></button>
+                            <button class="btn btn-outline-secondary fas fa-caret-down" data-toggle="collapse" data-target="#collapsData" aria-expanded="false" aria-controls="collapsData"></button>
                         </div>
                     </div>
                     <div class="collapse" id="collapsData">

@@ -269,7 +269,8 @@
         }
     }
     .filepond--root {
-        height: 15rem;
+        height: 10rem;
+        width: 10rem;
     }
 
         .dropzones-wrapper {
