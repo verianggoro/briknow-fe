@@ -30,7 +30,7 @@
             scrollbar-width: none;*/
         }
 
-        .btn-link-com:hover {
+        .btn-link-com:hover, .btn-link-com:active, .btn-link-com:focus {
             background-color: rgba(36, 36, 36, 0.2) !important;
         }
     </style>

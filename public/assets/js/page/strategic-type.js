@@ -463,17 +463,7 @@ function titleFormatter(value, row, index) {
 }
 
 function divisiFormatter(value) {
-    return `
-            <a href="${uri}/katalog" onclick="toKatalog('${value.shortname}')" oncontextmenu="toKatalog('${value.shortname}')" onmousedown="toKatalog('${value.shortname}')" class="ellipsis-2 link-format-table" id="divdirek">
-                ${value.divisi}
-            </a>`
-}
-
-function direkFormatter(value) {
-    return `
-            <a href="${uri}/katalog" onclick="toKatalog('${value.shortname}')" oncontextmenu="toKatalog('${value.shortname}')" onmousedown="toKatalog('${value.shortname}')" class="ellipsis-2 link-format-table" id="divdirek">
-                ${value.direktorat}
-            </a>`;
+    return `<div class="ellipsis-2 link-format-table">${value}</div>`
 }
 
 function toKatalog(short) {
@@ -502,14 +492,14 @@ function initTable() {
                 width: 275
             },
                 {
-                    field: 'project.divisi',
+                    field: 'project.divisi.direktorat',
                     title: 'Direktorat',
                     align: 'center',
-                    formatter: direkFormatter,
+                    formatter: divisiFormatter,
                     width: 170
                 },
                 {
-                    field: 'project.divisi',
+                    field: 'project.divisi.divisi',
                     title: 'Divisi',
                     align: 'center',
                     formatter: divisiFormatter,

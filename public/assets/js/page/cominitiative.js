@@ -509,35 +509,14 @@ function titleFormatter(value, row, index) {
 }
 
 function divisiFormatter(value) {
-    let divisi = '';
-    let content = `
-        <div class="ellipsis-2 link-format-table">
-            General
-        </div>`
-    if (value) {
-        divisi = value.divisi.divisi
-        content = `
-                <a href="${uri}/katalog" onclick="toKatalog('${value.divisi.shortname}')" oncontextmenu="toKatalog('${value.divisi.shortname}')" onmousedown="toKatalog('${value.divisi.shortname}')" class="ellipsis-2 link-format-table" id="divdirek">
-                    ${divisi}
-                </a>`
+    try {
+        if (!value) {
+            return `<div class="ellipsis-2 link-format-table">General</div>`
+        }
+        return `<div class="ellipsis-2 link-format-table">${value}</div>`
+    } catch (e) {
+        return `<div class="ellipsis-2 link-format-table">General</div>`
     }
-    return content
-}
-
-function direkFormatter(value) {
-    let direk = '';
-    let content = `
-                <div class="ellipsis-2 link-format-table">
-                    General
-                </div>`
-    if (value) {
-        direk = value.divisi.direktorat
-        content = `
-                <a href="${uri}/katalog" onclick="toKatalog('${value.divisi.shortname}')" oncontextmenu="toKatalog('${value.divisi.shortname}')" onmousedown="toKatalog('${value.divisi.shortname}')" class="ellipsis-2 link-format-table" id="divdirek">
-                    ${direk}
-                </a>`
-    }
-    return content;
 }
 
 function toKatalog(short) {
@@ -566,14 +545,14 @@ function initTable() {
                 width: 275
             },
                 {
-                    field: 'project',
+                    field: 'project.divisi.direktorat',
                     title: 'Direktorat',
                     align: 'center',
-                    formatter: direkFormatter,
+                    formatter: divisiFormatter,
                     width: 170
                 },
                 {
-                    field: 'project',
+                    field: 'project.divisi.divisi',
                     title: 'Divisi',
                     align: 'center',
                     formatter: divisiFormatter,
