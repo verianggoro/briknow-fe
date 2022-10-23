@@ -100,11 +100,11 @@ $(document).ready(function(){
     $('#sort').click(function () {
         if (order === 'desc') {
             $('#sort').empty()
-            $('#sort').append(`<i class="fas fa-arrow-down mr-2"></i>`)
+            $('#sort').append(`<i class="fas fa-sort-amount-down-alt mr-2"></i>`)
             order = 'asc'
         } else {
             $('#sort').empty()
-            $('#sort').append(`<i class="fas fa-arrow-up mr-2"></i>`)
+            $('#sort').append(`<i class="fas fa-sort-amount-up-alt mr-2"></i>`)
             order = 'desc'
         }
 

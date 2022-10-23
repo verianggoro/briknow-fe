@@ -48,11 +48,11 @@ $(document).ready(function(){
     $('#sort-pilot').click(function () {
         if (order['piloting'] === 'desc') {
             $('#sort-pilot').empty()
-            $('#sort-pilot').append(`<i class="fas fa-arrow-down mr-2"></i>`)
+            $('#sort-pilot').append(`<i class="fas fa-sort-amount-down-alt mr-2"></i>`)
             order['piloting'] = 'asc'
         } else {
             $('#sort-pilot').empty()
-            $('#sort-pilot').append(`<i class="fas fa-arrow-up mr-2"></i>`)
+            $('#sort-pilot').append(`<i class="fas fa-sort-amount-up-alt mr-2"></i>`)
             order['piloting'] = 'desc'
         }
 
@@ -80,11 +80,11 @@ $(document).ready(function(){
     $('#sort-roll').click(function () {
         if (order['rollout'] === 'desc') {
             $('#sort-roll').empty()
-            $('#sort-roll').append(`<i class="fas fa-arrow-down mr-2"></i>`)
+            $('#sort-roll').append(`<i class="fas fa-sort-amount-down-alt mr-2"></i>`)
             order['rollout'] = 'asc'
         } else {
             $('#sort-roll').empty()
-            $('#sort-roll').append(`<i class="fas fa-arrow-up mr-2"></i>`)
+            $('#sort-roll').append(`<i class="fas fa-sort-amount-up-alt mr-2"></i>`)
             order['rollout'] = 'desc'
         }
 
@@ -112,11 +112,11 @@ $(document).ready(function(){
     $('#sort-sos').click(function () {
         if (order['sosialisasi'] === 'desc') {
             $('#sort-sos').empty()
-            $('#sort-sos').append(`<i class="fas fa-arrow-down mr-2"></i>`)
+            $('#sort-sos').append(`<i class="fas fa-sort-amount-down-alt mr-2"></i>`)
             order['sosialisasi'] = 'asc'
         } else {
             $('#sort-sos').empty()
-            $('#sort-sos').append(`<i class="fas fa-arrow-up mr-2"></i>`)
+            $('#sort-sos').append(`<i class="fas fa-sort-amount-up-alt mr-2"></i>`)
             order['sosialisasi'] = 'desc'
         }
 
