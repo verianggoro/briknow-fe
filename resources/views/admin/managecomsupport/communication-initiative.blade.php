@@ -2,18 +2,18 @@
 @section('title', 'BRIKNOW')
 @push('style')
 <link rel="stylesheet" href="{{asset_app('assets/css/fa.css')}}">
-<!--<link rel="stylesheet" href="{{ asset_app('assets/css/fa-admin.css') }}">-->
+<link rel="stylesheet" href="{{ asset_app('assets/css/fa-admin.css') }}">
 <link rel="stylesheet" href="{{ asset_app('assets/css/fa-oth.css') }}">
-<!--<link rel="stylesheet" href="{{ asset_app('assets/css/fa-proj.css') }}">-->
+<link rel="stylesheet" href="{{ asset_app('assets/css/fa-proj.css') }}">
 <link rel="stylesheet" href="{{asset_app('assets/css/select2-bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{ asset_app('assets/css/comsupport.css') }}">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css">
 @endpush
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
 <!--<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>-->
 <!--<script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table-locale-all.min.js"></script>-->
 <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">-->
 <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">-->
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css">
 
 @section('breadcumb', 'Admin')
 @section('back', route('home'))
@@ -108,8 +108,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered dialog-preview" role="document">
         <div class="modal-content content-preview bg-transparent">
             <div class="w-100 d-flex justify-content-center align-items-center" id="content-preview">
-                <div class="bg-white bg-white w-100">
-                    @include('admin.managecomsupport.preview-content')
+                <div class="bg-white bg-white w-100" id="content-preview-desc">
                 </div>
             </div>
         </div>

@@ -149,6 +149,7 @@ const views = (slug) =>{
         success: function(data){
             $('.senddataloader').hide();
             $('.content-preview').append(data.html);
+            $('#coloumnrow').append(data.col);
             $('#modalpreview').modal({
                 show : true
             });

@@ -79,7 +79,7 @@ const checkSelect2Component = (previewClicked) => {
 
 // remove function
 function removeA(arr) {
-    var what, a = arguments, L = a.length, ax;
+    let what, a = arguments, L = a.length, ax;
     while (L > 1 && arr.length) {
         what = a[--L];
         while ((ax= arr.indexOf(what)) !== -1) {
@@ -119,7 +119,7 @@ let lesson_learned_urut = $("#urut").val();
 let foto;
 let attach_file=[];
 let photo_file = uri+"/public/assets/img/boxdefault.svg";
-var today = new Date();
+let today = new Date();
 // base waktu
 const months = [
     'January',
@@ -138,9 +138,9 @@ const months = [
 
 
 $(document).ready(function () {
-    var t = 0;
+    let t = 0;
     let isValid = true;
-    var navListItems = $('div.setup-panel div a'),
+    let navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
         first_page = $('#step-1'),
         allNextBtn = $('.nextBtn');
@@ -193,7 +193,7 @@ $(document).ready(function () {
 
     navListItems.click(function (e) {
         e.preventDefault();
-        var $target = $($(this).attr('href')),
+        let $target = $($(this).attr('href')),
             curStepBtn = $($(this).attr('id')),
             $item = $(this);
 
@@ -223,22 +223,22 @@ $(document).ready(function () {
 
     allNextBtn.click(function(){
         isValid = true
-        var curStep = $(this).closest(".setup-content"),
+        let curStep = $(this).closest(".setup-content"),
             curStepBtn = curStep.attr("id");
-        var pointer = 0;
+        let pointer = 0;
 
         if (curStepBtn == 'step-1') {
             pointer = 1;
         }
 
-        var nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a");
-        var curInputs = curStep.find("input[type='text'],input[type='url'],input[type='file'],input[type='date'],input[type='email'],select")
+        let nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a");
+        let curInputs = curStep.find("input[type='text'],input[type='url'],input[type='file'],input[type='date'],input[type='email'],select")
 
         $(".form-control").removeClass("is-invalid");
         $(".thumbnail-input").removeClass("is-invalid");
         $('#form').removeClass('was-validated');
         $('#form').addClass('was-validated');
-        for(var i=0; i<curInputs.length; i++){
+        for(let i=0; i<curInputs.length; i++){
             if (!curInputs[i].validity.valid){
                 isValid = false;
                 $(curInputs[i]).closest(".form-control").addClass("is-invalid");
@@ -247,8 +247,8 @@ $(document).ready(function () {
         }
 
         // validasi ui
-        var kolomvendor     = $('#jenispekerja').val();
-        var kolomrestricted = $('#restricted').val();
+        let kolomvendor     = $('#jenispekerja').val();
+        let kolomrestricted = $('#restricted').val();
 
         if (t == 0) {
             // foto
@@ -284,7 +284,7 @@ $(document).ready(function () {
 
             // restricted user
             if($('#restricted').val() === '1'){
-                var urut;
+                let urut;
                 if (kolomvendor === '1') {
                     urut = 1;
                 }else{
@@ -384,7 +384,7 @@ $(document).ready(function () {
     }
 
     allPrevBtn.click(function(){
-        var curStep = $(this).closest(".setup-content"),
+        let curStep = $(this).closest(".setup-content"),
             curStepBtn = curStep.attr("id"),
             nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().prev().children("a"),
             curInputs = curStep.find("input[type='text'],input[type='url'],input[type='file']"),
@@ -402,15 +402,15 @@ $(document).ready(function () {
     $('.digit-group').find('input').each(function() {
         $(this).attr('maxlength', 1);
         $(this).on('keyup', function(e) {
-            var parent = $($(this).parent());
+            let parent = $($(this).parent());
             if(e.keyCode === 8 || e.keyCode === 37) {
-                var prev = parent.find('input#' + $(this).data('previous'));
+                let prev = parent.find('input#' + $(this).data('previous'));
 
                 if(prev.length) {
                     $(prev).select();
                 }
             } else if((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 39) {
-                var next = parent.find('input#' + $(this).data('next'));
+                let next = parent.find('input#' + $(this).data('next'));
 
                 if(next.length) {
                     $(next).select();
@@ -505,7 +505,7 @@ $(document).ready(function () {
             type: "get",
             headers: {'X-CSRF-TOKEN': csrf},
             data: function (params) {
-                var query = {
+                let query = {
                     pn: params.term,
                     mode: 11
                 }
@@ -555,9 +555,9 @@ $(document).ready(function () {
 
 
     function bytesToSize(bytes) {
-        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
         if (bytes == 0) return '0 Byte';
-        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
         return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     }
 
@@ -646,7 +646,7 @@ $(document).ready(function () {
 
         let t_photo = uri+"/storage/"+$('#thumbnail').val();
         let t_divisi            = $('#divisi :selected').map((_, e) => e.getAttribute("data-value")).get();
-        let t_direktorat            = $('#direktorat :selected').map((_, e) => e.getAttribute("data-value")).get();
+        let t_direktorat        = $('#direktorat :selected').map((_, e) => e.getAttribute("data-value")).get();
         let t_email = $('#email').val();
         let date_mulai          = new Date($('#tgl_mulai').val());
         let t_tgl_mulai         = date_mulai.getDate()+" "+ months[date_mulai.getMonth()]+" "+date_mulai.getFullYear();
@@ -707,29 +707,34 @@ $(document).ready(function () {
                 </div>
                 <div class="col-md-12 d-block w-100" style="margin-bottom: 4rem">
                     <div class="row">
-                        <div class="col-md-10 col-sm-12">
-                            <div class="input-group control border-1 pencarian mb-3">
-                                <div class="input-group-prepend">
+                        <div class="col-md-9 col-sm-12">
+                            <div class="input-group control border-1 pencarian mb-3" style="border-radius: 8px">
+                                <div class="input-group-prepend d-flex align-items-center" style="height: 30px">
                                     <span class="input-group-text border-0"><i class="fa fa-search" aria-hidden="true"></i>
                                     </span>
                                 </div>
-                                <input type="text" style="border: none;" class="form-control" id="inlineFormInput-${editor}" placeholder="Search files..">
+                                <input type="text" style="border: none;height: 30px" class="form-control" id="inlineFormInput-${editor}" placeholder="Search files..">
                             </div>
                         </div>
-                        <div class="col-md-2 col-sm-12" style="padding-left: 8px;">
-                            <select style="border-radius: 8px;" class="form-control" id="select-${editor}" name="select-${editor}">
+                        <div class="col-md-3 col-sm-12 d-flex align-items-center" style="padding-left: 8px;">
+                            <button class="btn btn-sm btn-secondary d-inline mr-2 mb-3" style="height: 30px" id="btn-archive-${editor}" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                            <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2 mb-3" id="select-${editor}" name="select-${editor}">
                                 <option value="" selected disabled>Sort by</option>
                                 <option value="name">Nama</option>
                                 <option value="date">Date Modified</option>
                                 <option value="size">Size</option>
                             </select>
+                            <div id="sort-${editor}" class="cur-point mb-3"><i class="fas fa-arrow-down mr-2"></i></div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-12" style="border: 2px solid #cccccc; border-radius: 8px">
-                                <div class="row" style="border-bottom: 2px solid #cccccc;padding: 4px;font-weight: bold">
-                                    <div class="col-md-9">Files</div>
+                                <div class="row" style="border-bottom: 2px solid #cccccc;padding: 2px;font-weight: bold">
+                                    <div class="col-md-9" style="padding-left: 12px">
+                                        <input type="checkbox" class="mr-2" id="allcheck-${editor}">Files</div>
                                     <div class="col-md-2">Date Modified</div>
-                                    <div class="col-md-1">Size</div>
+                                    <div class="col-md-1" style="padding-right: 12px">Size</div>
                                 </div>
                                 <div id="list-${editor}" class="list-files"></div>
                             </div>
@@ -740,54 +745,184 @@ $(document).ready(function () {
         $('#desc-preview').append(desc)
         renderList(data)
 
+        let sort = 'asc'
+        let order = 'name'
+        $(`#sort-${editor}`).click(function () {
+            if (sort === 'desc') {
+                $(`#sort-${editor}`).empty()
+                $(`#sort-${editor}`).append(`<i class="fas fa-arrow-down mr-2"></i>`)
+                sort = 'asc'
+            } else {
+                $(`#sort-${editor}`).empty()
+                $(`#sort-${editor}`).append(`<i class="fas fa-arrow-up mr-2"></i>`)
+                sort = 'desc'
+            }
+            getData()
+        })
+
+        let data_filter = data
         $(`#inlineFormInput-${editor}`).keypress(function (e) {
             if (e.which === 13) {
-                let a = data.filter(i => i.name.toLowerCase().includes($(this).val().toLowerCase()))
-                renderList(a)
+                if ($(this).val() === null || $(this).val() === "") {
+                    data_filter = data
+                } else {
+                    data_filter = data_filter.filter(i => i.name.toLowerCase().includes($(this).val().toLowerCase()))
+                }
+                getData()
             }
         })
 
         $(`#select-${editor}`).on('change', function () {
-            let prop = $(this).val()
-            let sort;
-            if (prop === 'size') {
-                sort = data.sort(function (a,b) {
-                    return a[prop] - b[prop]
-                })
-            } else if (prop === 'name') {
-                sort = data.sort(function (a,b) {
-                    return a[prop].localeCompare(b[prop])
-                })
-            } else {
-                sort = data.sort(function (a,b) {
-                    return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0)
-                })
-            }
-            renderList(sort)
+            order = $(this).val();
+
+            getData()
         })
 
-        function renderList(data) {
+        function getData() {
+            if (order === 'size') {
+                data_filter = data_filter.sort(function (a,b) {
+                    if (sort === 'asc') {
+                        return a[order] - b[order]
+                    } else {
+                        return b[order] - a[order]
+                    }
+                })
+            } else if (order === 'name') {
+                data_filter = data_filter.sort(function (a,b) {
+                    if (sort === 'asc') {
+                        return a[order].localeCompare(b[order])
+                    } else {
+                        return b[order].localeCompare(a[order])
+                    }
+                })
+            } else {
+                data_filter = data_filter.sort(function (a,b) {
+                    if (sort === 'asc') {
+                        return (a[order] > b[order]) ? 1 : ((a[order] < b[order]) ? -1 : 0)
+                    } else {
+                        return (b[order] > a[order]) ? 1 : ((b[order] < a[order]) ? -1 : 0)
+                    }
+                })
+            }
+            renderList(data_filter)
+        }
+
+        function renderList(d) {
             let html = '';
-            for (let e in data) {
+            $(`#list-${editor}`).empty()
+            for (let e in d) {
                 html += `
                     <div class="row" style="padding: 2px; color: #2f80ed; border-bottom: 1px solid #cccccc; font-weight: 500">
-                        <div class="col-md-9 pl-4">
-                            <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="d-flex align-items-center cur-point" style="width: fit-content">
-                                <i class="fas fa-file mr-3"></i>${data[e].name}
-                            </div>
+                        <div class="col-md-9 d-flex align-items-center" style="padding-left: 12px">
+                            <input type="checkbox" name="file-${editor}" onchange="klik('${editor}')" class="mr-2 file" value="${d[e].source}">
+                            <i class="fas fa-file mr-2"></i>
+                            <a class="btn p-0 text-primary" style="font-size: 14px;text-align:left;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" href="${uri+'/storage/'+d[e].source}" download="${d[e].name}">${d[e].name}</a>
                         </div>
-                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-2 cur-point">${dateFormat(data[e].date)}</div>
-                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-1 cur-point">${bytesToSize(data[e].size)}</div>
+                        <div class="col-md-2">${dateFormat(d[e].date)}</div>
+                        <div class="col-md-1" style="padding-right: 12px">${bytesToSize(d[e].size)}</div>
                     </div>
                 `
             }
-            $(`#list-${editor}`).html(html)
+            $('.senddataloader').show();
+            setTimeout(function(){
+                $('.senddataloader').hide();
+                $(`#btn-archive-${editor}`).attr('disabled',true);
+                $(`#allcheck-${editor}`).prop('checked',false);
+
+                $(`#list-${editor}`).html(html)
+            }, 400);
         }
 
+        $(`#allcheck-${editor}`).change(function(e){
+            if ($(`#allcheck-${editor}`).prop('checked')) {
+                $(`input[name=file-${editor}]`).prop('checked',true);
+            } else {
+                $(`input[name=file-${editor}]`).prop('checked',false);
+            }
+            klik(editor);
+        });
+
+        $(`#btn-archive-${editor}`).click(function(e){
+            const files = $(`input[name=file-${editor}]`)
+            let tampung = [];
+            let urut = 0;
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].checked === true) {
+                    tampung[urut] = files[i].value;
+                    urut++;
+                }
+            }
+
+            let data_send = {
+                "data":tampung
+            };
+
+            let url = `${uri}/archive`;
+            $.ajax({
+                url: url,
+                headers: {'X-CSRF-TOKEN': csrf},
+                type: "POST",
+                data: data_send,
+                beforeSend: function()
+                {
+                    $('.senddataloader').show();
+                },
+                success: function(data){
+                    if (data == false) {
+                        alert('Gagal Mengarchieve File');
+                    }else{
+                        window.open(data , '_blank');
+                        $('.senddataloader').hide();
+                        $(`input[name=file-${editor}]`).prop('checked',false);
+                        unaktif_archive(editor);
+                    }
+                },
+                error : function(e){
+                    alert(e);
+                }
+            });
+        });
     }
 
 });
 
+
+function klik(editor) {
+    const files = $(`input[name=file-${editor}]`);
+    let cek = 0;
+    let jml_cek = 0;
+    for (let i = 0; i < files.length; i++) {
+        if (files[i].checked === true) {
+            cek = 1;
+            jml_cek++
+        }
+    }
+    if (jml_cek === files.length) {
+        $(`#allcheck-${editor}`).prop('checked',true);
+    } else {
+        $(`#allcheck-${editor}`).prop('checked',false);
+    }
+    if (cek === 1) {
+        aktif_archive(editor);
+    } else {
+        unaktif_archive(editor);
+    }
+}
+
+function aktif_archive(editor) {
+    // $('#btn-archive').attr('class','btn btn-sm btn-primary d-inline');
+    $(`#btn-archive-${editor}`).removeClass('btn-secondary')
+    $(`#btn-archive-${editor}`).addClass('btn-primary')
+    $(`#btn-archive-${editor}`).attr('disabled',false);
+}
+
+function unaktif_archive(editor) {
+    // $('#btn-archive').attr('class','btn btn-sm btn-secondary d-inline');
+    $(`#btn-archive-${editor}`).removeClass('btn-primary')
+    $(`#btn-archive-${editor}`).addClass('btn-secondary')
+    $(`#btn-archive-${editor}`).attr('disabled',true);
+    $(`#allcheck-${editor}`).prop('checked',false);
+}
 function downloadDoc(name, source) {
     window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
 }
@@ -850,7 +985,7 @@ $('#sosialisasi').change(function () {
 })
 
 const getKonsultan = () => {
-    var url = `${uri}/getconsultant`;
+    let url = `${uri}/getconsultant`;
     $.ajax({
         url: url,
         type: "get",
@@ -871,7 +1006,7 @@ const getKonsultan = () => {
 }
 
 const getUser = () => {
-    var url = `${uri}/getuser`;
+    let url = `${uri}/getuser`;
     $.ajax({
         url: url,
         type: "get",
@@ -892,11 +1027,11 @@ const getUser = () => {
 }
 
 $('#jenispekerja').change(function(){
-    var sample = $('select[name=jenispekerja] option').filter(':selected').val();
+    let sample = $('select[name=jenispekerja] option').filter(':selected').val();
     if (sample == 0) {
         $('.content-worker').remove();
     }else if(sample == 1){
-        var content = ` <div class="form-group row content-worker">
+        let content = ` <div class="form-group row content-worker">
                             <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Pilih Konsultan/Vendor<span class='text-danger'>*</span></label>
                             <div class="col-md-10 col-sm-12">
                                 <select class="select2 text-black form-control" id="konsultant" name="konsultant[]" multiple required>                                  
@@ -997,7 +1132,7 @@ function addUserAccess() {
             type: "get",
             headers: {'X-CSRF-TOKEN': csrf},
             data: function (params) {
-                var query = {
+                let query = {
                     pn: params.term,
                     mode: 11
                 }
@@ -1036,8 +1171,8 @@ $('#restricted').change(function(){
 
         $('#restricted-user-1').on('select2:select', function (e) {
             if($('#restricted-user-1').hasClass('is-invalid') || $('#restricted-user-1').hasClass('is-valid')){
-                var kolomvendor = $('#jenispekerja').val();
-                var urut;
+                let kolomvendor = $('#jenispekerja').val();
+                let urut;
                 if (kolomvendor === '1') {
                     urut = 1;
                 }else{
@@ -1066,7 +1201,7 @@ $('#restricted').change(function(){
             type: "get",
             headers: {'X-CSRF-TOKEN': csrf},
             data: function (params) {
-                var query = {
+                let query = {
                     pn: params.term,
                     mode: 11
                 }
@@ -1098,7 +1233,7 @@ function todayFormatter(date = today) {
 
 $('#stat_project').change(function(){
     if ($('#stat_project').prop('checked')) {
-        var element = `
+        let element = `
                         <div class="form-group row content-selesai">
                             <label for="tgl_selesai" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center content-selesai label-cus-2">Tanggal Selesai<span class="text-danger ml-1">*</span></label>
                             <div class="col-md-5 col-sm-12 content-selesai">
@@ -1183,8 +1318,8 @@ const cekDivisi = (valueOld = null) => {
         }
     }
 
-    var direktorat  = $('select[name=direktorat] option').filter(':selected').val();
-    var url = `${uri}/getdivisi/${direktorat}`;
+    let direktorat  = $('select[name=direktorat] option').filter(':selected').val();
+    let url = `${uri}/getdivisi/${direktorat}`;
     $.ajax({
         url: url,
         type: "get",
@@ -1199,7 +1334,7 @@ const cekDivisi = (valueOld = null) => {
             $('.senddataloader').show();
         },
         success: function(data){
-            var option = "<option value='' selected disabled>Pilih Unit Kerja</option>";
+            let option = "<option value='' selected disabled>Pilih Unit Kerja</option>";
             $('.senddataloader').hide();
             // innert html
             if (data.data.length > 0) {
@@ -1258,8 +1393,8 @@ $('#konsultant').on('select2:select', function (e) {
 
 $('#restricted-user').on('select2:select', function (e) {
     if($('#restricted-user').hasClass('is-invalid') || $('#restricted-user').hasClass('is-valid')){
-        var kolomvendor = $('#jenispekerja').val();
-        var urut;
+        let kolomvendor = $('#jenispekerja').val();
+        let urut;
         if (kolomvendor === '1') {
             urut = 1;
         }else{
@@ -1317,7 +1452,7 @@ $("#send").click(function(){
 });
 
 $(".ll_min").click(function(){
-    var urutannya   =    $('.ll_min').index(this);
+    let urutannya   =    $('.ll_min').index(this);
     removeFieldls(urutannya);
 });
 
@@ -1373,15 +1508,15 @@ const removeFieldls = (urutan) => {
 }
 
 const urutFields = () => {
-    var urut_temp  = $('.ll_field').length + 1;
-    var u          = 1;
+    let urut_temp  = $('.ll_field').length + 1;
+    let u          = 1;
     $('.control_ll').empty();
     for (let index = 0; index < urut_temp; index++) {
         $('.control_ll').eq(index).html(`<img class='ll_min' src='${uri}/assets/img/datatables/details_close.png'/> ${u}`);
         u++;
     }
     $(".ll_min").click(function(){
-        var urutannya   =    $('.ll_min').index(this);
+        let urutannya   =    $('.ll_min').index(this);
         removeFieldls(urutannya);
     });
 }

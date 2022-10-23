@@ -6,6 +6,8 @@
       </button>
     </div>
     <div class="control-preview">
+        <input type="hidden" id="id_project" value="{{$data->id}}">
+        <input type="hidden" id="project" value="project">
       @isset($mode)
       @else
         <nav class="w-100 navbar navbar-expand-lg main-navbar d-flex justify-content-end">
@@ -294,11 +296,11 @@
       <div class="row">
         <div class="col-md-12 d-block w-100 mb-4 mt-2">
           <h6>Deskripsi</h6>
-          <div class="metodologi-isi wrap"><p>{!! !empty($data->deskripsi)?$data->deskripsi:"-"!!}</p></div>
+          <div class="metodologi-isi wrap"><p>{!! !empty($data->deskripsi)?strip_tags($data->deskripsi):"-"!!}</p></div>
         </div>
         <div class="col-md-12 d-block w-100 mb-4 mt-2">
           <h6>Metodologi</h6>
-          <div class="metodologi-isi wrap"><p>{!! !empty($data->metodologi)?$data->metodologi:'-' !!}</p></div>
+          <div class="metodologi-isi wrap"><p>{!! !empty($data->metodologi)?strip_tags($data->metodologi):'-' !!}</p></div>
         </div>
         <div class="col-md-12 d-block w-100 mb-4">
           <h6>Lesson Learned</h6>
@@ -333,41 +335,41 @@
           <h6>Attachment</h6>
           <div class="card-body p-0 mt-2">
             <div class="row">
-              <div class="col-md-12">
-                <form action="#" class="w-100" id="search">
-                  <div class="input-group input-group-sm mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text search-sm attr_input">
-                          <i class="fa fa-search fa-sm" aria-hidden="true"></i>
-                      </span>
+
+              <div class="col-md-9">
+                <form action="" class="w-100" id="search">
+                    <div class="input-group control border-1 pencarian mb-3" style="border-radius: 8px">
+                        <div class="input-group-prepend">
+                                    <span class="input-group-text border-0"><i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
+                        </div>
+                        <input type="text" style="border: none;" class="form-control" id="inlineFormInput-search" placeholder="Search files..">
                     </div>
-                    <input type="text" class="form-control search-sm" placeholder="Search files..." aria-describedby="inputGroup-sizing-sm" disabled>
-                  </div>
                 </form>
               </div>
+
+              <div class="col-md-3 text-right mb-2 d-flex align-items-center">
+                  <button class="btn btn-sm btn-secondary d-inline mr-2" id="btn-archive" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                  <select style="border-radius: 8px;padding: 4px 15px" class="form-control mr-2" id="select-file" name="select-file">
+                      <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
+                      <option value="nama">Nama</option>
+                      <option value="created_at">Date Modified</option>
+                      <option value="size">Size</option>
+                  </select>
+                  <div id="sort" class="cur-point"><i class="fas fa-arrow-down mr-2"></i></div>
+              </div>
+
             </div>
-            <table class="table table-sm" id="table-attachment">
+
+            <table class="table table-sm" id="table-attachment" style="table-layout: fixed; border: solid rgba(0, 0, 0, 0.2) 2px">
               <thead>
                 <tr>
-                    <th id="th-attachment"><input type="checkbox" class="mr-1" id="allcheck"> Files</th>
-                    <th id="th-attachment">Date Modified</th>
-                    <th id="th-attachment">Size</th>
+                    <th id="th-attachment" style="font-size: 14px;width: 70%;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;"><input type="checkbox" class="mr-1" id="allcheck"> Files</th>
+                    <th id="th-attachment" style="font-size: 14px;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;">Date Modified</th>
+                    <th id="th-attachment" style="font-size: 14px;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;">Size</th>
                 </tr>
               </thead>
               <tbody id="coloumnrow">
-                @forelse($data->document as $value)
-                  <tr class="rowdoc">
-                      <td id="td-attachment" class="cur-point" onclick="downloadDoc('{{$value->nama}}', '{{$value->url_file}}')"><span>{{$value->nama}}</span></td>
-                      <td id="td-attachment" class="cur-point" onclick="downloadDoc('{{$value->nama}}', '{{$value->url_file}}')"><span>{{\Carbon\carbon::create($value->updated_at)->format('d F Y')}}</span></td>
-                      <td id="td-attachment" class="cur-point" onclick="downloadDoc('{{$value->nama}}', '{{$value->url_file}}')"><span>{{formatBytes($value->size)}}</span></td>
-                  </tr>
-                @empty
-                  <tr class="rowdoc">
-                      <td id="td-attachment"><span>-</span></td>
-                      <td id="td-attachment"><span>-</span></td>
-                      <td id="td-attachment"><span>-</span></td>
-                  </tr>
-                @endforelse
               </tbody>
             </table>
             </div>
@@ -377,3 +379,5 @@
     </div>
   </div>
 </div>
+
+<script src="{{asset_app('assets/js/script/document.js')}}"></script>

@@ -259,7 +259,8 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/forum/{slug}' ,'ForumController@detail')->name('forum.detail'); //halaman
     #---
 
-    #download
+    #DOCUMENT
+        Route::get('/list_doc/{project}/{id}', 'DocumentController@doc_list')->name('list.document');
         Route::get('/doc/download', 'DocumentController@downloadFile')->name('doc.download');
         Route::get('/attach/download/content/{id}', 'DocumentController@download_content')->name('com_support.download');
         Route::get('/attach/download/implementation/{id}', 'DocumentController@download_implementation')->name('implementation.download');
