@@ -12,6 +12,8 @@ var keywordParam = "";
 
 const metas = document.getElementsByTagName('meta');
 var lastpath = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
+var twoLastPath = window.location.pathname.split('/');
+
 for (let i = 0; i < metas.length; i++) {
     if (metas[i].getAttribute('name') === "pages") {
         uri = metas[i].getAttribute('content');
@@ -71,6 +73,147 @@ function getData(page, year, month, divisi, sort, search){
     });
 }
 
+function getDataByProject(page, year, month, divisi, sort, search){
+    const url = `${getCookie('url_be')}api/get/strategic/publish/${lastpath}?year=${year}&month=${month}&divisi=${divisi}&sort=${sort}&search=${search}`
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("Authorization", "Bearer "+getCookie('token'));
+            $('.senddataloader').show();
+        },
+        success: function(data){
+            $('.senddataloader').hide();
+            console.log("JANCOOKK INI APA "+JSON.stringify(data.data.content));
+            if (data.data.content !== undefined || data.data.content.length !== 0){
+                for (let index=0; index < data.data.content.length; index++){
+                    for (let index2=0; index2 < data.data.content[index].data.length; index2++){
+                        if (data.data.content[index].id === 'article'){
+                            document.getElementById('ContentArticle').innerHTML = `<div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card h-100" style="border-radius: 16px">
+                                                                <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
+                                                                     alt="Card image cap">
+                                                            </div>
+                                                        </a>
+                                                    </div>`
+                        }else if(data.data.content[index].id === 'video'){
+                            document.getElementById('ContentVideo').innerHTML = `<div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card h-100" style="border-radius: 16px">
+                                                                <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
+                                                                     alt="Card image cap">
+                                                            </div>
+                                                        </a>
+                                                    </div>`
+                        }else if(data.data.content[index].id === 'podcast'){
+                            document.getElementById('ContentPodcast').innerHTML = `<div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card h-100" style="border-radius: 16px">
+                                                                <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
+                                                                     alt="Card image cap">
+                                                            </div>
+                                                        </a>
+                                                    </div>`
+                        }else if(data.data.content[index].id === 'instagram'){
+                            document.getElementById('ContentIg').innerHTML = `<div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card h-100" style="border-radius: 16px">
+                                                                <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
+                                                                     alt="Card image cap">
+                                                            </div>
+                                                        </a>
+                                                    </div>`
+                        }else if(data.data.content[index].id === 'transformation'){
+                            document.getElementById('ContentTrans').innerHTML = `<div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card h-100" style="border-radius: 16px">
+                                                                <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
+                                                                     alt="Card image cap">
+                                                            </div>
+                                                        </a>
+                                                    </div>`
+                        }else if(data.data.content[index].id === 'logo'){
+                            document.getElementById('ContentLogo').innerHTML = `<div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card h-100" style="border-radius: 16px">
+                                                                <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
+                                                                     alt="Card image cap">
+                                                            </div>
+                                                        </a>
+                                                    </div>`
+                        }else if(data.data.content[index].id === 'infographics'){
+                            document.getElementById('ContentInfo').innerHTML = `<div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card h-100" style="border-radius: 16px">
+                                                                <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
+                                                                     alt="Card image cap">
+                                                            </div>
+                                                        </a>
+                                                    </div>`
+                        }
+                    }
+                }
+            }else{
+                document.getElementById('card-content-strategic').innerHTML = `<div class="p-2">
+                                            <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
+                                        </div>`
+            }
+        },
+        error : function(e){
+            alert(e);
+        }
+    });
+}
+
+function getDataByContent(page, year, month, divisi, sort, search){
+    const url = `${getCookie('url_be')}api/get/strategic/publish/${twoLastPath[3]}/${lastpath}?year=${year}&month=${month}&divisi=${divisi}&sort=${sort}&search=${search}`
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("Authorization", "Bearer "+getCookie('token'));
+            $('.senddataloader').show();
+        },
+        success: function(data){
+            $('.senddataloader').hide();
+            console.log("JANCOOKK INI APA "+JSON.stringify(data));
+            if (data.data !== undefined || data.data.length !== 0){
+                for (let index=0; index < data.data.length; index++) {
+                    document.getElementById('card-content-strategic').innerHTML = `<div class="col-lg-4 d-flex justify-content-center">
+                                        <a href="#" target="_blank" style="width: inherit">
+                                            <div class="card" style="border-radius: 16px;">
+                                                <img class="card-img-up"
+                                                     src="${uri+'/storage/'+data.data[index].thumbnail}"
+                                                     alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${data.data[index].title}}</h5>
+                                                    <div class="d-flex justify-content-between">
+                                                        <i class="mr-auto p-2 fas fa-eye">
+                                                            <span>${data.data[index].views}</span>
+                                                        </i>
+                                                        <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
+                                                        <button class="btn fas fa-share-square p-2"
+                                                                style="font-size: 20px"></button>
+                                                        <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>`
+                }
+            }else{
+                document.getElementById('card-content-strategic').innerHTML = `<div class="p-2">
+                                            <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
+                                        </div>`
+            }
+        },
+        error : function(e){
+            alert(e);
+        }
+    });
+}
+
 $(document).ready(function () {
 
     $('#dir-strategic-init').select2({
@@ -92,7 +235,13 @@ $('#dir-strategic-init').on('select2:unselect', function(e){
 
 $('#divisi-strategic-init').on('select2:select', function (e) {
     divisiParam = e.params.data.id
-    getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    if (lastpath === 'strategic'){
+        getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }else if(lastpath === twoLastPath[3]){
+        getDataByProject(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }else{
+        getDataByContent(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }
 })
 
 const cekDivisi = (selOrUn, value) => {
@@ -164,7 +313,13 @@ function getYearBtn(param, id){
             yearParam = yearParam.concat(",", param)
         }
     }
-    getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    if (lastpath === 'strategic'){
+        getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }else if(lastpath === twoLastPath[3]){
+        getDataByProject(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }else{
+        getDataByContent(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }
 }
 
 function getMonthBtn(param, id){
@@ -184,18 +339,36 @@ function getMonthBtn(param, id){
             monthParam = monthParam.concat(",", param)
         }
     }
-    getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    if (lastpath === 'strategic'){
+        getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }else if(lastpath === twoLastPath[3]){
+        getDataByProject(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }else{
+        getDataByContent(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }
 }
 
 function searchCominit(){
     keywordParam = document.getElementById("searchCominit").value;
-    getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    if (lastpath === 'strategic'){
+        getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }else if(lastpath === twoLastPath[3]){
+        getDataByProject(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }else{
+        getDataByContent(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+    }
 }
 
 function sortingBy(params){
     sortParam = document.getElementById(params).getAttribute('data-value')
     if (sortParam !== 'init'){
-        getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+        if (lastpath === 'strategic'){
+            getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+        }else if(lastpath === twoLastPath[3]){
+            getDataByProject(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+        }else{
+            getDataByContent(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+        }
         if (sortParam === 'title'){
             document.getElementById('btn-sort-comsup').innerHTML = "Judul"
         }else if (sortParam === 'created_at'){
@@ -204,7 +377,13 @@ function sortingBy(params){
             document.getElementById('btn-sort-comsup').innerHTML = "View"
         }
     }else{
-        getData(pageParam, yearParam, monthParam, divisiParam, '', keywordParam)
+        if (lastpath === 'strategic'){
+            getData(pageParam, yearParam, monthParam, divisiParam, '', keywordParam)
+        }else if(lastpath === twoLastPath[3]){
+            getDataByProject(pageParam, yearParam, monthParam, divisiParam, '', keywordParam)
+        }else{
+            getDataByContent(pageParam, yearParam, monthParam, divisiParam, '', keywordParam)
+        }
         document.getElementById('btn-sort-comsup').innerHTML = "Sort By"
     }
 }

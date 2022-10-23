@@ -7,7 +7,7 @@
     <meta name="BE" content="{{ config('app.url_be') }}">
     <meta name="csrf" content="@yield('csrf',csrf_token())">
     <meta name="kunci" content="@yield('kunci','*')">
-    <title>@yield('title',config('app.name'))</title>
+    <title>@yield('title','BRIKNOW')</title>
     <link rel="icon" type="image/png" href="{{asset_app('assets/img/logo/Logo BRI.png')}}"/>
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{asset_app('css/app.css')}}">
@@ -176,7 +176,7 @@
                             aria-controls="collapsedirectorat" class="dropdown-toggle">Direktorat</h5>
                         <ul class="collapse" id="collapsedirectorat">
                             <div class="row d-flex spacing-filter">
-                                <select name="direktorat" id="direktorat-lay" class="form-control text-black select2" data-live-search="true"
+                                <select name="direktorat" id="dir-strategic-init" class="form-control text-black select2" data-live-search="true"
                                         style="height: 44px" value="{{old('direktorat')}}">
                                     <option value="" disabled selected>Pilih Direktorat</option>
                                     @if(empty($direktorat))
@@ -189,17 +189,7 @@
                                 </select>
                             </div>
                             <div class="row d-flex spacing-filter">
-                                <select name="direktorat" id="direktorat" class="form-control text-black select2 mt-2" data-live-search="true"
-                                        style="height: 44px" value="{{old('direktorat')}}">
-                                    <option value="" disabled selected>Pilih Divisi</option>
-                                    @if(empty($divisiRes))
-                                        <option value="null" data-value="null">{{$divisi ?? 'NOT FOUND'}}</option>
-                                    @else
-                                        @foreach($divisiRes as $divContent)
-                                            <option value="{{$divContent->divisi }}" data-value="{{ $divContent->divisi }}">{{$divContent->divisi}}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
+                                <select id="divisi-strategic-init" class="mr-auto p-2 form-control select2" value="{{old('divisi')}}" name="divisi[]"></select>
                             </div>
                         </ul>
                     </div>
@@ -209,27 +199,27 @@
                         <ul class="collapse" id="collapsedate">
                             {{--                            foreach date--}}
                             <div class="row spacing-filter">
-                                <a role="button" class="btn-filter col-sm-3 m-1 ">2019</a>
-                                <a role="button" class="btn-filter col-sm-3 m-1 active">2020</a>
-                                <a role="button" class="btn-filter col-sm-3 m-1 ">2021</a>
-                                <a role="button" class="btn-filter col-sm-3 m-1 active">2022</a>
+                                <a onclick="getYearBtn('2019', 'btn-year-cominit1')" role="button" id="btn-year-cominit1" class="btn-filter col-sm-3 m-1 ">2019</a>
+                                <a onclick="getYearBtn('2020', 'btn-year-cominit2')" role="button" id="btn-year-cominit2" class="btn-filter col-sm-3 m-1">2020</a>
+                                <a onclick="getYearBtn('2021', 'btn-year-cominit3')" role="button" id="btn-year-cominit3" class="btn-filter col-sm-3 m-1">2021</a>
+                                <a onclick="getYearBtn('2022', 'btn-year-cominit4')" role="button" id="btn-year-cominit4" class="btn-filter col-sm-3 m-1">2022</a>
                             </div>
                             <div id="year-list" class="row spacing-filter">
                                 <p>Bulan</p>
                             </div>
                             <div class="row d-flex spacing-filter align-self-center">
-                                <a role="button" class="btn-filter col-sm-2 m-1">Jan</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1">Feb</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1">Mar</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 active">Apr</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1">Mei</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1">Jun</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 active">Jul</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Agu</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Sep</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Okt</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Nov</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Des</a>
+                                <a onclick="getMonthBtn('01', 'btnMonth1')" id="btnMonth1" role="button" class="btn-filter col-sm-2 m-1">Jan</a>
+                                <a onclick="getMonthBtn('02', 'btnMonth2')" id="btnMonth2" role="button" class="btn-filter col-sm-2 m-1">Feb</a>
+                                <a onclick="getMonthBtn('03', 'btnMonth3')" id="btnMonth3" role="button" class="btn-filter col-sm-2 m-1">Mar</a>
+                                <a onclick="getMonthBtn('04', 'btnMonth4')" id="btnMonth4" role="button" class="btn-filter col-sm-2 m-1">Apr</a>
+                                <a onclick="getMonthBtn('05', 'btnMonth5')" id="btnMonth5" role="button" class="btn-filter col-sm-2 m-1">Mei</a>
+                                <a onclick="getMonthBtn('06', 'btnMonth6')" id="btnMonth6" role="button" class="btn-filter col-sm-2 m-1">Jun</a>
+                                <a onclick="getMonthBtn('07', 'btnMonth7')" id="btnMonth7" role="button" class="btn-filter col-sm-2 m-1">Jul</a>
+                                <a onclick="getMonthBtn('08', 'btnMonth8')" id="btnMonth8" role="button" class="btn-filter col-sm-2 m-1 ">Agu</a>
+                                <a onclick="getMonthBtn('09', 'btnMonth9')" id="btnMonth9" role="button" class="btn-filter col-sm-2 m-1 ">Sep</a>
+                                <a onclick="getMonthBtn('10', 'btnMonth10')" id="btnMonth10" role="button" class="btn-filter col-sm-2 m-1 ">Okt</a>
+                                <a onclick="getMonthBtn('11', 'btnMonth11')" id="btnMonth11" role="button" class="btn-filter col-sm-2 m-1 ">Nov</a>
+                                <a onclick="getMonthBtn('12', 'btnMonth12')" id="btnMonth12" role="button" class="btn-filter col-sm-2 m-1 ">Des</a>
                             </div>
                         </ul>
                     </div>
@@ -249,13 +239,14 @@
                             <div class="d-flex justify-content-between mt-3">
                                 <div class="mr-auto p-2">
                                     <div class="dropdown">
-                                        <button data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle">
+                                        <button data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle" id="btn-sort-comsup">
                                             Sort By
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-left">
-                                            <a class="dropdown-item" href="#">Judul</a>
-                                            <a class="dropdown-item" href="#">Tanggal</a>
-                                            <a class="dropdown-item" href="#">View</a>
+                                            <li onclick="sortingBy('sortInitStra')" id="sortInitStra" data-value="init" class="dropdown-item">Sort By</li>
+                                            <li onclick="sortingBy('titleSort')" id="titleSort" data-value="title" class="dropdown-item" >Judul</li>
+                                            <li onclick="sortingBy('createSort')" id="createSort" data-value="created_at" class="dropdown-item" >Tanggal</li>
+                                            <li onclick="sortingBy('viewSort')" id="viewSort" data-value="views" class="dropdown-item" >Views</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -263,10 +254,11 @@
                                     <label class="sr-only" for="inlineFormInputGroup">Title</label>
                                     <div class="input-group mb-2">
                                         <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control"
-                                               id="inlineFormInputGroup" placeholder="Cari...">
+                                               id="searchCominit" placeholder="Cari...">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;"><i
-                                                        class="fa fa-search fa-sm" aria-hidden="true"></i></div>
+                                            <div onclick="searchCominit()" class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                                                <i class="fa fa-search fa-sm" aria-hidden="true"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -274,7 +266,7 @@
                             <hr/>
                             <br/>
                             <div class="d-flex">
-                                <div class="row">
+                                <div class="row w-100">
                                     <div class="col-12">
                                         <h4>Articles</h4>
                                     </div>
@@ -284,6 +276,7 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
+                                                <div id="ContentArticle" class="d-flex w-100">
                                                 @foreach($values->data as $contentData)
                                                     <div class="col-2 justify-content-center">
                                                         <a href="#">
@@ -294,14 +287,15 @@
                                                         </a>
                                                     </div>
                                                 @endforeach
-                                                <div class="col-2 justify-content-center">
-                                                    <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'article'])}}">
-                                                        <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                            <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                    <div class="col-2 justify-content-center">
+                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'article'])}}">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
+                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                                </div>
+                                                                <span>Lihat Semua</span>
                                                             </div>
-                                                            <span>Lihat Semua</span>
-                                                        </div>
-                                                    </a>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             @endif
                                         @endif
@@ -312,7 +306,7 @@
                             </div>
                             <hr/>
                             <div class="d-flex">
-                                <div class="row">
+                                <div class="row w-100">
                                     <div class="col-12">
                                         <h4>Video Content</h4>
                                     </div>
@@ -322,6 +316,7 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
+                                                <div id="ContentVideo" class="d-flex w-100">
                                                 @foreach($values->data as $contentData)
                                                     <div class="col-2 justify-content-center">
                                                         <a href="#">
@@ -332,14 +327,15 @@
                                                         </a>
                                                     </div>
                                                 @endforeach
-                                                <div class="col-2 justify-content-center">
-                                                    <a href="#">
-                                                        <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                            <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                    <div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
+                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                                </div>
+                                                                <span>Lihat Semua</span>
                                                             </div>
-                                                            <span>Lihat Semua</span>
-                                                        </div>
-                                                    </a>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             @endif
                                         @endif
@@ -351,7 +347,7 @@
                             </div>
                             <hr/>
                             <div class="d-flex">
-                                <div class="row">
+                                <div class="row w-100">
                                     <div class="col-12">
                                         <h4>Podcast</h4>
                                     </div>
@@ -361,6 +357,7 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
+                                                <div id="ContentPodcast" class="d-flex w-100">
                                                 @foreach($values->data as $contentData)
                                                     <div class="col-2 justify-content-center">
                                                         <a href="#">
@@ -371,14 +368,15 @@
                                                         </a>
                                                     </div>
                                                 @endforeach
-                                                <div class="col-2 justify-content-center">
-                                                    <a href="#">
-                                                        <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                            <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                    <div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
+                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                                </div>
+                                                                <span>Lihat Semua</span>
                                                             </div>
-                                                            <span>Lihat Semua</span>
-                                                        </div>
-                                                    </a>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             @endif
                                         @endif
@@ -389,7 +387,7 @@
                             </div>
                             <hr/>
                             <div class="d-flex">
-                                <div class="row">
+                                <div class="row w-100">
                                     <div class="col-12">
                                         <h4>Instagram</h4>
                                     </div>
@@ -399,6 +397,7 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
+                                                <div id="ContentIg" class="d-flex w-100">
                                                 @foreach($values->data as $contentData)
                                                     <div class="col-2 justify-content-center">
                                                         <a href="#">
@@ -409,14 +408,15 @@
                                                         </a>
                                                     </div>
                                                 @endforeach
-                                                <div class="col-2 justify-content-center">
-                                                    <a href="#">
-                                                        <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                            <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                    <div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
+                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                                </div>
+                                                                <span>Lihat Semua</span>
                                                             </div>
-                                                            <span>Lihat Semua</span>
-                                                        </div>
-                                                    </a>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             @endif
                                         @endif
@@ -427,7 +427,7 @@
                             </div>
                             <hr/>
                             <div class="d-flex">
-                                <div class="row">
+                                <div class="row w-100">
                                     <div class="col-12">
                                         <h4>Transformation</h4>
                                     </div>
@@ -437,6 +437,7 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
+                                                <div id="ContentTrans" class="d-flex w-100">
                                                 @foreach($values->data as $contentData)
                                                     <div class="col-2 justify-content-center">
                                                         <a href="#">
@@ -447,14 +448,15 @@
                                                         </a>
                                                     </div>
                                                 @endforeach
-                                                <div class="col-2 justify-content-center">
-                                                    <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'article'])}}">
-                                                        <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                            <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                    <div class="col-2 justify-content-center">
+                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'article'])}}">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
+                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                                </div>
+                                                                <span>Lihat Semua</span>
                                                             </div>
-                                                            <span>Lihat Semua</span>
-                                                        </div>
-                                                    </a>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             @endif
                                         @endif
@@ -465,7 +467,7 @@
                             </div>
                             <hr/>
                             <div class="d-flex">
-                                <div class="row">
+                                <div class="row w-100">
                                     <div class="col-12">
                                         <h4>Logo</h4>
                                     </div>
@@ -475,6 +477,7 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
+                                                <div id="ContentLogo" class="d-flex w-100">
                                                 @foreach($values->data as $contentData)
                                                     <div class="col-2 justify-content-center">
                                                         <a href="#">
@@ -485,14 +488,15 @@
                                                         </a>
                                                     </div>
                                                 @endforeach
-                                                <div class="col-2 justify-content-center">
-                                                    <a href="#">
-                                                        <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                            <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                    <div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
+                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                                </div>
+                                                                <span>Lihat Semua</span>
                                                             </div>
-                                                            <span>Lihat Semua</span>
-                                                        </div>
-                                                    </a>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             @endif
                                         @endif
@@ -503,7 +507,7 @@
                             </div>
                             <hr/>
                             <div class="d-flex">
-                                <div class="row">
+                                <div class="row w-100">
                                     <div class="col-12">
                                         <h4>Infographics</h4>
                                     </div>
@@ -513,6 +517,7 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
+                                                <div id="ContentInfo" class="d-flex w-100">
                                                 @foreach($values->data as $contentData)
                                                     <div class="col-2 justify-content-center">
                                                         <a href="#">
@@ -523,14 +528,15 @@
                                                         </a>
                                                     </div>
                                                 @endforeach
-                                                <div class="col-2 justify-content-center">
-                                                    <a href="#">
-                                                        <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                            <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                    <div class="col-2 justify-content-center">
+                                                        <a href="#">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
+                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                                </div>
+                                                                <span>Lihat Semua</span>
                                                             </div>
-                                                            <span>Lihat Semua</span>
-                                                        </div>
-                                                    </a>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             @endif
                                         @endif
@@ -631,5 +637,7 @@
 <script src="{{asset_app('assets/js/temp/scripts.js')}}"></script>
 <script src="{{asset_app('assets/js/temp/custom.js')}}"></script>
 <script src="{{asset_app('assets/js/page/notification.js')}}"></script>
+<script src="{{asset_app('assets/js/page/strategic-public.js')}}"></script>
+
 
 </body>
