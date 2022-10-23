@@ -357,9 +357,9 @@
               <tbody id="coloumnrow">
                 @forelse($data->document as $value)
                   <tr class="rowdoc">
-                      <td id="td-attachment"><span>{{$value->nama}}</span></td>
-                      <td id="td-attachment"><span>{{\Carbon\carbon::create($value->updated_at)->format('d F Y')}}</span></td>
-                      <td id="td-attachment"><span>{{formatBytes($value->size)}}</span></td>
+                      <td id="td-attachment" class="cur-point" onclick="downloadDoc('{{$value->nama}}', '{{$value->url_file}}')"><span>{{$value->nama}}</span></td>
+                      <td id="td-attachment" class="cur-point" onclick="downloadDoc('{{$value->nama}}', '{{$value->url_file}}')"><span>{{\Carbon\carbon::create($value->updated_at)->format('d F Y')}}</span></td>
+                      <td id="td-attachment" class="cur-point" onclick="downloadDoc('{{$value->nama}}', '{{$value->url_file}}')"><span>{{formatBytes($value->size)}}</span></td>
                   </tr>
                 @empty
                   <tr class="rowdoc">

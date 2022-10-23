@@ -160,6 +160,10 @@ const views = (slug) =>{
     });
 }
 
+function downloadDoc(name, source) {
+    window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
+}
+
 $(document).on('click', '.pagination a', function(event){
     event.preventDefault(); 
     page = $(this).attr('href').split('page=')[1];

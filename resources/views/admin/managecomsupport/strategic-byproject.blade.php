@@ -163,7 +163,7 @@
         let attach = row.attach_file
         for (let i=0; i<attach.length; i++) {
             const lastModifiedDate = new Date(attach[i].updated_at)
-            data_attach.push({'name': attach[i].nama, 'date':lastModifiedDate, 'size': attach[i].size})
+            data_attach.push({'name': attach[i].nama, 'date':lastModifiedDate, 'size': attach[i].size, 'source': attach[i].url_file})
         }
         appendDesc(row.desc, data_attach)
 
@@ -332,15 +332,23 @@
             for (let e in data) {
                 html += `
                     <div class="row" style="padding: 2px; color: #2f80ed; border-bottom: 1px solid #cccccc; font-weight: 500">
-                        <div class="col-md-9 pl-4"><i class="fas fa-file mr-3"></i>${data[e].name}</div>
-                        <div class="col-md-2">${dateFormat(data[e].date)}</div>
-                        <div class="col-md-1">${bytesToSize(data[e].size)}</div>
+                        <div class="col-md-9 pl-4">
+                            <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="d-flex align-items-center cur-point" style="width: fit-content">
+                                <i class="fas fa-file mr-3"></i>${data[e].name}
+                            </div>
+                        </div>
+                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-2 cur-point">${dateFormat(data[e].date)}</div>
+                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-1 cur-point">${bytesToSize(data[e].size)}</div>
                     </div>
                 `
             }
             $(`#list-file`).html(html)
         }
 
+    }
+
+    function downloadDoc(name, source) {
+        window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
     }
 
     function toKatalog(short) {

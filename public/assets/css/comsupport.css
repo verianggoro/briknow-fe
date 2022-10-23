@@ -648,6 +648,7 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
     color: #6c757d;
     text-align: center;
     font-weight: 500;
+    padding: 0;
 }
 
 .img-com {

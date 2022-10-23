@@ -153,10 +153,6 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::post('/implementation/status/{status}/{id}', 'Admin\ManageComSupport@setStatusImplementation')->name('implementation.set_status')->middleware('IsAdmin');
     Route::delete('/implementation/delete/{id}', 'Admin\ManageComSupport@deleteImplementation')->name('implementation.delete')->middleware('IsAdmin');
     Route::get('/form/implementation/upload/{slug}', 'Admin\ManageComSupport@getDataUpdateImplementation')->name('implementation.update')->middleware('IsAdmin');
-    #--
-    Route::get('/attach/download/content/{id}', 'Admin\ManageComSupport@download_content')->name('com_support.download');
-    Route::get('/attach/download/implementation/{id}', 'Admin\ManageComSupport@download_implementation')->name('implementation.download');
-    Route::get('/attach/download/project/{id}', 'Admin\ManageComSupport@download_attach_project')->name('project.download');
 
     #DASHBOARD - MANAGEMENT CONSULTANT
         Route::get('/manageconsultant', 'Admin\ManageConsultantController@index')->name('manage_consultant')->middleware('IsAdmin');
@@ -262,6 +258,13 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/forum/getDataList/{search}' ,'ForumController@getDataList')->name('forum.getDataList'); //fungsi (BISA PUBLISH BISA SAVE - DEFAULT NGELOAD)
         Route::get('/forum/{slug}' ,'ForumController@detail')->name('forum.detail'); //halaman
     #---
+
+    #download
+        Route::get('/doc/download', 'DocumentController@downloadFile')->name('doc.download');
+        Route::get('/attach/download/content/{id}', 'DocumentController@download_content')->name('com_support.download');
+        Route::get('/attach/download/implementation/{id}', 'DocumentController@download_implementation')->name('implementation.download');
+        Route::get('/attach/download/project/{id}', 'DocumentController@download_attach_project')->name('project.download');
+    #---------
 
     #notirfikasi
         Route::post('/notif' ,'NotifikasiController')->name('notif.readall');

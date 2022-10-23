@@ -77,14 +77,14 @@ function initTable() {
                     width: 275
                 },
                 {
-                    field: 'divisi',
+                    field: 'divisi.direktorat',
                     title: 'Direktorat',
                     align: 'center',
-                    formatter: direkFormatter,
+                    formatter: divisiFormatter,
                     width: 170
                 },
                 {
-                    field: 'divisi',
+                    field: 'divisi.divisi',
                     title: 'Divisi',
                     align: 'center',
                     formatter: divisiFormatter,
@@ -205,7 +205,7 @@ function statusFormatter (value, row, index) {
 
 function operateFormatter(value, row, index) {
     return [
-        '<div class="d-flex align-items-center justify-content-center" style="padding-top: 0; padding-bottom: 0">',
+        '<div class="d-flex pr-4 align-items-center justify-content-center" style="padding-top: 0; padding-bottom: 0">',
         '<div class="view border-action d-flex align-items-center justify-content-center mr-1 action-icon" title="View">',
         '<i class="fas fa-eye" style="margin: 0; font-size: 18px"></i>',
         '</div>  ',
@@ -238,17 +238,7 @@ window.operateEvents = {
 }
 
 function divisiFormatter(value) {
-    return `
-            <a href="${uri}/katalog" onclick="toKatalog('${value.shortname}')" oncontextmenu="toKatalog('${value.shortname}')" onmousedown="toKatalog('${value.shortname}')" class="ellipsis-2 link-format-table" id="divdirek">
-                ${value.divisi}
-            </a>`
-}
-
-function direkFormatter(value) {
-    return `
-            <a href="${uri}/katalog" onclick="toKatalog('${value.shortname}')" oncontextmenu="toKatalog('${value.shortname}')" onmousedown="toKatalog('${value.shortname}')" class="ellipsis-2 link-format-table" id="divdirek">
-                ${value.direktorat}
-            </a>`;
+    return `<div class="ellipsis-2 link-format-table">${value}</div>`
 }
 
 function toKatalog(short) {
@@ -321,4 +311,8 @@ function views(e, slug) {
             alert(e);
         }
     });
+}
+
+function downloadDoc(name, source) {
+    window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
 }
