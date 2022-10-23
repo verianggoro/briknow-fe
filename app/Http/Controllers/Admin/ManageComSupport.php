@@ -974,10 +974,42 @@ class ManageComSupport extends Controller
 
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
-                    return response()->json([
-                        "status"    => 1,
-                        "data"      => $hasil->data,
-                    ],200);
+                    $data = $hasil->data;
+                    $document = $data->attach_file;
+                    if ($table == 'content') {
+                        $view = view('admin.managecomsupport.preview-content',compact(['data']))->render();
+                        $col = view('doc.document',compact('document'))->render();
+                        return response()->json([
+                            "status"    => 1,
+                            "data"      => $hasil->data,
+                            "html"      => $view,
+                            'col'       => $col,
+                        ],200);
+                    } else {
+                        $view = view('admin.managecomsupport.preview-implementation',compact(['data']))->render();
+                        $col = null;
+                        if ($data->piloting) {
+                            $document = $data->piloting;
+                            $step = 'piloting';
+                            $col['piloting'] = view('doc.document-imp',compact('document', 'step'))->render();
+                        }
+                        if ($data->rollout) {
+                            $document = $data->rollout;
+                            $step = 'rollout';
+                            $col['rollout'] = view('doc.document-imp',compact('document', 'step'))->render();
+                        }
+                        if ($data->sosialisasi) {
+                            $document = $data->sosialisasi;
+                            $step = 'sosialisasi';
+                            $col['sosialisasi'] = view('doc.document-imp',compact('document', 'step'))->render();
+                        }
+                        return response()->json([
+                            "status"    => 1,
+                            "data"      => $hasil->data,
+                            "html"      => $view,
+                            'col'       => $col,
+                        ],200);
+                    }
                 }else{
                     $data['message']    =   'Gagal';
                     return response()->json([

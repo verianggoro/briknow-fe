@@ -16,27 +16,45 @@
     </div>
 </div>
 <div class="cardbg-white bg-white w-100 px-3 pb-5">
+    @if ($data->project)
+        @php $project = $data->project; @endphp
+    @endif
     <div class="row judul mt-4" style="min-height: 185px;">
         <div class="col-md-2 col-sm-12 d-flex justify-content-center mb-2">
-            <img src="{{asset_app('assets/img/boxdefault.svg')}}" alt="" onerror="imgError(this)" id="prev_thumbnail" class="img-detail">
+            <img src="{{Config::get('app.url').'storage/'.$project->thumbnail}}" alt="" onerror="imgError(this)" id="prev_thumbnail" class="img-detail">
         </div>
         <div class="col-md-10 col-sm-12 pr-0 header-detail">
             <div class="row mt-4">
                 <div class="col-md-8 col-sm-12 mb-2">
                     <div class="col-sm-12 px-0">
-                        <a href="#" class="d-block font-weight-bold" style="font-size: 1.8rem; width: fit-content;margin-bottom: 0.5rem;line-height: 1.2;" id="prev_namaproject">-</a>
+                        <a href="#" class="d-block font-weight-bold" style="font-size: 1.8rem; width: fit-content;margin-bottom: 0.5rem;line-height: 1.2;" id="prev_namaproject">{{!empty($project->nama)?$project->nama:"-"}}</a>
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-sm-6" id="prev_const">
                             <span class="d-block font-weight-bold">Konsultan</span>
-                            <a href="#" class="konsultan"><span>Internal</span></a>
+                            @if ($project->consultant)
+                                @php $consultants = $project->consultant; @endphp
+                                @php $last = end($consultants); @endphp
+                                @forelse ($consultants as $consultant)
+                                    @if ($consultant == $last)
+                                        <a href="{{route('consultant.index',$consultant->id)}}" class="fs-10"><span>{{$consultant->nama}}</span></a>
+                                    @else
+                                        <a href="{{route('consultant.index',$consultant->id)}}" class="fs-10"><span>{{$consultant->nama}},</span></a>
+                                    @endif
+                                @empty
+                                    <div><span>-</span></div>
+                                @endforelse
+                            @else
+                                <div class="konsultan"><span>-</span></div>
+                            @endif
                         </div>
                         <div class="col-md-5 col-sm-6 justify-content-end">
                             <span class="d-block font-weight-bold">Project Manager</span>
-                            <span id="prev_pm">-</span>
+                            @php $pm = $project->project_managers; @endphp
+                            <span id="prev_pm"><span>{{!empty($pm->nama)?$pm->nama:"(Tidak ada data)"}}</span></span>
                             <small class="d-block fs-12">
                                 <i class="far fa-envelope"></i>
-                                <a href="#" id="prev_emailpm">-</a>
+                                <a href="{{!empty($pm->email)?"mailto:".$pm->email:"#"}}" id="prev_emailpm">{{!empty($data->project->project_managers->email)?\Str::limit($data->project->project_managers->email,20,'..'):"(Tidak ada data)"}}</a>
                             </small>
                         </div>
                     </div>
@@ -55,30 +73,53 @@
                 <h6 class="font-weight-bolder">Detail</h6>
             </div>
             <div class="row">
+                @php $divisi = $project->divisi; @endphp
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Direktorat</div>
                     <div class="col-md-1 pr-0 pl-3">:</div>
-                    <div class="col-md-7 px-0 d-min" id="prev_direktorat">-</div>
+                    <div class="col-md-7 px-0 d-min" id="prev_direktorat">
+                        <a class="font-weight-bold" href="{{route('divisi',$divisi->id)}}">
+                            {{$divisi->direktorat}}
+                        </a>
+                    </div>
                 </div>
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Pemilik Proyek</div>
                     <div class="col-md-1 pr-0 pl-3">:</div>
-                    <div class="col-md-7 px-0 d-min" id="prev_divisi">-</div>
+                    <div class="col-md-7 px-0 d-min" id="prev_divisi">
+                        <a class="font-weight-bold" href="{{route('divisi',$divisi->id)}}">
+                            {{$divisi->divisi}}
+                        </a>
+                    </div>
                 </div>
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Tanggal Mulai</div>
                     <div class="col-md-1 pr-0 pl-3">:</div>
-                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_tglmulai">-</div>
+                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_tglmulai">
+                        {{date('d F Y', strtotime($data->tanggal_mulai))}}
+                    </div>
                 </div>
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Tanggal Selesai</div>
                     <div class="col-md-1 pr-0 pl-3">:</div>
-                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_tglselesai">-</div>
+                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_tglselesai">
+                        @if ($data->tanggal_selesai)
+                            {{date('d F Y', strtotime($data->tanggal_selesai))}}
+                        @else
+                            -
+                        @endif
+                    </div>
                 </div>
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Status</div>
                     <div class="col-md-1 pr-0 pl-3">:</div>
-                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_status">-</div>
+                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_status">
+                        @if ($data->tanggal_selesai)
+                            Selesai
+                        @else
+                            On Progress
+                        @endif
+                    </div>
                 </div>
             </div>
 
@@ -86,14 +127,167 @@
                 <h6 class="font-weight-bolder">Tags</h6>
             </div>
             <div class="row col-md-12 px-0 font-weight-normal mb-4" id="prev_tag">
-                <span class="badge badge-cyan-light text-dark mr-1">-</span>
+                @if($project->keywords)
+                    @foreach ($project->keywords as $tag)
+                        <a href="{{route('katalog.pencarian',$tag->nama)}}">
+                            <span class="badge badge-cyan-light text-dark mr-1 mb-2">{{$tag->nama}}</span>
+                        </a>
+                    @endforeach
+                @else
+                    <span class="badge badge-cyan-light text-dark mr-1">-</span>
+                @endif
             </div>
 
         </div>
+        <input type="hidden" id="id_project" value="{{$data->id}}">
         <div class="col-lg-9 col-md-8 col-sm-12 pr-0 pl-4 text-justify">
             <div class="row" id="desc-preview">
+                @if($data->desc_piloting)
+                    <div class="col-md-12 d-block w-100 mb-4 mt-2">
+                        <div class="preview-desc-head">Piloting</div>
+                        <div class="metodologi-isi wrap" id="prev_deskripsi">{{strip_tags($data->desc_piloting)}}</div>
+                    </div>
+                    <div class="col-md-12 d-block w-100">
+                        <h6>Attachment</h6>
+                    </div>
+                    <div class="col-md-12 d-block w-100" style="margin-bottom: 4rem">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <form action="" class="w-100" id="search-pilot">
+                                    <div class="input-group control border-1 pencarian mb-3" style="border-radius: 8px">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text border-0" style="height: 30px"><i class="fa fa-search" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <input type="text" style="border: none;height: 30px" class="form-control" id="inlineFormInput-search-pilot" placeholder="Search files..">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-3 text-right mb-3 d-flex align-items-center">
+                                <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-piloting" onclick="archive('piloting')" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                                <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2" id="select-file-pilot">
+                                    <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
+                                    <option value="nama">Nama</option>
+                                    <option value="created_at">Date Modified</option>
+                                    <option value="size">Size</option>
+                                </select>
+                                <div class="cur-point" id="sort-pilot"><i class="fas fa-arrow-down mr-2"></i></div>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="table table-sm" id="table-attachment" style="table-layout: fixed; border-radius: 8px">
+                                    <thead>
+                                    <tr>
+                                        <th id="th-attachment" style="font-size: 14px; width: 70%;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;"><input type="checkbox" class="mr-2" onchange='allCheckChange(`piloting`);' id="allcheck-piloting">Files</th>
+                                        <th id="th-attachment" style="font-size: 14px;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;">Date Modified</th>
+                                        <th id="th-attachment" style="font-size: 14px;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;">Size</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="coloumnrow-piloting">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if($data->desc_roll_out)
+                        <div class="col-md-12 d-block w-100 mb-4 mt-2">
+                            <div class="preview-desc-head">Roll Out</div>
+                            <div class="metodologi-isi wrap" id="prev_deskripsi">{{strip_tags($data->desc_roll_out)}}</div>
+                        </div>
+                        <div class="col-md-12 d-block w-100">
+                            <h6>Attachment</h6>
+                        </div>
+                        <div class="col-md-12 d-block w-100" style="margin-bottom: 4rem">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <form action="" class="w-100" id="search-roll">
+                                        <div class="input-group control border-1 pencarian mb-3" style="border-radius: 8px">
+                                            <div class="input-group-prepend">
+                                        <span class="input-group-text border-0" style="height: 30px"><i class="fa fa-search" aria-hidden="true"></i>
+                                        </span>
+                                            </div>
+                                            <input type="text" style="border: none;height: 30px" class="form-control" id="inlineFormInput-search-roll" placeholder="Search files..">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-3 text-right mb-3 d-flex align-items-center">
+                                    <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-rollout" onclick="archive('rollout')" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                                    <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2" id="select-file-roll">
+                                        <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
+                                        <option value="nama">Nama</option>
+                                        <option value="created_at">Date Modified</option>
+                                        <option value="size">Size</option>
+                                    </select>
+                                    <div class="cur-point" id="sort-roll"><i class="fas fa-arrow-down mr-2"></i></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <table class="table table-sm" id="table-attachment" style="table-layout: fixed; border-radius: 8px">
+                                        <thead>
+                                        <tr>
+                                            <th id="th-attachment" style="font-size: 14px; width: 70%;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;"><input type="checkbox" class="mr-2" onchange='allCheckChange(`rollout`);' id="allcheck-rollout">Files</th>
+                                            <th id="th-attachment" style="font-size: 14px;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;">Date Modified</th>
+                                            <th id="th-attachment" style="font-size: 14px;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;">Size</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="coloumnrow-rollout">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                @endif
+
+                @if($data->desc_sosialisasi)
+                        <div class="col-md-12 d-block w-100 mb-4 mt-2">
+                            <div class="preview-desc-head">Sosialisasi</div>
+                            <div class="metodologi-isi wrap" id="prev_deskripsi">{{strip_tags($data->desc_sosialisasi)}}</div>
+                        </div>
+                        <div class="col-md-12 d-block w-100">
+                            <h6>Attachment</h6>
+                        </div>
+                        <div class="col-md-12 d-block w-100" style="margin-bottom: 4rem">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <form action="" class="w-100" id="search-sos">
+                                        <div class="input-group control border-1 pencarian mb-3" style="border-radius: 8px">
+                                            <div class="input-group-prepend">
+                                        <span class="input-group-text border-0" style="height: 30px"><i class="fa fa-search" aria-hidden="true"></i>
+                                        </span>
+                                            </div>
+                                            <input type="text" style="border: none;height: 30px" class="form-control" id="inlineFormInput-search-sos" placeholder="Search files..">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-3 text-right mb-3 d-flex align-items-center">
+                                    <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-sosialisasi" onclick="archive('sosialisasi')" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                                    <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2" id="select-file-sos">
+                                        <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
+                                        <option value="nama">Nama</option>
+                                        <option value="created_at">Date Modified</option>
+                                        <option value="size">Size</option>
+                                    </select>
+                                    <div class="cur-point" id="sort-sos"><i class="fas fa-arrow-down mr-2"></i></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <table class="table table-sm" id="table-attachment" style="table-layout: fixed; border-radius: 8px">
+                                        <thead>
+                                        <tr>
+                                            <th id="th-attachment" style="font-size: 14px; width: 70%;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;"><input type="checkbox" class="mr-2" onchange='allCheckChange(`sosialisasi`);' id="allcheck-sosialisasi">Files</th>
+                                            <th id="th-attachment" style="font-size: 14px;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;">Date Modified</th>
+                                            <th id="th-attachment" style="font-size: 14px;border-bottom: solid rgba(0, 0, 0, 0.2) 1px !important;">Size</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="coloumnrow-sosialisasi">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                @endif
             </div>
         </div>
     </div>
 
 </div>
+<script src="{{asset_app('assets/js/script/document-imp.js')}}"></script>

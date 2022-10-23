@@ -1,8 +1,11 @@
 let $table = $('#table')
 let selections = [];
-var uri;
-var csrf = '';
-var be      = '';
+let uri;
+let csrf = '';
+let be      = '';
+
+let order = 'asc';
+let sort = 'created_at';
 
 const months = [
     'January',
@@ -82,106 +85,7 @@ function download(id) {
 }
 
 function view(row, index) {
-    $('#desc-preview').empty();
-    let data_pilot = []
-    let data_roll = []
-    let data_sos = []
     let attach = row.attach_file
-    for (let i=0; i<attach.length; i++) {
-        const lastModifiedDate = new Date(attach[i].updated_at)
-        if (attach[i].tipe === 'piloting') {
-            data_pilot.push({'name': attach[i].nama, 'date':lastModifiedDate, 'size': attach[i].size, 'source': attach[i].url_file})
-        } else if (attach[i].tipe === 'rollout') {
-            data_roll.push({'name': attach[i].nama, 'date':lastModifiedDate, 'size': attach[i].size, 'source': attach[i].url_file})
-        } else if (attach[i].tipe === 'sosialisasi') {
-            data_sos.push({'name': attach[i].nama, 'date':lastModifiedDate, 'size': attach[i].size, 'source': attach[i].url_file})
-        }
-    }
-
-    if (row.desc_piloting !== null) appendDesc('Piloting', 'pilot',row.desc_piloting, data_pilot)
-    if (row.desc_roll_out !== null) appendDesc('Roll Out', 'roll', row.desc_roll_out, data_roll)
-    if (row.desc_sosialisasi !== null) appendDesc('Sosialisasi', 'sos', row.desc_sosialisasi, data_sos)
-
-    $('#prev_namaproject').empty();
-    $('.konsultan').remove();
-    $('.paren-project-desc').remove();
-    $('#prev_tglmulai').empty();
-    $('#prev_tglselesai').empty();
-    $('#prev_status').empty();
-    $('#prev_divisi').empty();
-    $('#prev_direktorat').empty();
-
-    let divisi = row.project.divisi
-    if (divisi !== null) {
-        $('#prev_direktorat').append(
-            `<a class="font-weight-bold" href="${uri}/katalog" onclick="toKatalog('${divisi.shortname}')" oncontextmenu="toKatalog('${divisi.shortname}')" onmousedown="toKatalog('${divisi.shortname}')">
-                ${divisi.direktorat}
-            </a>`);
-        $('#prev_divisi').append(
-            `<a class="font-weight-bold" href="${uri}/katalog" onclick="toKatalog('${divisi.shortname}')" oncontextmenu="toKatalog('${divisi.shortname}')" onmousedown="toKatalog('${divisi.shortname}')">
-                ${divisi.divisi}
-            </a>`);
-    } else {
-        $('#prev_direktorat').append(`-`);
-        $('#prev_divisi').append(`-`);
-    }
-
-    let consultant = row.project.consultant
-    if (consultant.length === 0) {
-        let con = `<div class="konsultan"><span>-</span></div>`
-        $('#prev_const').append(con)
-    } else {
-        for (let i=0; i<consultant.length; i++) {
-            let con = `<a href="${uri}/consultant/${consultant[i].id}" class="fs-12"><span>${consultant[i].nama}</span></a>`
-            if (i !== consultant.length - 1) {
-                con += ', '
-            }
-            $('#prev_const').append(con)
-        }
-    }
-
-    if (row.project.project_managers !== null) {
-        $('#prev_pm').empty();
-        $('#prev_emailpm').empty();
-        $('#prev_pm').append(row.project.project_managers.nama);
-        $('#prev_emailpm').append(row.project.project_managers.email);
-        $('#prev_emailpm').attr('href', `"mailto:${row.project.project_managers.email}`);
-    }
-
-    let tags = row.project.keywords
-    if (tags.length > 0) {
-        $('#prev_tag').empty()
-        for (let i=0; i<tags.length; i++) {
-            let content_tags = `<span class="badge badge-cyan-light text-dark mr-1 mb-2">${tags[i].nama}</span>`
-            $('#prev_tag').append(content_tags)
-        }
-    }
-
-    let date_mulai   = new Date(row.project.tanggal_mulai);
-    let t_tgl_mulai  = dateFormat(date_mulai);
-
-    let t_tgl_selesai;
-    if (row.project.tanggal_selesai !== null) {
-        // waktu
-        let temp_date  = new Date(row.project.tanggal_selesai);
-        t_tgl_selesai  = dateFormat(temp_date);
-
-    }else{
-        t_tgl_selesai = '-';
-    }
-
-    if (row.project.status_finish === 0) {
-        $('#prev_status').append(`On Progress`);
-    } else {
-        $('#prev_status').append(`Selesai`);
-    }
-
-    $('#prev_thumbnail').attr('src',`${uri}/storage/${row.project.thumbnail}`);
-    $('#prev_thumbnail').attr('alt',`${row.project.nama}`);
-    $('#prev_namaproject').attr('href', `${uri}/project/${row.project.slug}`);
-    $('#prev_namaproject').append(`${row.project.nama}`);
-    $('#prev_tglmulai').append(`${t_tgl_mulai}`);
-    $('#prev_tglselesai').append(`${t_tgl_selesai}`);
 
     const url = `${uri}/communication/views/implementation/${row.id}`
     let t = "{{$token_auth}}";
@@ -192,8 +96,11 @@ function view(row, index) {
         type: 'post',
         beforeSend: function(xhr){
             xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            $('.senddataloader').show();
+            $('#content-preview-desc').empty();
         },
         success: function (data) {
+            $('.senddataloader').hide();
             let view = data.data.views
             $table.bootstrapTable('updateRow', {
                 index: index,
@@ -201,120 +108,30 @@ function view(row, index) {
                     views: view
                 }
             })
+            $('#content-preview-desc').append(data.html);
+            if (data.data.desc_piloting !== null) {
+                $('#coloumnrow-piloting').append(data.col.piloting);
+            }
+            if (data.data.desc_roll_out !== null) {
+                $('#coloumnrow-rollout').append(data.col.rollout);
+            }
+            if (data.data.desc_sosialisasi !== null) {
+                $('#coloumnrow-sosialisasi').append(data.col.sosialisasi);
+            }
+
+            $('#modal-preview-1').modal({
+                show : true
+            });
         },
         error: function () {
+            $('.senddataloader').hide();
             Toast2.fire({icon: 'error',title: 'Gagal'});
         },
     })
-
-    $('#modal-preview-1').modal({
-        show : true
-    });
 }
 
 function dateFormat(date) {
     return date.getDate()+" "+ months[date.getMonth()]+" "+date.getFullYear();
-}
-
-function bytesToSize(bytes) {
-    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes == 0) return '0 Byte';
-    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-}
-
-function appendDesc(step, editor, caption, data) {
-    let desc = `
-                <div class="col-md-12 d-block w-100 mb-4 mt-2">
-                    <div class="preview-desc-head">${step}</div>
-                    <div class="metodologi-isi wrap" id="prev_deskripsi">${caption}</div>
-                </div>
-                <div class="col-md-12 d-block w-100">
-                    <h6>Attachment</h6>
-                </div>
-                <div class="col-md-12 d-block w-100" style="margin-bottom: 4rem">
-                    <div class="row">
-                        <div class="col-md-10 col-sm-12">
-                            <div class="input-group control border-1 pencarian mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text border-0"><i class="fa fa-search" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                                <input type="text" style="border: none;" class="form-control" id="inlineFormInput-${editor}" placeholder="Search files..">
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="padding-left: 8px;">
-                            <select style="border-radius: 8px;" class="form-control" id="select-${editor}" name="select-${editor}">
-                                <option value="" selected disabled>Sort by</option>
-                                <option value="name">Nama</option>
-                                <option value="date">Date Modified</option>
-                                <option value="size">Size</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-12" style="border: 2px solid #cccccc; border-radius: 8px">
-                                <div class="row" style="border-bottom: 2px solid #cccccc;padding: 4px;font-weight: bold">
-                                    <div class="col-md-9">Files</div>
-                                    <div class="col-md-2">Date Modified</div>
-                                    <div class="col-md-1">Size</div>
-                                </div>
-                                <div id="list-${editor}" class="list-files"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `
-    $('#desc-preview').append(desc)
-    renderList(data)
-
-    $(`#inlineFormInput-${editor}`).keypress(function (e) {
-        if (e.which === 13) {
-            let a = data.filter(i => i.name.toLowerCase().includes($(this).val().toLowerCase()))
-            renderList(a)
-        }
-    })
-
-    $(`#select-${editor}`).on('change', function () {
-        let prop = $(this).val()
-        let sort;
-        if (prop === 'size') {
-            sort = data.sort(function (a,b) {
-                return a[prop] - b[prop]
-            })
-        } else if (prop === 'name') {
-            sort = data.sort(function (a,b) {
-                return a[prop].localeCompare(b[prop])
-            })
-        } else {
-            sort = data.sort(function (a,b) {
-                return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0)
-            })
-        }
-        renderList(sort)
-    })
-
-    function renderList(data) {
-        let html = '';
-        for (let e in data) {
-            html += `
-                    <div class="row" style="padding: 2px; color: #2f80ed; border-bottom: 1px solid #cccccc; font-weight: 500">
-                        <div class="col-md-9 pl-4">
-                            <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="d-flex align-items-center cur-point" style="width: fit-content">
-                                <i class="fas fa-file mr-3"></i>${data[e].name}
-                            </div>
-                        </div>
-                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-2 cur-point">${dateFormat(data[e].date)}</div>
-                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-1 cur-point">${bytesToSize(data[e].size)}</div>
-                    </div>
-                `
-        }
-        $(`#list-${editor}`).html(html)
-    }
-
-}
-
-function downloadDoc(name, source) {
-    window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
 }
 
 function setStatus(value, row, valueOld, index) {

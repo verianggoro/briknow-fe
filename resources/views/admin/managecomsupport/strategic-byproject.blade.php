@@ -85,8 +85,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered dialog-preview" role="document">
         <div class="modal-content content-preview bg-transparent">
             <div class="w-100 d-flex justify-content-center align-items-center" id="content-preview">
-                <div class="bg-white bg-white w-100">
-                    @include('admin.managecomsupport.preview-content')
+                <div class="bg-white bg-white w-100" id="content-preview-desc">
                 </div>
             </div>
         </div>
@@ -157,74 +156,8 @@
 
     function view(e) {
         let row = JSON.parse($(e).parent().children().first().text())
-        // return undefined;
-        $('#desc-preview').empty();
-        let data_attach = []
+
         let attach = row.attach_file
-        for (let i=0; i<attach.length; i++) {
-            const lastModifiedDate = new Date(attach[i].updated_at)
-            data_attach.push({'name': attach[i].nama, 'date':lastModifiedDate, 'size': attach[i].size, 'source': attach[i].url_file})
-        }
-        appendDesc(row.desc, data_attach)
-
-        $('#prev_namaproject').empty();
-        $('#prev_type').empty();
-        // $('#prev_project').empty();
-        $('.parent-project-desc').remove();
-        $('#prev_tglmulai').empty();
-        $('#prev_tglselesai').empty();
-        $('#prev_status').empty();
-        $('#prev_divisi').empty();
-        $('#prev_direktorat').empty();
-
-        let project = row.project
-        if (project !== null) {
-            $('#prev_direktorat').append(
-                `<a class="font-weight-bold" href="${uri}/katalog" onclick="toKatalog('${project.divisi.shortname}')" oncontextmenu="toKatalog('${project.divisi.shortname}')" onmousedown="toKatalog('${project.divisi.shortname}')">
-                ${project.divisi.direktorat}
-            </a>`);
-            $('#prev_divisi').append(
-                `<a class="font-weight-bold" href="${uri}/katalog" onclick="toKatalog('${project.divisi.shortname}')" oncontextmenu="toKatalog('${project.divisi.shortname}')" onmousedown="toKatalog('${project.divisi.shortname}')">
-                ${project.divisi.divisi}
-            </a>`);
-        } else {
-            $('#prev_divisi').append(`General`);
-            $('#prev_direktorat').append(`General`);
-        }
-
-        let t_project = ``
-        if (row.project_id !== null) {
-            t_project = `<a class="font-weight-bold fs-18 parent-project-desc" href="${uri}/project/${project.slug}">${project.nama}</a>`;
-        } else {
-            t_project = `<span class="parent-project-desc">General</span>`
-        }
-
-        let date_mulai          = new Date(row.tanggal_mulai);
-        let t_tgl_mulai         = dateFormat(date_mulai);
-
-        let t_tgl_selesai;
-        if (row.tanggal_selesai !== null) {
-            // waktu
-            let temp_date           = new Date(row.tanggal_selesai);
-            t_tgl_selesai         = dateFormat(temp_date);
-            $('#prev_status').append(`Selesai`);
-
-        }else{
-            t_tgl_selesai = '-';
-            $('#prev_status').append(`On Progress`);
-        }
-        let result = type.filter(obj => {
-            return obj.id === row.type_file
-        })
-
-        $('#prev_thumbnail').attr('src',`${uri}/storage/${row.thumbnail}`);
-        $('#prev_thumbnail').attr('alt',`${row.title}`);
-        $('#prev_namaproject').append(`${row.title}`);
-        $('#prev_type').append(`${result[0].name}`);
-        $('#prev_project').append(`${t_project}`);
-        $('#prev_tglmulai').append(`${t_tgl_mulai}`);
-        $('#prev_tglselesai').append(`${t_tgl_selesai}`);
-
         const url = `${uri}/communication/views/content/${row.id}`
 
         $.ajax({
@@ -233,127 +166,26 @@
             type: 'post',
             beforeSend: function(xhr){
                 xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+                $('.senddataloader').show();
+                $('#content-preview-desc').empty();
             },
-            success: function () {
+            success: function (data) {
+                $('.senddataloader').hide();
+                $('#content-preview-desc').append(data.html);
+                $('#coloumnrow').append(data.col);
+                $('#modal-preview-1').modal({
+                    show : true
+                });
             },
             error: function () {
+                $('.senddataloader').hide();
                 Toast2.fire({icon: 'error',title: 'Gagal'});
             },
         })
-
-        $('#modal-preview-1').modal({
-            show : true
-        });
     }
 
     function dateFormat(date) {
         return date.getDate()+" "+ months[date.getMonth()]+" "+date.getFullYear();
-    }
-
-    function bytesToSize(bytes) {
-        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-        if (bytes == 0) return '0 Byte';
-        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-    }
-
-    function appendDesc(caption, data) {
-        let desc = `
-                <div class="col-md-12 d-block w-100 mb-4 mt-2">
-                    <div class="preview-desc-head">Caption</div>
-                    <div class="metodologi-isi wrap" id="prev_deskripsi">${caption}</div>
-                </div>
-                <div class="col-md-12 d-block w-100">
-                    <h6>Attachment</h6>
-                </div>
-                <div class="col-md-12 d-block w-100" style="margin-bottom: 4rem">
-                    <div class="row">
-                        <div class="col-md-10 col-sm-12">
-                            <div class="input-group control border-1 pencarian mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text border-0"><i class="fa fa-search" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                                <input type="text" style="border: none;" class="form-control" id="inlineFormInput-search" placeholder="Search files..">
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="padding-left: 8px;">
-                            <select style="border-radius: 8px;" class="form-control" id="select-file" name="select-file">
-                                <option value="" selected disabled>Sort by</option>
-                                <option value="name">Nama</option>
-                                <option value="date">Date Modified</option>
-                                <option value="size">Size</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-12" style="border: 2px solid #cccccc; border-radius: 8px">
-                                <div class="row" style="border-bottom: 2px solid #cccccc;padding: 4px;font-weight: bold">
-                                    <div class="col-md-9">Files</div>
-                                    <div class="col-md-2">Date Modified</div>
-                                    <div class="col-md-1">Size</div>
-                                </div>
-                                <div id="list-file" class="list-files"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `
-        $('#desc-preview').append(desc)
-        renderList(data)
-
-        $(`#inlineFormInput-search`).keypress(function (e) {
-            if (e.which === 13) {
-                let a = data.filter(i => i.name.toLowerCase().includes($(this).val().toLowerCase()))
-                renderList(a)
-            }
-        })
-
-        $(`#select-file`).on('change', function () {
-            let prop = $(this).val()
-            let sort;
-            if (prop === 'size') {
-                sort = data.sort(function (a,b) {
-                    return a[prop] - b[prop]
-                })
-            } else if (prop === 'name') {
-                sort = data.sort(function (a,b) {
-                    return a[prop].localeCompare(b[prop])
-                })
-            } else {
-                sort = data.sort(function (a,b) {
-                    return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0)
-                })
-            }
-            renderList(sort)
-        })
-
-        function renderList(data) {
-            let html = '';
-            for (let e in data) {
-                html += `
-                    <div class="row" style="padding: 2px; color: #2f80ed; border-bottom: 1px solid #cccccc; font-weight: 500">
-                        <div class="col-md-9 pl-4">
-                            <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="d-flex align-items-center cur-point" style="width: fit-content">
-                                <i class="fas fa-file mr-3"></i>${data[e].name}
-                            </div>
-                        </div>
-                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-2 cur-point">${dateFormat(data[e].date)}</div>
-                        <div onclick="downloadDoc('${data[e].name}', '${data[e].source}')" class="col-md-1 cur-point">${bytesToSize(data[e].size)}</div>
-                    </div>
-                `
-            }
-            $(`#list-file`).html(html)
-        }
-
-    }
-
-    function downloadDoc(name, source) {
-        window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
-    }
-
-    function toKatalog(short) {
-        localStorage.removeItem("fil_div");
-        localStorage.setItem("fil_div",short);
     }
 </script>
 

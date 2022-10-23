@@ -83,8 +83,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered dialog-preview" role="document">
         <div class="modal-content content-preview bg-transparent">
             <div class="w-100 d-flex justify-content-center align-items-center" id="content-preview">
-                <div class="bg-white bg-white w-100">
-                    @include('admin.managecomsupport.preview-content')
+                <div class="bg-white bg-white w-100" id="content-preview-desc">
                 </div>
             </div>
         </div>

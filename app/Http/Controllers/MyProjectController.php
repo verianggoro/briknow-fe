@@ -166,12 +166,15 @@ class MyProjectController extends Controller
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
                     $data = $hasil->data->data;
+                    $document = $data->document;
                     $role = session()->get('role', 0);
                     $mode = 'admin';
                     if(request()->ajax()) {
                         $view = view('myproject.preview',compact(['data','role','mode']))->render();
+                        $col = view('doc.document',compact('document'))->render();
                         return response()->json([
                             'html'=>$view,
+                            'col'=>$col,
                         ]);
                     }
                 }else{

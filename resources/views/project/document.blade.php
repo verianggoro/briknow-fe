@@ -10,7 +10,7 @@
             @if($doc->jenis_file == 'pdf' or $doc->jenis_file == 'jpg' or $doc->jenis_file == 'jpeg' or $doc->jenis_file == 'png' or $doc->jenis_file == 'gif' or $doc->jenis_file == 'txt')        
                 <button type="button" class="btn p-0 text-primary" data-toggle="modal" data-target="#preview-{{$doc->id}}">{{$doc->nama}}</button>
             @else
-                <a class="btn p-0 text-primary" href="{{Config::get('app.url').'storage/'.$doc->url_file}}">{{$doc->nama}}</a>
+                <a class="btn p-0 text-primary" href="{{Config::get('app.url').'storage/'.$doc->url_file}}" download="{{$doc->nama}}">{{$doc->nama}}</a>
             @endif
         </small>
         </td>

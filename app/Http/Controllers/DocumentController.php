@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\File as FacadesFile;
 use ZipArchive;
 
 class DocumentController extends Controller
@@ -85,6 +86,53 @@ class DocumentController extends Controller
         //
     }
 
+    public function doc_list(Request $request, $project,$id){
+        try {
+//            $search = str_replace(' ', '_', $search);
+
+            $query = '?order='.$request->get('order');
+            if($request->get('sort')) {
+                $query = $query.'&sort='.$request->get('sort');
+            }
+            if($request->get('search')) {
+                $query = $query.'&search='.$request->get('search');
+            }
+            $data        = [];
+            $token      = session()->get('token');
+            $ch         = curl_init();
+            $headers    = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/list/doc/$project/$id$query");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            // return response()->json($hasil);
+            if ($hasil->status == 1) {
+                $document  = $hasil->data;
+            }else{
+                $document   = [];
+            }
+        }catch (\Throwable $th) {
+            $document   = [];
+        }
+
+        if ($project != 'content' && $project != 'project') {
+            $step = $project;
+            $view = view('doc.document-imp',compact('document', 'step'))->render();
+        } else {
+            $view = view('doc.document',compact('document'))->render();
+        }
+        return response()->json([
+            'html'=>$view,
+        ]);
+    }
+
     public function downloadFile(Request $request) {
         $source = $request->get('source');
         $fileName = $request->get('file_name');
@@ -133,7 +181,11 @@ class DocumentController extends Controller
                     $fileName = 'attach_download.zip';
                     $fileNameDownload = "attach_".$data->type_file."-".\Str::slug($data->title)."-".now()->timestamp.".zip";
 
-                    if ($zip->open(public_path("storage/" . $fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+                    $path_zip = public_path("storage/".session()->get('personal_number').'/ex_content/');
+                    FacadesFile::deleteDirectory($path_zip);
+                    FacadesFile::makeDirectory($path_zip, 777, true, true);
+
+                    if ($zip->open(public_path("storage/".session()->get('personal_number').'/ex_content/' . $fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
                         foreach ($files as $key => $value) {
                             $relativeNameInZipFile = basename($value->tipe . "-" . $value->nama);
                             $zip->addFile(public_path('storage/' . $value->url_file), $relativeNameInZipFile);
@@ -146,10 +198,10 @@ class DocumentController extends Controller
                         "Authorization" => "Bearer $token",
                         'Content-Description' => 'File Transfer',
                         'Content-Type' => 'application/zip',
-                        'Content-Length' => filesize(public_path("storage/" . $fileName)),
+                        'Content-Length' => filesize(public_path("storage/".session()->get('personal_number').'/ex_content/' . $fileName)),
                     );
 
-                    return response()->download(public_path("storage/" . $fileName), $fileNameDownload, $headers)->deleteFileAfterSend(true);
+                    return response()->download(public_path("storage/".session()->get('personal_number').'/ex_content/' . $fileName), $fileNameDownload, $headers)->deleteFileAfterSend(true);
                 }else{
                     session()->flash('error',"Something Error, Try Again Please");
                     return back();
@@ -197,8 +249,12 @@ class DocumentController extends Controller
                     $fileNameSos = 'attach_sosialisasi.zip';
                     $fileNameDownload = "attach_implementation-".\Str::slug($data->title)."-".now()->timestamp.".zip";
 
+                    $path_zip = public_path("storage/".session()->get('personal_number').'/ex_imp/');
+                    FacadesFile::deleteDirectory($path_zip);
+                    FacadesFile::makeDirectory($path_zip, 777, true, true);
+
                     if (count($data->piloting) > 0) {
-                        if ($zip->open(public_path("storage/" . $fileNamePilot), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+                        if ($zip->open(public_path("storage/".session()->get('personal_number').'/ex_imp/' . $fileNamePilot), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
                             foreach ($data->piloting as $key => $value) {
                                 $relativeNameInZipFile = basename($value->tipe . "-" . $value->nama);
                                 $zip->addFile(public_path('storage/' . $value->url_file), $relativeNameInZipFile);
@@ -210,7 +266,7 @@ class DocumentController extends Controller
                     }
 
                     if (count($data->rollout) > 0) {
-                        if ($zip->open(public_path("storage/" . $fileNameRoll), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+                        if ($zip->open(public_path("storage/".session()->get('personal_number').'/ex_imp/' . $fileNameRoll), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
                             foreach ($data->rollout as $key => $value) {
                                 $relativeNameInZipFile = basename($value->tipe . "-" . $value->nama);
                                 $zip->addFile(public_path('storage/' . $value->url_file), $relativeNameInZipFile);
@@ -222,7 +278,7 @@ class DocumentController extends Controller
                     }
 
                     if (count($data->sosialisasi) > 0) {
-                        if ($zip->open(public_path("storage/" . $fileNameSos), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+                        if ($zip->open(public_path("storage/".session()->get('personal_number').'/ex_imp/' . $fileNameSos), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
                             foreach ($data->sosialisasi as $key => $value) {
                                 $relativeNameInZipFile = basename($value->tipe . "-" . $value->nama);
                                 $zip->addFile(public_path('storage/' . $value->url_file), $relativeNameInZipFile);
@@ -233,28 +289,27 @@ class DocumentController extends Controller
                         $zipFiles[] = $fileNameSos;
                     }
 
-
-                    if ($zip->open(public_path("storage/" . $fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+                    if ($zip->open(public_path("storage/".session()->get('personal_number').'/ex_imp/' . $fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
                         foreach ($zipFiles as $key => $value) {
                             $relativeNameInZipFile = basename($value);
-                            $zip->addFile(public_path('storage/' . $value), $relativeNameInZipFile);
+                            $zip->addFile(public_path('storage/'.session()->get('personal_number').'/ex_imp/' . $value), $relativeNameInZipFile);
                         }
 
                         $zip->close();
                     }
 
                     foreach ($zipFiles as $value) {
-                        File::delete(public_path("storage/".$value));
+                        File::delete(public_path("storage/".session()->get('personal_number').'/ex_imp/'.$value));
                     }
 
                     $headers = array(
                         "Authorization" => "Bearer $token",
                         'Content-Description' => 'File Transfer',
                         'Content-Type' => 'application/zip',
-                        'Content-Length' => filesize(public_path("storage/" . $fileName)),
+                        'Content-Length' => filesize(public_path("storage/".session()->get('personal_number').'/ex_imp/' . $fileName)),
                     );
 
-                    return response()->download(public_path("storage/" . $fileName), $fileNameDownload, $headers)->deleteFileAfterSend(true);
+                    return response()->download(public_path("storage/".session()->get('personal_number').'/ex_imp/' . $fileName), $fileNameDownload, $headers)->deleteFileAfterSend(true);
                 }else{
                     session()->flash('error',"Something Error, Try Again Please");
                     return back();
@@ -298,7 +353,11 @@ class DocumentController extends Controller
                     $fileName = 'attach_project.zip';
                     $fileNameDownload = "attach_project-".\Str::slug($data->nama)."-".now()->timestamp.".zip";
 
-                    if ($zip->open(public_path("storage/" . $fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+                    $path_zip = public_path("storage/".session()->get('personal_number').'/ex_proj/');
+                    FacadesFile::deleteDirectory($path_zip);
+                    FacadesFile::makeDirectory($path_zip, 777, true, true);
+
+                    if ($zip->open(public_path("storage/".session()->get('personal_number').'/ex_proj/' . $fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
                         foreach ($files as $key => $value) {
                             $relativeNameInZipFile = basename($value->nama);
                             $zip->addFile(public_path('storage/' . $value->url_file), $relativeNameInZipFile);
@@ -311,10 +370,10 @@ class DocumentController extends Controller
                         "Authorization" => "Bearer $token",
                         'Content-Description' => 'File Transfer',
                         'Content-Type' => 'application/zip',
-                        'Content-Length' => filesize(public_path("storage/" . $fileName)),
+                        'Content-Length' => filesize(public_path("storage/".session()->get('personal_number').'/ex_proj/' . $fileName)),
                     );
 
-                    return response()->download(public_path("storage/" . $fileName), $fileNameDownload, $headers)->deleteFileAfterSend(true);
+                    return response()->download(public_path("storage/".session()->get('personal_number').'/ex_proj/' . $fileName), $fileNameDownload, $headers)->deleteFileAfterSend(true);
                 }else{
                     session()->flash('error',"Something Error, Try Again Please");
                     return back();

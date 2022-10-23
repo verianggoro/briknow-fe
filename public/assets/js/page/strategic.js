@@ -1,8 +1,8 @@
 let $table = $('#table')
 let selections = [];
-var uri;
-var csrf = '';
-var be      = '';
+let uri;
+let csrf = '';
+let be      = '';
 
 const Toast2 = Swal.mixin({
     toast: true,
@@ -289,7 +289,7 @@ function hapus(e, a){
 
 function views(e, slug) {
     e.stopPropagation();
-    var url = `${uri}/myproject/preview2/`+slug;
+    let url = `${uri}/myproject/preview2/`+slug;
     $.ajax({
         url: url,
         headers: {'X-CSRF-TOKEN': csrf},
@@ -302,6 +302,7 @@ function views(e, slug) {
         success: function(data){
             $('.senddataloader').hide();
             $('.content-preview').append(data.html);
+            $('#coloumnrow').append(data.col);
             $('#modalpreview').modal({
                 show : true
             });
@@ -311,8 +312,4 @@ function views(e, slug) {
             alert(e);
         }
     });
-}
-
-function downloadDoc(name, source) {
-    window.location.href = uri+`/doc/download?source=${source}&file_name=${name}`;
 }

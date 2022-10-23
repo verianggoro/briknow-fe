@@ -660,3 +660,41 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
 .container-img:hover .img-com {
     opacity: 0.5;
 }
+
+
+.btn:disabled {
+    background: #bfc6cd !important;
+    border-color: transparent;
+}
+
+#table-attachment {
+    border-collapse: separate !important;
+    border: solid rgba(0, 0, 0, 0.2) 2px;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    width: 100%;
+}
+
+#th-attachment {
+    padding-left: 12px;
+    padding-right: 0;
+    border-color: inherit;
+    border-style: none !important;
+    border-width: 0;
+    border-bottom-width: 1px !important;
+    font-weight: 500 !important;
+}
+
+#td-attachment {
+    padding-left: 12px;
+    padding-right: 0;
+    border-bottom-width: 0px !important;
+    border-top-width: 1px !important;
+    color: #2F80ED;
+    font-size: 13px;
+    border: rgba(0, 0, 0, 0.2) solid 1px !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-bottom: none !important;
+    line-height: 26px;
+}

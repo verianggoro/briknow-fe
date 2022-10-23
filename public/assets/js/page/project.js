@@ -133,16 +133,21 @@ $("#search").submit(function(e){
 
 var centang = `<svg class="w-6 h-6 mr-2 centang float-right" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
 $("#baru").click(function(e){
-    $('.centang').remove();
-    sort = 'desc';
-    $('#baru').append(centang);
-    getData();
+    if (sort !== 'desc') {
+        $('#dropdownMenuLink').text('Terbaru')
+        $('.centang').remove();
+        sort = 'desc';
+        $('#baru').append(centang);
+        getData();
+    }
 });
 $("#lama").click(function(e){
-    $('.centang').remove();
-    sort = 'asc';
-    $('#lama').append(centang);
-    getData();
+    if (sort !== 'asc') {
+        $('.centang').remove();
+        sort = 'asc';
+        $('#lama').append(centang);
+        getData();
+    }
 });
 
 // favorite
