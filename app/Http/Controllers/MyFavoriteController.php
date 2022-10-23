@@ -154,4 +154,38 @@ class MyFavoriteController extends Controller
             'html'=>$view,
         ]);
     }
+
+    public function fav_com($sort = "asc"){
+        try {
+            $data        = [];
+            $token      = session()->get('token');
+            $ch         = curl_init();
+            $headers    = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/favorite_com/".$sort);
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            if ($hasil->status == 1) {
+                $data   = $hasil->data;
+            }else{
+                $data   = [];
+            }
+        }catch (\Throwable $th) {
+            $data   = [];
+        }
+
+        $data = $data->data;
+        $view = view('favorite.list3',compact('data'))->render();
+        return response()->json([
+            'html'=>$view,
+            'data'=>$data,
+        ]);
+    }
 }

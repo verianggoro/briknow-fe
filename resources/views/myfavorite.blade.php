@@ -23,6 +23,9 @@
                     <li class="nav-item">
                         <a class="nav-link" onclick="getData2()" id="consultant-tab" data-toggle="tab" href="#consultant" role="tab" aria-controls="consultant" aria-selected="false">Consultant</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="getData3()" id="comsupport-tab" data-toggle="tab" href="#comsupport" role="tab" aria-controls="comsupport" aria-selected="false">Communication Support</a>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-2 pl-0 border-bottom d-flex justify-content-end align-items-center">

@@ -724,7 +724,7 @@ $(document).ready(function () {
                                 <option value="date">Date Modified</option>
                                 <option value="size">Size</option>
                             </select>
-                            <div id="sort-${editor}" class="cur-point mb-3"><i class="fas fa-arrow-down mr-2"></i></div>
+                            <div id="sort-${editor}" class="cur-point mb-3"><i class="fas fa-sort-amount-down-alt mr-2"></i></div>
                         </div>
                     </div>
                     <div class="row">
@@ -750,11 +750,11 @@ $(document).ready(function () {
         $(`#sort-${editor}`).click(function () {
             if (sort === 'desc') {
                 $(`#sort-${editor}`).empty()
-                $(`#sort-${editor}`).append(`<i class="fas fa-arrow-down mr-2"></i>`)
+                $(`#sort-${editor}`).append(`<i class="fas fa-sort-amount-down-alt mr-2"></i>`)
                 sort = 'asc'
             } else {
                 $(`#sort-${editor}`).empty()
-                $(`#sort-${editor}`).append(`<i class="fas fa-arrow-up mr-2"></i>`)
+                $(`#sort-${editor}`).append(`<i class="fas fa-sort-amount-up-alt mr-2"></i>`)
                 sort = 'desc'
             }
             getData()

@@ -38,6 +38,32 @@ function saveFavCons(id){
     })
 };
 
+function saveFavCom(id){
+    var url = `${uri}/favoritcomsupport/${id}`;
+    $.ajax({
+        url: url,
+        type: "get",
+        success: function (data) {
+            if (typeof data.status !== "undefined") {
+                if (data.status == 1) {
+                    if (data.data.kondisi == 1) {
+                        getData3();
+                    }else{
+                        getData3();
+                    }
+                }else{
+                    alert('Proses Favorite Gagal, Coba lagi');
+                }
+            }else{
+                alert('Proses Favorite Gagal, Coba lagi');
+            }
+        },
+        error: function (e) {
+            alert('Proses Favorite Gagal, Coba lagi');
+        },
+    })
+}
+
 function migrasi(pesan) {
     var kopi = document.getElementById("link");
     kopi.value = pesan
@@ -79,17 +105,19 @@ function saveFavProj(id){
 var centang2 = `<svg class="w-6 h-6 mr-2 centang2 float-right" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
 $("#az").click(function(e){
     $('.centang2').remove();
-    if (sort == 'asc') {
+    if (sort === 'asc') {
         sort = 'asc';
     }else{
         sort = 'asc';
         $('#az').append(centang2);
     }
 
-    if (mode == 0) {
+    if (mode === 0) {
         getData();
-    }else{
+    }else if (mode === 1){
         getData2();
+    } else {
+        getData3()
     }
 });
 $("#za").click(function(e){
@@ -103,8 +131,10 @@ $("#za").click(function(e){
     
     if (mode == 0) {
         getData();
-    }else{
+    }else if (mode === 1){
         getData2();
+    } else {
+        getData3()
     }
 });
 
@@ -160,6 +190,32 @@ const getData2 = () =>{
         }
     });
     mode = 1;
+}
+
+function getData3(){
+    var url = `${uri}/fav_com/${sort}`;
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function()
+        {
+            $('.rowdoc').remove();
+            $('.senddataloader').show();
+        },
+        success: function(data){
+            if(data.html == "" || data.html == null){
+                $('.senddataloader').hide();
+                return;
+            }
+            $('.senddataloader').hide();
+            // innert html
+            $("#list").append(data.html);
+        },
+        error : function(e){
+            alert(e);
+        }
+    });
+    mode = 2;
 }
 
 getData();

@@ -356,7 +356,7 @@
                       <option value="created_at">Date Modified</option>
                       <option value="size">Size</option>
                   </select>
-                  <div id="sort" class="cur-point"><i class="fas fa-arrow-down mr-2"></i></div>
+                  <div id="sort" class="cur-point"><i class="fas fa-sort-amount-down-alt mr-2"></i></div>
               </div>
 
             </div>
