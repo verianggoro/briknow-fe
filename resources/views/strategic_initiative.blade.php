@@ -7,7 +7,7 @@
     <meta name="BE" content="{{ config('app.url_be') }}">
     <meta name="csrf" content="@yield('csrf',csrf_token())">
     <meta name="kunci" content="@yield('kunci','*')">
-    <title>@yield('title',config('app.name'))</title>
+    <title>@yield('title',"BRIKNOW")</title>
     <link rel="icon" type="image/png" href="{{asset_app('assets/img/logo/Logo BRI.png')}}"/>
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{asset_app('css/app.css')}}">
@@ -177,7 +177,7 @@
                             aria-controls="collapsedirectorat" class="dropdown-toggle">Direktorat</h5>
                         <ul class="collapse" id="collapsedirectorat">
                             <div class="row d-flex spacing-filter">
-                                <select name="direktorat" id="direktorat-lay" class="form-control text-black select2" data-live-search="true"
+                                <select name="direktorat" id="dir-strategic-init" class="form-control text-black select2" data-live-search="true"
                                         style="height: 44px" value="{{old('direktorat')}}">
                                     <option value="" disabled selected>Pilih Direktorat</option>
                                     @if(empty($direktorat))
@@ -190,17 +190,7 @@
                                 </select>
                             </div>
                             <div class="row d-flex spacing-filter">
-                                <select name="direktorat" id="direktorat" class="form-control text-black select2 mt-2" data-live-search="true"
-                                        style="height: 44px" value="{{old('direktorat')}}">
-                                    <option value="" disabled selected>Pilih Divisi</option>
-                                    @if(empty($divisiRes))
-                                        <option value="null" data-value="null">{{$divisi ?? 'NOT FOUND'}}</option>
-                                    @else
-                                        @foreach($divisiRes as $divContent)
-                                            <option value="{{$divContent->divisi }}" data-value="{{ $divContent->divisi }}">{{$divContent->divisi}}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
+                                <select id="divisi-strategic-init" class="mr-auto p-2 form-control select2" value="{{old('divisi')}}" name="divisi[]"></select>
                             </div>
                         </ul>
                     </div>
@@ -210,27 +200,27 @@
                         <ul class="collapse" id="collapsedate">
                             {{--                            foreach date--}}
                             <div class="row spacing-filter">
-                                <a role="button" class="btn-filter col-sm-3 m-1 ">2019</a>
-                                <a role="button" class="btn-filter col-sm-3 m-1 active">2020</a>
-                                <a role="button" class="btn-filter col-sm-3 m-1 ">2021</a>
-                                <a role="button" class="btn-filter col-sm-3 m-1 active">2022</a>
+                                <a onclick="getYearBtn('2019', 'btn-year-cominit1')" role="button" id="btn-year-cominit1" class="btn-filter col-sm-3 m-1 ">2019</a>
+                                <a onclick="getYearBtn('2020', 'btn-year-cominit2')" role="button" id="btn-year-cominit2" class="btn-filter col-sm-3 m-1">2020</a>
+                                <a onclick="getYearBtn('2021', 'btn-year-cominit3')" role="button" id="btn-year-cominit3" class="btn-filter col-sm-3 m-1">2021</a>
+                                <a onclick="getYearBtn('2022', 'btn-year-cominit4')" role="button" id="btn-year-cominit4" class="btn-filter col-sm-3 m-1">2022</a>
                             </div>
                             <div id="year-list" class="row spacing-filter">
                                 <p>Bulan</p>
                             </div>
                             <div class="row d-flex spacing-filter align-self-center">
-                                <a role="button" class="btn-filter col-sm-2 m-1">Jan</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1">Feb</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1">Mar</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 active">Apr</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1">Mei</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1">Jun</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 active">Jul</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Agu</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Sep</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Okt</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Nov</a>
-                                <a role="button" class="btn-filter col-sm-2 m-1 ">Des</a>
+                                <a onclick="getMonthBtn('01', 'btnMonth1')" id="btnMonth1" role="button" class="btn-filter col-sm-2 m-1">Jan</a>
+                                <a onclick="getMonthBtn('02', 'btnMonth2')" id="btnMonth2" role="button" class="btn-filter col-sm-2 m-1">Feb</a>
+                                <a onclick="getMonthBtn('03', 'btnMonth3')" id="btnMonth3" role="button" class="btn-filter col-sm-2 m-1">Mar</a>
+                                <a onclick="getMonthBtn('04', 'btnMonth4')" id="btnMonth4" role="button" class="btn-filter col-sm-2 m-1">Apr</a>
+                                <a onclick="getMonthBtn('05', 'btnMonth5')" id="btnMonth5" role="button" class="btn-filter col-sm-2 m-1">Mei</a>
+                                <a onclick="getMonthBtn('06', 'btnMonth6')" id="btnMonth6" role="button" class="btn-filter col-sm-2 m-1">Jun</a>
+                                <a onclick="getMonthBtn('07', 'btnMonth7')" id="btnMonth7" role="button" class="btn-filter col-sm-2 m-1">Jul</a>
+                                <a onclick="getMonthBtn('08', 'btnMonth8')" id="btnMonth8" role="button" class="btn-filter col-sm-2 m-1 ">Agu</a>
+                                <a onclick="getMonthBtn('09', 'btnMonth9')" id="btnMonth9" role="button" class="btn-filter col-sm-2 m-1 ">Sep</a>
+                                <a onclick="getMonthBtn('10', 'btnMonth10')" id="btnMonth10" role="button" class="btn-filter col-sm-2 m-1 ">Okt</a>
+                                <a onclick="getMonthBtn('11', 'btnMonth11')" id="btnMonth11" role="button" class="btn-filter col-sm-2 m-1 ">Nov</a>
+                                <a onclick="getMonthBtn('12', 'btnMonth12')" id="btnMonth12" role="button" class="btn-filter col-sm-2 m-1 ">Des</a>
                             </div>
                         </ul>
                     </div>
@@ -250,13 +240,14 @@
                             <div class="d-flex justify-content-between mt-3">
                                 <div class="mr-auto p-2">
                                     <div class="dropdown">
-                                        <button data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle">
+                                        <button id="btn-sort-comsup" data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle">
                                             Sort By
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-left">
-                                            <a class="dropdown-item" href="#">Judul</a>
-                                            <a class="dropdown-item" href="#">Tanggal</a>
-                                            <a class="dropdown-item" href="#">View</a>
+                                            <li onclick="sortingBy('sortInitStra')" id="sortInitStra" data-value="init" class="dropdown-item">Sort By</li>
+                                            <li onclick="sortingBy('titleSort')" id="titleSort" data-value="nama" class="dropdown-item" href="#">Judul</li>
+                                            <li onclick="sortingBy('createSort')" id="createSort" data-value="created_at" class="dropdown-item" href="#">Tanggal</li>
+{{--                                            <li onclick="sortingBy('viewSort')" id="viewSort" data-value="views" class="dropdown-item" href="#">View</li>--}}
                                         </ul>
                                     </div>
                                 </div>
@@ -276,10 +267,11 @@
                                     <label class="sr-only" for="inlineFormInputGroup">Title</label>
                                     <div class="input-group mb-2">
                                         <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control"
-                                               id="inlineFormInputGroup" placeholder="Cari...">
+                                               id="searchCominit" placeholder="Cari...">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;"><i
-                                                        class="fa fa-search fa-sm" aria-hidden="true"></i></div>
+                                            <div onclick="searchCominit()" class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                                                <i class="fa fa-search fa-sm" aria-hidden="true"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -287,25 +279,27 @@
                             <br/>
                             <div class="row">
                                 @if(empty($data))
-                                    <div class="container-fluid">
+                                    <div id="card-content-empty" class="container-fluid">
                                         <div class="p-2">
                                             <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
                                         </div>
                                     </div>
                                 @else
-                                    @foreach($data as $content)
-                                        <div class="col-lg-4 d-flex justify-content-center">
-                                            <a href="{{route('mycomsupport.strategic.type', $content->slug)}}">
-                                                <div class="card" style="border-radius: 16px; width: 30rem">
-                                                    <img class="card-img-up" src="{{asset('storage/'.$content->thumbnail)}}"
-                                                         alt="Card image cap">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title text-center">{{$content->nama}}</h5>
+                                    <div id="card-content-strategic" class="w-100 d-flex">
+                                        @foreach($data as $content)
+                                            <div class="col-lg-4 d-flex justify-content-center">
+                                                <a class="w-100" href="{{route('mycomsupport.strategic.type', $content->slug)}}">
+                                                    <div class="card" style="border-radius: 16px;">
+                                                        <img class="card-img-up" src="{{asset('storage/'.$content->thumbnail)}}"
+                                                             alt="Card image cap">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title text-center">{{$content->nama}}</h5>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    @endforeach
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -400,5 +394,6 @@
 <script src="{{asset_app('assets/js/temp/scripts.js')}}"></script>
 <script src="{{asset_app('assets/js/temp/custom.js')}}"></script>
 <script src="{{asset_app('assets/js/page/notification.js')}}"></script>
+<script src="{{asset_app('assets/js/page/strategic-public.js')}}"></script>
 
 </body>

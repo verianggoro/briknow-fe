@@ -95,7 +95,8 @@ class AuthController extends Controller
                     session($temp);
                     session(['logged_in' => true]);
                     Session::flash('term', true);
-
+                    setcookie('token', $temp['token'], 0, "/", "");
+                    setcookie('url_be', config('app.url_be'), 0, "/", "");
                     return redirect('/');
                 }else{
                     if ($hasil->status == 0 && isset($hasil->data->validator)) {

@@ -35,7 +35,7 @@ function getCookie(cname) {
 }
 
 function getData(page, year, month, divisi, sort, search){
-    const url = `${getCookie('url_be')}api/get/communicationinitiative/publish/${lastpath}?page=${page}&year=${year}&month=${month}&divisi=${divisi}&sort=${sort}&search=${search}`
+    const url = `${getCookie('url_be')}api/get/strategic/publish?year=${year}&month=${month}&divisi=${divisi}&sort=${sort}&search=${search}`
     $.ajax({
         url: url,
         type: "get",
@@ -45,33 +45,22 @@ function getData(page, year, month, divisi, sort, search){
         },
         success: function(data){
             $('.senddataloader').hide();
-            if(data.data === undefined || data.data.length !== 0){
-                for (let index=0; index < data.data.data.length; index++){
-                    document.getElementById('card-content-cominit').innerHTML = `<div class="col-lg-4 d-flex justify-content-center">
-                                            <a href="{{route('view.comsup')}}" target="_blank">
-                                                <div class="card" style="border-radius: 16px">
-                                                    <img class="card-img-up"
-                                                         src="${uri+'/storage/'+data.data.data[index].thumbnail}"
-                                                         alt="Card image cap">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">${data.data.data[index].title}</h5>
-                                                        <p>${data.data.data[index].desc.substring(0,100)}</p>
-                                                        <div class="d-flex justify-content-between">
-                                                            <i class="mr-auto p-2 fas fa-eye">
-                                                                <span>${data.data.data[index].views}</span>
-                                                            </i>
-                                                            <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
-                                                            <button class="btn fas fa-share-square p-2"
-                                                                    style="font-size: 20px"></button>
-                                                            <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
+            if (data.data !== undefined || data.data.length !== 0){
+                for (let index=0; index < data.data.length; index++){
+                    document.getElementById('card-content-strategic').innerHTML = `<div class="col-lg-4 d-flex justify-content-center">
+                                                <a class="w-100" href="{{route('mycomsupport.strategic.type', $content->slug)}}">
+                                                    <div class="card" style="border-radius: 16px;">
+                                                        <img class="card-img-up" src="${uri+'/storage/'+data.data[index].thumbnail}"
+                                                             alt="Card image cap">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title text-center">${data.data[index].nama}</h5>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </a>
-                                        </div>`
+                                                </a>
+                                            </div>`
                 }
             }else{
-                document.getElementById('card-content-cominit').innerHTML = `<div class="p-2">
+                document.getElementById('card-content-strategic').innerHTML = `<div class="p-2">
                                             <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
                                         </div>`
             }
@@ -84,30 +73,30 @@ function getData(page, year, month, divisi, sort, search){
 
 $(document).ready(function () {
 
-    $('#direktorat-com-init').select2({
+    $('#dir-strategic-init').select2({
         placeholder: 'Pilih Direktorat'
     });
 
-    $('#divisi-com-init').select2({
+    $('#divisi-strategic-init').select2({
         placeholder: 'Pilih Unit Kerja'
     });
 })
 
-$('#direktorat-com-init').on('select2:select', function (e) {
+$('#dir-strategic-init').on('select2:select', function (e) {
     cekDivisi('select', e.params.data.id)
 })
 
-$('#direktorat-com-init').on('select2:unselect', function(e){
+$('#dir-strategic-init').on('select2:unselect', function(e){
     cekDivisi('unselect', e.params.data.id)
 });
 
-$('#divisi-com-init').on('select2:select', function (e) {
+$('#divisi-strategic-init').on('select2:select', function (e) {
     divisiParam = e.params.data.id
     getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
 })
 
 const cekDivisi = (selOrUn, value) => {
-    if($('#divisi-com-init').hasClass('is-invalid') || $('#divisi-com-init').hasClass('is-valid')){
+    if($('#divisi-strategic-init').hasClass('is-invalid') || $('#divisi-strategic-init').hasClass('is-valid')){
         if(this.value == ""){
             $("[aria-labelledby='select2-direktorat-container']").attr("style", "border-color:red;");
         }else{
@@ -140,9 +129,9 @@ const cekDivisi = (selOrUn, value) => {
                     if (selOrUn === 'select') {
                         // div_short.push(data.data[index].shortname)
                         //option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
-                        $('#divisi-com-init').append(`<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`);
+                        $('#divisi-strategic-init').append(`<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`);
                     } else {
-                        $(`#divisi-com-init option[value="${data.data[index].id}"]`).detach();
+                        $(`#divisi-strategic-init option[value="${data.data[index].id}"]`).detach();
                         // div_short.push(data.data[index].shortname)
                         //option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
                         //$('#divisi').append(`<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`);

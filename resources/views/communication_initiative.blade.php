@@ -275,7 +275,7 @@
                             <br/>
                             <div class="row">
                                 @if(empty($data))
-                                    <div class="container-fluid">
+                                    <div id="card-content-empty" class="container-fluid">
                                         <div class="p-2">
                                             <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
                                         </div>
