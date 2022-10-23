@@ -34,7 +34,7 @@ $(document).ready(function(){
 
     $("#search-pilot").submit(function(e){
         if (!e.isDefaultPrevented()){
-            var tampung = e.target[0].value;
+            let tampung = e.target[0].value;
             if (tampung == "" || !tampung.trim().length) {
                 search['piloting'] = "*";
             }else{
@@ -66,7 +66,7 @@ $(document).ready(function(){
 
     $("#search-roll").submit(function(e){
         if (!e.isDefaultPrevented()){
-            var tampung = e.target[0].value;
+            let tampung = e.target[0].value;
             if (tampung == "" || !tampung.trim().length) {
                 search['rollout'] = "*";
             }else{
@@ -98,7 +98,7 @@ $(document).ready(function(){
 
     $("#search-sos").submit(function(e){
         if (!e.isDefaultPrevented()){
-            var tampung = e.target[0].value;
+            let tampung = e.target[0].value;
             if (tampung == "" || !tampung.trim().length) {
                 search['sosialisasi'] = "*";
             }else{
@@ -136,7 +136,7 @@ $(document).ready(function(){
         if (sort[step]) {
             query += `&sort=${sort[step]}`
         }
-        var url = `${uri}/list_doc/${step}/${id_project}${query}`;
+        let url = `${uri}/list_doc/${step}/${id_project}${query}`;
         $.ajax({
             url: url,
             type: "get",
@@ -156,6 +156,7 @@ $(document).ready(function(){
 
                 // set default input form
                 $(`#btn-archive-${step}`).attr('disabled',true);
+                $(`#allcheck-${step}`).prop('checked',false);
             },
             error : function(e){
                 $('.senddataloader').hide();
@@ -176,8 +177,8 @@ function allCheckChange(step) {
 
 function archive(step) {
     const files = $(`input[name=file-${step}]`);
-    var tampung = [];
-    var urut = 0;
+    let tampung = [];
+    let urut = 0;
     for (let i = 0; i < files.length; i++) {
         if (files[i].checked === true) {
             tampung[urut] = files[i].value;
@@ -185,11 +186,11 @@ function archive(step) {
         }
     }
 
-    var data_send = {
+    let data_send = {
         "data":tampung
     };
 
-    var url = `${uri}/archive`;
+    let url = `${uri}/archive`;
     $.ajax({
         url: url,
         headers: {'X-CSRF-TOKEN': csrf},

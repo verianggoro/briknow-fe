@@ -96,6 +96,7 @@ class MyProjectController extends Controller
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
                     $data = $hasil->data->data;
+                    $document = $data->document;
 
                     if (session()->get('role') <> 3) {
                         $role = 0;
@@ -118,8 +119,10 @@ class MyProjectController extends Controller
                         }
 
                         $view = view('myproject.preview',compact(['data','role']))->render();
+                        $col = view('doc.document',compact('document'))->render();
                         return response()->json([
                             'html'=>$view,
+                            'col'=>$col,
                         ]);
                     }
                 }else{

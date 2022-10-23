@@ -1,11 +1,11 @@
 $(document).ready(function(){
-    var search = "*";
-    var uri;
-    var order = 'asc';
-    var sort = 'created_at';
-    var csrf = '';
-    var id_project = '';
-    var project = '';
+    let search = "*";
+    let uri;
+    let order = 'asc';
+    let sort = 'created_at';
+    let csrf = '';
+    let id_project = '';
+    let project = '';
 
 // meta url
     const metass = document.getElementsByTagName('meta');
@@ -45,8 +45,8 @@ $(document).ready(function(){
 
     $("#btn-archive").click(function(e){
         const files = document.getElementsByClassName('file');
-        var tampung = [];
-        var urut = 0;
+        let tampung = [];
+        let urut = 0;
         for (let i = 0; i < files.length; i++) {
             if (files[i].checked === true) {
                 tampung[urut] = files[i].value;
@@ -54,11 +54,11 @@ $(document).ready(function(){
             }
         }
 
-        var data_send = {
+        let data_send = {
             "data":tampung
         };
 
-        var url = `${uri}/archive`;
+        let url = `${uri}/archive`;
         $.ajax({
             url: url,
             headers: {'X-CSRF-TOKEN': csrf},
@@ -86,7 +86,7 @@ $(document).ready(function(){
 
     $("#search").submit(function(e){
         if (!e.isDefaultPrevented()){
-            var tampung = e.target[0].value;
+            let tampung = e.target[0].value;
             if (tampung == "" || !tampung.trim().length) {
                 search = "*";
             }else{
@@ -124,7 +124,7 @@ $(document).ready(function(){
         if (sort) {
             query += `&sort=${sort}`
         }
-        var url = `${uri}/list_doc/${project}/${id_project}${query}`;
+        let url = `${uri}/list_doc/${project}/${id_project}${query}`;
         $.ajax({
             url: url,
             type: "get",
@@ -141,6 +141,7 @@ $(document).ready(function(){
                 $('.senddataloader').hide();
                 // innert html
                 $("#coloumnrow").append(data.html);
+                $(`#allcheck`).prop('checked',false);
 
                 // set default input form
                 $("#btn-archive").attr('disabled',true);
