@@ -80,6 +80,10 @@ table {
     height: 395px;
 }
 
+#sideBarComsup , #mainContent {
+    overflow-y: scroll;
+}
+
 #th-attachment, #td-attachment{
     text-align : left;
 }
