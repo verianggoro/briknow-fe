@@ -45,9 +45,10 @@ function getData(page, year, month, divisi, sort, search){
         },
         success: function(data){
             $('.senddataloader').hide();
+            $("#card-content-cominit").html("");
             if(data.data === undefined || data.data.length !== 0){
                 for (let index=0; index < data.data.data.length; index++){
-                    document.getElementById('card-content-cominit').innerHTML = `<div class="col-lg-4 d-flex justify-content-center">
+                    $("#card-content-cominit").append(`<div class="col-lg-4 d-flex justify-content-center">
                                             <a href="{{route('view.comsup')}}" target="_blank">
                                                 <div class="card" style="border-radius: 16px">
                                                     <img class="card-img-up"
@@ -68,12 +69,12 @@ function getData(page, year, month, divisi, sort, search){
                                                     </div>
                                                 </div>
                                             </a>
-                                        </div>`
+                                        </div>`);
                 }
             }else{
-                document.getElementById('card-content-cominit').innerHTML = `<div class="p-2">
+                $("#card-content-cominit").append(`<div class="p-2">
                                             <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
-                                        </div>`
+                                        </div>`)
             }
         },
         error : function(e){

@@ -47,9 +47,10 @@ function getData(page, year, month, divisi, sort, search){
         },
         success: function(data){
             $('.senddataloader').hide();
+            $("#card-content-strategic").html("");
             if (data.data !== undefined || data.data.length !== 0){
                 for (let index=0; index < data.data.length; index++){
-                    document.getElementById('card-content-strategic').innerHTML = `<div class="col-lg-4 d-flex justify-content-center">
+                    $('#card-content-strategic').append(`<div class="col-lg-4 d-flex justify-content-center">
                                                 <a class="w-100" href="{{route('mycomsupport.strategic.type', $content->slug)}}">
                                                     <div class="card" style="border-radius: 16px;">
                                                         <img class="card-img-up" src="${uri+'/storage/'+data.data[index].thumbnail}"
@@ -59,12 +60,12 @@ function getData(page, year, month, divisi, sort, search){
                                                         </div>
                                                     </div>
                                                 </a>
-                                            </div>`
+                                            </div>`);
                 }
             }else{
-                document.getElementById('card-content-strategic').innerHTML = `<div class="p-2">
+                $('#card-content-strategic').append(`<div class="p-2">
                                             <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
-                                        </div>`
+                                        </div>`);
             }
         },
         error : function(e){
@@ -84,73 +85,79 @@ function getDataByProject(page, year, month, divisi, sort, search){
         },
         success: function(data){
             $('.senddataloader').hide();
-            console.log("JANCOOKK INI APA "+JSON.stringify(data.data.content));
             if (data.data.content !== undefined || data.data.content.length !== 0){
                 for (let index=0; index < data.data.content.length; index++){
                     for (let index2=0; index2 < data.data.content[index].data.length; index2++){
                         if (data.data.content[index].id === 'article'){
-                            document.getElementById('ContentArticle').innerHTML = `<div class="col-2 justify-content-center">
+                            $("#ContentArticle").html("");
+                            $("#ContentArticle").append(`<div class="col-2 justify-content-center">
                                                         <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
                                                             </div>
                                                         </a>
-                                                    </div>`
+                                                    </div>`);
                         }else if(data.data.content[index].id === 'video'){
-                            document.getElementById('ContentVideo').innerHTML = `<div class="col-2 justify-content-center">
+                            $("#ContentVideo").html("");
+                            $("#ContentVideo").append(`<div class="col-2 justify-content-center">
                                                         <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
                                                             </div>
                                                         </a>
-                                                    </div>`
+                                                    </div>`);
                         }else if(data.data.content[index].id === 'podcast'){
-                            document.getElementById('ContentPodcast').innerHTML = `<div class="col-2 justify-content-center">
+                            $("#ContentPodcast").html("");
+                            $("#ContentPodcast").append(`<div class="col-2 justify-content-center">
                                                         <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
                                                             </div>
                                                         </a>
-                                                    </div>`
+                                                    </div>`);
                         }else if(data.data.content[index].id === 'instagram'){
-                            document.getElementById('ContentIg').innerHTML = `<div class="col-2 justify-content-center">
+                            $("#ContentIg").html("");
+                            $("#ContentIg").append(`<div class="col-2 justify-content-center">
                                                         <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
                                                             </div>
                                                         </a>
-                                                    </div>`
+                                                    </div>`);
                         }else if(data.data.content[index].id === 'transformation'){
-                            document.getElementById('ContentTrans').innerHTML = `<div class="col-2 justify-content-center">
+                            $("#ContentTrans").html("");
+                            $("#ContentTrans").append(`<div class="col-2 justify-content-center">
                                                         <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
                                                             </div>
                                                         </a>
-                                                    </div>`
+                                                    </div>`);
                         }else if(data.data.content[index].id === 'logo'){
-                            document.getElementById('ContentLogo').innerHTML = `<div class="col-2 justify-content-center">
+                            $("#ContentLogo").html("");
+                            $("#ContentLogo").append(`<div class="col-2 justify-content-center">
                                                         <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
                                                             </div>
                                                         </a>
-                                                    </div>`
+                                                    </div>`);
                         }else if(data.data.content[index].id === 'infographics'){
-                            document.getElementById('ContentInfo').innerHTML = `<div class="col-2 justify-content-center">
+                            $("#ContentInfo").html("");
+                            $("#ContentInfo").append(`<div class="col-2 justify-content-center">
                                                         <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
                                                             </div>
                                                         </a>
-                                                    </div>`
+                                                    </div>`);
                         }
                     }
                 }
@@ -177,10 +184,10 @@ function getDataByContent(page, year, month, divisi, sort, search){
         },
         success: function(data){
             $('.senddataloader').hide();
-            console.log("JANCOOKK INI APA "+JSON.stringify(data));
+            $("#card-content-strategic").html("");
             if (data.data !== undefined || data.data.length !== 0){
                 for (let index=0; index < data.data.length; index++) {
-                    document.getElementById('card-content-strategic').innerHTML = `<div class="col-lg-4 d-flex justify-content-center">
+                    $("#card-content-strategic").append(`<div class="col-lg-4 d-flex justify-content-center">
                                         <a href="#" target="_blank" style="width: inherit">
                                             <div class="card" style="border-radius: 16px;">
                                                 <img class="card-img-up"
@@ -200,12 +207,12 @@ function getDataByContent(page, year, month, divisi, sort, search){
                                                 </div>
                                             </div>
                                         </a>
-                                    </div>`
+                                    </div>`);
                 }
             }else{
-                document.getElementById('card-content-strategic').innerHTML = `<div class="p-2">
+                $("#card-content-strategic").append(`<div class="p-2">
                                             <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
-                                        </div>`
+                                        </div>`)
             }
         },
         error : function(e){
