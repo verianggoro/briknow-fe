@@ -249,7 +249,7 @@ const renderChartProjectK = (data) => {
         // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
         series.columns.template.strokeWidth = 0;
         series.columns.template.tooltipHTML =
-            `<a class="text-decoration-none" href="${uri}/katalog" target="_blank" onclick="toKatalogK('{categoryX}')" onmousedown="toKatalogK('{categoryX}')" oncontextmenu="toKatalogK('{categoryX}')"><b>{categoryX} : {valueY}</b></a>`;
+            `<a class="text-decoration-none" href="${uri}/katalog" target="_blank" onmousedown="toKatalogK('{categoryX}')"><b>{categoryX} : {valueY}</b></a>`;
         // series.columns.template.tooltipHTML = '<a class="text-decoration-none" href="{urlField}" target="_blank"><b>{categoryX} : {valueY}</b></a>';
         
         series.tooltip.pointerOrientation = "vertical";
@@ -356,7 +356,7 @@ const renderChartProjectD = (data) => {
         // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
         series.columns.template.strokeWidth = 0;
         series.columns.template.tooltipHTML =
-            `<a class="text-decoration-none" href="${uri}/katalog" target="_blank" onclick="toKatalogD('{categoryX}')" onmousedown="toKatalogD('{categoryX}')" oncontextmenu="toKatalogD('{categoryX}')"><b>{categoryX} : {valueY}</b></a>`;
+            `<a class="text-decoration-none" href="${uri}/katalog" target="_blank" onmousedown="toKatalogD('{categoryX}')"><b>{categoryX} : {valueY}</b></a>`;
         
         series.tooltip.pointerOrientation = "vertical";
         
@@ -448,7 +448,7 @@ const renderChartProjectT = (data) => {
     series.tooltip.label.interactionsEnabled = true;
     series.tooltip.keepTargetHover = true;
     // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
-    series.tooltipHTML = `<a class="text-decoration-none" href="${uri}/katalog" target="_blank" onclick="toKatalogT('{categoryX}')" onmousedown="toKatalogT('{categoryX}')" oncontextmenu="toKatalogT('{categoryX}')"><b>{valueY}</b></a>`;
+    series.tooltipHTML = `<a class="text-decoration-none" href="${uri}/katalog" target="_blank" onmousedown="toKatalogT('{categoryX}')"><b>{valueY}</b></a>`;
 
     // Add vertical scrollbar
     chart.scrollbarX = new am4core.Scrollbar();

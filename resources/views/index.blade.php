@@ -214,7 +214,7 @@
                       <div class="owl-carousel owl-theme">
                           @forelse($recominitiative as $item)
                               <div class="px-2 item w-100 p-0">
-                                  <a href="{{route('project.index',$item->slug)}}" class="text-decoration-none text-dark">
+                                  <a href="{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}" class="text-decoration-none text-dark">
                                       <div class="card bg-6sa6ss sh-a22l" style="border-radius: 16px">
                                           <img class="card-img-up" style="max-width: 100%; height: auto" src="{{ asset('storage/'.$item->thumbnail)}}" alt="Card image cap">
                                           <div class="card-body">

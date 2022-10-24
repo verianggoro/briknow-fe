@@ -698,3 +698,45 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
     border-bottom: none !important;
     line-height: 26px;
 }
+
+.mySlides {display: none}
+
+.fades {
+    animation-name: fade;
+    animation-duration: 1s;
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: #2b2b2b;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+.prev {
+    left: 10%;
+}
+.next {
+    right: 10%;
+    border-radius: 3px 0 0 3px;
+}
+.prev:hover, .next:hover {
+    background-color: rgba(220, 220, 220,0.5);
+    color: #333333;
+    text-decoration: none;
+}
+@media only screen and (max-width: 300px) {
+    .prev, .next,.text {font-size: 11px}
+}

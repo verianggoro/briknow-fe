@@ -9,6 +9,10 @@ var monthParam = "";
 var divisiParam = "";
 var sortParam = "";
 var keywordParam = "";
+const urlParam = new URLSearchParams(window.location.search)
+const slug = urlParam.get('slug')
+
+let slideIndex = 1;
 
 const metas = document.getElementsByTagName('meta');
 var lastpath = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
@@ -91,7 +95,14 @@ function getData(page, year, month, divisi, sort, search){
                                         </div>`);
                 }
 
-                // $("#prev").append(data.prev);
+                if (slug) {
+                    const datas = data.data.find(i => i.slug === slug)
+                    if (datas) {
+                        openPreview(datas.id)
+                    } else {
+                        Toast2.fire({icon: 'error',title: 'Content tidak ditemukan!'});
+                    }
+                }
             }else{
                 $("#card-content-cominit").append(`<div class="p-2">
                                             <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
@@ -126,6 +137,8 @@ function openPreview(id) {
             $('#preview').modal({
                 show : true
             });
+
+            showSlides(slideIndex);
         },
         error: function () {
             $('.senddataloader').hide();
@@ -295,5 +308,20 @@ function kopas() {
     kopi.select();
     kopi.setSelectionRange(0, 99999);
     document.execCommand("copy");
+}
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slides[slideIndex-1].style.display = "block";
 }
 

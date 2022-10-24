@@ -1039,4 +1039,31 @@ class ManageComSupport extends Controller
             return back()->withInput();
         }
     }
+
+    function downloadFile($table, $id) {
+        try {
+            $token = session()->get('token');
+            $ch = curl_init();
+            $headers = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token",
+            ];
+            curl_setopt($ch, CURLOPT_URL, config('app.url_be') . "api/download/attach/$table/$id");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result = curl_exec($ch);
+            $hasil = json_decode($result);
+
+            return response()->json([
+                "status"    => 1,
+                "data"      => $hasil->data,
+            ],200);
+        } catch (\Throwable $th) {
+            session()->flash('error', "Something Error, Try Again Please");
+            return back();
+        }
+    }
 }

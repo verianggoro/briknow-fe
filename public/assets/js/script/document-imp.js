@@ -175,7 +175,7 @@ function allCheckChange(step) {
     klik(step);
 }
 
-function archive(step) {
+function archive(step, id) {
     const files = $(`input[name=file-${step}]`);
     let tampung = [];
     let urut = 0;
@@ -205,6 +205,7 @@ function archive(step) {
                 alert('Gagal Mengarchieve File');
             }else{
                 window.open(data , '_blank');
+                downloadFile('implementation', id)
                 $('.senddataloader').hide();
                 $(`.file-${step}`).prop('checked',false);
                 $(`input[name=file-${step}]`).prop('checked',false);
@@ -252,4 +253,27 @@ function unaktif_archive(step) {
     $(`#btn-archive-${step}`).addClass('btn-secondary')
     $(`#btn-archive-${step}`).attr('disabled',true);
     $(`#allcheck-${step}`).prop('checked',false);
+}
+
+function docClick(doc) {
+    if (doc.implementation_id) {
+        downloadFile('implementation', doc.implementation_id)
+    }
+}
+
+function downloadFile(tipe, id) {
+    const url = `${uri}/communication/download/${tipe}/${id}`
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+        },
+        success: function () {
+        },
+        error: function () {
+            Toast2.fire({icon: 'error',title: 'Gagal'});
+        },
+    })
 }

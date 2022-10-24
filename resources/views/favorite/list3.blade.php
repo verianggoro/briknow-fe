@@ -20,7 +20,7 @@
                     </a>
                 </div>
                 <div class="col-xs-9 col-sm-9 col-md-7 col-lg-8 pl-1">
-                    <a href="{{route('project.index', $fav->project->id)}}" target="_blank" style="text-decoration: none;">
+                    <a href="{{route('mycomsupport.initiative.type', [$fav->type_file, 'slug' => $fav->slug])}}" target="_blank" style="text-decoration: none;">
                         <div class="card-body content-project">
                             <span class="d-block text-dark header-list-project">{{!empty($fav->title)?$fav->title:"-"}}</span>
                             <p class="ven-proj">{{!empty($fav->type_file)?\Str::limit($type_list[$fav->type_file],22 ,'..'):"-"}}</p>
@@ -32,7 +32,7 @@
                     <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                         <div id="panel_favorite">
                             <i class="fas fa-star mr-1 gold" onclick="saveFavCom({{$fav->id}})" id="star"></i>
-                            <i class="fas fa-share-alt mr-1" data-toggle="modal" data-target="#berbagi" onclick="migrasi('Eh, liat Konten ini deh. {{$fav->title}} di BRIKNOW. &nbsp;')"></i>
+                            <i class="fas fa-share-alt mr-1" data-toggle="modal" data-target="#berbagi" onclick="migrasi('Eh, liat Konten ini deh. {{$fav->title}} di BRIKNOW. &nbsp;{{route('mycomsupport.initiative.type', [$fav->type_file, 'slug' => $fav->slug])}}')"></i>
                         </div>
                     </div>
                 </div>

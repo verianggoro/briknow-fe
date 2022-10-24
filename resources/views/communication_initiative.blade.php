@@ -275,43 +275,6 @@
                             <br/>
                             <div class="row">
                                 <div id="card-content-cominit" class="w-100 d-flex"></div>
-                                {{--@if(empty($data))
-                                    <div id="card-content-empty" class="container-fluid">
-                                        <div class="p-2">
-                                            <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
-                                        </div>
-                                    </div>
-                                @else
-                                    <div id="card-content-cominit" class="w-100 d-flex">
-                                    @foreach($data as $content)
-                                        <div class="col-lg-4 d-flex justify-content-center">
-                                            <div class="card" style="border-radius: 16px">
-                                                <button type="button" class="btn p-0 text-primary" data-toggle="modal" data-target="#preview">
-                                                    <img class="card-img-up"
-                                                         src="{{asset('storage/'.$content->thumbnail)}}"
-                                                         alt="Card image cap">
-                                                </button>
-                                                <div class="card-body">
-                                                    <button type="button" class="btn p-0 text-primary" data-toggle="modal" data-target="#preview">
-                                                        <h5 class="card-title">{{$content->title}}</h5>
-                                                    </button>
-                                                    {!! \Illuminate\Support\Str::limit($content->desc, 100, '...') !!}
-                                                    <div class="d-flex justify-content-between">
-                                                        <i class="mr-auto p-2 fas fa-eye">
-                                                            <span>{{$content->views}}</span>
-                                                        </i>
-                                                        <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
-                                                        <button class="btn fas fa-share-square p-2"
-                                                                style="font-size: 20px"></button>
-                                                        <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                        <div id="prev"></div>
-                                    </div>
-                                @endif--}}
                             </div>
                         </div>
                     </div>

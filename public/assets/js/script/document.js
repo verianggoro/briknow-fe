@@ -72,6 +72,7 @@ $(document).ready(function(){
                 if (data == false) {
                     alert('Gagal Mengarchieve File');
                 }else{
+                    downloadFile('content', id_project)
                     window.open(data , '_blank');
                     $('.senddataloader').hide();
                     $('.file').prop('checked',false);
@@ -194,4 +195,27 @@ function unaktif_archive() {
     $('#btn-archive').addClass('btn-secondary')
     $('#btn-archive').attr('disabled',true);
     $('#allcheck').prop('checked',false);
+}
+
+function docClick(doc) {
+    if (doc.com_id) {
+        downloadFile(doc.tipe, doc.com_id)
+    }
+}
+
+function downloadFile(tipe, id) {
+    const url = `${uri}/communication/download/${tipe}/${id}`
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+        },
+        success: function () {
+        },
+        error: function () {
+            Toast2.fire({icon: 'error',title: 'Gagal'});
+        },
+    })
 }
