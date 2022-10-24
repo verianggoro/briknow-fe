@@ -11,13 +11,15 @@
 @endpush
 
 @push('page-script')
-    <script src="{{asset_app('assets/js/page/mproject.js')}}"></script>
+    <script src="{{asset_app('assets/js/page/view-implementation.js')}}"></script>
+    <script src="{{asset_app('assets/js/script/document-imp.js')}}"></script>
 @endpush
 
 @section('breadcumb', 'Implementation')
 @section('back', route('home'))
 
 @section('content')
+    <input type="hidden" id="id_project" value="{{$data->id}}">
     <div class="row judul mt-4">
         <div class="col-md-2 col-sm-12 d-flex justify-content-center mb-2">
             <img src="{{asset('storage/'.$data->thumbnail)}}" alt="" id="prev_thumbnail" class="img-detail">
@@ -126,159 +128,147 @@
         </div>
         <div class="col-lg-9 col-md-8 col-sm-12 px-0 text-justify metodologi">
             <div class="row">
-                <div class="col-md-12 d-block w-100 mb-4 mt-2">
-                    <div style="background-color: #0a53be; border-radius: 5px; padding: 3px;">
-                        <h6 class="text-white mt-1">Piloting</h6>
+                @if($data->desc_piloting)
+                    <div class="col-md-12 d-block w-100 mb-4 mt-2">
+                        <div style="background-color: #0a53be; border-radius: 5px; padding: 8px;">
+                            <h6 class="text-white" style="margin: auto 0">Piloting</h6>
+                        </div>
+                        <div class="metodologi-isi wrap"><p>{!! !empty($data->desc_piloting)?$data->desc_piloting:"-"!!}</p></div>
                     </div>
-                    <div class="metodologi-isi wrap"><p>{!! !empty($data->desc_piloting)?$data->desc_piloting:"-"!!}</p></div>
-                </div>
-                <div class="col-md-12">
+                    <div class="col-md-12">
                     <h6>Attachment</h6>
                     <div class="card-body p-0 mt-2">
                         <div class="row">
-                            <div class="col-md-12">
-                                <form action="#" class="w-100" id="search">
-                                    <div class="input-group input-group-sm mb-2">
+                            <div class="col-md-9">
+                                <form action="" class="w-100" id="search-pilot">
+                                    <div class="input-group control border-1 pencarian mb-3" style="border-radius: 8px">
                                         <div class="input-group-prepend">
-                      <span class="input-group-text search-sm attr_input">
-                          <i class="fa fa-search fa-sm" aria-hidden="true"></i>
-                      </span>
+                                    <span class="input-group-text border-0"><i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
                                         </div>
-                                        <input type="text" class="form-control search-sm" placeholder="Search files..." aria-describedby="inputGroup-sizing-sm" disabled>
+                                        <input type="text" style="border: none;" class="form-control" id="inlineFormInput-search-pilot" placeholder="Search files..">
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-md-3 text-right mb-3 d-flex align-items-center">
+                                <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-piloting" onclick="archive('piloting')" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                                <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2" id="select-file-pilot">
+                                    <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
+                                    <option value="nama">Nama</option>
+                                    <option value="created_at">Date Modified</option>
+                                    <option value="size">Size</option>
+                                </select>
+                                <div class="cur-point" id="sort-pilot"><i class="fas fa-sort-amount-down-alt mr-2"></i></div>
                             </div>
                         </div>
                         <table class="table table-sm" id="table-attachment">
                             <thead>
                             <tr>
-                                <th id="th-attachment"><input type="checkbox" class="mr-1" id="allcheck"> Files</th>
+                                <th id="th-attachment"><input type="checkbox" class="mr-2" onchange='allCheckChange(`piloting`);' id="allcheck-piloting">Files</th>
                                 <th id="th-attachment">Date Modified</th>
                                 <th id="th-attachment">Size</th>
                             </tr>
                             </thead>
-                            <tbody id="coloumnrow">
-                            @forelse($data->attach_file as $value)
-                                @if($value->tipe === 'piloting')
-                                    <tr class="rowdoc">
-                                        <td id="td-attachment"><span>{{$value->nama}}</span></td>
-                                        <td id="td-attachment"><span>{{\Carbon\carbon::create($value->updated_at)->format('d F Y')}}</span></td>
-                                        <td id="td-attachment"><span>{{formatBytes($value->size)}}</span></td>
-                                    </tr>
-                                @endif
-                            @empty
-                                <tr class="rowdoc">
-                                    <td id="td-attachment"><span>-</span></td>
-                                    <td id="td-attachment"><span>-</span></td>
-                                    <td id="td-attachment"><span>-</span></td>
-                                </tr>
-                            @endforelse
+                            <tbody id="coloumnrow-piloting">
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="col-md-12 d-block w-100 mb-4 mt-2">
-                    <div style="background-color: #0a53be; border-radius: 5px; padding: 3px;">
-                        <h6 class="text-white mt-1">Roll Out</h6>
+                @endif
+                @if($data->desc_roll_out)
+                    <div class="col-md-12 d-block w-100 mb-4 mt-2">
+                        <div style="background-color: #0a53be; border-radius: 5px; padding: 8px;">
+                            <h6 class="text-white" style="margin: auto 0">Roll Out</h6>
+                        </div>
+                        <div class="metodologi-isi wrap"><p>{!! !empty($data->desc_roll_out)?$data->desc_roll_out:'-' !!}</p></div>
                     </div>
-                    <div class="metodologi-isi wrap"><p>{!! !empty($data->desc_roll_out)?$data->desc_roll_out:'-' !!}</p></div>
-                </div>
-                <div class="col-md-12">
+                    <div class="col-md-12">
                     <h6>Attachment</h6>
                     <div class="card-body p-0 mt-2">
                         <div class="row">
-                            <div class="col-md-12">
-                                <form action="#" class="w-100" id="search">
-                                    <div class="input-group input-group-sm mb-2">
+                            <div class="col-md-9">
+                                <form action="" class="w-100" id="search-roll">
+                                    <div class="input-group control border-1 pencarian mb-3" style="border-radius: 8px">
                                         <div class="input-group-prepend">
-                      <span class="input-group-text search-sm attr_input">
-                          <i class="fa fa-search fa-sm" aria-hidden="true"></i>
-                      </span>
+                                    <span class="input-group-text border-0"><i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
                                         </div>
-                                        <input type="text" class="form-control search-sm" placeholder="Search files..." aria-describedby="inputGroup-sizing-sm" disabled>
+                                        <input type="text" style="border: none;" class="form-control" id="inlineFormInput-search-roll" placeholder="Search files..">
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-md-3 text-right mb-3 d-flex align-items-center">
+                                <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-rollout" onclick="archive('rollout')" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                                <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2" id="select-file-roll">
+                                    <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
+                                    <option value="nama">Nama</option>
+                                    <option value="created_at">Date Modified</option>
+                                    <option value="size">Size</option>
+                                </select>
+                                <div class="cur-point" id="sort-roll"><i class="fas fa-sort-amount-down-alt mr-2"></i></div>
                             </div>
                         </div>
                         <table class="table table-sm" id="table-attachment">
                             <thead>
                             <tr>
-                                <th id="th-attachment"><input type="checkbox" class="mr-1" id="allcheck"> Files</th>
+                                <th id="th-attachment"><input type="checkbox" class="mr-2" onchange='allCheckChange(`rollout`);' id="allcheck-rollout">Files</th>
                                 <th id="th-attachment">Date Modified</th>
                                 <th id="th-attachment">Size</th>
                             </tr>
                             </thead>
-                            <tbody id="coloumnrow">
-                            @forelse($data->attach_file as $value)
-                                @if($value->tipe === 'rollout')
-                                    <tr class="rowdoc">
-                                        <td id="td-attachment"><span>{{$value->nama}}</span></td>
-                                        <td id="td-attachment"><span>{{\Carbon\carbon::create($value->updated_at)->format('d F Y')}}</span></td>
-                                        <td id="td-attachment"><span>{{formatBytes($value->size)}}</span></td>
-                                    </tr>
-                                @endif
-                            @empty
-                                <tr class="rowdoc">
-                                    <td id="td-attachment"><span>-</span></td>
-                                    <td id="td-attachment"><span>-</span></td>
-                                    <td id="td-attachment"><span>-</span></td>
-                                </tr>
-                            @endforelse
+                            <tbody id="coloumnrow-rollout">
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="col-md-12 d-block w-100 mb-4 mt-2">
-                    <div style="background-color: #0a53be; border-radius: 5px; padding: 3px;">
-                        <h6 class="text-white mt-1">Sosialisasi</h6>
+                @endif
+                @if($data->desc_sosialisasi)
+                    <div class="col-md-12 d-block w-100 mb-4 mt-2">
+                        <div style="background-color: #0a53be; border-radius: 5px; padding: 8px;">
+                            <h6 class="text-white" style="margin: auto 0">Sosialisasi</h6>
+                        </div>
+                        <div class="metodologi-isi wrap"><p>{!! !empty($data->desc_sosialisasi)?$data->desc_sosialisasi:'-' !!}</p></div>
                     </div>
-                    <div class="metodologi-isi wrap"><p>{!! !empty($data->desc_sosialisasi)?$data->desc_sosialisasi:'-' !!}</p></div>
-                </div>
-                <div class="col-md-12">
+                    <div class="col-md-12">
                     <h6>Attachment</h6>
                     <div class="card-body p-0 mt-2">
                         <div class="row">
-                            <div class="col-md-12">
-                                <form action="#" class="w-100" id="search">
-                                    <div class="input-group input-group-sm mb-2">
+                            <div class="col-md-9">
+                                <form action="" class="w-100" id="search-sos">
+                                    <div class="input-group control border-1 pencarian mb-3" style="border-radius: 8px">
                                         <div class="input-group-prepend">
-                      <span class="input-group-text search-sm attr_input">
-                          <i class="fa fa-search fa-sm" aria-hidden="true"></i>
-                      </span>
+                                    <span class="input-group-text border-0"><i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
                                         </div>
-                                        <input type="text" class="form-control search-sm" placeholder="Search files..." aria-describedby="inputGroup-sizing-sm" disabled>
+                                        <input type="text" style="border: none;" class="form-control" id="inlineFormInput-search-sos" placeholder="Search files..">
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-md-3 text-right mb-3 d-flex align-items-center">
+                                <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-sosialisasi" onclick="archive('sosialisasi')" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                                <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2" id="select-file-sos">
+                                    <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
+                                    <option value="nama">Nama</option>
+                                    <option value="created_at">Date Modified</option>
+                                    <option value="size">Size</option>
+                                </select>
+                                <div class="cur-point" id="sort-sos"><i class="fas fa-sort-amount-down-alt mr-2"></i></div>
                             </div>
                         </div>
                         <table class="table table-sm" id="table-attachment">
                             <thead>
                             <tr>
-                                <th id="th-attachment"><input type="checkbox" class="mr-1" id="allcheck"> Files</th>
+                                <th id="th-attachment"><input type="checkbox" class="mr-2" onchange='allCheckChange(`sosialisasi`);' id="allcheck-sosialisasi">Files</th>
                                 <th id="th-attachment">Date Modified</th>
                                 <th id="th-attachment">Size</th>
                             </tr>
                             </thead>
-                            <tbody id="coloumnrow">
-                            @forelse($data->attach_file as $value)
-                                @if($value->tipe === 'sosialisasi')
-                                    <tr class="rowdoc">
-                                        <td id="td-attachment"><span>{{$value->nama}}</span></td>
-                                        <td id="td-attachment"><span>{{\Carbon\carbon::create($value->updated_at)->format('d F Y')}}</span></td>
-                                        <td id="td-attachment"><span>{{formatBytes($value->size)}}</span></td>
-                                    </tr>
-                                @endif
-                            @empty
-                                <tr class="rowdoc">
-                                    <td id="td-attachment"><span>-</span></td>
-                                    <td id="td-attachment"><span>-</span></td>
-                                    <td id="td-attachment"><span>-</span></td>
-                                </tr>
-                            @endforelse
+                            <tbody id="coloumnrow-sosialisasi">
                             </tbody>
                         </table>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

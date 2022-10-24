@@ -139,6 +139,8 @@ $('#preview').on('hidden.bs.modal', function () {
     if (video) {
         video.pause()
     }
+
+    $('#content-modal').empty();
 })
 
 $(document).ready(function () {

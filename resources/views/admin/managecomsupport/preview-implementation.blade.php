@@ -171,7 +171,7 @@
                                     <option value="created_at">Date Modified</option>
                                     <option value="size">Size</option>
                                 </select>
-                                <div class="cur-point" id="sort-pilot"><i class="fas fa-arrow-down mr-2"></i></div>
+                                <div class="cur-point" id="sort-pilot"><i class="fas fa-sort-amount-down-alt mr-2"></i></div>
                             </div>
                             <div class="col-md-12">
                                 <table class="table table-sm" id="table-attachment" style="table-layout: fixed; border-radius: 8px">
@@ -219,7 +219,7 @@
                                         <option value="created_at">Date Modified</option>
                                         <option value="size">Size</option>
                                     </select>
-                                    <div class="cur-point" id="sort-roll"><i class="fas fa-arrow-down mr-2"></i></div>
+                                    <div class="cur-point" id="sort-roll"><i class="fas fa-sort-amount-down-alt mr-2"></i></div>
                                 </div>
                                 <div class="col-md-12">
                                     <table class="table table-sm" id="table-attachment" style="table-layout: fixed; border-radius: 8px">
@@ -267,7 +267,7 @@
                                         <option value="created_at">Date Modified</option>
                                         <option value="size">Size</option>
                                     </select>
-                                    <div class="cur-point" id="sort-sos"><i class="fas fa-arrow-down mr-2"></i></div>
+                                    <div class="cur-point" id="sort-sos"><i class="fas fa-sort-amount-down-alt mr-2"></i></div>
                                 </div>
                                 <div class="col-md-12">
                                     <table class="table table-sm" id="table-attachment" style="table-layout: fixed; border-radius: 8px">
