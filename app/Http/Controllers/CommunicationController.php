@@ -96,6 +96,71 @@ class CommunicationController extends Controller
         }
     }
 
+    public function getAllComInitPublish(Request $request, $type) {
+        $this->token_auth = session()->get('token');
+        $sync_es = 0;
+        $token_auth = $this->token_auth;
+
+        $page = intval($request->get('page', 1));
+        $query = "?limit=$page";
+        if($request->get('sort')) {
+            $query = $query."&sort=".$request->get('sort');
+        }
+        if($request->get('year')) {
+            $query = $query."&year=".$request->get('year');
+        }
+        if($request->get('month')) {
+            $query = $query."&month=".$request->get('month');
+        }
+        if($request->get('divisi')) {
+            $query = $query."&divisi=".$request->get('divisi');
+        }
+        if($request->get('search')) {
+            $query = $query."&search=".$request->get('search');
+        }
+
+        try {
+            $ch = curl_init();
+            $headers = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $this->token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL, config('app.url_be') . "api/get/communicationinitiative/publish/$type$query");
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result = curl_exec($ch);
+            $hasil = json_decode($result);
+
+            if ($hasil->status == 1) {
+                $this->dataInitiative = $hasil->data->data;
+                $initiative = $this->dataInitiative;
+                $data = $this->dataInitiative;
+//                $prev = view('preview-initiative',compact('data'))->render();
+//                dd($data);
+//                return view('communication_initiative', compact(['type', 'type_list', 'sync_es', 'token_auth', 'data', 'direktorat', 'divisiRes']));
+                return response()->json([
+                    "status"    => 1,
+                    "data"      => $initiative,
+//                    "prev"      => $prev
+                ],200);
+            } else {
+                session()->flash('error', $hasil->data->message);
+            }
+        } catch (\Throwable $th) {
+            if (isset($hasil->message)) {
+                if ($hasil->message == "Unauthenticated.") {
+                    session()->flush();
+                    session()->flash('error', 'Session Time Out');
+                    return redirect('/login');
+                }
+            }
+            session()->flash('error', 'Get Data Bermasalah , Silahkan Coba Lagi');
+        }
+    }
+
     // page public strategic initiative
     public function strategicInit()
     {

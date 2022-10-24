@@ -181,6 +181,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
 
     #My Communication Support
         Route::get('/mycomsupport/initiative/{type}', 'CommunicationController@comInitTypePublic')->name('mycomsupport.initiative.type');
+        Route::get('/mycomsupport/getall/initiative/{type}', 'CommunicationController@getAllComInitPublish')->name('mycomsupport.initiative.all');
         Route::get('/mycomsupport/initiative', 'CommunicationController@communicationInitiativePublic')->name('mycomsupport.initiative');
         Route::get('/mycomsupport/strategic', 'CommunicationController@strategicInit')->name('mycomsupport.strategic');
         Route::get('/mycomsupport/strategic/{slug}', 'CommunicationController@strategicByProjectPublic')->name('mycomsupport.strategic.type');

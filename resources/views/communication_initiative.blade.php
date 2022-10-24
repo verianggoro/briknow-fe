@@ -274,7 +274,8 @@
                             </div>
                             <br/>
                             <div class="row">
-                                @if(empty($data))
+                                <div id="card-content-cominit" class="w-100 d-flex"></div>
+                                {{--@if(empty($data))
                                     <div id="card-content-empty" class="container-fluid">
                                         <div class="p-2">
                                             <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
@@ -284,38 +285,76 @@
                                     <div id="card-content-cominit" class="w-100 d-flex">
                                     @foreach($data as $content)
                                         <div class="col-lg-4 d-flex justify-content-center">
-                                            <a href="{{route('view.comsup')}}" target="_blank">
-                                                <div class="card" style="border-radius: 16px">
+                                            <div class="card" style="border-radius: 16px">
+                                                <button type="button" class="btn p-0 text-primary" data-toggle="modal" data-target="#preview">
                                                     <img class="card-img-up"
                                                          src="{{asset('storage/'.$content->thumbnail)}}"
                                                          alt="Card image cap">
-                                                    <div class="card-body">
+                                                </button>
+                                                <div class="card-body">
+                                                    <button type="button" class="btn p-0 text-primary" data-toggle="modal" data-target="#preview">
                                                         <h5 class="card-title">{{$content->title}}</h5>
-                                                        {!! \Illuminate\Support\Str::limit($content->desc, 100, '...') !!}
-                                                        <div class="d-flex justify-content-between">
-                                                            <i class="mr-auto p-2 fas fa-eye">
-                                                                <span>{{$content->views}}</span>
-                                                            </i>
-                                                            <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
-                                                            <button class="btn fas fa-share-square p-2"
-                                                                    style="font-size: 20px"></button>
-                                                            <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
-                                                        </div>
+                                                    </button>
+                                                    {!! \Illuminate\Support\Str::limit($content->desc, 100, '...') !!}
+                                                    <div class="d-flex justify-content-between">
+                                                        <i class="mr-auto p-2 fas fa-eye">
+                                                            <span>{{$content->views}}</span>
+                                                        </i>
+                                                        <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
+                                                        <button class="btn fas fa-share-square p-2"
+                                                                style="font-size: 20px"></button>
+                                                        <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
                                     @endforeach
+                                        <div id="prev"></div>
                                     </div>
-                                @endif
+                                @endif--}}
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
             <div class="w-100" id="popupin">
+                <div class="modal fade bd-example-modal-lg modal-preview-init" id="preview" tabindex="-1" role="dialog" aria-labelledby="preview" aria-hidden="true" style="padding:15px 0 !important;">
+                    <div class="modal-dialog modal-lg modal-dialog-centered dialog-preview" role="document" id="content-modal">
+                    </div>
+                </div>
+
+                <div class="modal fade" id="berbagi" tabindex="-1" role="dialog" aria-labelledby="berbagi" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title font-weight-bolder" id="exampleModalLongTitle">Bagikan</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="input-group form-bagikan">
+                                            <input type="text" class="form-control form-link-bagikan" id="link" readonly="">
+                                            <div class="input-group-prepend">
+                                                <button type="submit" class="btn copy-link" onclick="kopas()">
+                                                    Salin
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @yield('popup')
             </div>
+        </div>
+
+        <div id="prev">
+            {{-- preview --}}
         </div>
     </div>
     @include('layouts.edit_profile')

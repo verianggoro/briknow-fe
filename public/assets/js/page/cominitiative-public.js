@@ -16,7 +16,23 @@ for (let i = 0; i < metas.length; i++) {
     if (metas[i].getAttribute('name') === "pages") {
         uri = metas[i].getAttribute('content');
     }
+
+    if (metas[i].getAttribute('name') === "csrf") {
+        csrf = metas[i].getAttribute('content');
+    }
 }
+
+const Toast2 = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+});
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -33,44 +49,49 @@ function getCookie(cname) {
     }
     return "";
 }
-
+getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
 function getData(page, year, month, divisi, sort, search){
-    const url = `${getCookie('url_be')}api/get/communicationinitiative/publish/${lastpath}?page=${page}&year=${year}&month=${month}&divisi=${divisi}&sort=${sort}&search=${search}`
+    const url = `${uri}/mycomsupport/getall/initiative/${lastpath}?page=${page}&year=${year}&month=${month}&divisi=${divisi}&sort=${sort}&search=${search}`
     $.ajax({
         url: url,
         type: "get",
         beforeSend: function(xhr){
             xhr.setRequestHeader("Authorization", "Bearer "+getCookie('token'));
             $('.senddataloader').show();
+            $("#card-content-cominit").empty();
+            $('#prev').empty();
         },
         success: function(data){
             $('.senddataloader').hide();
-            $("#card-content-cominit").html("");
             if(data.data === undefined || data.data.length !== 0){
-                for (let index=0; index < data.data.data.length; index++){
+                for (let index=0; index < data.data.length; index++){
                     $("#card-content-cominit").append(`<div class="col-lg-4 d-flex justify-content-center">
-                                            <a href="{{route('view.comsup')}}" target="_blank">
-                                                <div class="card" style="border-radius: 16px">
+                                            <div class="card" style="border-radius: 16px">
+                                                <button type="button" class="btn p-0 text-primary" onclick="openPreview(${data.data[index].id})">
                                                     <img class="card-img-up"
-                                                         src="${uri+'/storage/'+data.data.data[index].thumbnail}"
+                                                         src="${uri+'/storage/'+data.data[index].thumbnail}"
                                                          alt="Card image cap">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">${data.data.data[index].title}</h5>
-                                                        <p>${data.data.data[index].desc.substring(0,100)}</p>
-                                                        <div class="d-flex justify-content-between">
-                                                            <i class="mr-auto p-2 fas fa-eye">
-                                                                <span>${data.data.data[index].views}</span>
-                                                            </i>
-                                                            <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
-                                                            <button class="btn fas fa-share-square p-2"
-                                                                    style="font-size: 20px"></button>
-                                                            <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
-                                                        </div>
+                                                </button>
+                                                <div class="card-body">
+                                                    <button type="button" class="btn p-0 text-primary" onclick="openPreview(${data.data[index].id})">
+                                                        <h5 class="card-title">${data.data[index].title}</h5>
+                                                    </button>
+                                                    <p>${data.data[index].desc.substring(0,100)}</p>
+                                                    <div class="d-flex justify-content-between">
+                                                        <i class="mr-auto p-2 fas fa-eye">
+                                                            <span id="view-${data.data[index].id}">${data.data[index].views}</span>
+                                                        </i>
+                                                        <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
+                                                        <button class="btn fas fa-share-square p-2"
+                                                                style="font-size: 20px"></button>
+                                                        <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>`);
                 }
+
+                // $("#prev").append(data.prev);
             }else{
                 $("#card-content-cominit").append(`<div class="p-2">
                                             <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
@@ -82,6 +103,43 @@ function getData(page, year, month, divisi, sort, search){
         }
     });
 }
+
+function openPreview(id) {
+    const url = `${uri}/communication/views/content/${id}?public=1`
+    let t = "{{$token_auth}}";
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            $('.senddataloader').show();
+            $('#content-modal').empty();
+        },
+        success: function (data) {
+            $('.senddataloader').hide();
+
+            let view = data.data.views
+            $(`#view-${id}`).text(view)
+            $('#content-modal').append(data.prev);
+
+            $('#preview').modal({
+                show : true
+            });
+        },
+        error: function () {
+            $('.senddataloader').hide();
+            Toast2.fire({icon: 'error',title: 'Gagal'});
+        },
+    })
+}
+
+$('#preview').on('hidden.bs.modal', function () {
+    let video = $('video').get(0)
+    if (video) {
+        video.pause()
+    }
+})
 
 $(document).ready(function () {
 
@@ -219,5 +277,21 @@ function sortingBy(params){
         getData(pageParam, yearParam, monthParam, divisiParam, '', keywordParam)
         document.getElementById('btn-sort-comsup').innerHTML = "Sort By"
     }
+}
+
+function download(id) {
+    window.location.href = uri+`/attach/download/content/${id}`;
+}
+
+function migrasi(pesan) {
+    var kopi = document.getElementById("link");
+    kopi.value = pesan
+}
+
+function kopas() {
+    var kopi = document.getElementById("link");
+    kopi.select();
+    kopi.setSelectionRange(0, 99999);
+    document.execCommand("copy");
 }
 

@@ -954,7 +954,7 @@ class ManageComSupport extends Controller
         }
     }
 
-    function viewsContent($table, $id) {
+    function viewsContent(Request $request, $table, $id) {
         try {
             $ch = curl_init();
             $token      = session()->get('token');
@@ -977,6 +977,14 @@ class ManageComSupport extends Controller
                     $data = $hasil->data;
                     $document = $data->attach_file;
                     if ($table == 'content') {
+                        if($request->get('public')) {
+                            $prev = view('preview-initiative',compact('data'))->render();
+                            return response()->json([
+                                "status"    => 1,
+                                "data"      => $hasil->data,
+                                "prev"      => $prev,
+                            ],200);
+                        }
                         $view = view('admin.managecomsupport.preview-content',compact(['data']))->render();
                         $col = view('doc.document',compact('document'))->render();
                         return response()->json([
