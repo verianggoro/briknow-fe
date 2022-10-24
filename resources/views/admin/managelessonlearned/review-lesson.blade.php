@@ -17,55 +17,63 @@
         <div class="col-md-12" id="konten">
             <h3 class="pl-2 pt-5">Manage Lesson Learned</h3>
             <div class="d-flex justify-content-start mb-3 px-3">
-                <div class="p-2 bd-highlight" id="drop-nama-proyek">
-                    <div class="dropdown show">
-                        <a class="btn btn-outline-secondary bg-white text-black-50 btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                           data-toggle="modal" data-target="#modal-sort-nama" aria-haspopup="true" aria-expanded="false">
-                            Tahap Project
-                        </a>
-                    </div>
+                <div class="p-2 bd-highlight">
+                    <button id="btn-sort-lesson" data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle">
+                        Tahap Proyek
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left">
+                        <li onclick="sortByTahap('sortInitLesson')" id="sortInitLesson" data-value="init" class="dropdown-item">Tahap Proyek</li>
+                        <li onclick="sortByTahap('planSort')" id="planSort" data-value="plan" class="dropdown-item">Plan</li>
+                        <li onclick="sortByTahap('procurementSort')" id="procurementSort" data-value="procurement" class="dropdown-item">Procurement</li>
+                        <li onclick="sortByTahap('devSort')" id="devSort" data-value="development" class="dropdown-item">Development</li>
+                        <li onclick="sortByTahap('pilotSort')" id="pilotSort" data-value="pilot" class="dropdown-item">Pilot Run</li>
+                        <li onclick="sortByTahap('implSort')" id="implSort" data-value="implementation" class="dropdown-item">Implementation</li>
+                    </ul>
                 </div>
             </div>
             <!-- NAVIGASI -->
             <div class="d-flex bd-highlight">
                 <div class="mr-auto p-2 bd-highlight">
-                    <h4>Development</h4>
+                    <h4 id="main-title-lesson">All</h4>
                 </div>
                 <!-- Dropdowns TEMP -->
 
                 <!-- Dropdowns TEMP -->
 
                 <!-- Dropdowns -->
-                <div class="p-2 bd-highlight" id="drop-nama-proyek">
-                    <div class="dropdown show">
-                        <a class="btn btn-outline-secondary bg-white text-black-50 btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                           data-toggle="modal" data-target="#modal-sort-nama" aria-haspopup="true" aria-expanded="false">
-                            Direktorat
-                        </a>
+                <div class="p-2 w-25 bd-highlight">
+                    <div class="d-flex justify-content-end">
+                        <select name="direktorat" id="direktorat-lesson-init" class="form-control text-black select2" data-live-search="true"
+                                style="height: 44px" value="{{old('direktorat')}}">
+                            <option value="" disabled selected>Pilih Direktorat</option>
+                            @if(empty($direktorat))
+                                <option value="finance" data-value="finance">{{$dataList ?? 'NOT FOUND'}}</option>
+                            @else
+                                @foreach($direktorat as $dirContent)
+                                    <option value="{{$dirContent->direktorat }}" data-value="{{ $dirContent->direktorat }}">{{$dirContent->direktorat}}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                 </div>
-                <div class="p-2 bd-highlight" id="drop-pemilik">
-                    <div class="dropdown show">
-                        <a class="btn btn-outline-secondary bg-white text-black-50 btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                           data-toggle="modal" data-target="#modal-sort-pemilik" aria-haspopup="true" aria-expanded="false">
-                            Unit Kerja
-                        </a>
+                <div class="p-2 w-25 justify-content-end bd-highlight">
+                    <div class="d-flex justify-content-end">
+                        <select id="divisi-lesson-init" class="mr-auto p-2 form-control select2" value="{{old('divisi')}}" name="divisi[]"></select>
                     </div>
                 </div>
                 <!-- Dropdowns -->
 
                 <!-- Search -->
                 <div class="p-2 bd-highlight" id="search">
-                    <form action="#" class="w-100" id="search">
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                    <span class="input-group-text" id="search">
-                                        <i class="fa fa-search fa-sm" aria-hidden="true"></i>
-                                    </span>
+                    <div class="input-group w-100">
+                        <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control"
+                               id="searchLessoninit" placeholder="Cari...">
+                        <div class="input-group-prepend">
+                            <div onclick="searchLesson()" class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                                <i class="fa fa-search fa-sm" aria-hidden="true"></i>
                             </div>
-                            <input type="text" class="form-control form-control-sm" placeholder="Search Lesson..." aria-describedby="inputGroup-sizing-sm">
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <!-- Search -->
             </div>
@@ -77,15 +85,10 @@
                     @else
                         <span class="text-warning">
                     <i class="fa fa-sync fa-spin mr-1" aria-hidden="true" style="font-size:12px"></i>
-                    {{-- {{ $sync_es }} Project Remaining --}}
-                    Processing . .
                   </span>
                     @endif
                 </div>
             </div>
-            <!-- NAVIGASI -->
-
-            @include('layouts.alert')
 
             <!-- REVIEW -->
             <div class="table-responsive" id="review">
@@ -109,6 +112,7 @@
                     </div>
                 </div>
 {{--                for each--}}
+                <div id="container-review">
                 @forelse($data as $value)
                     <div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
                         <div class="row">
@@ -168,6 +172,7 @@
                 @empty
                     EMPTY
                 @endforelse
+                </div>
                 <div class="d-flex justify-content-sm-end content-pagination" id="pag">
                 </div>
             </div>
@@ -175,230 +180,8 @@
         </div>
     </div>
 @endsection
-@section('popup')
-    {{-- preview --}}
-    <div class="modal fade bd-example-modal-lg modal-preview" id="modalpreview" tabindex="-1" role="dialog" aria-labelledby="preview" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered dialog-preview" role="document">
-            <div class="modal-content content-preview bg-transparent">
-                <div class="w-100 d-flex justify-content-center align-items-center" id="content-preview">
-                    <div class="bg-white bg-white w-100 content-preview">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- MODAL SORT PEMILIK-->
-    <div class="modal fade" id="modal-sort-pemilik" tabindex="-1" aria-labelledby="modal-sort-pemilikLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="card-body">
-                    <form id="form-sort-1">
-                        <div class="row d-flex">
-                            <div class="col-md-12" id="list-pemilik-proyek">
-{{--                                <div id="listnya" class="ml-1">--}}
-{{--                                    @forelse ($divisi_unik as $key => $val)--}}
-{{--                                        <div class="input-group mb-3">--}}
-{{--                                            <div class="form-check">--}}
-{{--                                                <input class="form-check-input fil_div" type="checkbox" value="{{$val}}">--}}
-{{--                                                <label class="form-check-label">--}}
-{{--                                                    <span>{{$val}}</span>--}}
-{{--                                                </label>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    @empty--}}
-{{--                                        <div class="d-flex justify-content-center">--}}
-{{--                                            Tidak ada data.--}}
-{{--                                        </div>--}}
-{{--                                    @endforelse--}}
-{{--                                </div>--}}
-                                <div id="group-btn">
-                                    <button class="btn btn-success fil-div-app float-right mr-3" type="button" id="btn-apply-sort-pemilik">Terapkan</button>
-                                    <button class="btn btn-danger fil-div-res float-right mr-2" type="button">Reset</button>
-                                    <button class="btn btn-light float-right mr-2" data-dismiss="modal" id="btn-cancel-sort-pemilik">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- MODAL SORT PEMILIK-->
 
-    <!-- MODAL SORT NAMA-->
-    <div class="modal fade" id="modal-sort-nama" tabindex="-1" aria-labelledby="modal-sort-namaLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="card-body">
-                    <form id="form-sort-2">
-                        <div class="row d-flex">
-                            <div class="col-md-12" id="list-nama-proyek">
-{{--                                <div id="listnya" class="ml-1">--}}
-{{--                                    @forelse ($nama_unik as $key => $val)--}}
-{{--                                        <div class="input-group mb-3">--}}
-{{--                                            <div class="form-check">--}}
-{{--                                                <input class="form-check-input fil_kon" type="checkbox" value="{{$val}}">--}}
-{{--                                                <label class="form-check-label" for="{{$key}}-check-sort-nama">--}}
-{{--                                                    <span>{{$val}}</span>--}}
-{{--                                                </label>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    @empty--}}
-{{--                                        <div class="d-flex justify-content-center">--}}
-{{--                                            Tidak ada data.--}}
-{{--                                        </div>--}}
-{{--                                    @endforelse--}}
-{{--                                </div>--}}
-                                <div id="group-btn">
-                                    <button class="btn btn-success fil-kon-app float-right mr-3" type="button">Terapkan</button>
-                                    <button class="btn btn-danger fil-kon-res float-right mr-2" type="button">Reset</button>
-                                    <button class="btn btn-light float-right mr-2" data-dismiss="modal" id="btn-cancel-sort-nama">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- MODAL SORT NAMA-->
-@endsection
 @push('page-script')
-    <script>
-        localStorage.clear();
-    </script>
     <script src="{{asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js')}}"></script>
-    <script src="{{asset_app('assets/js/page/review.js')}}"></script>
-    <script>
-        const Toast2 = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
-        const checks_pemilik = [];
-        const checks_nama = [];
-
-        $( document ).ready(function() {
-            var storedChecks_pemilik = JSON.parse(localStorage.getItem("checked_list_pemilik"));
-            var storedChecks_nama = JSON.parse(localStorage.getItem("checked_list_nama"));
-
-            $.each(storedChecks_pemilik, function( index, value ) {
-                // console.log(index + ": " + value);
-                checks_pemilik.push(value);
-                // document.getElementById(value+"-check-sort-proyek").checked = true;
-                $('#'+value+"-check-sort-proyek").prop('checked', true);
-            });
-            $.each(storedChecks_nama, function( index, value ) {
-                // console.log(index + ": " + value);
-                checks_nama.push(value);
-                // document.getElementById(value+"-check-sort-nama").checked = true;
-                $('#'+value+"-check-sort-nama").prop('checked', true);
-            });
-
-            console.log(checks_pemilik);
-            console.log(checks_nama);
-
-
-            // $(".check-pemilik").change(function() {
-
-            // });
-            // $(".check-nama").change(function() {
-
-            // });
-        });
-
-        function publish(a){
-            let t = "{{$token_auth}}";
-            swal.fire({ title: "Anda yakin ingin menerbitkan Proyek ini?", text: "", icon: "warning", showCancelButton: !0, confirmButtonColor: "#28a745", cancelButtonColor: "#dc3545", confirmButtonText: "OK", cancelButtonText: "CANCEL" }).then((i) => {
-                if(i.isConfirmed){
-                    $.ajax({
-                        url: "{{ url('').'/manageproject/review/publish/' }}" + a,
-                        type: "post",
-                        data: { _method: "POST"},
-                        beforeSend: function(xhr){
-                            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
-                            $('.senddataloader').show();
-                        },
-                        success: function () {
-                            $('.senddataloader').hide();
-                            Toast2.fire({icon: 'success',title: 'Proyek berhasil diterbitkan'});
-                            if(i.isConfirmed){
-                                location.reload();
-                            }else{
-                                location.reload();
-                            }
-                        },
-                        error: function () {
-                            $('.senddataloader').hide();
-                            Swal.fire({ icon: "error", title: "Oops...", text: "Project gagal diterbitkan!" });
-                        },
-                    })
-                }
-            });
-        };
-
-        function unpublish(a){
-            swal.fire({ title: "Anda yakin ingin membatalkan publikasi Proyek ini?", text: "", icon: "warning", showCancelButton: !0, confirmButtonColor: "#28a745", cancelButtonColor: "#dc3545", confirmButtonText: "OK", cancelButtonText: "CANCEL" }).then((i) => {
-                if(i.isConfirmed){
-                    $.ajax({
-                        url: "{{ url('').'/manageproject/review/unpublish/' }}" + a,
-                        type: "post",
-                        data: { _method: "POST"},
-                        beforeSend: function(xhr){
-                            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
-                            $('.senddataloader').show();
-                        },
-                        success: function () {
-                            $('.senddataloader').hide();
-                            Toast2.fire({icon: 'success',title: 'Unpublish Proyek berhasil'});
-                            if(i.isConfirmed){
-                                location.reload();
-                            }else{
-                                location.reload();
-                            }
-                        },
-                        error: function () {
-                            $('.senddataloader').hide();
-                            Toast2.fire({icon: 'error',title: 'Unpublish Proyek gagal'});
-                        },
-                    })
-                }
-            });
-        };
-
-        function hapus(a){
-            let t = "{{$token_auth}}";
-            swal.fire({ title: "Anda yakin akan menghapus Proyek ini?", text: "", icon: "warning", showCancelButton: !0, confirmButtonColor: "#28a745", cancelButtonColor: "#dc3545", confirmButtonText: "OK", cancelButtonText: "CANCEL" }).then((i) => {
-                if(i.isConfirmed){
-                    $.ajax({
-                        url: "{{ url('').'/manageproject/review/destroy/' }}" + a,
-                        type: "DELETE",
-                        beforeSend: function(xhr){
-                            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
-                            $('.senddataloader').show();
-                        },
-                        success: function () {
-                            $('.senddataloader').hide();
-                            Toast2.fire({icon: 'success',title: 'Berhasil dihapus'}); //PERLU DIGANTI BAHASANYA
-                            if(i.isConfirmed){
-                                location.reload();
-                            }else{
-                                location.reload();
-                            }
-                        },
-                        error: function () {
-                            $('.senddataloader').hide();
-                            Toast2.fire({icon: 'error',title: 'Gagal dihapus'}); //PERLU DIGANTI BAHASANYA
-                        },
-                    })
-                }
-            });
-        };
-    </script>
+    <script src="{{asset_app('assets/js/page/review-lesson.js')}}"></script>
 @endpush
