@@ -266,7 +266,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     #DOCUMENT
         Route::get('/list_doc/{project}/{id}', 'DocumentController@doc_list')->name('list.document');
         Route::get('/doc/download', 'DocumentController@downloadFile')->name('doc.download');
-        Route::get('/attach/download/content/{id}', 'DocumentController@download_content')->name('com_support.download');
+        Route::get('/attach/download/content/{id}', 'DocumentController@download_content')->name('com_support.download.content');
         Route::get('/attach/download/implementation/{id}', 'DocumentController@download_implementation')->name('implementation.download');
         Route::get('/attach/download/project/{id}', 'DocumentController@download_attach_project')->name('project.download');
     #---------

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MyLessonLearnedController extends Controller
 {
@@ -11,37 +12,49 @@ class MyLessonLearnedController extends Controller
         $token_auth = session()->get('token');
         try {
             $ch = curl_init();
+            $chDiv = curl_init();
             $headers  = [
                 'Content-Type: application/json',
                 'Accept: application/json',
                 "Authorization: Bearer $token_auth",
             ];
-            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/mylessonlearned');
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/mylessonlearned/all');
             curl_setopt($ch, CURLOPT_HTTPGET, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result     = curl_exec ($ch);
             $hasil      = json_decode($result);
-            // dd($hasil);
+
+            curl_setopt($chDiv, CURLOPT_URL, config('app.url_be') . 'api/divisi/all');
+            curl_setopt($chDiv, CURLOPT_HTTPGET, 1);
+            curl_setopt($chDiv, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($chDiv, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($chDiv, CURLOPT_HTTPHEADER, $headers);
+            $resultDivisi = curl_exec($chDiv);
+            $hasilDivisi = json_decode($resultDivisi);
+            $direktorat = [];
+            $divisiRes = [];
+
+
+            if ($hasilDivisi->status == 1) {
+                $this->direktorat = $hasilDivisi->data->direktorat;
+                $divisiRes = $hasilDivisi->data->divisi;
+                $direktorat = $this->direktorat;
+            } else {
+                session()->flash('error', $hasilDivisi->data->message);
+            }
+
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
-                    $data = $hasil->data->data;
-                    foreach ($data->data as $lesson){
-                        $shortDetail = strlen($lesson->detail) > 40 ? substr($lesson->detail,0,40)."..." : $lesson->detail;
-                        $shortLessonTitle = strlen($lesson->lesson_learned) > 30 ? substr($lesson->lesson_learned, 0, 40)."..." : $lesson->lesson_learned;
+                    $data = $hasil->data;
 
-                        $lesson->detail = $shortDetail;
-                        $lesson->lesson_learned = $shortLessonTitle;
-                    }
-
-                    // dd($data);
-                    return view('mylessonlearned', compact(['data']));
+                    return view('mylessonlearned', compact(['data', 'direktorat', 'divisiRes']));
                 }else{
                     session()->flash('error',$hasil->data->message);
                     $data= [];
 
-                    return view('mylessonlearned', compact(['data']));
+                    return view('mylessonlearned', compact(['data', 'direktorat', 'divisiRes']));
                 }
             }else{
                 session()->flash('error', 'Get Data Bermasalah , Silahkan Coba Lagi');

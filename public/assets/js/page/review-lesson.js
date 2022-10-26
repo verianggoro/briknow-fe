@@ -5,6 +5,8 @@ var divisiParam = "";
 var keyParam = "";
 
 const metas = document.getElementsByTagName('meta');
+var lastpath = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
+
 for (let i = 0; i < metas.length; i++) {
     if (metas[i].getAttribute('name') === "pages") {
         uri = metas[i].getAttribute('content');
@@ -135,7 +137,12 @@ function searchLesson(){
 }
 
 function getData(tahap, divisi, search){
-    const url = `${getCookie('url_be')}api/managelessonlearned?tahap=${tahap}&divisi=${divisi}&search=${search}`
+    var url = '';
+    if (lastpath === 'mylesson'){
+        url = `${getCookie('url_be')}api/mylessonlearned/all?tahap=${tahap}&divisi=${divisi}&search=${search}`
+    }else{
+        url = `${getCookie('url_be')}api/managelessonlearned/?tahap=${tahap}&divisi=${divisi}&search=${search}`
+    }
     $.ajax({
         url: url,
         type: "get",
