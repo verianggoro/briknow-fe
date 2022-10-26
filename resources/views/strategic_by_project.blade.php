@@ -267,11 +267,11 @@
                             <br/>
                             <div class="d-flex">
                                 <div class="row w-100">
-                                    <div class="col-12">
-                                        <h4>Articles</h4>
-                                    </div>
                                     @forelse($content as $values)
                                         @if($values->id === 'article')
+                                            <div class="col-12">
+                                                <h4>Articles</h4>
+                                            </div>
                                             <div class="col-12">
                                                 <p>{{$values->total_data}}</p>
                                             </div>
@@ -303,15 +303,15 @@
                                         Empty
                                     @endforelse
                                 </div>
+                                <hr/>
                             </div>
-                            <hr/>
                             <div class="d-flex">
                                 <div class="row w-100">
-                                    <div class="col-12">
-                                        <h4>Video Content</h4>
-                                    </div>
                                     @forelse($content as $values)
                                         @if($values->id === 'video')
+                                            <div class="col-12">
+                                                <h4>Video Content</h4>
+                                            </div>
                                             <div class="col-12">
                                                 <p>{{$values->total_data}}</p>
                                             </div>
@@ -342,17 +342,16 @@
                                     @empty
                                         Empty
                                     @endforelse
-
                                 </div>
+                                <hr/>
                             </div>
-                            <hr/>
                             <div class="d-flex">
                                 <div class="row w-100">
-                                    <div class="col-12">
-                                        <h4>Podcast</h4>
-                                    </div>
                                     @forelse($content as $values)
                                         @if($values->id === 'podcast')
+                                            <div class="col-12">
+                                                <h4>Podcast</h4>
+                                            </div>
                                             <div class="col-12">
                                                 <p>{{$values->total_data}}</p>
                                             </div>
@@ -384,15 +383,15 @@
                                         Empty
                                     @endforelse
                                 </div>
+                                <hr/>
                             </div>
-                            <hr/>
                             <div class="d-flex">
                                 <div class="row w-100">
-                                    <div class="col-12">
-                                        <h4>Instagram</h4>
-                                    </div>
                                     @forelse($content as $values)
                                         @if($values->id === 'instagram')
+                                            <div class="col-12">
+                                                <h4>Instagram</h4>
+                                            </div>
                                             <div class="col-12">
                                                 <p>{{$values->total_data}}</p>
                                             </div>
@@ -424,15 +423,16 @@
                                         Empty
                                     @endforelse
                                 </div>
+                                <hr/>
                             </div>
-                            <hr/>
                             <div class="d-flex">
                                 <div class="row w-100">
-                                    <div class="col-12">
-                                        <h4>Transformation</h4>
-                                    </div>
+
                                     @forelse($content as $values)
                                         @if($values->id === 'transformation')
+                                            <div class="col-12">
+                                                <h4>Transformation</h4>
+                                            </div>
                                             <div class="col-12">
                                                 <p>{{$values->total_data}}</p>
                                             </div>
@@ -464,15 +464,15 @@
                                         Empty
                                     @endforelse
                                 </div>
+                                <hr/>
                             </div>
-                            <hr/>
                             <div class="d-flex">
                                 <div class="row w-100">
-                                    <div class="col-12">
-                                        <h4>Logo</h4>
-                                    </div>
                                     @forelse($content as $values)
                                         @if($values->id === 'logo')
+                                            <div class="col-12">
+                                                <h4>Logo</h4>
+                                            </div>
                                             <div class="col-12">
                                                 <p>{{$values->total_data}}</p>
                                             </div>
@@ -504,15 +504,15 @@
                                         Empty
                                     @endforelse
                                 </div>
+                                <hr/>
                             </div>
-                            <hr/>
                             <div class="d-flex">
                                 <div class="row w-100">
-                                    <div class="col-12">
-                                        <h4>Infographics</h4>
-                                    </div>
                                     @forelse($content as $values)
                                         @if($values->id === 'infographics')
+                                            <div class="col-12">
+                                                <h4>Infographics</h4>
+                                            </div>
                                             <div class="col-12">
                                                 <p>{{$values->total_data}}</p>
                                             </div>
