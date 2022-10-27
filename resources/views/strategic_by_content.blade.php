@@ -236,8 +236,8 @@
                     <div class="row mx-0">
                         <div class="col-md-12" id="konten">
                             <h3 class="pl-2 pt-5">{{$slug}}</h3>
-                            <div class="d-flex justify-content-between mt-3">
-                                <div class="mr-auto p-2">
+                            <div class="d-flex justify-content-end mt-3">
+                                <div class="p-2">
                                     <div class="dropdown">
                                         <button data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle" id="btn-sort-comsup">
                                             Sort By

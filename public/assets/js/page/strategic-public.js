@@ -92,7 +92,11 @@ $('#preview').on('hidden.bs.modal', function () {
     $('#content-modal').empty();
 })
 
-if (twoLastPath[3] !== undefined){
+if (lastpath === 'strategic'){
+    getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+}else if(lastpath === twoLastPath[3]){
+    getDataByProject(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
+}else if (twoLastPath[3] !== undefined){
     getDataByContent(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
 }
 
@@ -111,7 +115,7 @@ function getData(page, year, month, divisi, sort, search){
             if (data.data !== undefined || data.data.length !== 0){
                 for (let index=0; index < data.data.length; index++){
                     $('#card-content-strategic').append(`<div class="col-lg-4 d-flex justify-content-center">
-                                                <a class="w-100" href="{{route('mycomsupport.strategic.type', $content->slug)}}">
+                                                <a class="w-100" href="${uri+'/mycomsupport/strategic/'+data.data[index].slug}">
                                                     <div class="card" style="border-radius: 16px;">
                                                         <img class="card-img-up" src="${uri+'/storage/'+data.data[index].thumbnail}"
                                                              alt="Card image cap">
@@ -151,7 +155,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                         if (data.data.content[index].id === 'article'){
                             $("#ContentArticle").html("");
                             $("#ContentArticle").append(`<div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/article'}">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -161,7 +165,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                         }else if(data.data.content[index].id === 'video'){
                             $("#ContentVideo").html("");
                             $("#ContentVideo").append(`<div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/video'}">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -171,7 +175,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                         }else if(data.data.content[index].id === 'podcast'){
                             $("#ContentPodcast").html("");
                             $("#ContentPodcast").append(`<div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/podcast'}">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -181,7 +185,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                         }else if(data.data.content[index].id === 'instagram'){
                             $("#ContentIg").html("");
                             $("#ContentIg").append(`<div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/instagram'}">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -191,7 +195,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                         }else if(data.data.content[index].id === 'transformation'){
                             $("#ContentTrans").html("");
                             $("#ContentTrans").append(`<div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/transformation'}">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -201,7 +205,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                         }else if(data.data.content[index].id === 'logo'){
                             $("#ContentLogo").html("");
                             $("#ContentLogo").append(`<div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/logo'}">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -211,7 +215,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                         }else if(data.data.content[index].id === 'infographics'){
                             $("#ContentInfo").html("");
                             $("#ContentInfo").append(`<div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/infographics'}">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">

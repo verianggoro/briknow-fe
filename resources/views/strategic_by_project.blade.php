@@ -236,8 +236,8 @@
                     <div class="row mx-0">
                         <div class="col-md-12" id="konten">
                             <h3 class="pl-2 pt-5">{{!empty($data->nama)?$data->nama:"-"}}</h3>
-                            <div class="d-flex justify-content-between mt-3">
-                                <div class="mr-auto p-2">
+                            <div class="d-flex justify-content-end mt-3">
+                                <div class="p-2">
                                     <div class="dropdown">
                                         <button data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle" id="btn-sort-comsup">
                                             Sort By
@@ -276,17 +276,10 @@
                                                 <p>{{$values->total_data. ' Files'}}</p>
                                             </div>
                                             @if(!empty($values->data))
-                                                <div id="ContentArticle" class="d-flex w-100">
-                                                @foreach($values->data as $contentData)
-                                                    <div class="col-2 justify-content-center">
-                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'article'])}}">
-                                                            <div class="card h-100" style="border-radius: 16px">
-                                                                <img class="img-fluid" src="{{asset('storage/'.$contentData->thumbnail)}}"
-                                                                     alt="Card image cap">
-                                                            </div>
-                                                        </a>
+                                                <div class="d-flex w-100">
+                                                    <div id="ContentArticle" class="d-flex w-100">
+
                                                     </div>
-                                                @endforeach
                                                     <div class="col-2 justify-content-center">
                                                         <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'article'])}}">
                                                             <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
@@ -316,19 +309,11 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
-                                                <div id="ContentVideo" class="d-flex w-100">
-                                                @foreach($values->data as $contentData)
-                                                    <div class="col-2 justify-content-center">
-                                                        <a href="#">
-                                                            <div class="card h-100" style="border-radius: 16px">
-                                                                <img class="img-fluid" src="{{asset('storage/'.$contentData->thumbnail)}}"
-                                                                     alt="Card image cap">
-                                                            </div>
-                                                        </a>
+                                                <div class="d-flex w-100">
+                                                    <div id="ContentVideo" class="d-flex w-100">
                                                     </div>
-                                                @endforeach
                                                     <div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'video'])}}">
                                                             <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
                                                                 <div class="fa fa-arrow-alt-circle-right mt-5">
                                                                 </div>
@@ -356,19 +341,12 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
-                                                <div id="ContentPodcast" class="d-flex w-100">
-                                                @foreach($values->data as $contentData)
-                                                    <div class="col-2 justify-content-center">
-                                                        <a href="#">
-                                                            <div class="card h-100" style="border-radius: 16px">
-                                                                <img class="img-fluid" src="{{asset('storage/'.$contentData->thumbnail)}}"
-                                                                     alt="Card image cap">
-                                                            </div>
-                                                        </a>
+                                                <div class="d-flex w-100">
+                                                    <div class="d-flex w-100" id="ContentPodcast">
+
                                                     </div>
-                                                @endforeach
                                                     <div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'podcast'])}}">
                                                             <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
                                                                 <div class="fa fa-arrow-alt-circle-right mt-5">
                                                                 </div>
@@ -396,19 +374,12 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
-                                                <div id="ContentIg" class="d-flex w-100">
-                                                @foreach($values->data as $contentData)
-                                                    <div class="col-2 justify-content-center">
-                                                        <a href="#">
-                                                            <div class="card h-100" style="border-radius: 16px">
-                                                                <img class="img-fluid" src="{{asset('storage/'.$contentData->thumbnail)}}"
-                                                                     alt="Card image cap">
-                                                            </div>
-                                                        </a>
+                                                <div class="d-flex w-100">
+                                                    <div id="ContentIg" class="d-flex w-100">
+
                                                     </div>
-                                                @endforeach
                                                     <div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'instagram'])}}">
                                                             <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
                                                                 <div class="fa fa-arrow-alt-circle-right mt-5">
                                                                 </div>
@@ -437,19 +408,12 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
-                                                <div id="ContentTrans" class="d-flex w-100">
-                                                @foreach($values->data as $contentData)
-                                                    <div class="col-2 justify-content-center">
-                                                        <a href="#">
-                                                            <div class="card h-100" style="border-radius: 16px">
-                                                                <img class="img-fluid" src="{{asset('storage/'.$contentData->thumbnail)}}"
-                                                                     alt="Card image cap">
-                                                            </div>
-                                                        </a>
+                                                <div class="d-flex w-100">
+                                                    <div class="d-flex w-100" id="ContentTrans">
+
                                                     </div>
-                                                @endforeach
                                                     <div class="col-2 justify-content-center">
-                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'article'])}}">
+                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'transformation'])}}">
                                                             <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
                                                                 <div class="fa fa-arrow-alt-circle-right mt-5">
                                                                 </div>
@@ -477,19 +441,12 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
-                                                <div id="ContentLogo" class="d-flex w-100">
-                                                @foreach($values->data as $contentData)
-                                                    <div class="col-2 justify-content-center">
-                                                        <a href="#">
-                                                            <div class="card h-100" style="border-radius: 16px">
-                                                                <img class="img-fluid" src="{{asset('storage/'.$contentData->thumbnail)}}"
-                                                                     alt="Card image cap">
-                                                            </div>
-                                                        </a>
+                                                <div class="d-flex w-100">
+                                                    <div class="d-flex w-100"  id="ContentLogo">
+
                                                     </div>
-                                                @endforeach
                                                     <div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'logo'])}}">
                                                             <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
                                                                 <div class="fa fa-arrow-alt-circle-right mt-5">
                                                                 </div>
@@ -517,19 +474,12 @@
                                                 <p>{{$values->total_data}}</p>
                                             </div>
                                             @if(!empty($values->data))
-                                                <div id="ContentInfo" class="d-flex w-100">
-                                                @foreach($values->data as $contentData)
-                                                    <div class="col-2 justify-content-center">
-                                                        <a href="#">
-                                                            <div class="card h-100" style="border-radius: 16px">
-                                                                <img class="img-fluid" src="{{asset('storage/'.$contentData->thumbnail)}}"
-                                                                     alt="Card image cap">
-                                                            </div>
-                                                        </a>
+                                                <div class="d-flex w-100">
+                                                    <div class="d-flex w-100" id="ContentInfo">
+
                                                     </div>
-                                                @endforeach
                                                     <div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'infographics'])}}">
                                                             <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
                                                                 <div class="fa fa-arrow-alt-circle-right mt-5">
                                                                 </div>

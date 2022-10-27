@@ -251,8 +251,8 @@
                                 </div>
                             </div>
                             <hr/>
-                            <div class="d-flex justify-content-between mt-3">
-                                <div class="mr-auto p-2">
+                            <div class="d-flex justify-content-end mt-3">
+                                <div class="p-2">
                                     <div class="dropdown">
                                         <button id="btn-sort-comsup" data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle">
                                             Sort By
@@ -288,49 +288,7 @@
                                     </div>
                                 @else
                                     <div id="container-impl">
-                                    @foreach($data as $content)
-                                        <div class="container-fluid">
-                                            <a href="{{route('view.implement', $content->slug)}}">
-                                                <div class="card d-flex w-100 p-2" style="border-radius: 16px; width: 30rem">
-                                                    <div class="row">
-                                                        <div class="col-lg-2">
-                                                            <img class="card-img" style="height: auto;" src="{{asset('storage/'.$content->thumbnail)}}" alt="Card image cap">
-                                                        </div>
-                                                        <div class="col-lg-10">
-                                                            <h4>{{$content->title}}</h4>
-                                                            @if(str_contains(request()->path(), 'piloting'))
-                                                                <div style="background-color: #0a53be; border-radius: 10px;">
-                                                                    <p class="text-white m-2">PILOTING</p>
-                                                                </div>
-                                                                {!! \Illuminate\Support\Str::limit($content->desc_piloting, 200, '... Baca Selengkapnya') !!}
-                                                            @elseif(str_contains(request()->path(), 'roll-out'))
-                                                                <div style="background-color: #0a53be; border-radius: 10px;">
-                                                                    <p class="text-white m-2">ROLLOUT</p>
-                                                                </div>
-                                                                {!! \Illuminate\Support\Str::limit($content->desc_roll_out, 200, '... Baca Selengkapnya') !!}
-                                                            @elseif(str_contains(request()->path(), 'sosialisasi'))
-                                                                <div style="background-color: #0a53be; border-radius: 10px;">
-                                                                    <p class="text-white m-2">SOSIALISASI</p>
-                                                                </div>
-                                                                {!! \Illuminate\Support\Str::limit($content->desc_sosialisasi, 200, '... Baca Selengkapnya') !!}
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex p-2 justify-content-end">
-                                                        <div class="row">
-                                                            <p class="pr-2 fas fa-eye" style="font-size: 23px; margin-bottom: 0px; margin-top: 0px">
-                                                                <span>{{$content->views}}</span>
-                                                            </p>
-                                                            <button class="btn fas fa-download pr-2" style="font-size: 20px"></button>
-                                                            <button class="btn fas fa-share-square pr-2"
-                                                                    style="font-size: 20px"></button>
-                                                            <button class="btn fas fa-heart" style="font-size: 20px"></button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    @endforeach
+
                                     </div>
                                 @endif
                             </div>

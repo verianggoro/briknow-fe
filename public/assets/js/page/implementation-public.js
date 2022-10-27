@@ -20,6 +20,7 @@ for (let i = 0; i < metas.length; i++) {
     }
 }
 
+
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -35,6 +36,8 @@ function getCookie(cname) {
     }
     return "";
 }
+
+getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
 
 function getData(page, year, month, divisi, sort, search){
     const url = `${getCookie('url_be')}api/get/implementation/all/publish/${lastpath}?page=${page}&year=${year}&month=${month}&divisi=${divisi}&sort=${sort}&search=${search}`
@@ -52,7 +55,7 @@ function getData(page, year, month, divisi, sort, search){
                 for (let index=0; index < data.data.data.length; index++) {
                     if (lastpath === 'piloting'){
                         $('#container-impl').append(`<div class="container-fluid">
-                                            <a href="{{route('view.implement', $content->slug)}}">
+                                            <a href="${uri+'/view/implementation/'+data.data.data[index].slug}">
                                                 <div class="card d-flex w-100 p-2" style="border-radius: 16px; width: 30rem">
                                                     <div class="row">
                                                         <div class="col-lg-2">
@@ -82,7 +85,7 @@ function getData(page, year, month, divisi, sort, search){
                                         </div>`);
                     }else if (lastpath === 'roll-out'){
                         $('#container-impl').append(`<div class="container-fluid">
-                                            <a href="{{route('view.implement', $content->slug)}}">
+                                            <a href="${uri+'/view/implementation/'+data.data.data[index].slug}">
                                                 <div class="card d-flex w-100 p-2" style="border-radius: 16px; width: 30rem">
                                                     <div class="row">
                                                         <div class="col-lg-2">
@@ -112,7 +115,7 @@ function getData(page, year, month, divisi, sort, search){
                                         </div>`)
                     }else if (lastpath === 'sosialisasi'){
                         $('#container-impl').append(`<div class="container-fluid">
-                                            <a href="{{route('view.implement', $content->slug)}}">
+                                            <a href="${uri+'/view/implementation/'+data.data.data[index].slug}">
                                                 <div class="card d-flex w-100 p-2" style="border-radius: 16px; width: 30rem">
                                                     <div class="row">
                                                         <div class="col-lg-2">
