@@ -113,65 +113,6 @@
                 </div>
 {{--                for each--}}
                 <div id="container-review">
-                @forelse($data as $value)
-                    <div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
-                        <div class="row">
-                            <div class="col-2">
-                                <p class="text-primary">{{$value->divisi->direktorat}}</p>
-                            </div>
-                            <div class="col-3">
-                                <p class="text-primary">{{$value->divisi->divisi}}</p>
-                            </div>
-                            <div class="col-3">
-                                <p>{{$value->nama}}</p>
-                            </div>
-                            @forelse($value->consultant as $consultValue)
-                                <div class="col-2">
-                                    <p class="text-primary">{{$consultValue->nama}}</p>
-                                </div>
-                            @empty
-                                <div class="col-2">
-                                    <p class="text-primary">Internal</p>
-                                </div>
-                            @endforelse
-                            <div class="col-2">
-                                <a href="{{route('kontribusi.edit', $value->slug)}}" class="btn btn-outline-secondary fas fa-pen"></a>
-                                <button class="btn btn-outline-secondary fas fa-trash"></button>
-                                @if(!empty($value->lesson_learned))
-                                    <button class="btn btn-outline-secondary fas fa-caret-down" data-toggle="collapse" href="#{{trim($value->nama)}}" aria-expanded="false" aria-controls="{{trim($value->nama)}}"></button>
-                                @endif
-                            </div>
-                        </div>
-                            <div class="collapse" id="{{trim($value->nama)}}">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <h6>Lesson Learned</h6>
-                                        </div>
-                                        <div class="col-8">
-                                            <h6>Keterangan</h6>
-                                        </div>
-                                    </div>
-                                    <hr/>
-                                    @forelse($value->lesson_learned as $lessonLearned)
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <p>{{$lessonLearned->lesson_learned}}</p>
-                                            </div>
-                                            <div class="col-8">
-                                                <p>{{$lessonLearned->detail}}</p>
-                                            </div>
-                                        </div>
-                                        <hr/>
-                                    @empty
-                                        EMPTY
-                                    @endforelse
-                                </div>
-                            </div>
-                    </div>
-                @empty
-                    EMPTY
-                @endforelse
                 </div>
                 <div class="d-flex justify-content-sm-end content-pagination" id="pag">
                 </div>

@@ -52,6 +52,7 @@ $('#divisi-lesson-init').on('select2:select', function (e) {
     getData(tahapParam, divisiParam, keyParam)
 })
 
+getData(tahapParam, divisiParam, keyParam)
 const cekDivisi = (selOrUn, value) => {
     if($('#divisi-lesson-init').hasClass('is-invalid') || $('#divisi-lesson-init').hasClass('is-valid')){
         if(this.value == ""){
@@ -164,10 +165,10 @@ function getData(tahap, divisi, search){
                     $("#container-review").append(`<div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
                         <div class="row">
                             <div class="col-2">
-                                <p class="text-primary">${data.data[i].divisi.direktorat}</p>
+                                <a href="${uri+ '/katalog/'+data.data[i].divisi.divisi}" class="text-primary">${data.data[i].divisi.direktorat}</a>
                             </div>
                             <div class="col-3">
-                                <p class="text-primary">${data.data[i].divisi.divisi}</p>
+                                <a href="${uri+ '/katalog/'+data.data[i].divisi.divisi}" class="text-primary">${data.data[i].divisi.divisi}</a>
                             </div>
                             <div class="col-3">
                                 <p>${data.data[i].nama}</p>
@@ -176,7 +177,7 @@ function getData(tahap, divisi, search){
                                  <p class="text-primary">${data.data[i].consultant[0].nama}</p>
                             </div>
                             <div class="col-2">
-                                <a href="{{route('kontribusi.edit', $value->slug)}}" class="btn btn-outline-secondary fas fa-pen"></a>
+                                <a href="${uri+ '/kontribusi/'+data.data[i].slug}" class="btn btn-outline-secondary fas fa-pen"></a>
                                 <button class="btn btn-outline-secondary fas fa-trash"></button>
                                 <button class="btn btn-outline-secondary fas fa-caret-down" data-toggle="collapse" href="#${data.data[i].nama.trim()}" aria-expanded="false" aria-controls="${data.data[i].nama.trim()}"></button>
                             </div>
@@ -208,19 +209,19 @@ function getData(tahap, divisi, search){
                     $("#container-review").append(`<div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
                         <div class="row">
                             <div class="col-2">
-                                <p class="text-primary">${data.data[i].divisi.direktorat}</p>
+                                <a href="${uri+ '/katalog/'+data.data[i].divisi.divisi}" class="text-primary">${data.data[i].divisi.direktorat}</a>
                             </div>
                             <div class="col-3">
-                                <p class="text-primary">${data.data[i].divisi.divisi}</p>
+                                <a href="${uri+ '/katalog/'+data.data[i].divisi.divisi}" class="text-primary">${data.data[i].divisi.divisi}</a>
                             </div>
                             <div class="col-3">
                                 <p>${data.data[i].nama}</p>
                             </div>
                             <div class="col-2">
-                                 <p class="text-primary">Internal</p>
+                                 <p class="text-primary">-</p>
                             </div>
                             <div class="col-2">
-                                <a href="{{route('kontribusi.edit', $value->slug)}}" class="btn btn-outline-secondary fas fa-pen"></a>
+                                <a href="${uri+ '/kontribusi/'+data.data[i].slug}" class="btn btn-outline-secondary fas fa-pen"></a>
                                 <button class="btn btn-outline-secondary fas fa-trash"></button>
                             </div>
                         </div>
