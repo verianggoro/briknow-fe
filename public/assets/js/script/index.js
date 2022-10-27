@@ -854,8 +854,15 @@ const getgraph3 = (data) => {
         series.sequencedInterpolation = true;
         series.dataFields.valueY = "jml";
         series.dataFields.categoryX = "tahap";
+        series.dataFields.urlField= "url";
+        series.dataFields.urlTarget= "_blank";
         series.tooltip.label.interactionsEnabled = true;
         series.tooltip.keepTargetHover = true;
+        // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+        series.columns.template.strokeWidth = 0;
+        series.columns.template.tooltipHTML = '<a class="text-decoration-none" href="{urlField}" target="_blank"><b>{categoryX} : {valueY}</b></a>';
+
+        series.tooltip.pointerOrientation = "vertical";
         // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
         series.columns.template.strokeWidth = 0;
 
@@ -879,6 +886,11 @@ const getgraph3 = (data) => {
         // Cursor
         chart.cursor = new am4charts.XYCursor();
         chart.cursor.behavior = "panX";
+
+        series.columns.template.events.on("hit", function(ev) {
+            let source = ev.target.dataItem;
+            open(source.urlField, '_blank');
+        }, this);
     }); // end am4core.ready()
 }
 

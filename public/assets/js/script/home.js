@@ -1771,6 +1771,13 @@ function toKatalog() {
     if (conSelected.length > 0) {
         localStorage.setItem("fil_kon",conSelected.join(','));
     }
+
+    let lesson = $('#lessonLearned').val()
+    if (lesson !== null){
+        window.location.assign(uri+'/mylesson')
+    }else{
+        window.location.assign(uri+'/katalog')
+    }
 }
 
 $('#direktorat').on('select2:select', function (e) {

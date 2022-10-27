@@ -126,7 +126,7 @@
                                     </div>
                                 @empty
                                     <div class="col-2">
-                                        <p class="text-primary">Internal</p>
+                                        <p class="text-primary">-</p>
                                     </div>
                                 @endforelse
                                 <div class="col-2">

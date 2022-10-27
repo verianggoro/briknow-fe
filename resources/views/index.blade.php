@@ -216,7 +216,7 @@
                               <div class="px-2 item w-100 p-0">
                                   <a href="{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}" class="text-decoration-none text-dark">
                                       <div class="card bg-6sa6ss sh-a22l" style="border-radius: 16px">
-                                          <img class="card-img-up" style="max-width: 100%; height: auto" src="{{ asset('storage/'.$item->thumbnail)}}" alt="Card image cap">
+                                          <img class="card-img-up" style="max-width: 20rem; height: 10rem" src="{{ asset('storage/'.$item->thumbnail)}}" alt="Card image cap">
                                           <div class="card-body">
                                               <h5 class="card-title">{{$item->nama}}</h5>
                                               {!! \Illuminate\Support\Str::limit($item->desc, 20, ' ...') !!}
@@ -405,7 +405,7 @@
                               </div>
                           </div>
                           <div class="w-100 d-flex mt-4 justify-content-center">
-                              <a class="btn btn-primary" href="{{route('katalog.index')}}" onclick="toKatalog()" oncontextmenu="toKatalog()" onmousedown="toKatalog()">Terapkan</a>
+                              <a class="btn btn-primary" onclick="toKatalog()" oncontextmenu="toKatalog()" onmousedown="toKatalog()">Terapkan</a>
                           </div>
                       </div>
                   </div>

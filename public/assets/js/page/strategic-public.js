@@ -18,7 +18,22 @@ for (let i = 0; i < metas.length; i++) {
     if (metas[i].getAttribute('name') === "pages") {
         uri = metas[i].getAttribute('content');
     }
+    if (metas[i].getAttribute('name') === "csrf") {
+        csrf = metas[i].getAttribute('content');
+    }
 }
+
+const Toast2 = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+});
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -34,6 +49,51 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function openPreview(id) {
+    const url = `${uri}/communication/views/content/${id}?public=1`
+    let t = "{{$token_auth}}";
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            $('.senddataloader').show();
+            $('#content-modal').empty();
+        },
+        success: function (data) {
+            $('.senddataloader').hide();
+
+            let view = data.data.views
+            $(`#view-${id}`).text(view)
+            $('#content-modal').append(data.prev);
+
+            $('#preview').modal({
+                show : true
+            });
+
+            showSlides(slideIndex);
+        },
+        error: function () {
+            $('.senddataloader').hide();
+            Toast2.fire({icon: 'error',title: 'Gagal'});
+        },
+    })
+}
+
+$('#preview').on('hidden.bs.modal', function () {
+    let video = $('video').get(0)
+    if (video) {
+        video.pause()
+    }
+
+    $('#content-modal').empty();
+})
+
+if (twoLastPath[3] !== undefined){
+    getDataByContent(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
 }
 
 function getData(page, year, month, divisi, sort, search){
@@ -188,13 +248,13 @@ function getDataByContent(page, year, month, divisi, sort, search){
             if (data.data !== undefined || data.data.length !== 0){
                 for (let index=0; index < data.data.length; index++) {
                     $("#card-content-strategic").append(`<div class="col-lg-4 d-flex justify-content-center">
-                                        <a href="#" target="_blank" style="width: inherit">
+                                        <a onclick="openPreview(${data.data[index].id})" style="width: inherit">
                                             <div class="card" style="border-radius: 16px;">
                                                 <img class="card-img-up"
                                                      src="${uri+'/storage/'+data.data[index].thumbnail}"
                                                      alt="Card image cap">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">${data.data[index].title}}</h5>
+                                                    <h5 class="card-title">${data.data[index].title}</h5>
                                                     <div class="d-flex justify-content-between">
                                                         <i class="mr-auto p-2 fas fa-eye">
                                                             <span>${data.data[index].views}</span>

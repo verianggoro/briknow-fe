@@ -273,13 +273,13 @@
                                                 <h4>Articles</h4>
                                             </div>
                                             <div class="col-12">
-                                                <p>{{$values->total_data}}</p>
+                                                <p>{{$values->total_data. ' Files'}}</p>
                                             </div>
                                             @if(!empty($values->data))
                                                 <div id="ContentArticle" class="d-flex w-100">
                                                 @foreach($values->data as $contentData)
                                                     <div class="col-2 justify-content-center">
-                                                        <a href="#">
+                                                        <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'article'])}}">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="{{asset('storage/'.$contentData->thumbnail)}}"
                                                                      alt="Card image cap">
