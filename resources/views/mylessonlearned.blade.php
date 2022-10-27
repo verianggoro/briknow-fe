@@ -22,7 +22,7 @@
                 </div>
                 <div class="p-2 bd-highlight">
                     <button id="btn-sort-lesson" data-toggle="dropdown"
-                            class="btn btn-outline-secondary bg-white dropdown-toggle">
+                            class="btn btn-filter bg-white dropdown-toggle">
                         Tahap Proyek
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left">
