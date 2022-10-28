@@ -27,7 +27,7 @@
             <div class="row mt-4">
                 <div class="col-md-8 col-sm-12 mb-2">
                     <div class="col-sm-12 px-0">
-                        <a href="#" class="d-block font-weight-bold" style="font-size: 1.8rem; width: fit-content;margin-bottom: 0.5rem;line-height: 1.2;" id="prev_namaproject">{{!empty($project->nama)?$project->nama:"-"}}</a>
+                        <a href="{{route('project.index',$project->slug)}}" class="d-block font-weight-bold" style="font-size: 1.8rem; width: fit-content;margin-bottom: 0.5rem;line-height: 1.2;" id="prev_namaproject">{{!empty($project->nama)?$project->nama:"-"}}</a>
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-sm-6" id="prev_const">
@@ -192,7 +192,7 @@
 
                 @if($data->desc_roll_out)
                         <div class="col-md-12 d-block w-100 mb-4 mt-2">
-                            <div class="preview-desc-head">Roll Out</div>
+                            <div class="preview-desc-head">Roll-Out</div>
                             <div class="metodologi-isi wrap" id="prev_deskripsi">{{strip_tags($data->desc_roll_out)}}</div>
                         </div>
                         <div class="col-md-12 d-block w-100">

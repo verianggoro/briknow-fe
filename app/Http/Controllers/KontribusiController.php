@@ -874,6 +874,13 @@ class KontribusiController extends Controller
             $folder = uniqid().'-'.now()->timestamp;
             $objek_diupload = $file->store('document/'.$kategori.'/'.$folder, 'public');
 
+            if (request()->del) {
+                if(File::exists(public_path("storage/".request()->del))){
+                    File::delete(public_path("storage/".request()->del));
+                    File::deleteDirectory(dirname(public_path("storage/".request()->del)));
+                }
+            }
+
             $ch = curl_init();
             $headers  = [
                         'Content-Type: application/json',
@@ -888,6 +895,7 @@ class KontribusiController extends Controller
                 'extension'     => $extension,
                 'path'          => $objek_diupload,
                 'dir'           => 'document/'.$kategori.'/'.$folder,
+                'del'           => request()->del,
             );
 
             curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/up/$kategori");

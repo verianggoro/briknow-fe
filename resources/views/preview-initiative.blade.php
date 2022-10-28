@@ -32,9 +32,13 @@
                                 <img src="{{Config::get('app.url').'storage/'.$doc->url_file}}" class="max-600" width="100%" height="500px" alt="{{$doc->nama}}" style="border: 1px solid rgba(0, 0, 0, 0.2); width: fit-content">
                             </div>
                         @elseif($doc->jenis_file == 'mp4')
-                            <video controls autoplay height="500px" style="border-radius: 4px">
+                            <video controls autoplay height="500" style="border-radius: 4px">
                                 <source src="{{Config::get('app.url').'storage/'.$doc->url_file}}" type="video/mp4">
                             </video>
+                        @elseif($doc->jenis_file == 'pdf' or $doc->jenis_file == 'txt')
+                            <div>
+                                <iframe src="{{Config::get('app.url').'storage/'.$doc->url_file}}" allow="fullscreen" height="495" style="width: 80%"></iframe>
+                            </div>
                         @else
                             <div>
                                 <img src="{{Config::get('app.url').'storage/'.$data->thumbnail}}" class="max-600" width="100%" height="500px" alt="{{$data->title}}" style="border: 1px solid rgba(0, 0, 0, 0.2);width: fit-content">

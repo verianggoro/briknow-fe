@@ -60,9 +60,6 @@
                 </div>
             </div>
             <!-- NAVIGASI -->
-            @include('layouts.alert')
-
-
 
             <div class="stepwizard align-items-center mb-4">
                 <div class="stepwizard-row setup-panel">
@@ -188,9 +185,15 @@
                     <div class="form-group row">
                         <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center label-cus-2">Nama Proyek<span class="text-danger ml-1">*</span></label>
                         <div class="col-md-10 col-sm-12">
-                            <input style="height: 40px" type="text" name="nama_project" id="nama_project" class="form-control" value="{{$data->data->title ?? old('nama_project')}}" placeholder="Nama Proyek" required>
+                            <select class="nama_project select2 form-control @error('project') is-invalid @enderror" value="{{old('project')}}" id="project" name="project" placeholder='Nama Proyek' required>
+                                <option value="" class="d-none" data-select2-tag="true">Nama Proyek</option>
+                                @isset($data->data->project->nama)
+                                    <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->project->nama}}</option>
+                                @endisset
+                            </select>
                         </div>
                     </div>
+                    <input type="hidden" class="d-none" id="title" name="title" value="{{$data->data->title ?? old('title')}}">
                     <div class="form-group row">
                         <div class="col-md-2 col-sm-12"></div>
                         <div class="col-md-5 col-sm-12">
@@ -280,7 +283,7 @@
                         <label for="piloting"> Piloting </label><br>
                         <input type="hidden" name="rollout" value="0">
                         <input type="checkbox" id="rollout" name="rollout" value="1" data-id="#rollout_view" {{isset($data->data->desc_roll_out) ? 'checked' : ''}}>
-                        <label for="rollout"> Roll Out </label><br>
+                        <label for="rollout"> Roll-Out </label><br>
                         <input type="hidden" name="sosialisasi" value="0">
                         <input type="checkbox" id="sosialisasi" name="sosialisasi" value="1" data-id="#sosialisasi_view" {{isset($data->data->desc_sosialisasi) ? 'checked' : ''}}>
                         <label for="sosialisasi"> Sosialisasi </label>
@@ -339,7 +342,7 @@
                     </div>
                     <div id="rollout_view" style="display:none">
                         <div class="mb-4">
-                            <h4>Deskripsi Roll Out</h4>
+                            <h4>Deskripsi Roll-Out</h4>
                             <div class="form-group row ">
 <!--                                <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>-->
                                 <div class="col-md-12">
@@ -349,7 +352,7 @@
                         </div>
                         <div class="mb-4">
                             <div class="form-group mb-1">
-                                <h4>Dokumen Roll Out</h4>
+                                <h4>Dokumen Roll-Out</h4>
                                 <div id="attach-wrap-rollout" class="dropzones-wrapper d-flex align-items-center justify-content-center">
                                     <div class="dropzones-desc d-flex align-items-center justify-content-center">
                                         <i class="fa fa-file mr-3" style="font-size: 24px"></i>
@@ -437,44 +440,7 @@
                         </div>
                     </div>
 
-
-                    <!--@isset($data->data->nama)
-                    <div class="form-group project-link" style="width: 70%;">
-                        <label for="link" class="label-cus">Nama Proyek<span style="font-size: 14px;font-weight: normal">&nbsp;(jika project existing di BRIKNOW)</span></label>
-                        <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' required>
-                            <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
-                        </select>
-                    </div>
-                    @endisset-->
-                    <div class="mb-4">
-                        <div class="ml-1 row">
-                            <h4>Nama Proyek</h4>
-                        </div>
-                        <div class="form-group row ">
-                            <div class="col-md-12">
-                                <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' required>
-                                    @isset($data->data->project->nama)
-                                    <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->project->nama}}</option>
-                                    @endisset
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
                     <input type="hidden" name="is_new" id="is_new" value="1">
-
-                    <!--<div class="row d-flex">
-                        <div class="col-md-12">
-                            <div class="input-group mb-3">
-                                <select name="pn" id="pn" class="pn select2 form-control @error('pn') is-invalid @enderror" placeholder='Masukan Personal Number'></select>
-                                <small class='text-black font-italic'>* Pastikan <b>Personal Number</b> yang di Isi Merupakan Role User</small>
-                                @error('pn')
-                                {{$message}}
-                                @enderror
-                            </div>
-                            <button class="btn btn-success btn-sm float-right" type="submit" id="btn-cari-proyek">Tambahkan</button>
-                        </div>
-                    </div>-->
 
                     @if(session()->get('role') == 3)
                     @isset($data->data->user_maker)

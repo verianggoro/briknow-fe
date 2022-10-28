@@ -325,7 +325,7 @@ tbody tr:last-child td {
     width: 100%;
     height: 125px !important;
     cursor: pointer;
-    opacity: 0;
+    opacity: 0 !important;
 }
 .dropzones-wrapper:hover,
 .dropzones-wrapper.dragover {

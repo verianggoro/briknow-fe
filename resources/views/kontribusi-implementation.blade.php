@@ -168,7 +168,12 @@
                     <div class="form-group row">
                         <label for="" class="col-md-2 col-sm-12 col-form-label d-flex align-items-center">Nama Proyek<span class="text-danger ml-1">*</span></label>
                         <div class="col-md-10 col-sm-12">
-                            <input type="text" name="nama_project" id="nama_project" class="form-control" value="{{$data->data->nama ?? old('nama_project')}}" placeholder="Nama Proyek" required>
+                            <select class="nama_project select2 form-control @error('project') is-invalid @enderror" value="{{old('project')}}" id="project" name="project" placeholder='Nama Proyek' required>
+                                <option value="" class="d-none" data-select2-tag="true">Nama Proyek</option>
+                                @isset($data->data->project->nama)
+                                    <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->project->nama}}</option>
+                                @endisset
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -264,7 +269,7 @@
                         <label for="piloting"> Piloting </label><br>
                         <input type="hidden" name="rollout" value="0">
                         <input type="checkbox" id="rollout" name="rollout" value="1" data-id="#rollout_view">
-                        <label for="rollout"> Roll Out </label><br>
+                        <label for="rollout"> Roll-Out </label><br>
                         <input type="hidden" name="sosialisasi" value="0">
                         <input type="checkbox" id="sosialisasi" name="sosialisasi" value="1" data-id="#sosialisasi_view">
                         <label for="sosialisasi"> Sosialisasi </label>
@@ -326,7 +331,7 @@
                     </div>
                     <div id="rollout_view" style="display:none">
                         <div class="mb-4">
-                            <h4>Deskripsi Roll Out</h4>
+                            <h4>Deskripsi Roll-Out</h4>
                             <div class="form-group row ">
                                 <label for="" class="col-sm-12 col-form-label font-weight-600">Deskripsi Piloting<span class="text-danger ml-1">*</span></label>
                                 <div class="col-md-12">
@@ -336,7 +341,7 @@
                         </div>
                         <div class="mb-4">
                             <div class="form-group mb-1">
-                                <h4>Dokumen Roll Out</h4>
+                                <h4>Dokumen Roll-Out</h4>
                                 <div id="attach-wrap-rollout" class="dropzones-wrapper d-flex align-items-center justify-content-center">
                                     <div class="dropzones-desc d-flex align-items-center justify-content-center">
                                         <i class="fa fa-file mr-3" style="font-size: 24px"></i>
@@ -424,21 +429,6 @@
                                 @empty
                                 @endforelse
                                 @endisset
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <div class="ml-1 row">
-                            <h4>Nama Proyek</h4>
-                        </div>
-                        <div class="form-group row ">
-                            <div class="col-md-12">
-                                <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' required>
-                                    @isset($data->data->nama)
-                                    <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->nama}}</option>
-                                    @endisset
-                                </select>
                             </div>
                         </div>
                     </div>

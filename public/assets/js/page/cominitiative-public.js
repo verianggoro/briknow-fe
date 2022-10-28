@@ -9,6 +9,7 @@ var monthParam = "";
 var divisiParam = "";
 var sortParam = "";
 var keywordParam = "";
+const url = document.location.href;
 const urlParam = new URLSearchParams(window.location.search)
 const slug = urlParam.get('slug')
 
@@ -101,6 +102,12 @@ function getData(page, year, month, divisi, sort, search){
                         openPreview(datas.id)
                     } else {
                         Toast2.fire({icon: 'error',title: 'Content tidak ditemukan!'});
+                        if (urlParam) {
+                            if (slug) {
+                                window.history.pushState({}, '', url.split("?")[0]);
+
+                            }
+                        }
                     }
                 }
             }else{
@@ -151,6 +158,13 @@ $('#preview').on('hidden.bs.modal', function () {
     let video = $('video').get(0)
     if (video) {
         video.pause()
+    }
+
+    if (urlParam) {
+        if (slug) {
+            window.history.pushState({}, '', url.split("?")[0]);
+
+        }
     }
 
     $('#content-modal').empty();

@@ -3,6 +3,7 @@ let uri                     = '';
 let base_url                = '';
 let token                   = '';
 let old_photo               = '';
+let old_hidden_photo        = '';
 let old_attach              = [];
 let old_attach_rollout      = [];
 let old_attach_sosialisasi  = [];
@@ -251,6 +252,12 @@ $(document).ready(function () {
         let kolomrestricted = $('#restricted').val();
 
         if (t == 0) {
+
+            if($('#project').hasClass('is-invalid')){
+                $("[aria-labelledby='select2-project-container']").attr("style", "border-color:red;");
+            }else{
+                $("[aria-labelledby='select2-project-container']").attr("style", "border-color:#38c172;");
+            }
             // foto
             if($('#photo').hasClass('is-invalid')){
                 $("#drop-wrap").attr("style", "border:1px solid #e3342f;");
@@ -303,12 +310,6 @@ $(document).ready(function () {
 
         }else if(t === 1){
             // slide 2
-
-            if($('#link').hasClass('is-invalid')){
-                $("[aria-labelledby='select2-link-container']").attr("style", "border-color:red;");
-            }else{
-                $("[aria-labelledby='select2-link-container']").attr("style", "border-color:#38c172;");
-            }
 
             if (!$('#piloting').is(':checked') && !$('#rollout').is(':checked') && !$('#sosialisasi').is(':checked')) {
                 isValid = false
@@ -427,6 +428,10 @@ $(document).ready(function () {
         placeholder : 'Pilih Direktorat'
     });
 
+    $("#project").select2({
+        placeholder : 'Nama Proyek'
+    });
+
     $('#tags').select2({
         placeholder : 'Cari Tags',
         tags: true
@@ -520,11 +525,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#link').select2({
-        placeholder : 'Nama Proyek'
-    });
-
-    $("#link").select2({
+    $("#project").select2({
         placeholder: 'Nama Proyek',
         tags: true,
         minimumInputLength: 1,
@@ -533,6 +534,13 @@ $(document).ready(function () {
             inputTooShort: function (args) {
                 return "Type at least 1 character";
             },
+        },
+        createTag: function (tag) {
+            return {
+                id: tag.term,
+                text: tag.term,
+                isNew : true
+            };
         },
         ajax: {
             url: `${base_url}/searchproject`,
@@ -552,7 +560,6 @@ $(document).ready(function () {
             }
         }
     });
-
 
     function bytesToSize(bytes) {
         let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -672,14 +679,10 @@ $(document).ready(function () {
         $('#prev_tglmulai').empty();
         $('#prev_tglselesai').empty();
         $('#prev_status').empty();
-        /*if (photo_file === uri+"/public/assets/img/boxdefault.svg") {
-            t_photo             = uri+"/storage/"+$('#thumbnail').val();
-        }else{
-            t_photo             = photo_file;
-        }*/
+        
         $('#prev_thumbnail').attr('src',`${t_photo}`);
-        $('#prev_thumbnail').attr('alt',`${$('#nama_project').val()}`);
-        $('#prev_namaproject').append(`${$('#nama_project').val()}`);
+        $('#prev_thumbnail').attr('alt',`${$('#title').val()}`);
+        $('#prev_namaproject').append(`${$('#title').val()}`);
         $('#prev_pm').append($('#projectmanager').val());
         $('#prev_emailpm').append(`<i class="far fa-envelope mr-1"></i><a href="mailto:${t_email}">${t_email}</a>`);
         $('#prev_divisi').append(`${t_divisi}`);
@@ -936,9 +939,14 @@ function formatSelect(project) {
     if (project !== null && project !== undefined) {
         if (project.image !== null && project.image !== undefined) {
             let src = `${uri}/storage/${project.image}`
-            contents += `<div><img src='${src}' alt="${project.text}" onerror="imgError(this)" width="50" height="50" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)"></div> `
+            contents += `<div><img src='${src}' alt="${project.text}" onerror="imgError(this)" width="50" height="50" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)"></div>`
         }
-        contents += `<div>${project.text}</div>`
+
+        if (project.isNew) {
+            contents += `<div>${project.text} (New Project)</div>`
+        } else {
+            contents += `<div>${project.text}</div>`
+        }
     }
     contents += `</div>`
 
@@ -1269,8 +1277,19 @@ $('#direktorat').change(function(){
     }
 });
 
-$('#link').change(function () {
+$('#project').change(function () {
     cekProject($(this).val())
+})
+
+$('#project').on('select2:select', function (e) {
+    if($('#project').hasClass('is-invalid') || $('#project').hasClass('is-valid')){
+        if(this.value == ""){
+            $("[aria-labelledby='select2-project-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-project-container']").attr("style", "border-color:#38c172;");
+        }
+    }
+
 })
 
 function cekProject(id) {
@@ -1291,6 +1310,35 @@ function cekProject(id) {
                 $("#direktorat").attr("readonly", "readonly");
                 $("#divisi").attr("readonly", "readonly");
                 $('#is_new').val(0)
+
+                if ($('#thumbnail').val()) {
+                    old_photo = $('#thumbnail-desc').html()
+                    old_hidden_photo = $('#hidden-thumbnail').html()
+
+                    const hidden_del = `<input type="hidden" class="temp_temp" name="temp_delete[]" value="${$('#thumbnail').val()}">`
+                    $('#temp_delete').append(hidden_del)
+                }
+
+                $('#thumbnail-prev').remove()
+                $('#thumbnail-del').remove()
+                $('#thumbnail-loading').remove()
+                let src = `${uri}/storage/${project.thumbnail}`
+                let imagePrev = `
+                    <img id="thumbnail-prev" class="blur-image thumbnail-prev" onerror="imgError(this)" src="${src}" alt="thumbnail" />`
+
+                $('#thumbnail-desc').append($(imagePrev).hide().fadeIn(300));
+
+                if($('#form').hasClass('was-validated')){
+                    $("#thumbnail-prev").attr("style", "border:solid 1px #38c172;");
+                }
+
+                $('#thumbnail-prev').removeClass('blur-image')
+                $('#hidden-thumbnail').empty()
+                let hidden_thumb = `<input type="hidden" class="d-none" id="thumbnail" name="thumbnail" value="${project.thumbnail}">`
+                $('#hidden-thumbnail').append(hidden_thumb);
+                $('#title').val(project.nama)
+                $('#photo').removeAttr('required')
+                $('#photo').attr("disabled", "disabled");
                 /*$("#direktorat").select2(divisi.direktorat);
                 $("#divisi").select2(divisi.id, divisi.divisi);*/
             },
@@ -1301,10 +1349,25 @@ function cekProject(id) {
         });
     } else {
         project = []
-        $("#direktorat").val(null).trigger('change');
-        $("#divisi").val(null).trigger('change');
+        $('#title').val(id)
+        // $("#direktorat").val(null).trigger('change');
+        // $("#divisi").val(null).trigger('change');
         $("#direktorat").removeAttr('readonly');
         $("#divisi").removeAttr('readonly');
+        $("#photo").removeAttr('disabled');
+        $('#photo').attr("required", "required");
+
+        if (old_photo) {
+            $('#thumbnail-prev').remove()
+            $('#thumbnail-del').remove()
+            $('#thumbnail-loading').remove()
+            $('#thumbnail-desc').append(old_photo.toString())
+            $('.temp_temp').remove()
+        }
+        if (old_hidden_photo) {
+            $('#hidden-thumbnail').empty()
+            $('#hidden-thumbnail').append(old_hidden_photo.toString())
+        }
         $('#is_new').val(1)
     }
 }
@@ -1345,18 +1408,16 @@ const cekDivisi = (valueOld = null) => {
                         }else{
                             option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
                         }
-                    } else if (project.length !== 0) {
-                        if (project.divisi.id === data.data[index].id) {
-                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
-                        }else{
-                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
-                        }
                     } else{
                         option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
                     }
                 }
             }
             $('#divisi').append(option);
+
+            if (project.length !== 0) {
+                $('#divisi').val(project.divisi.id).trigger('change')
+            }
         },
         error : function(e){
             $('.senddataloader').hide();
@@ -1432,19 +1493,19 @@ $("#send").click(function(){
             try {
                 let cek_edit = document.getElementById('id').value;
                 if (typeof(cek_edit) == 'undefined') {
-                    $("#project").val('1');
+                    // $("#project").val('1');
                     $('#form').submit();
                     $('.senddataloader').show();
                 }else{
                     $('.senddataloader').show();
                     $('#form').attr('action',uri+"/kontribusi/update");
 
-                    $("#project").val('1');
+                    // $("#project").val('1');
                     $('#form').submit();
                 }
             } catch (error) {
                 $('.senddataloader').hide();
-                $("#project").val('1');
+                // $("#project").val('1');
                 $('#form').submit();
             }
         }
@@ -1599,6 +1660,9 @@ function readThumbnail(input) {
 
     let form_data = new FormData();
     form_data.append('thumbnail', input.files[0]);
+    if ($('#thumbnail').val()) {
+        form_data.append('del', $('#thumbnail').val());
+    }
 
     $.ajax({
         url: uri+'/up/thumbnail',
@@ -1845,6 +1909,13 @@ function removeThumbnailPreview() {
             if (slug !== 'implementation') {
                 const hidden_del = `<input type="hidden" name="temp_delete[]" value="${response.request.path}">`
                 $('#temp_delete').append(hidden_del)
+            }
+
+            if (old_photo) {
+                old_photo = ''
+            }
+            if (old_hidden_photo) {
+                old_hidden_photo = ''
             }
         },
         error: function () {

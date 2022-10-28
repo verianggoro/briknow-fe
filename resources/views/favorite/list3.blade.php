@@ -42,6 +42,6 @@
     <?php $urut++;?>
 @empty
     <div class="col-md-12 col-sm-12 rowdoc d-flex justify-content-center">
-        Belum Memiliki Favorite Consultant
+        Belum Memiliki Favorite Communication Support
     </div>
 @endforelse

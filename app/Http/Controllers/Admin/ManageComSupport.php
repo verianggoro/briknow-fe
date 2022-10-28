@@ -412,7 +412,7 @@ class ManageComSupport extends Controller
     {
         $step_list = (object) array(
             array("id" => "piloting", "name"    => "Piloting", "path" => "managecommunication/implementation/piloting"),
-            array("id" => "roll-out", "name"    => "Roll Out", "path" => "managecommunication/implementation/roll-out"),
+            array("id" => "roll-out", "name"    => "Roll-Out", "path" => "managecommunication/implementation/roll-out"),
             array("id" => "sosialisasi", "name" => "Sosialisasi", "path" => "managecommunication/implementation/sosialisasi")
         );
         $step_array = array("piloting", "roll-out", "sosialisasi");
@@ -684,7 +684,8 @@ class ManageComSupport extends Controller
             'thumbnail'     => "required",
             'direktorat'    => "required",
             'divisi'        => 'required',
-            'nama_project'  => 'required',
+            'project'       => 'required',
+            'title'         => 'required',
             'tgl_mulai'     => 'required',
             'pm'            => 'required',
             'emailpm'       => 'required',
@@ -692,7 +693,6 @@ class ManageComSupport extends Controller
             'piloting'      => 'required',
             'rollout'       => 'required',
             'sosialisasi'   => 'required',
-            'link'          => 'required',
             'checker'       => 'required',
             'signer'        => 'required',
         ]);
@@ -763,6 +763,7 @@ class ManageComSupport extends Controller
             $user           = '-';
         }
 
+        $temp_delete = null;
         if (isset(request()->temp_delete)) {
             foreach (request()->temp_delete as $path) {
                 if(File::exists(public_path("storage/".$path))){
@@ -770,6 +771,7 @@ class ManageComSupport extends Controller
                     File::deleteDirectory(dirname(public_path("storage/".$path)));
                 }
             }
+            $temp_delete = request()->temp_delete;
         }
 
         try {
@@ -784,7 +786,8 @@ class ManageComSupport extends Controller
                 'thumbnail'                 => request()->thumbnail,
                 'direktorat'                => request()->direktorat,
                 'divisi'                    => request()->divisi,
-                'nama_project'              => request()->nama_project,
+                'project'                   => request()->project,
+                'title'                     => request()->title,
                 'status'                    => $status,
                 'tgl_mulai'                 => request()->tgl_mulai,
                 'tgl_selesai'               => $tgl_selesai,
@@ -800,8 +803,8 @@ class ManageComSupport extends Controller
                 'attach_rollout'            => $attach_rollout,
                 'deskripsi_sosialisasi'     => $desc_sosialisasi,
                 'attach_sosialisasi'        => $attach_sosialisasi,
-                'project'                   => request()->link,
                 'is_new_project'            => request()->is_new,
+                'temp_delete'               => $temp_delete,
                 'user'                      => $user,
                 'checker'                   => request()->checker,
                 'signer'                    => request()->signer,
