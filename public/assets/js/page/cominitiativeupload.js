@@ -3,8 +3,8 @@ let uri                     = '';
 let base_url                = '';
 let token                   = '';
 let csrf                   = '';
-let old_photo               = '';
-let old_hidden_photo        = '';
+/*let old_photo               = '';
+let old_hidden_photo        = '';*/
 let project = [];
 const slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
 let formSubmitting = false;
@@ -391,13 +391,6 @@ function removeThumbnailPreview() {
                 $('#temp_delete').append(hidden_del)
             }
 
-            if (old_photo) {
-                old_photo = ''
-            }
-            if (old_hidden_photo) {
-                old_hidden_photo = ''
-            }
-
             const attr = $('#photo').attr('required');
             if (typeof attr === 'undefined' || attr === false) {
                 $('#photo').attr('required', true)
@@ -638,34 +631,7 @@ function cekProject(id) {
                 $("#direktorat").attr("readonly", "readonly");
                 $("#divisi").attr("readonly", "readonly");
                 $('#is_new').val(0)
-
-                if ($('#thumbnail').val()) {
-                    old_photo = $('#thumbnail-desc').html()
-                    old_hidden_photo = $('#hidden-thumbnail').html()
-
-                    const hidden_del = `<input type="hidden" class="temp_temp" name="temp_delete[]" value="${$('#thumbnail').val()}">`
-                    $('#temp_delete').append(hidden_del)
-                }
-                $('#thumbnail-prev').remove()
-                $('#thumbnail-del').remove()
-                $('#thumbnail-loading').remove()
-                let src = `${uri}/storage/${project.thumbnail}`
-                let imagePrev = `
-                    <img id="thumbnail-prev" class="blur-image thumbnail-prev" onerror="imgError(this)" src="${src}" alt="thumbnail" />`
-
-                $('#thumbnail-desc').append($(imagePrev).hide().fadeIn(300));
-
-                if($('#form').hasClass('was-validated')){
-                    $("#thumbnail-prev").attr("style", "border:solid 1px #38c172;");
-                }
-
-                $('#thumbnail-prev').removeClass('blur-image')
-                $('#hidden-thumbnail').empty()
-                let hidden_thumb = `<input type="hidden" class="d-none" id="thumbnail" name="thumbnail" value="${project.thumbnail}">`
-                $('#hidden-thumbnail').append(hidden_thumb);
                 $('#project_nama').val(project.nama)
-                $('#photo').removeAttr('required')
-                $('#photo').attr("disabled", "disabled");
                 /*$("#direktorat").select2(divisi.direktorat);
                 $("#divisi").select2(divisi.id, divisi.divisi);*/
             },
@@ -681,20 +647,6 @@ function cekProject(id) {
         // $("#divisi").val(null).trigger('change');
         $("#direktorat").removeAttr('readonly');
         $("#divisi").removeAttr('readonly');
-        $("#photo").removeAttr('disabled');
-        $('#photo').attr("required", "required");
-
-        if (old_photo) {
-            $('#thumbnail-prev').remove()
-            $('#thumbnail-del').remove()
-            $('#thumbnail-loading').remove()
-            $('#thumbnail-desc').append(old_photo.toString())
-            $('.temp_temp').remove()
-        }
-        if (old_hidden_photo) {
-            $('#hidden-thumbnail').empty()
-            $('#hidden-thumbnail').append(old_hidden_photo.toString())
-        }
 
         $('#is_new').val(1)
     }
