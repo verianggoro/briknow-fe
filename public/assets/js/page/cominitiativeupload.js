@@ -3,6 +3,8 @@ let uri                     = '';
 let base_url                = '';
 let token                   = '';
 let csrf                   = '';
+let old_photo               = '';
+let old_hidden_photo        = '';
 let project = [];
 const slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
 let formSubmitting = false;
@@ -60,7 +62,7 @@ $parent.change(function () {
         $projectContent.fadeIn(300, function () {
             $(this).removeClass('d-none')
             $('#form-gr-direktorat').removeClass('d-none')
-            $('#link').attr('required', true)
+            $('#project').attr('required', true)
             $('#direktorat').attr('required', true)
             $('#form-gr-divisi').removeClass('d-none')
             $('#divisi').attr('required', true)
@@ -69,7 +71,7 @@ $parent.change(function () {
         $projectContent.fadeOut(300, function () {
             $(this).addClass('d-none')
             $('#form-gr-direktorat').addClass('d-none')
-            $('#link').attr('required', false)
+            $('#project').attr('required', false)
             $('#direktorat').attr('required', false)
             $('#form-gr-divisi').addClass('d-none')
             $('#divisi').attr('required', false)
@@ -77,7 +79,7 @@ $parent.change(function () {
         // $('.project-link').fadeOut(300, function () {$(this).remove()});
     }
 
-    $('#link').select2({
+    $('#project').select2({
         placeholder : 'Nama Proyek'
     });
 
@@ -89,7 +91,7 @@ $parent.change(function () {
         placeholder : 'Pilih Unit Kerja'
     });
 
-    $("#link").select2({
+    $("#project").select2({
         placeholder: 'Nama Proyek',
         tags: true,
         minimumInputLength: 1,
@@ -99,6 +101,13 @@ $parent.change(function () {
                 return "Type at least 1 character";
             },
         },
+        createTag: function (tag) {
+            return {
+                id: tag.term,
+                text: tag.term,
+                isNew : true
+            };
+        },
         ajax: {
             url: `${base_url}/searchproject`,
             type: "get",
@@ -106,7 +115,8 @@ $parent.change(function () {
             data: function (params) {
                 // Query parameters will be ?search=[term]
                 return {
-                    search: params.term
+                    search: params.term,
+                    nonpublic: 'Y',
                 };
             },
             processResults: function (data) {
@@ -131,62 +141,6 @@ function todayFormatter(date = today) {
 
     return [year, month, day].join('-');
 }
-
-$('#stat_project').change(function(){
-    if ($('#stat_project').prop('checked')) {
-        var element = `
-                        <div class="form-group content-selesai" style="width: 50%;">
-                            <label for="tgl_selesai" class="label-cus">Tanggal Selesai</label>
-                            <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control" id="tgl_selesai" name="tgl_selesai" placeholder="Tanggal selesai" max="${todayFormatter()}" required>
-                        </div>
-                    `;
-        $('#form_tgl_selesai').append(element);
-
-        if ($('#tgl_mulai').val() !== '') {
-            let date = new Date($('#tgl_mulai').val())
-            date.setDate(date.getDate() + 1)
-            $('#tgl_selesai').attr({"min" : todayFormatter(date)});
-        }
-    } else {
-        $('.content-selesai').remove();
-    }
-});
-
-$('#stat_project').change(function () {
-    if ($('#stat_project').is(':checked')) {
-        $('#tgl_selesai').change(function () {
-            let res = false;
-            if($('#tgl_mulai').val() !== '' && $('#tgl_selesai').val() !== ''){
-                if($('#tgl_selesai').val() < $('#tgl_mulai').val()){
-                    Toast3.fire({icon: 'error',title: 'Tanggal Selesai tidak boleh kurang dari Tanggal Mulai'});
-                    res = true;
-                }
-            }
-
-            if(res){
-                $('#tgl_selesai').val('');
-            }
-        });
-    }
-});
-
-$('#tgl_mulai').change(function () {
-    let res = false;
-    if($('#tgl_mulai').val() !== '' && $('#tgl_selesai').val() !== ''){
-        if($('#tgl_mulai').val() > $('#tgl_selesai').val()){
-            Toast3.fire({icon: 'error',title: 'Tanggal Mulai Tidak Boleh Lebih Dari Tanggal Selesai'});
-            res = true;
-        }
-    }
-    if ($('#tgl_mulai').val() !== '' && $('#stat_project').is(':checked')) {
-        let date = new Date($('#tgl_mulai').val())
-        date.setDate(date.getDate() + 1)
-        $('#tgl_selesai').attr({"min" : todayFormatter(date)});
-    }
-    if(res){
-        $('#tgl_mulai').val('');
-    }
-});
 
 const $preview = $('#preview')
 const $photo = $('#photo')
@@ -237,6 +191,9 @@ function readThumbnail(input) {
 
     let form_data = new FormData();
     form_data.append('thumbnail', input.files[0]);
+    if ($('#thumbnail').val()) {
+        form_data.append('del', $('#thumbnail').val());
+    }
 
     $.ajax({
         url: uri+'/up/thumbnail',
@@ -434,6 +391,13 @@ function removeThumbnailPreview() {
                 $('#temp_delete').append(hidden_del)
             }
 
+            if (old_photo) {
+                old_photo = ''
+            }
+            if (old_hidden_photo) {
+                old_hidden_photo = ''
+            }
+
             const attr = $('#photo').attr('required');
             if (typeof attr === 'undefined' || attr === false) {
                 $('#photo').attr('required', true)
@@ -518,10 +482,10 @@ $(document).ready(function () {
             $("#thumbnail-prev").attr("style", "border:solid 1px #38c172;");
         }
 
-        if($('#link').hasClass('is-invalid')){
-            $("[aria-labelledby='select2-link-container']").attr("style", "border-color:red;");
+        if($('#project').hasClass('is-invalid')){
+            $("[aria-labelledby='select2-project-container']").attr("style", "border-color:red;");
         }else{
-            $("[aria-labelledby='select2-link-container']").attr("style", "border-color:#38c172;");
+            $("[aria-labelledby='select2-project-container']").attr("style", "border-color:#38c172;");
         }
 
         // direktorat
@@ -579,7 +543,7 @@ $(document).ready(function () {
         placeholder : 'Pilih Jenis File'
     });
 
-    $("#link").select2({
+    $("#project").select2({
         placeholder: 'Nama Proyek',
         tags: true,
         minimumInputLength: 1,
@@ -589,6 +553,13 @@ $(document).ready(function () {
                 return "Type at least 1 character";
             },
         },
+        createTag: function (tag) {
+            return {
+                id: tag.term,
+                text: tag.term,
+                isNew : true
+            };
+        },
         ajax: {
             url: `${base_url}/searchproject`,
             type: "get",
@@ -596,7 +567,8 @@ $(document).ready(function () {
             data: function (params) {
                 // Query parameters will be ?search=[term]
                 return {
-                    search: params.term
+                    search: params.term,
+                    nonpublic: 'Y',
                 };
             },
             processResults: function (data) {
@@ -613,9 +585,14 @@ function formatSelect(project) {
     if (project !== null && project !== undefined) {
         if (project.image !== null && project.image !== undefined) {
             let src = `${uri}/storage/${project.image}`
-            contents += `<div><img src='${src}' alt="${project.text}" onerror="imgError(this)" width="50" height="50" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)"></div> `
+            contents += `<div><img src='${src}' alt="${project.text}" onerror="imgError(this)" width="50" height="50" class="mr-3" style="border-radius: 8px;box-shadow: 0 0 1px 1px rgb(172 181 194 / 56%)"></div>`
         }
-        contents += `<div>${project.text}</div>`
+
+        if (project.isNew) {
+            contents += `<div>${project.text} (New Project)</div>`
+        } else {
+            contents += `<div>${project.text}</div>`
+        }
     }
     contents += `</div>`
 
@@ -628,8 +605,19 @@ $('#direktorat').change(function(){
     }
 });
 
-$('#link').change(function () {
+$('#project').change(function () {
     cekProject($(this).val())
+})
+
+$('#project').on('select2:select', function (e) {
+    if($('#project').hasClass('is-invalid') || $('#project').hasClass('is-valid')){
+        if(this.value === ""){
+            $("[aria-labelledby='select2-project-container']").attr("style", "border-color:red;");
+        }else{
+            $("[aria-labelledby='select2-project-container']").attr("style", "border-color:#38c172;");
+        }
+    }
+
 })
 
 function cekProject(id) {
@@ -650,6 +638,34 @@ function cekProject(id) {
                 $("#direktorat").attr("readonly", "readonly");
                 $("#divisi").attr("readonly", "readonly");
                 $('#is_new').val(0)
+
+                if ($('#thumbnail').val()) {
+                    old_photo = $('#thumbnail-desc').html()
+                    old_hidden_photo = $('#hidden-thumbnail').html()
+
+                    const hidden_del = `<input type="hidden" class="temp_temp" name="temp_delete[]" value="${$('#thumbnail').val()}">`
+                    $('#temp_delete').append(hidden_del)
+                }
+                $('#thumbnail-prev').remove()
+                $('#thumbnail-del').remove()
+                $('#thumbnail-loading').remove()
+                let src = `${uri}/storage/${project.thumbnail}`
+                let imagePrev = `
+                    <img id="thumbnail-prev" class="blur-image thumbnail-prev" onerror="imgError(this)" src="${src}" alt="thumbnail" />`
+
+                $('#thumbnail-desc').append($(imagePrev).hide().fadeIn(300));
+
+                if($('#form').hasClass('was-validated')){
+                    $("#thumbnail-prev").attr("style", "border:solid 1px #38c172;");
+                }
+
+                $('#thumbnail-prev').removeClass('blur-image')
+                $('#hidden-thumbnail').empty()
+                let hidden_thumb = `<input type="hidden" class="d-none" id="thumbnail" name="thumbnail" value="${project.thumbnail}">`
+                $('#hidden-thumbnail').append(hidden_thumb);
+                $('#project_nama').val(project.nama)
+                $('#photo').removeAttr('required')
+                $('#photo').attr("disabled", "disabled");
                 /*$("#direktorat").select2(divisi.direktorat);
                 $("#divisi").select2(divisi.id, divisi.divisi);*/
             },
@@ -660,10 +676,26 @@ function cekProject(id) {
         });
     } else {
         project = []
-        $("#direktorat").val(null).trigger('change');
-        $("#divisi").val(null).trigger('change');
+        $('#project_nama').val(id)
+        // $("#direktorat").val(null).trigger('change');
+        // $("#divisi").val(null).trigger('change');
         $("#direktorat").removeAttr('readonly');
         $("#divisi").removeAttr('readonly');
+        $("#photo").removeAttr('disabled');
+        $('#photo').attr("required", "required");
+
+        if (old_photo) {
+            $('#thumbnail-prev').remove()
+            $('#thumbnail-del').remove()
+            $('#thumbnail-loading').remove()
+            $('#thumbnail-desc').append(old_photo.toString())
+            $('.temp_temp').remove()
+        }
+        if (old_hidden_photo) {
+            $('#hidden-thumbnail').empty()
+            $('#hidden-thumbnail').append(old_hidden_photo.toString())
+        }
+
         $('#is_new').val(1)
     }
 }
@@ -704,18 +736,16 @@ const cekDivisi = (valueOld = null) => {
                         }else{
                             option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
                         }
-                    } else if (project.length !== 0) {
-                        if (project.divisi.id === data.data[index].id) {
-                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`;
-                        }else{
-                            option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
-                        }
                     } else{
                         option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
                     }
                 }
             }
             $('#divisi').append(option);
+
+            if (project.length !== 0) {
+                $('#divisi').val(project.divisi.id).trigger('change')
+            }
         },
         error : function(e){
             $('.senddataloader').hide();

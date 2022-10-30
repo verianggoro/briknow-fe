@@ -77,8 +77,9 @@ class ProjectController extends Controller
     }
 
     public function search() {
-        $search     =   request()->input('search')??'*';
-        $impl     =   request()->input('impl')??'*';
+        $search         =   request()->input('search')??'*';
+        $impl           =   request()->input('impl')??'*';
+        $nonpublic      =   request()->input('nonpublic')??'*';
 
         $token_auth = session()->get('token');
 
@@ -91,8 +92,9 @@ class ProjectController extends Controller
             ];
 
             $postData = [
-                'searchTerm' => $search,
-                'impl'       => $impl
+                'searchTerm'    => $search,
+                'impl'          => $impl,
+                'nonpublic'     => $nonpublic,
             ];
             // dd(json_encode($postData));
             curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/searchproject');

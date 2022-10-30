@@ -857,7 +857,7 @@ class ManageComSupport extends Controller
             'file_type'         => 'required',
             'deskripsi'         => 'required',
             'attach'            => 'required',
-            'tgl_mulai'         => 'required',
+            'tgl_upload'         => 'required',
         ]);
 
         if (isset(request()->id)) {
@@ -867,29 +867,22 @@ class ManageComSupport extends Controller
         }
         if (request()->parent == 1) {
             request()->validate([
-                'link'    => 'required',
-                'divisi'  => 'required',
+                'project_nama'  => 'required',
+                'project'       => 'required',
+                'divisi'        => 'required',
             ]);
-            $divisi     = request()->divisi;
-            $project    = request()->link;
-            $is_new     = request()->is_new;
+            $divisi         = request()->divisi;
+            $project        = request()->project;
+            $project_nama   = request()->project_nama;
+            $is_new         = request()->is_new;
         }else{
-            $divisi     = null;
-            $project    = null;
-            $is_new     = 0;
+            $divisi         = null;
+            $project        = null;
+            $project_nama   = null;
+            $is_new         = 0;
         }
 
-        if (isset(request()->status)) {
-            request()->validate([
-                'tgl_selesai'    => 'required',
-            ]);
-            $tgl_selesai    = request()->tgl_selesai;
-            $status         = 1;
-        }else{
-            $tgl_selesai    = null;
-            $status         = 0;
-        }
-
+        $temp_delete = null;
         if (isset(request()->temp_delete)) {
             foreach (request()->temp_delete as $path) {
                 if(File::exists(public_path("storage/".$path))){
@@ -897,6 +890,7 @@ class ManageComSupport extends Controller
                     File::deleteDirectory(dirname(public_path("storage/".$path)));
                 }
             }
+            $temp_delete = request()->temp_delete;
         }
 
         try {
@@ -914,11 +908,11 @@ class ManageComSupport extends Controller
                 'deskripsi'         => request()->deskripsi,
                 'is_new_project'    => $is_new,
                 'project'           => $project,
+                'project_nama'      => $project_nama,
                 'divisi'            => $divisi,
-                'status'            => $status,
-                'tgl_mulai'         => request()->tgl_mulai,
-                'tgl_selesai'       => $tgl_selesai,
+                'tgl_upload'        => request()->tgl_upload,
                 'attach'            => request()->attach,
+                'temp_delete'       => $temp_delete,
             ];
             // dd($postData);
             curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/managecommunication/content/upload/$id");

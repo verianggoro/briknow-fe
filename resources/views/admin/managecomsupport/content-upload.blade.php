@@ -107,12 +107,15 @@
 
                     <div class="form-group project-link" style="width: 70%;">
                         <label for="link" class="label-cus">Nama Proyek</label>
-                        <select class="link select2 form-control @error('link') is-invalid @enderror" id="link" name="link" placeholder='Nama Proyek' {{isset($data->data->project->nama) ? 'required' : ''}}>
+                        <select class="link select2 form-control @error('project') is-invalid @enderror" id="project" name="project" placeholder='Nama Proyek' {{isset($data->data->project->nama) ? 'required' : ''}}>
+                            <option value="" class="d-none" data-select2-tag="true">Nama Proyek</option>
                             @isset($data->data->project->nama)
                             <option value="{{$data->data->project_id}}" data-value="{{$data->data->project_id}}" selected>{{$data->data->project->nama}}</option>
                             @endisset
                         </select>
                     </div>
+
+                    <input type="hidden" class="d-none" id="project_nama" name="project_nama" value="{{$data->data->project->nama ?? old('project_nama')}}">
 
                     <input type="hidden" name="is_new" id="is_new" value="1">
 
@@ -160,12 +163,12 @@
                     <input type="text" class="form-control" style="width: 70%; height: 40px" id="title" name="title"  value="{{$data->data->title ?? '' }}" placeholder="Judul" required>
                 </div>
 
-                <div class="form-group">
+                {{--<div class="form-group">
                     <input type="checkbox" name="status" class="box-shadow-none d-inline mr-2 h-50" id="stat_project" {{isset($data->data->tanggal_selesai) ? 'checked' : ''}}>Project telah selesai
-                </div>
+                </div>--}}
                 <div class="form-group" style="width: 50%;">
-                    <label for="tgl_mulai" class="label-cus">Tanggal Mulai</label>
-                    <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control valid-cus" value="{{(isset($data->data->tanggal_mulai)) ? \Carbon\carbon::create($data->data->tanggal_mulai)->format('Y-m-d') : old('tgl_mulai')}}" id="tgl_mulai" name="tgl_mulai" placeholder="Tanggal mulai" max="{{\Carbon\carbon::now()->format('Y-m-d')}}" required>
+                    <label for="tgl_upload" class="label-cus">Tanggal Upload</label>
+                    <input style="width: 80%; height: 40px" type="date" data-provide="datepicker" class="form-control valid-cus" value="{{(isset($data->data->tgl_upload)) ? \Carbon\carbon::create($data->data->tgl_upload)->format('Y-m-d') : old('tgl_upload')}}" id="tgl_upload" name="tgl_upload" placeholder="Tanggal Upload" max="{{\Carbon\carbon::now()->format('Y-m-d')}}" required>
                 </div>
 
                 <div class="w-100" id="form_tgl_selesai">

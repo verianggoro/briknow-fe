@@ -550,7 +550,8 @@ $(document).ready(function () {
                 // Query parameters will be ?search=[term]
                 return {
                     search: params.term,
-                    impl: 'Y'
+                    impl: 'Y',
+                    nonpublic: 'Y',
                 };
             },
             processResults: function (data) {
@@ -720,7 +721,7 @@ $(document).ready(function () {
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-12 d-flex align-items-center" style="padding-left: 8px;">
-                            <button class="btn btn-sm btn-secondary d-inline mr-2 mb-3" style="height: 30px" id="btn-archive-${editor}" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                            <button class="btn btn-sm btn-secondary d-inline mr-2 mb-3" style="height: 30px" id="btn-archive-${editor}" disabled><i class="fa fa-download" aria-hidden="true"></i></button>
                             <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2 mb-3" id="select-${editor}" name="select-${editor}">
                                 <option value="" selected disabled>Sort by</option>
                                 <option value="name">Nama</option>

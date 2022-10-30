@@ -27,13 +27,19 @@
                         <h2 class="d-block" id="prev_namaproject">{{!empty($data->title)?$data->title:"-"}}</h2>
                     </div>
                     @php $type_list  = [
-                            "article" => "Articles",
-                            "logo" => "Icon, Logo, Maskot BRIVO",
-                            "infographics" => "Infographics",
-                            "transformation" => "Transformation Journey",
-                            "podcast" => "Podcast",
-                            "video" => "Video Content",
-                            "instagram" => "Instagram Content"]; @endphp
+                            "article"           => "Articles",
+                            "logo"              => "Icon, Logo, Maskot BRIVO",
+                            "infographics"      => "Infographics",
+                            "transformation"    => "Transformation Journey",
+                            "podcast"           => "Podcast",
+                            "video"             => "Video Content",
+                            "instagram"         => "Instagram Content"];
+                          $status_list = [
+                              "review"      => "Review",
+                              "approve"     => "Approved",
+                              "reject"      => "Rejected",
+                              "publish"     => "Published",
+                              "unpublish"   => "Unpublished",];@endphp
                     <div class="row">
                         <div class="col-6">
                             <span class="d-block font-weight-bold" id="prev_type">{{!empty($data->type_file)?$type_list[$data->type_file] : "-"}}</span>
@@ -93,31 +99,14 @@
                     </div>
                 </div>
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
-                    <div class="col-md-4 px-0">Tanggal Mulai</div>
+                    <div class="col-md-4 px-0">Tanggal Upload</div>
                     <div class="col-md-1 pr-0 pl-3">:</div>
-                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_tglmulai">{{date('d F Y', strtotime($data->tanggal_mulai))}}</div>
-                </div>
-                <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
-                    <div class="col-md-4 px-0">Tanggal Selesai</div>
-                    <div class="col-md-1 pr-0 pl-3">:</div>
-                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_tglselesai">
-                        @if ($data->tanggal_selesai)
-                            {{date('d F Y', strtotime($data->tanggal_selesai))}}
-                        @else
-                            -
-                        @endif
-                    </div>
+                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_tglmulai">{{date('d F Y', strtotime($data->tanggal_upload))}}</div>
                 </div>
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
                     <div class="col-md-4 px-0">Status</div>
                     <div class="col-md-1 pr-0 pl-3">:</div>
-                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_status">
-                        @if ($data->tanggal_selesai)
-                            Selesai
-                        @else
-                            On Progress
-                        @endif
-                    </div>
+                    <div class="col-md-7 px-0 d-min font-weight-bold" id="prev_status">{{$status_list[$data->status]}}</div>
                 </div>
             </div>
         </div>
@@ -144,7 +133,7 @@
                             </form>
                         </div>
                         <div class="col-md-3 text-right mb-3 d-flex align-items-center">
-                            <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                            <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive" disabled><i class="fa fa-download" aria-hidden="true"></i></button>
                             <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2" id="select-file" name="select-file">
                                 <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
                                 <option value="nama">Nama</option>

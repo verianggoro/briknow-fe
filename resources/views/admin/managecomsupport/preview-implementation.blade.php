@@ -164,7 +164,7 @@
                                 </form>
                             </div>
                             <div class="col-md-3 text-right mb-3 d-flex align-items-center">
-                                <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-piloting" onclick="archive('piloting', {{$data->id}})" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                                <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-piloting" onclick="archive('piloting', {{$data->id}})" disabled><i class="fa fa-download" aria-hidden="true"></i></button>
                                 <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2" id="select-file-pilot">
                                     <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
                                     <option value="nama">Nama</option>
@@ -212,7 +212,7 @@
                                     </form>
                                 </div>
                                 <div class="col-md-3 text-right mb-3 d-flex align-items-center">
-                                    <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-rollout" onclick="archive('rollout', {{$data->id}})" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                                    <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-rollout" onclick="archive('rollout', {{$data->id}})" disabled><i class="fa fa-download" aria-hidden="true"></i></button>
                                     <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2" id="select-file-roll">
                                         <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
                                         <option value="nama">Nama</option>
@@ -260,7 +260,7 @@
                                     </form>
                                 </div>
                                 <div class="col-md-3 text-right mb-3 d-flex align-items-center">
-                                    <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-sosialisasi" onclick="archive('sosialisasi', {{$data->id}})" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                                    <button class="btn btn-sm btn-secondary d-inline mr-2" style="height: 30px" id="btn-archive-sosialisasi" onclick="archive('sosialisasi', {{$data->id}})" disabled><i class="fa fa-download" aria-hidden="true"></i></button>
                                     <select style="border-radius: 8px;padding: 4px 15px;height: 30px" class="form-control mr-2" id="select-file-sos">
                                         <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
                                         <option value="nama">Nama</option>

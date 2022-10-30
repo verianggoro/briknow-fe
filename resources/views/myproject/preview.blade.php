@@ -349,7 +349,7 @@
               </div>
 
               <div class="col-md-3 text-right mb-2 d-flex align-items-center">
-                  <button class="btn btn-sm btn-secondary d-inline mr-2" id="btn-archive" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                  <button class="btn btn-sm btn-secondary d-inline mr-2" id="btn-archive" disabled><i class="fa fa-download" aria-hidden="true"></i></button>
                   <select style="border-radius: 8px;padding: 4px 15px" class="form-control mr-2" id="select-file" name="select-file">
                       <option value="" selected disabled style="background-color: #CCCCCCCC">Sort by</option>
                       <option value="nama">Nama</option>

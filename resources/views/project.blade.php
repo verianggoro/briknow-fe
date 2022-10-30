@@ -201,7 +201,7 @@
                 </form>
               </div>
             <div class="col-md-2 text-right mb-2">
-                <button class="btn btn-sm btn-secondary d-inline" id="btn-archive" disabled><i class="fa fa-file-archive" aria-hidden="true"></i></button>
+                <button class="btn btn-sm btn-secondary d-inline" id="btn-archive" disabled><i class="fa fa-download" aria-hidden="true"></i></button>
                 <div class="dropdown show d-inline">
                     <a class="btn btn-outline-secondary bg-white text-black-50 btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
