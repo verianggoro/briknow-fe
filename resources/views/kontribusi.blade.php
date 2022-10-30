@@ -455,7 +455,18 @@
                 <div class="form-group row mb-4">
                     <div class="col-sm-12">
                         <h5>Upload Dokumen Project<span class="text-danger ml-1">*</span></h5>
-                        <div>
+                        <div id="attach-wrap" class="dropzones-wrapper d-flex align-items-center justify-content-center">
+                            <div class="dropzones-desc d-flex align-items-center justify-content-center">
+                                <i class="fa fa-file mr-3" style="font-size: 24px"></i>
+                                <p style="text-align:left;cursor:default;margin-bottom: 0">Drag file here<br>or <span class="choose-file">choose your file</span></p>
+                            </div>
+                            @isset($data->data->document)
+                                <input type="file" name="file[]" class="dropzones form-control" id="file" multiple>
+                            @else
+                                <input type="file" name="file[]" class="dropzones form-control" id="file" multiple required>
+                            @endisset
+                        </div>
+                        {{--<div>
                             @isset($data->data->document)
                             @forelse($data->data->document as $item)
                             <input value="{{$item->nama}}" name="old_attach[]" class="old_attach" type="hidden"/>
@@ -469,7 +480,32 @@
                             <input value="{{$data->data->id}}" name="id" id="id" class="old_attach_type" type="hidden"/>
                             @endisset
                             <input type="file" name="attach[]" id="attach" class="filepond" multiple data-allow-reorder="true" data-max-file-size="10MB">
+                        </div>--}}
+                        <p style="margin-bottom: 0;line-height: 18px;font-size: 12px;font-style: italic;">* 1 file maks. 100 mb.</p>
+                        <p class="mb-2" style="margin-bottom: 0;line-height: 18px;font-size: 12px;font-style: italic;">* Upload sesuai dengan jenis file</p>
+
+                        <div class="preview-zone mt-3" id="preview_zone">
+                            @isset($data->data->document)
+                                @forelse($data->data->document as $item)
+                                    <div id="prev{{$item->id}}" class="d-flex align-items-center mb-3" style=" width: 50%; height: 40px;">
+                                        <div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">
+                                            <div class="d-flex align-items-center justify-content-between detail-prev" style="width: 100%">
+                                                <div class="align-items-center text-elip">
+                                                    <i class="fas fa-file mr-3"></i>{{$item->nama}}
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Delete" onclick="removePreview(this, 'delete')">
+                                                    <i class="fas fa-times"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="attach[]" value="{{$item->nama}}">
+                                    </div>
+                                @empty
+                                @endforelse
+                            @endisset
                         </div>
+
+                        <div id="temp_delete"></div>
                     </div>
                 </div>
                 @if(session()->get('role') == 3)

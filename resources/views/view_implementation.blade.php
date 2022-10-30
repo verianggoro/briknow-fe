@@ -53,7 +53,7 @@
                                     <a href="{{route('consultant.index',$consultant->id)}}" class="fs-10"><span>{{$consultant->nama}},</span></a>
                                 @endif
                             @empty
-                                <a href="#"><span>Internal</span></a>
+                                <a href="#"><span>-</span></a>
                             @endforelse
                         </div>
                         <div class="col-md-5 col-sm-6 justify-content-end">

@@ -231,6 +231,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::post('/kontribusi/implementation', 'KontribusiController@createImplementation')->name('kontribusi.createimplementation');
         #edit form
         Route::get('/kontribusi/{slug}', 'KontribusiController@edit')->name('kontribusi.edit');
+        Route::get('/kontribusi/doc/{slug}', 'KontribusiController@edit_doc')->name('kontribusi.edit_doc');
         #update process
         Route::post('/kontribusi/update', 'KontribusiController@update')->name('kontribusi.update');
         Route::get('/getdivisi/{direktorat}', 'KontribusiController@getDivisi')->name('kontribusi.divisi');

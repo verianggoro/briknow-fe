@@ -4,6 +4,9 @@ let base_url    = '';
 let token       = '';
 let old_photo   = '';
 let old_attach  = [];
+let input_attach = [];
+
+const slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
 
 //toast
 const Toast3 = Swal.mixin({
@@ -73,11 +76,19 @@ const checkFilepondComponent = (previewClicked) => {
     }
 
     // PREVIEW BUTTON
-    const checkFileUploaded = attach[0].innerText.includes('Upload complete')
+    /*const checkFileUploaded = attach[0].innerText.includes('Upload complete')
     let cekFileExisting     = attach[0].querySelectorAll('.filepond--item').length
     console.log(cekFileExisting);
     if(!checkFileUploaded && previewClicked === 1 && cekFileExisting === 0){
         return Toast3.fire({icon: 'error',title: 'Dokumen Project tidak boleh kosong!'})
+    }*/
+    if (previewClicked === 1) {
+        if($('#file').hasClass('is-invalid')){
+            $("#attach-wrap").attr("style", "border:1px solid #e3342f;");
+            return Toast3.fire({icon: 'error',title: 'Dokumen Project tidak boleh kosong!'})
+        }else{
+            $("#attach-wrap").attr("style", "border:solid 1px #38c172;");
+        }
     }
 }
 
@@ -233,7 +244,7 @@ FilePond.registerPlugin(
     FilePondPluginFileValidateSize,
 );
 // attach
-const inputattach       = document.querySelector('input[id="attach"]');
+/*const inputattach       = document.querySelector('input[id="attach"]');
 let attach              = FilePond.create(inputattach,
     {
         labelIdle           : "Cari file Terlampir",
@@ -268,10 +279,10 @@ if (typeof(old_attach) !== 'undefined') {
 }
 // console.log(tamping);
 attach.files    = tamping;
-attach_file     = tamping;
+attach_file     = tamping;*/
 
-let pondBox2 = document.querySelector('.filepond--root');
-pondBox2.addEventListener('FilePond:processfile', e => {
+// let pondBox2 = document.querySelector('.filepond--root');
+/*pondBox2.addEventListener('FilePond:processfile', e => {
     // referensi
     // https://stackoverflow.com/questions/57157019/filepond-jquery-get-file-name-that-was-dragged-an-dropped
     // https://pqina.nl/filepond/docs/patterns/api/filepond-instance/#events
@@ -289,9 +300,9 @@ pondBox2.addEventListener('FilePond:removefile', (e,file) => {
         attach_file.push(attach.getFile(index));
     }
     // console.log('array nya : ' +attach_file);
-});
+});*/
 
-attach.setOptions({
+/*attach.setOptions({
     name : 'attach',
     allowRemove: true,
     server: {
@@ -300,6 +311,181 @@ attach.setOptions({
             'X-CSRF-TOKEN' : `${csrf}`,
         }
     }
+});*/
+
+function readFile(input) {
+    const type_file = ['application/x-zip-compressed', 'zip', 'rar']
+    const name_file = input.files[0].name;
+    if (type_file.includes(input.files[0].type) || type_file.includes(name_file.split('.')[1])) {
+        $('#file').val('')
+        Toast3.fire({icon: 'error',title: 'Tipe file tidak sesuai !'});
+        return;
+    }
+    for (let f in input.files) {
+        if (input.files[f] instanceof File) {
+            showPreview(input.files[f])
+        }
+    }
+}
+
+const $preview = $('#preview_zone')
+function showPreview(file) {
+    const timemillis = Date.now()
+    let htmlPreview = [
+        '<div id="prev'+timemillis+'" class="d-flex align-items-center mb-3" style=" width: 50%; height: 40px;">',
+        '<div class="d-flex align-items-center justify-content-start px-3 mr-3 prev-item">',
+        '<div class="d-flex align-items-center justify-content-between" style="width: 100%">',
+        '<div class="align-items-center text-elip">',
+        '<i class="fas fa-file mr-3"></i>',file.name,
+        '</div>',
+        `<div class="d-flex align-items-center justify-content-center" style="cursor:pointer;" title="Cancel" onclick="removePreview(this, \'cancel\', ${file})">`,
+        '<i class="fas fa-circle-notch fa-spin"></i>',
+        '</div>',
+        '</div>',
+        '</div>',
+        '<div id="loading" class="d-flex align-items-center" style="width: 20px;">',
+        '<p class="m-0 d-flex align-items-center">Uploading&nbsp;<span class="loadings">...</span></p>',
+        '</div>',
+        '</div>'
+    ]
+
+    $preview.append($(htmlPreview.join('')).hide().fadeIn(300))
+
+    let $container = $('#prev'+timemillis+'')
+
+    /*if($('#form').hasClass('was-validated')){
+        $("#attach-wrap").attr("style", "border:solid 1px #38c172;");
+    }*/
+
+    let form_data = new FormData();
+    form_data.append(`attach`, file);
+
+    $.ajax({
+        url: uri+`/up/attach`,
+        data: form_data,
+        type: 'post',
+        contentType: false,
+        processData: false,
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+        },
+        success: function(res){
+            let $first = $container.children().first().children()
+            $first.addClass('detail-prev')
+
+            let $click = $first.children().last()
+            $click.prop("onclick", null).off("click");
+            $click.on('click', function () {
+                removePreview(this, 'delete', file)
+            })
+            let $icon = $click.find(':first-child')
+            $icon.removeClass('fa-circle-notch fa-spin')
+            $icon.addClass('fa-times')
+            $icon.prop('title', 'Delete')
+
+            let $last = $container.children().last()
+            $last.children().remove()
+            $last.append('<div class="d-flex align-items-center" style="border-radius: 50%; padding: 6px 5px 4px; border: 2px solid #218838; color: #218838">' +
+                '<i style="font-size: 10px" class="fas fa-check"></i></div>')
+
+            const input_hidden = `<input type="hidden" name="attach[]" id="attach" value="${res}">`
+            const temp_hidden = `<input type="hidden" name="temp[]" id="temp" value="${res}">`
+            $('#prev'+timemillis).append(input_hidden)
+            $('#prev'+timemillis).append(temp_hidden)
+
+            attach_file.push({file: file, url: res})
+        },
+        error: function () {
+            Toast3.fire({icon: 'error',title: 'Upload Gagal'});
+            removePreview(this, 'cancel', file)
+        },
+    });
+}
+
+function removePreview(id, type, file = null) {
+    if (type === 'cancel') {
+        $(id).parent().parent().parent().fadeOut(300, function () {
+            $(this).remove()
+            if ( $preview.children().length === 0 ) {
+                $('#file').val('')
+            }
+            /*if($('#form').hasClass('was-validated')){
+                $("#attach-wrap").attr("style", "border:1px solid #e3342f;");
+            }*/
+        });
+    } else {
+        let $last = $(id).parent().parent().parent().children().last()
+        let form_data = new FormData();
+        form_data.append(`attach`, $last.val());
+        form_data.append('isNew', slug === 'kontribusi' ? "1" : "0");
+        $.ajax({
+            url: uri+`/delete/attach`,
+            data: form_data,
+            type: 'post',
+            contentType: false,
+            processData: false,
+            beforeSend: function(xhr){
+                xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            },
+            success: function(response){
+                $(id).parent().parent().parent().fadeOut(300, function () {
+                    $(this).remove()
+                    if ( $preview.children().length === 0 ) {
+                        $('#file').val('')
+                        const attr = $('#file').attr('required');
+                        if (typeof attr === 'undefined' || attr === false) {
+                            $('#file').attr('required', true)
+                        }
+                        if($('#form').hasClass('was-validated')){
+                            $("#attach-wrap").attr("style", "border:1px solid #e3342f;");
+                        }
+
+                        if (slug !== 'kontribusi') {
+                            const hidden_del = `<input type="hidden" name="temp_delete[]" value="${response.request.path}">`
+                            $('#temp_delete').append(hidden_del)
+                        }
+                    }
+                    let index = attach_file.findIndex(elem => elem.file === file);
+                    attach_file.splice(index, 1);
+                });
+            },
+            error: function () {
+                Toast3.fire({icon: 'error',title: 'Delete Gagal'});
+            },
+        });
+    }
+}
+
+function reset(e) {
+    e.wrap('<form>').closest('form').get(0).reset();
+    e.unwrap();
+}
+$('#file').change(function(){
+    readFile(this);
+});
+let $dropWrap = $('.dropzones-wrapper')
+$dropWrap.on('dragover', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).addClass('dragover');
+});
+$dropWrap.on('dragleave', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).removeClass('dragover');
+});
+$dropWrap.on('drop', function(e) {
+    /*e.preventDefault();
+    e.stopPropagation();*/
+    $(this).removeClass('dragover');
+});
+$('.remove-preview').on('click', function() {
+    var boxZone = $(this).parents('.preview-zone').find('.box-body');
+    var previewZone = $(this).parents('.preview-zone');
+    var dropzones = $(this).parents('.form-group').find('.dropzones');
+    boxZone.empty();
+    previewZone.addClass('hidden');
+    reset(dropzones);
 });
 
 $(document).ready(function () {
@@ -705,7 +891,7 @@ $(document).ready(function () {
                 // vendor = $('#konsultant').find(":selected").attr("data-value");
                 vendor = $("#konsultant :selected").map((_, e) => e.getAttribute("data-value")).get();
             }else{
-                vendor = 'Internal';
+                vendor = '-';
             }
             var t_user = $('#user').val();
             var t_deskripsi = CKEDITOR.instances['editor-deskripsi'].getData();
@@ -713,10 +899,25 @@ $(document).ready(function () {
             var t_tags = $('#tags').val();
             var t_lesson = $('.lesson').map((_, e) => e.value).get();
             var t_lesson_keterangan = $('.lesson_keterangan').map((_, e) => e.value).get();
-            var t_attach = attach_file;
             var t_checker = $('#checker').val();
             var t_signer = $('#signer').val();
+            var t_attach = []
+            t_attach.push(...attach_file)
 
+            let inputAttach = $('input[name^=attach]').map(function(idx, elem) {
+                return $(elem).val();
+            }).get();
+            if (slug !== 'kontribusi') {
+                let length = input_attach.length;
+                for (let i=length-1; i>=0; i--) {
+                    if (inputAttach.includes(input_attach[i].name)) {
+                        if (!t_attach.includes(input_attach[i])) {
+                            t_attach.unshift(input_attach[i])
+                        }
+                    }
+                }
+            }
+            // var t_attach = attach_file;
 
             // empty
             $('#prev_namaproject').empty();
@@ -806,11 +1007,10 @@ $(document).ready(function () {
             if (typeof t_attach !== []) {
                 var urutin=0;
                 for (let index = 0; index < t_attach.length; index++) {
-                    // console.log(t_attach[index]);
                     tampung_attach += `<tr>
-                                            <td id="td-attachment" class="pl-2"><small>${(typeof (t_attach[index].options) !== 'undefined') ? t_attach[index].options.file.name : t_attach[index].filenameWithoutExtension}</small></td>
-                                            <td id="td-attachment" class="pl-1"><small>${(typeof (t_attach[index].options) !== 'undefined') ? t_attach[index].options.file.type : t_attach[index].fileType}</small></td>
-                                            <td id="td-attachment" class="pl-1"><small>${(typeof (t_attach[index].options) !== 'undefined') ? bytesToSize(t_attach[index].options.file.size) : bytesToSize(t_attach[index].fileSize)}</small></td>
+                                            <td id="td-attachment" class="pl-2"><small>${t_attach[index].file instanceof File ? t_attach[index].file.name : t_attach[index].name}</small></td>
+                                            <td id="td-attachment" class="pl-1"><small>${t_attach[index].file instanceof File ? t_attach[index].file.type : t_attach[index].type}</small></td>
+                                            <td id="td-attachment" class="pl-1"><small>${t_attach[index].file instanceof File ? bytesToSize(t_attach[index].file.size) : bytesToSize(t_attach[index].size)}</small></td>
                                         </tr>`;
                 }
             }else{
@@ -840,6 +1040,27 @@ $(document).ready(function () {
             });
         }
     });
+
+    if (slug !== 'kontribusi') {
+        const url = `${uri}/kontribusi/doc/${slug}`
+        $.ajax({
+            url: url,
+            type: "get",
+            beforeSend: function(xhr){
+                xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            },
+            success: function(res){
+                const data = res.data
+                for (let x = 0; x<data.length; x++) {
+                    const array = {name: data[x].nama, type: data[x].jenis_file, size: data[x].size, url: data[x].url_file}
+                    input_attach.push(array)
+                }
+            },
+            error : function(e){
+                console.error(e);
+            }
+        });
+    }
 });
 
 const getKonsultan = () => {
