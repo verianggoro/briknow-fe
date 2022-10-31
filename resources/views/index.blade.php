@@ -221,12 +221,18 @@
                                               <h5 class="card-title">{{$item->nama}}</h5>
                                               {!! \Illuminate\Support\Str::limit($item->desc, 20, ' ...') !!}
                                               <div class="d-flex justify-content-between">
-                                                  <i class="mr-auto p-2 fas fa-eye">
+                                                  <i class="mr-auto p-2 fas fa-eye grey">
                                                       <span>{{$item->view}}</span>
                                                   </i>
-                                                  <button class="btn fas fa-download p-2" style="font-size: 20px"></button>
-                                                  <button class="btn fas fa-share-square p-2" style="font-size: 20px"></button>
-                                                  <button class="btn fas fa-heart p-2" style="font-size: 20px"></button>
+                                                  <button class="btn p-2 grey" style="font-size: 20px">
+                                                      <img src="{{asset_app('assets/img/logo/download_ic.png')}}"/>
+                                                  </button>
+                                                  <button class="btn fas grey" style="font-size: 20px">
+                                                      <img src="{{asset_app('assets/img/logo/share_ic.png')}}"/>
+                                                  </button>
+                                                  <button class="btn fas grey" style="font-size: 20px">
+                                                      <img src="{{asset_app('assets/img/logo/favoriite_ic.png')}}"/>
+                                                  </button>
                                               </div>
                                           </div>
                                       </div>

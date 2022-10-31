@@ -247,7 +247,7 @@
                                     @endforelse
                                 </div>
                                 <div class="p-2" style="margin-top: auto">
-                                    <a href="{{route('kontribusi')}}" type="button" style="border-radius: 12px; line-height: 2; padding: 0.1rem 1rem" class="btn btn-success"><i class="fa fa-plus mr-3"></i>Upload</a>
+                                    <a href="{{route('kontribusi.implementation')}}" type="button" style="border-radius: 12px; line-height: 2; padding: 0.1rem 1rem" class="btn btn-success"><i class="fa fa-plus mr-3"></i>Upload</a>
                                 </div>
                             </div>
                             <hr/>
