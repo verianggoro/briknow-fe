@@ -20,11 +20,28 @@
 <div class="row mx-0">
     <div class="col-md-12" id="konten">
         <!-- BUTTONS -->
-            <div class="my-3 d-flex mx-auto flex-wrap">
+        <div class="d-flex justify-content-between">
+            <div class="my-3 d-flex flex-wrap">
                 <a href="{{route('dashboard.performance')}}" class="btn btn-outline-primary mt-2 mr-3 active" id="performance" role="button">Performance</a>
                 <a href="{{route('dashboard.alldata')}}" class="btn btn-outline-primary mt-2 mr-3" id="alldata" role="button">All Data</a>
                 <a href="{{route('dashboard.comsuport')}}" class="btn btn-outline-primary mt-2 mr-3" id="comsuport" role="button">Communication Suppport</a>
             </div>
+
+            <div class="my-3 d-flex flex-wrap">
+                <a href="#" class="btn btn-outline-primary mt-2 mr-3" id="dropdownMenuLink" style="text-decoration: none;"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Download<i class="fa fa-caret-down" style="margin-left: 1rem !important;"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                    <a href="{{route('laporan.allexcel')}}" target="_blank" class="btn dropdown-item">
+                        <i class="far fa-file-excel mr-2"></i>Xlsx
+                    </a>
+                    <a href="{{route('laporan.allpdf')}}" target="_blank" class="btn dropdown-item">
+                        <i class="far fa-file-pdf mr-2"></i>PDF
+                    </a>
+                </div>
+            </div>
+        </div>
         <!-- END BUTTONS -->
 
         <div class="row">
@@ -107,10 +124,10 @@
                                     <i class="fas fa-download"></i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
-                                    <a href="{{route('laporan.proyektop5')}}" target="_blank" class="btn dropdown-item">
+                                    <a href="{{route('laporan.lessontop5')}}" target="_blank" class="btn dropdown-item">
                                         <i class="far fa-file-excel mr-2"></i>Xlsx
                                     </a>
-                                    <a href="{{route('laporan.proyektop5pdf')}}" target="_blank" class="btn dropdown-item">
+                                    <a href="{{route('laporan.lessontop5pdf')}}" target="_blank" class="btn dropdown-item">
                                         <i class="far fa-file-pdf mr-2"></i>PDF
                                     </a>
                                 </div>
@@ -142,10 +159,10 @@
                                     <i class="fas fa-download"></i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
-                                    <a href="{{route('laporan.proyektop5')}}" target="_blank" class="btn dropdown-item">
+                                    <a href="{{route('laporan.cominittop5')}}" target="_blank" class="btn dropdown-item">
                                         <i class="far fa-file-excel mr-2"></i>Xlsx
                                     </a>
-                                    <a href="{{route('laporan.proyektop5pdf')}}" target="_blank" class="btn dropdown-item">
+                                    <a href="{{route('laporan.cominittop5pdf')}}" target="_blank" class="btn dropdown-item">
                                         <i class="far fa-file-pdf mr-2"></i>PDF
                                     </a>
                                 </div>
@@ -169,10 +186,10 @@
                                     <i class="fas fa-download"></i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
-                                    <a href="{{route('laporan.proyektop5')}}" target="_blank" class="btn dropdown-item">
+                                    <a href="{{route('laporan.strategictop5')}}" target="_blank" class="btn dropdown-item">
                                         <i class="far fa-file-excel mr-2"></i>Xlsx
                                     </a>
-                                    <a href="{{route('laporan.proyektop5pdf')}}" target="_blank" class="btn dropdown-item">
+                                    <a href="{{route('laporan.strategictop5pdf')}}" target="_blank" class="btn dropdown-item">
                                         <i class="far fa-file-pdf mr-2"></i>PDF
                                     </a>
                                 </div>
@@ -196,10 +213,10 @@
                                     <i class="fas fa-download"></i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
-                                    <a href="{{route('laporan.proyektop5')}}" target="_blank" class="btn dropdown-item">
+                                    <a href="{{route('laporan.imptop5')}}" target="_blank" class="btn dropdown-item">
                                         <i class="far fa-file-excel mr-2"></i>Xlsx
                                     </a>
-                                    <a href="{{route('laporan.proyektop5pdf')}}" target="_blank" class="btn dropdown-item">
+                                    <a href="{{route('laporan.imptop5pdf')}}" target="_blank" class="btn dropdown-item">
                                         <i class="far fa-file-pdf mr-2"></i>PDF
                                     </a>
                                 </div>

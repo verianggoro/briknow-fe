@@ -413,7 +413,7 @@ function initTable() {
                     width: 85
                 },
                 {
-                    field: 'created_at',
+                    field: 'tanggal_upload',
                     title: 'Tanggal',
                     sortable: true,
                     align: 'center',
