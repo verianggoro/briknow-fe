@@ -898,6 +898,7 @@ $(document).ready(function () {
             var t_metodologi = CKEDITOR.instances['editor-metodologi'].getData();
             var t_tags = $('#tags').val();
             var t_lesson = $('.lesson').map((_, e) => e.value).get();
+            var t_tahap = $('.tahap').map((_, e) => e.value).get();
             var t_lesson_keterangan = $('.lesson_keterangan').map((_, e) => e.value).get();
             var t_checker = $('#checker').val();
             var t_signer = $('#signer').val();
@@ -972,6 +973,7 @@ $(document).ready(function () {
                             tampung_lesson += `<tr>
                                                     <td id="td-metodologi" style="text-align:center !important;"><span>${urutin++}</span></td>
                                                     <td id="td-metodologi"><span>${t_lesson[index]}</span></td>
+                                                    <td id="td-metodologi"><span>${t_tahap[index]}</span></td>
                                                     <td id="td-metodologi"><span>${t_lesson_keterangan[index]}</span></td>
                                                 </tr>`;
                         }
@@ -980,11 +982,13 @@ $(document).ready(function () {
                     tampung_lesson = `<tr>
                                             <td id="td-metodologi"><span>1</span></td>
                                             <td id="td-metodologi"><span>${t_lesson}</span></td>
+                                            <td id="td-metodologi"><span>${t_tahap[index]}</span></td>
                                             <td id="td-metodologi"><span>${t_lesson_keterangan}</span></td>
                                         </tr>`;
                 }
             }else{
                 tampung_lesson += `<tr>
+                                        <td id="td-metodologi"><span>-</span></td>
                                         <td id="td-metodologi"><span>-</span></td>
                                         <td id="td-metodologi"><span>-</span></td>
                                         <td id="td-metodologi"><span>-</span></td>
@@ -1372,7 +1376,9 @@ $('#add_lesson').click(function(){
     let element = ` <tr class='ll_field'>
                 <td class="bg-white attr_input"><span class='control_ll'> </span></td>
                 <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="" placeholder="..." required/></td>
+                <td><input type="text" class="form-control w-100 lesson_field tahap" name="tahap[]" value="" placeholder="..." required/></td>
                 <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required/></td>
+                <td><img class='ll_min' src='${uri}/assets/img/datatables/ic_trash.png'/></td>
             </tr>`;
     $('.content_lesson').append(element);
     urutFields();
@@ -1504,7 +1510,7 @@ const urutFields = () => {
     var u          = 1;
     $('.control_ll').empty();
     for (let index = 0; index < urut_temp; index++) {
-        $('.control_ll').eq(index).html(`<img class='ll_min' src='${uri}/assets/img/datatables/details_close.png'/> ${u}`);
+        $('.control_ll').eq(index).html(`${u}`);
         u++;
     }
     $(".ll_min").click(function(){

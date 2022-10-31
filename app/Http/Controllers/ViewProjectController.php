@@ -28,7 +28,6 @@ class ViewProjectController extends Controller
             // ->addSeconds(1)
             // ->format('H:i:s');
             // dd($x);
-            Log::info('INPOH MASEH VIEW', [$hasil]);
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
                     $data = $hasil->data->data;

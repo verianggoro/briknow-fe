@@ -25,26 +25,34 @@
                             class="btn btn-filter bg-white dropdown-toggle">
                         Tahap Proyek
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-left">
-                        <li onclick="sortByTahap('sortInitLesson')" id="sortInitLesson" data-value="init"
-                            class="dropdown-item">Tahap Proyek
-                        </li>
-                        <li onclick="sortByTahap('planSort')" id="planSort" data-value="plan" class="dropdown-item">
-                            Plan
-                        </li>
-                        <li onclick="sortByTahap('procurementSort')" id="procurementSort" data-value="procurement"
-                            class="dropdown-item">Procurement
-                        </li>
-                        <li onclick="sortByTahap('devSort')" id="devSort" data-value="development"
-                            class="dropdown-item">Development
-                        </li>
-                        <li onclick="sortByTahap('pilotSort')" id="pilotSort" data-value="pilot" class="dropdown-item">
-                            Pilot Run
-                        </li>
-                        <li onclick="sortByTahap('implSort')" id="implSort" data-value="implementation"
-                            class="dropdown-item">Implementation
-                        </li>
-                    </ul>
+                    @if(request()->segment(count(request()->segments())) === 'mylesson')
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li onclick="sortByTahap('sortInitLesson')" id="sortInitLesson" data-value="init"
+                                class="dropdown-item">Tahap Proyek
+                            </li>
+                            <li onclick="sortByTahap('planSort')" id="planSort" data-value="plan" class="dropdown-item">
+                                Plan
+                            </li>
+                            <li onclick="sortByTahap('procurementSort')" id="procurementSort" data-value="procurement"
+                                class="dropdown-item">Procurement
+                            </li>
+                            <li onclick="sortByTahap('devSort')" id="devSort" data-value="development"
+                                class="dropdown-item">Development
+                            </li>
+                            <li onclick="sortByTahap('pilotSort')" id="pilotSort" data-value="pilot" class="dropdown-item">
+                                Pilot Run
+                            </li>
+                            <li onclick="sortByTahap('implSort')" id="implSort" data-value="implementation"
+                                class="dropdown-item">Implementation
+                            </li>
+                        </ul>
+                    @else
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li id="sortInitLesson" data-value="init"
+                                class="dropdown-item">{{request()->segment(count(request()->segments()))}}
+                            </li>
+                        </ul>
+                    @endif
                 </div>
                 <div class="p-2 bd-highlight bd-highlight" style="width: 15%">
                     <div class="d-flex justify-content-end">
@@ -108,65 +116,6 @@
                 </div>
                 {{--                for each--}}
                 <div id="container-review">
-                    @forelse($data as $value)
-                        <div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
-                            <div class="row">
-                                <div class="col-2">
-                                    <a href="/katalog" class="text-primary">{{$value->divisi->direktorat}}</a>
-                                </div>
-                                <div class="col-3">
-                                    <a href="/katalog" class="text-primary">{{$value->divisi->divisi}}</a>
-                                </div>
-                                <div class="col-3">
-                                    <p>{{$value->nama}}</p>
-                                </div>
-                                @forelse($value->consultant as $consultValue)
-                                    <div class="col-2">
-                                        <p class="text-primary">{{$consultValue->nama}}</p>
-                                    </div>
-                                @empty
-                                    <div class="col-2">
-                                        <p class="text-primary">-</p>
-                                    </div>
-                                @endforelse
-                                <div class="col-2">
-                                    <a href="{{route('kontribusi.edit', $value->slug)}}" class="btn btn-outline-secondary fas fa-pen"></a>
-                                    <button class="btn btn-outline-secondary fas fa-trash"></button>
-                                    @if(!empty($value->lesson_learned))
-                                        <button class="btn btn-outline-secondary fas fa-caret-down" data-toggle="collapse" href="#{{trim($value->nama)}}" aria-expanded="false" aria-controls="{{trim($value->nama)}}"></button>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="collapse" id="{{trim($value->nama)}}">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <h6>Lesson Learned</h6>
-                                        </div>
-                                        <div class="col-8">
-                                            <h6>Keterangan</h6>
-                                        </div>
-                                    </div>
-                                    <hr/>
-                                    @forelse($value->lesson_learned as $lessonLearned)
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <p>{{$lessonLearned->lesson_learned}}</p>
-                                            </div>
-                                            <div class="col-8">
-                                                <p>{{$lessonLearned->detail}}</p>
-                                            </div>
-                                        </div>
-                                        <hr/>
-                                    @empty
-                                        EMPTY
-                                    @endforelse
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        EMPTY
-                    @endforelse
                 </div>
                 <div class="d-flex justify-content-sm-end content-pagination" id="pag">
                 </div>

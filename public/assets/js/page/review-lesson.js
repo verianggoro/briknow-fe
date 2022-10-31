@@ -137,12 +137,18 @@ function searchLesson(){
     getData(tahapParam, divisiParam, keyParam)
 }
 
+getData(tahapParam, divisiParam, keyParam)
+
 function getData(tahap, divisi, search){
     var url = '';
     if (lastpath === 'mylesson'){
         url = `${getCookie('url_be')}api/mylessonlearned/all?tahap=${tahap}&divisi=${divisi}&search=${search}`
-    }else{
+    }else if (lastpath === 'review'){
         url = `${getCookie('url_be')}api/managelessonlearned/?tahap=${tahap}&divisi=${divisi}&search=${search}`
+    }else{
+        url = `${getCookie('url_be')}api/mylessonlearned/all?tahap=${lastpath}&divisi=${divisi}&search=${search}`
+        document.getElementById('btn-sort-lesson').innerHTML = lastpath
+        document.getElementById('main-title-lesson').innerHTML = lastpath
     }
     $.ajax({
         url: url,
@@ -156,13 +162,15 @@ function getData(tahap, divisi, search){
             $("#container-review").html("");
             let namaLesson = "";
             let descLesson = "";
-            for (let i=0; i < data.data.length; i++) {
-                if (data.data[i].lesson_learned.length !== 0 || data.data[i].consultant.length !== 0) {
-                    for (let ilesson=0; ilesson < data.data[i].lesson_learned.length; ilesson++){
-                        namaLesson = data.data[i].lesson_learned[ilesson].lesson_learned
-                        descLesson = data.data[i].lesson_learned[ilesson].detail
-                    }
-                    $("#container-review").append(`<div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
+            if (data.data.length !== 0){
+
+                for (let i=0; i < data.data.length; i++) {
+                    if (data.data[i].lesson_learned.length !== 0 || data.data[i].consultant.length !== 0) {
+                        for (let ilesson=0; ilesson < data.data[i].lesson_learned.length; ilesson++){
+                            namaLesson = data.data[i].lesson_learned[ilesson].lesson_learned
+                            descLesson = data.data[i].lesson_learned[ilesson].detail
+                        }
+                        $("#container-review").append(`<div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
                         <div class="row">
                             <div class="col-2">
                                 <a href="${uri+ '/katalog/'+data.data[i].divisi.divisi}" class="text-primary">${data.data[i].divisi.direktorat}</a>
@@ -178,35 +186,41 @@ function getData(tahap, divisi, search){
                             </div>
                             <div class="col-2">
                                 <a href="${uri+ '/kontribusi/'+data.data[i].slug}" class="btn btn-outline-secondary fas fa-pen"></a>
-                                <button class="btn btn-outline-secondary fas fa-trash"></button>
                                 <button class="btn btn-outline-secondary fas fa-caret-down" data-toggle="collapse" href="#${data.data[i].nama.trim()}" aria-expanded="false" aria-controls="${data.data[i].nama.trim()}"></button>
                             </div>
                         </div>
                             <div class="collapse" id="${data.data[i].nama.trim()}">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <h6>Lesson Learned</h6>
                                         </div>
                                         <div class="col-8">
                                             <h6>Keterangan</h6>
                                         </div>
+                                        <div class="col-1">
+                                            <h6>Aksi</h6>
+                                        </div>
                                     </div>
                                     <hr/>
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-3">
                                                 <p>${namaLesson}</p>
                                             </div>
                                             <div class="col-8">
                                                 <p>${descLesson}</p>
                                             </div>
+                                            <div class="col-1">
+                                                <button class="btn btn-outline-secondary fas fa-trash"></button>
+                                            </div>
+                                        </div>
                                         </div>
                                         <hr/>
                                 </div>
                             </div>
                     </div>`)
-                }else{
-                    $("#container-review").append(`<div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
+                    }else{
+                        $("#container-review").append(`<div class="card card-body w-100 d-flex mb-1" style="border-radius: 10px">
                         <div class="row">
                             <div class="col-2">
                                 <a href="${uri+ '/katalog/'+data.data[i].divisi.divisi}" class="text-primary">${data.data[i].divisi.direktorat}</a>
@@ -248,7 +262,13 @@ function getData(tahap, divisi, search){
                                 </div>
                             </div>
                     </div>`)
+                    }
                 }
+            }else{
+                $("#container-review").append(`
+                    <div class="d-flex text-center">
+                    <h5>Tidak Ada Data</h5>    
+                </div> `)
             }
         },
         error : function(e){

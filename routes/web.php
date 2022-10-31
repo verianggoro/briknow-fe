@@ -188,6 +188,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
 
     #My Lesson Learned
         Route::get('/mylesson', 'MyLessonLearnedController@index')->name('mylesson');
+        Route::get('/mylesson/{type}', 'MyLessonLearnedController@toMyLessonPath')->name('mylesson.type');
 
     #My Communication Support
         Route::get('/mycomsupport/initiative/{type}', 'CommunicationController@comInitTypePublic')->name('mycomsupport.initiative.type');

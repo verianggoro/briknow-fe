@@ -252,12 +252,12 @@
                                 </div>
                                 <div class="p-2">
                                     <label class="sr-only" for="inlineFormInputGroup">Title</label>
-                                    <div class="input-group mb-2">
-                                        <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control"
+                                    <div class="input-group mb-2 h-100">
+                                        <input type="text" style="width:25rem; border-radius: 8px 0 0 8px; border-color: grey; border-style: solid"
                                                id="searchCominit" placeholder="Cari...">
                                         <div class="input-group-prepend">
-                                            <div onclick="searchCominit()" class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;">
-                                                <i class="fa fa-search fa-sm" aria-hidden="true"></i>
+                                            <div onclick="searchCominit()" style="width:2rem; background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                                                <i class="fa fa-search fa-sm mt-2 ml-2" aria-hidden="true"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -265,10 +265,10 @@
                             </div>
                             <hr/>
                             <br/>
-                            <div class="d-flex">
-                                <div class="row w-100">
-                                    @forelse($content as $values)
-                                        @if($values->id === 'article')
+                            @forelse($content as $values)
+                                @if($values->id === 'article')
+                                    <div class="d-flex">
+                                        <div class="row w-100">
                                             <div class="col-12">
                                                 <h4>Articles</h4>
                                             </div>
@@ -278,12 +278,13 @@
                                             @if(!empty($values->data))
                                                 <div class="d-flex w-100">
                                                     <div id="ContentArticle" class="d-flex w-100">
-
                                                     </div>
                                                     <div class="col-2 justify-content-center">
                                                         <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'article'])}}">
-                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center"
+                                                                 style="border-radius: 16px">
+                                                                <div class="img-fluid">
+                                                                    <img src="{{asset_app('assets/img/logo/view_all_ic.png')}}"/>
                                                                 </div>
                                                                 <span>Lihat Semua</span>
                                                             </div>
@@ -291,22 +292,22 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                        @endif
-                                    @empty
-                                        Empty
-                                    @endforelse
-                                </div>
-                                <hr/>
-                            </div>
-                            <div class="d-flex">
-                                <div class="row w-100">
-                                    @forelse($content as $values)
-                                        @if($values->id === 'video')
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                @endif
+                            @empty
+                                Empty
+                            @endforelse
+                            @forelse($content as $values)
+                                @if($values->id === 'video')
+                                    <div class="d-flex">
+                                        <div class="row w-100">
                                             <div class="col-12">
                                                 <h4>Video Content</h4>
                                             </div>
                                             <div class="col-12">
-                                                <p>{{$values->total_data}}</p>
+                                                <p>{{$values->total_data.' Files'}}</p>
                                             </div>
                                             @if(!empty($values->data))
                                                 <div class="d-flex w-100">
@@ -314,8 +315,10 @@
                                                     </div>
                                                     <div class="col-2 justify-content-center">
                                                         <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'video'])}}">
-                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center"
+                                                                 style="border-radius: 16px">
+                                                                <div class="img-fluid">
+                                                                    <img src="{{asset_app('assets/img/logo/view_all_ic.png')}}"/>
                                                                 </div>
                                                                 <span>Lihat Semua</span>
                                                             </div>
@@ -323,22 +326,22 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                        @endif
-                                    @empty
-                                        Empty
-                                    @endforelse
-                                </div>
-                                <hr/>
-                            </div>
-                            <div class="d-flex">
-                                <div class="row w-100">
-                                    @forelse($content as $values)
-                                        @if($values->id === 'podcast')
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                @endif
+                            @empty
+                                Empty
+                            @endforelse
+                            @forelse($content as $values)
+                                @if($values->id === 'podcast')
+                                    <div class="d-flex">
+                                        <div class="row w-100">
                                             <div class="col-12">
                                                 <h4>Podcast</h4>
                                             </div>
                                             <div class="col-12">
-                                                <p>{{$values->total_data}}</p>
+                                                <p>{{$values->total_data.' Files'}}</p>
                                             </div>
                                             @if(!empty($values->data))
                                                 <div class="d-flex w-100">
@@ -347,8 +350,10 @@
                                                     </div>
                                                     <div class="col-2 justify-content-center">
                                                         <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'podcast'])}}">
-                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center"
+                                                                 style="border-radius: 16px">
+                                                                <div class="img-fluid">
+                                                                    <img src="{{asset_app('assets/img/logo/view_all_ic.png')}}"/>
                                                                 </div>
                                                                 <span>Lihat Semua</span>
                                                             </div>
@@ -356,22 +361,22 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                        @endif
-                                    @empty
-                                        Empty
-                                    @endforelse
-                                </div>
-                                <hr/>
-                            </div>
-                            <div class="d-flex">
-                                <div class="row w-100">
-                                    @forelse($content as $values)
-                                        @if($values->id === 'instagram')
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                @endif
+                            @empty
+                                Empty
+                            @endforelse
+                            @forelse($content as $values)
+                                @if($values->id === 'instagram')
+                                    <div class="d-flex">
+                                        <div class="row w-100">
                                             <div class="col-12">
                                                 <h4>Instagram</h4>
                                             </div>
                                             <div class="col-12">
-                                                <p>{{$values->total_data}}</p>
+                                                <p>{{$values->total_data.' Files'}}</p>
                                             </div>
                                             @if(!empty($values->data))
                                                 <div class="d-flex w-100">
@@ -380,8 +385,10 @@
                                                     </div>
                                                     <div class="col-2 justify-content-center">
                                                         <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'instagram'])}}">
-                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center"
+                                                                 style="border-radius: 16px">
+                                                                <div class="img-fluid">
+                                                                    <img src="{{asset_app('assets/img/logo/view_all_ic.png')}}"/>
                                                                 </div>
                                                                 <span>Lihat Semua</span>
                                                             </div>
@@ -389,23 +396,22 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                        @endif
-                                    @empty
-                                        Empty
-                                    @endforelse
-                                </div>
-                                <hr/>
-                            </div>
-                            <div class="d-flex">
-                                <div class="row w-100">
-
-                                    @forelse($content as $values)
-                                        @if($values->id === 'transformation')
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                @endif
+                            @empty
+                                Empty
+                            @endforelse
+                            @forelse($content as $values)
+                                @if($values->id === 'transformation')
+                                    <div class="d-flex">
+                                        <div class="row w-100">
                                             <div class="col-12">
                                                 <h4>Transformation</h4>
                                             </div>
                                             <div class="col-12">
-                                                <p>{{$values->total_data}}</p>
+                                                <p>{{$values->total_data.' Files'}}</p>
                                             </div>
                                             @if(!empty($values->data))
                                                 <div class="d-flex w-100">
@@ -414,8 +420,10 @@
                                                     </div>
                                                     <div class="col-2 justify-content-center">
                                                         <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'transformation'])}}">
-                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center"
+                                                                 style="border-radius: 16px">
+                                                                <div class="img-fluid">
+                                                                    <img src="{{asset_app('assets/img/logo/view_all_ic.png')}}"/>
                                                                 </div>
                                                                 <span>Lihat Semua</span>
                                                             </div>
@@ -423,32 +431,34 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                        @endif
-                                    @empty
-                                        Empty
-                                    @endforelse
-                                </div>
-                                <hr/>
-                            </div>
-                            <div class="d-flex">
-                                <div class="row w-100">
-                                    @forelse($content as $values)
-                                        @if($values->id === 'logo')
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                @endif
+                            @empty
+                                Empty
+                            @endforelse
+                            @forelse($content as $values)
+                                @if($values->id === 'logo')
+                                    <div class="d-flex">
+                                        <div class="row w-100">
                                             <div class="col-12">
                                                 <h4>Logo</h4>
                                             </div>
                                             <div class="col-12">
-                                                <p>{{$values->total_data}}</p>
+                                                <p>{{$values->total_data.' Files'}}</p>
                                             </div>
                                             @if(!empty($values->data))
                                                 <div class="d-flex w-100">
-                                                    <div class="d-flex w-100"  id="ContentLogo">
+                                                    <div class="d-flex w-100" id="ContentLogo">
 
                                                     </div>
                                                     <div class="col-2 justify-content-center">
                                                         <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'logo'])}}">
-                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center"
+                                                                 style="border-radius: 16px">
+                                                                <div class="img-fluid">
+                                                                    <img src="{{asset_app('assets/img/logo/view_all_ic.png')}}"/>
                                                                 </div>
                                                                 <span>Lihat Semua</span>
                                                             </div>
@@ -456,22 +466,22 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                        @endif
-                                    @empty
-                                        Empty
-                                    @endforelse
-                                </div>
-                                <hr/>
-                            </div>
-                            <div class="d-flex">
-                                <div class="row w-100">
-                                    @forelse($content as $values)
-                                        @if($values->id === 'infographics')
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                @endif
+                            @empty
+                                Empty
+                            @endforelse
+                            @forelse($content as $values)
+                                @if($values->id === 'infographics')
+                                    <div class="d-flex">
+                                        <div class="row w-100">
                                             <div class="col-12">
                                                 <h4>Infographics</h4>
                                             </div>
                                             <div class="col-12">
-                                                <p>{{$values->total_data}}</p>
+                                                <p>{{$values->total_data.' Files'}}</p>
                                             </div>
                                             @if(!empty($values->data))
                                                 <div class="d-flex w-100">
@@ -480,8 +490,10 @@
                                                     </div>
                                                     <div class="col-2 justify-content-center">
                                                         <a href="{{route('mycomsupport.strategic.type.content', [$data->slug, 'infographics'])}}">
-                                                            <div class="card align-items-center h-100 d-flex justify-content-center" style="border-radius: 16px">
-                                                                <div class="fa fa-arrow-alt-circle-right mt-5">
+                                                            <div class="card align-items-center h-100 d-flex justify-content-center"
+                                                                 style="border-radius: 16px">
+                                                                <div class="img-fluid">
+                                                                    <img src="{{asset_app('assets/img/logo/view_all_ic.png')}}"/>
                                                                 </div>
                                                                 <span>Lihat Semua</span>
                                                             </div>
@@ -489,12 +501,12 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                        @endif
-                                    @empty
-                                        Empty
-                                    @endforelse
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @empty
+                                Empty
+                            @endforelse
                         </div>
                     </div>
                 </div>

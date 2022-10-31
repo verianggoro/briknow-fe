@@ -25,15 +25,19 @@
         <div class="col-md-10 col-sm-12 pr-0 header-detail">
             <div class="row">
                 <div class="col-md-12 col-sm-12 mb-2">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h2>{{!empty($data->nama)?$data->nama:"-"}}</h2>
+                    <div class="row d-flex justify-content-between">
+                        <div class="mr-auto p-2">
+                            <div class="px-0  d-min">
+                                <a class="font-weight-bold">
+                                    <h2>{{!empty($data->nama)?$data->nama:"-"}}</h2>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-outline-secondary fa fa-share"><span>Berbagi</span></button>
+                        <div class="p-2">
+                            <button class="btn btn-outline-secondary fa fa-share-alt"><span> Berbagi</span></button>
                         </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-outline-secondary fa fa-star"><span>Simpan</span></button>
+                        <div class="p-2">
+                            <button class="btn btn-outline-secondary fa fa-star"><span> Simpan</span></button>
                         </div>
                     </div>
                     <div class="row">
@@ -155,9 +159,9 @@
                                     <td id="td-metodologi">
                                         <span>
                                             <div class="row">
-                                                <button class="btn fas fa-share-square pr-2"
+                                                <button class="btn fas fa-share-alt grey pr-2"
                                                         style="font-size: 20px"></button>
-                                                <button class="btn fas fa-star" style="font-size: 20px"></button>
+                                                <button class="btn fas fa-star gold" style="font-size: 20px"></button>
                                             </div>
                                         </span>
                                     </td>

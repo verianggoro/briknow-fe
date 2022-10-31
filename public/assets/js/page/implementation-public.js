@@ -71,7 +71,7 @@ function getData(page, year, month, divisi, sort, search){
                                                     </div>
                                                     <div class="d-flex p-2 justify-content-end">
                                                         <div class="row">
-                                                            <p class="pr-2 fas fa-eye" style="font-size: 20px; margin-bottom: 0px; margin-top: 0px">
+                                                            <p class="pr-2 fas fa-eye mt-3" style="font-size: 16px; margin-bottom: 0px; margin-top: 0px">
                                                                 <span>${data.data.data[index].views}</span>
                                                             </p>
                                                              <button class="btn p-2 grey" style="font-size: 20px">
@@ -106,7 +106,7 @@ function getData(page, year, month, divisi, sort, search){
                                                     </div>
                                                     <div class="d-flex p-2 justify-content-end">
                                                         <div class="row">
-                                                            <p class="pr-2 fas fa-eye" style="font-size: 20px; margin-bottom: 0px; margin-top: 0px">
+                                                            <p class="pr-2 fas fa-eye mt-3" style="font-size: 16px; margin-bottom: 0px; margin-top: 0px">
                                                                 <span>${data.data.data[index].views}</span>
                                                             </p>
                                                              <button class="btn p-2 grey" style="font-size: 20px">
@@ -141,7 +141,7 @@ function getData(page, year, month, divisi, sort, search){
                                                     </div>
                                                     <div class="d-flex p-2 justify-content-end">
                                                         <div class="row">
-                                                            <p class="pr-2 fas fa-eye" style="font-size: 23px; margin-bottom: 0px; margin-top: 0px">
+                                                            <p class="pr-2 fas fa-eye mt-3" style="font-size: 16px; margin-bottom: 0px; margin-top: 0px">
                                                                 <span>${data.data.data[index].views}</span>
                                                             </p>
                                                                      <button class="btn p-2 grey" style="font-size: 20px">

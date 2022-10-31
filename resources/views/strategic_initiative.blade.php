@@ -257,20 +257,20 @@
                                             Implementation
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#">Rollout</a>
-                                            <a class="dropdown-item" href="#">Piloting</a>
-                                            <a class="dropdown-item" href="#">Sosialisasi</a>
+                                            <a class="dropdown-item" href="">Rollout</a>
+                                            <a class="dropdown-item" href="">Piloting</a>
+                                            <a class="dropdown-item" href="">Sosialisasi</a>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="p-2">
                                     <label class="sr-only" for="inlineFormInputGroup">Title</label>
-                                    <div class="input-group mb-2">
-                                        <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control"
+                                    <div class="input-group mb-2 h-100">
+                                        <input type="text" style="width:25rem; border-radius: 8px 0 0 8px; border-color: grey; border-style: solid"
                                                id="searchCominit" placeholder="Cari...">
                                         <div class="input-group-prepend">
-                                            <div onclick="searchCominit()" class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;">
-                                                <i class="fa fa-search fa-sm" aria-hidden="true"></i>
+                                            <div onclick="searchCominit()" style="width:2rem; background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                                                <i class="fa fa-search fa-sm mt-2 ml-2" aria-hidden="true"></i>
                                             </div>
                                         </div>
                                     </div>

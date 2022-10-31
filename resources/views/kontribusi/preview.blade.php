@@ -47,7 +47,7 @@
               </div>
             </div>
           </div>
-        </div>  
+        </div>
       </div>
   </div>
   <div class="row judul">
@@ -97,15 +97,17 @@
           <h6>Lesson Learned</h6>
           <div class="table-responsive" id="table-responsive-metodologi">
             <table class="table table-bordered">
-              <thead class="text-center"> 
+              <thead class="text-center">
                   <th id="th-metodologi" style="min-width: 20px;">No</th>
                   <th id="th-metodologi" style="min-width: 400px;">Lesson Learned</th>
+                  <th id="th-metodologi" style="min-width: 80px;">Tahap</th>
                   <th id="th-metodologi" style="min-width: 400px;">Detail Keterangan</th>
               </thead>
               <tbody class="text-center" id="prev_lessonlearned">
                 <tr>
                   <td id="td-nolesson"><span>-</span></td>
                   <td id="td-lesson"><span>-</span></td>
+                  <td id="td-tahap"><span>-</span></td>
                   <td id="td-deskripsi-lesson"><span>-</span></td>
                 </tr>
               </tbody>

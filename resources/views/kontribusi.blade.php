@@ -390,7 +390,9 @@
                                 <thead class="text-center">
                                 <th style="min-width: 20px;">No</th>
                                 <th style="min-width: 480px;">Lesson Learned</th>
+                                <th style="min-width: 60px;">Tahap</th>
                                 <th style="min-width: 480px;">Detail Keterangan</th>
+                                <th style="min-width: 50px;">Aksi</th>
                                 </thead>
                                 <tbody class="text-center content_lesson">
                                 @php
@@ -404,9 +406,11 @@
                                 <input type="hidden" id="urut" value="{{$itung}}">
                                 @for($i = 0; $i < count(old('lesson')); $i++)
                                 <tr class='ll_field'>
-                                    <td class="bg-white attr_input"><span class='control_ll'> <img class='ll_min' src='{{ asset('assets/img/datatables/details_close.png') }}'/> {{$awal++}}</span></td>
+                                    <td class="bg-white attr_input"><span class='control_ll'> {{$awal++}}</span></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="{{old('lesson')[$i]}}" placeholder="..." required/></td>
+                                    <td><input type="text" class="form-control w-100 lesson_field tahap" name="tahap[]" value="{{old('tahap')[$i]}}" placeholder="..." required/></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="{{old('lesson_keterangan')[$i]}}" placeholder="..." required/></td>
+                                    <td><img class='ll_min' src='{{ asset('assets/img/datatables/ic_trash.png') }}'/></td>
                                 </tr>
                                 @endfor
                                 @endif
@@ -417,23 +421,29 @@
                                 <input type="hidden" id="urut" value="{{$itung}}">
                                 @forelse($data->data->lesson_learned as $item)
                                 <tr class='ll_field'>
-                                    <td class="bg-white attr_input"><span class='control_ll'> <img class='ll_min' src='{{ asset('assets/img/datatables/details_close.png') }}'/> {{$awal++}}</span></td>
+                                    <td class="bg-white attr_input"><span class='control_ll'> {{$awal++}}</span></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="{{$item->lesson_learned}}" placeholder="..." required/></td>
+                                    <td><input type="text" class="form-control w-100 lesson_field tahap" name="tahap[]" value="{{$item->tahap}}" placeholder="..." required/></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="{{$item->detail}}" placeholder="..." required/></td>
+                                    <td><img class='ll_min' src='{{ asset('assets/img/datatables/ic_trash.png') }}'/></td>
                                 </tr>
                                 @empty
                                 <tr class='ll_field'>
-                                    <td class="bg-white attr_input"><span class='control_ll'> <img class='ll_min' src='{{ asset('assets/img/datatables/details_close.png') }}'/> 1</span></td>
+                                    <td class="bg-white attr_input"><span class='control_ll'> 1</span></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="" placeholder="..." required /></td>
+                                    <td><input type="text" class="form-control w-100 lesson_field tahap" name="tahap[]" value="" placeholder="..." required /></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required /></td>
+                                    <td><img class='ll_min' src='{{ asset('assets/img/datatables/ic_trash.png') }}'/></td>
                                 </tr>
                                 @endforelse
                                 @else
                                 <input type="hidden" id="urut" value="{{$awal}}">
                                 <tr class='ll_field'>
-                                    <td class="bg-white attr_input"><span class='control_ll'> <img class='ll_min' src='{{ asset('assets/img/datatables/details_close.png') }}'/> 1</span></td>
+                                    <td class="bg-white attr_input"><span class='control_ll'> 1</span></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="" placeholder="..." required/></td>
+                                    <td><input type="text" class="form-control w-100 lesson_field tahap" name="tahap[]" value="" placeholder="..." required /></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required/></td>
+                                    <td><img class='ll_min' src='{{ asset('assets/img/datatables/ic_trash.png') }}'/></td>
                                 </tr>
                                 @endif
                                 </tbody>

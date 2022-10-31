@@ -1774,7 +1774,7 @@ function toKatalog() {
 
     let lesson = $('#lessonLearned').val()
     if (lesson !== null){
-        window.location.assign(uri+'/mylesson')
+        window.location.assign(uri+'/mylesson/'+lesson)
     }else{
         window.location.assign(uri+'/katalog')
     }

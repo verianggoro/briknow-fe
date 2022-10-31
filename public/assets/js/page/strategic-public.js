@@ -112,7 +112,7 @@ function getData(page, year, month, divisi, sort, search){
         success: function(data){
             $('.senddataloader').hide();
             $("#card-content-strategic").html("");
-            if (data.data !== undefined || data.data.length !== 0){
+            if (data.data.length !== 0){
                 for (let index=0; index < data.data.length; index++){
                     $('#card-content-strategic').append(`<div class="col-lg-4 d-flex justify-content-center">
                                                 <a class="w-100" href="${uri+'/mycomsupport/strategic/'+data.data[index].slug}">
@@ -153,7 +153,6 @@ function getDataByProject(page, year, month, divisi, sort, search){
                 for (let index=0; index < data.data.content.length; index++){
                     for (let index2=0; index2 < data.data.content[index].data.length; index2++){
                         if (data.data.content[index].id === 'article'){
-                            $("#ContentArticle").html("");
                             $("#ContentArticle").append(`<div class="col-2 justify-content-center">
                                                         <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/article'}">
                                                             <div class="card h-100" style="border-radius: 16px">
@@ -163,7 +162,6 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                         </a>
                                                     </div>`);
                         }else if(data.data.content[index].id === 'video'){
-                            $("#ContentVideo").html("");
                             $("#ContentVideo").append(`<div class="col-2 justify-content-center">
                                                         <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/video'}">
                                                             <div class="card h-100" style="border-radius: 16px">
@@ -173,7 +171,6 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                         </a>
                                                     </div>`);
                         }else if(data.data.content[index].id === 'podcast'){
-                            $("#ContentPodcast").html("");
                             $("#ContentPodcast").append(`<div class="col-2 justify-content-center">
                                                         <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/podcast'}">
                                                             <div class="card h-100" style="border-radius: 16px">
@@ -183,7 +180,6 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                         </a>
                                                     </div>`);
                         }else if(data.data.content[index].id === 'instagram'){
-                            $("#ContentIg").html("");
                             $("#ContentIg").append(`<div class="col-2 justify-content-center">
                                                         <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/instagram'}">
                                                             <div class="card h-100" style="border-radius: 16px">
@@ -193,7 +189,6 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                         </a>
                                                     </div>`);
                         }else if(data.data.content[index].id === 'transformation'){
-                            $("#ContentTrans").html("");
                             $("#ContentTrans").append(`<div class="col-2 justify-content-center">
                                                         <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/transformation'}">
                                                             <div class="card h-100" style="border-radius: 16px">
@@ -203,7 +198,6 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                         </a>
                                                     </div>`);
                         }else if(data.data.content[index].id === 'logo'){
-                            $("#ContentLogo").html("");
                             $("#ContentLogo").append(`<div class="col-2 justify-content-center">
                                                         <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/logo'}">
                                                             <div class="card h-100" style="border-radius: 16px">
@@ -213,7 +207,6 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                         </a>
                                                     </div>`);
                         }else if(data.data.content[index].id === 'infographics'){
-                            $("#ContentInfo").html("");
                             $("#ContentInfo").append(`<div class="col-2 justify-content-center">
                                                         <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/infographics'}">
                                                             <div class="card h-100" style="border-radius: 16px">
@@ -260,7 +253,7 @@ function getDataByContent(page, year, month, divisi, sort, search){
                                                 <div class="card-body">
                                                     <h5 class="card-title">${data.data[index].title}</h5>
                                                     <div class="d-flex justify-content-between">
-                                                        <i class="mr-auto p-2 fas fa-eye">
+                                                        <i class="mr-auto p-2 fas fa-eye mt-2">
                                                             <span>${data.data[index].views}</span>
                                                         </i>
                                                          <button class="btn p-2 grey" style="font-size: 20px">

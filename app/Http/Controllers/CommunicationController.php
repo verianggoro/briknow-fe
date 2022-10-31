@@ -433,7 +433,6 @@ class CommunicationController extends Controller
         $result = curl_exec($ch);
         $hasil = json_decode($result);
 
-        Log::info("INPOH MASEH IMPEEMNT ", [$hasil]);
         if ($hasil->status == 1) {
             $this->dataImplementation = $hasil->data;
             $data = $this->dataImplementation;

@@ -83,7 +83,7 @@ function getData(page, year, month, divisi, sort, search){
                                                     </button>
                                                     <p>${data.data[index].desc.substring(0,100)}</p>
                                                     <div class="d-flex justify-content-between">
-                                                        <i class="mr-auto p-2 fas fa-eye">
+                                                        <i class="mr-auto p-2 fas fa-eye mt-2">
                                                             <span id="view-${data.data[index].id}">${data.data[index].views}</span>
                                                         </i>
                                                         <button class="btn p-2 grey" style="font-size: 20px">
