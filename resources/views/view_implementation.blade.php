@@ -193,7 +193,7 @@
                 @if($data->desc_roll_out)
                     <div class="col-md-12 d-block w-100 mb-4 mt-2">
                         <div style="background-color: #0a53be; border-radius: 5px; padding: 8px;">
-                            <h6 class="text-white" style="margin: auto 0">Roll Out</h6>
+                            <h6 class="text-white" style="margin: auto 0">Roll-Out</h6>
                         </div>
                         <div class="metodologi-isi wrap"><p>{!! !empty($data->desc_roll_out)?$data->desc_roll_out:'-' !!}</p></div>
                     </div>
