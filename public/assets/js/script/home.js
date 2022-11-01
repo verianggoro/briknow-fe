@@ -1840,6 +1840,54 @@ const cekDivisi = (selOrUn, value) => {
     });
 }
 
+function download(id) {
+    window.location.href = uri+`/attach/download/content/${id}`;
+}
+
+function migrasi(pesan) {
+    var kopi = document.getElementById("link");
+    kopi.value = pesan
+}
+
+function kopas() {
+    var kopi = document.getElementById("link");
+    kopi.select();
+    kopi.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+}
+
+function saveFavCom(e, id){
+    const $img = $(e).children()
+    var url = `${uri}/favoritcomsupport/content/${id}`;
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            $('.senddataloader').show();
+        },
+        success: function (data) {
+            $('.senddataloader').hide();
+            if (typeof data.status !== "undefined") {
+                if (data.status === 1) {
+                    if (data.data.kondisi === 1) {
+                        $img.attr('src', `${uri+'/assets/img/logo/ic_favorited.png'}`);
+                    } else {
+                        $img.attr('src', `${uri+'/assets/img/logo/favoriite_ic.png'}`);
+                    }
+                }else{
+                    alert('Proses Favorite Gagal, Coba lagi');
+                }
+            }else{
+                alert('Proses Favorite Gagal, Coba lagi');
+            }
+        },
+        error: function (e) {
+            $('.senddataloader').hide();
+            alert('Proses Favorite Gagal, Coba lagi');
+        },
+    })
+}
 
 /*
 */

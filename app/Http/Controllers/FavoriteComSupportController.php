@@ -12,7 +12,7 @@ class FavoriteComSupportController extends Controller{
         //
     }
 
-    public function save($id){
+    public function save($table, $id){
         try {
             $token = session()->get('token');
             $ch = curl_init();
@@ -22,7 +22,7 @@ class FavoriteComSupportController extends Controller{
                 "Authorization: Bearer $token",
             ];
 
-            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/bookmark_comsupport/".$id);
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/bookmark_comsupport/$table/$id");
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

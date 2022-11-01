@@ -218,7 +218,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
         Route::get('/myfavorite', 'MyFavoriteController@index')->name('myfavorite');
         Route::get('/favoritproject/{id}', 'FavoriteProjectController@save')->name('favorit.project');
         Route::get('/favoritconsultant/{id}', 'FavoriteConsultantController@save')->name('favorit.consultant');
-        Route::get('/favoritcomsupport/{id}', 'FavoriteComSupportController@save')->name('favorit.coms');
+        Route::get('/favoritcomsupport/{table}/{id}', 'FavoriteComSupportController@save')->name('favorit.coms');
         Route::get('/fav_proj/{sort}', 'MyFavoriteController@fav_project')->name('favorite.project');
         Route::get('/fav_cons/{sort}', 'MyFavoriteController@fav_consultant')->name('favorite.consultant');
         Route::get('/fav_com/{sort}', 'MyFavoriteController@fav_com')->name('favorite.comsupport');

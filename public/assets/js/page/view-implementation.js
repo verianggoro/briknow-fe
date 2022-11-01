@@ -61,3 +61,54 @@ function getData() {
 }
 
 getData();
+
+function migrasi(pesan) {
+    var kopi = document.getElementById("link");
+    kopi.value = pesan
+}
+
+let a = document.getElementById("generate");
+var b = document.getElementById("link");
+b.value = a.value;
+
+function kopas() {
+    var kopi = document.getElementById("link");
+    kopi.select();
+    kopi.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+}
+
+function saveFavCom(e, id){
+    const $child = $(e).children()
+    var url = `${uri}/favoritcomsupport/implementation/${id}`;
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            $('.senddataloader').show();
+        },
+        success: function (data) {
+            $('.senddataloader').hide();
+            if (typeof data.status !== "undefined") {
+                if (data.status === 1) {
+                    if (data.data.kondisi === 1) {
+                        $(e).addClass('aktip')
+                        $child.addClass('gold')
+                    } else {
+                        $(e).removeClass('aktip')
+                        $child.removeClass('gold')
+                    }
+                }else{
+                    alert('Proses Favorite Gagal, Coba lagi');
+                }
+            }else{
+                alert('Proses Favorite Gagal, Coba lagi');
+            }
+        },
+        error: function (e) {
+            $('.senddataloader').hide();
+            alert('Proses Favorite Gagal, Coba lagi');
+        },
+    })
+}

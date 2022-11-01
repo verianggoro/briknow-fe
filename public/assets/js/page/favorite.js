@@ -39,7 +39,7 @@ function saveFavCons(id){
 };
 
 function saveFavCom(id){
-    var url = `${uri}/favoritcomsupport/${id}`;
+    var url = `${uri}/favoritcomsupport/content/${id}`;
     $.ajax({
         url: url,
         type: "get",

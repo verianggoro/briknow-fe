@@ -320,8 +320,9 @@ class CommunicationController extends Controller
 
             if ($hasil->status == 1) {
                 $data = $hasil->data;
+                $project_nama = head($data)->project->nama;
 
-                return view('strategic_by_content', compact(['sync_es', 'token_auth', 'slug', 'data', 'type', 'direktorat', 'divisiRes']));
+                return view('strategic_by_content', compact(['sync_es', 'token_auth', 'slug', 'data', 'type', 'direktorat', 'divisiRes', 'project_nama']));
             } else {
                 session()->flash('error', $hasil->data->message);
             }
@@ -349,7 +350,7 @@ class CommunicationController extends Controller
     {
         $type_list = (object)array(
             array("id" => "piloting", "name" => "Piloting", "path" => "mycomsupport/implementation/piloting"),
-            array("id" => "roll-out", "name" => "Rollout", "path" => "mycomsupport/implementation/roll-out"),
+            array("id" => "roll-out", "name" => "Roll-Out", "path" => "mycomsupport/implementation/roll-out"),
             array("id" => "sosialisasi", "name" => "Sosialisasi", "path" => "mycomsupport/implementation/sosialisasi"),
         );
         $type_array = array("piloting", "roll-out", "sosialisasi");
@@ -436,7 +437,9 @@ class CommunicationController extends Controller
         if ($hasil->status == 1) {
             $this->dataImplementation = $hasil->data;
             $data = $this->dataImplementation;
-            return view('view_implementation', compact(['sync_es', 'token_auth', 'data']));
+            $favorite = $data->favorite;
+
+            return view('view_implementation', compact(['sync_es', 'token_auth', 'data', 'favorite']));
         } else {
             session()->flash('error', $hasil->data->message);
         }

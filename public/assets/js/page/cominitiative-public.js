@@ -86,15 +86,16 @@ function getData(page, year, month, divisi, sort, search){
                                                         <i class="mr-auto p-2 fas fa-eye mt-2">
                                                             <span id="view-${data.data[index].id}">${data.data[index].views}</span>
                                                         </i>
-                                                        <button class="btn p-2 grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/download_ic.png'}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/share_ic.png'}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/favoriite_ic.png'}"/>
-                                                  </button>
+                                                        <button class="btn p-2 grey" style="font-size: 20px" onclick="download(${data.data[index].id})">
+                                                            <img src="${uri+'/assets/img/logo/download_ic.png'}"/>
+                                                        </button>
+                                                        <button class="btn fas grey" style="font-size: 20px" data-toggle="modal" data-target="#berbagi"
+                                                            onclick="migrasi('Eh, liat Konten ini deh. ${data.data[index].title} di BRIKNOW. &nbsp;${uri+"/mycomsupport/initiative/"+data.data[index].type_file+"?slug="+data.data[index].slug}')">
+                                                            <img src="${uri+'/assets/img/logo/share_ic.png'}"/>
+                                                        </button>
+                                                        <button class="btn fas grey" style="font-size: 20px" onclick="saveFavCom(this, ${data.data[index].id})">
+                                                            <img src="${uri+(data.data[index].favorite_com.length > 0 ? '/assets/img/logo/ic_favorited.png' : '/assets/img/logo/favoriite_ic.png')}"/>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -116,9 +117,12 @@ function getData(page, year, month, divisi, sort, search){
                     }
                 }
             }else{
-                $("#card-content-cominit").append(`<div class="p-2">
-                                            <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
-                                        </div>`)
+                $("#card-content-cominit").append(`
+                    <div class="p-2 w-100 pt-5 text-center">
+                        <img src="${uri}/assets/img/forum_kosong_1.png" style="width: 25%; height: fit-content">
+                        <h5 class="font-weight-bold mt-5 mb-1">Oops.. Content tidak ditemukan</h5>
+                        <p class="w-100 text-center font-weight-bold">Coba cari content lain</p>
+                    </div>`)
             }
         },
         error : function(e){
@@ -342,5 +346,38 @@ function showSlides(n) {
         slides[i].style.display = "none";
     }
     slides[slideIndex-1].style.display = "block";
+}
+
+function saveFavCom(e, id){
+    const $img = $(e).children()
+    var url = `${uri}/favoritcomsupport/content/${id}`;
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            $('.senddataloader').show();
+        },
+        success: function (data) {
+            $('.senddataloader').hide();
+            if (typeof data.status !== "undefined") {
+                if (data.status === 1) {
+                    if (data.data.kondisi === 1) {
+                        $img.attr('src', `${uri+'/assets/img/logo/ic_favorited.png'}`);
+                    } else {
+                        $img.attr('src', `${uri+'/assets/img/logo/favoriite_ic.png'}`);
+                    }
+                }else{
+                    alert('Proses Favorite Gagal, Coba lagi');
+                }
+            }else{
+                alert('Proses Favorite Gagal, Coba lagi');
+            }
+        },
+        error: function (e) {
+            $('.senddataloader').hide();
+            alert('Proses Favorite Gagal, Coba lagi');
+        },
+    })
 }
 

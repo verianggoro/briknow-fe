@@ -9,6 +9,7 @@ var monthParam = "";
 var divisiParam = "";
 var sortParam = "";
 var keywordParam = "";
+let slideIndex = 1;
 
 const metas = document.getElementsByTagName('meta');
 var lastpath = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
@@ -127,9 +128,12 @@ function getData(page, year, month, divisi, sort, search){
                                             </div>`);
                 }
             }else{
-                $('#card-content-strategic').append(`<div class="p-2">
-                                            <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
-                                        </div>`);
+                $('#card-content-strategic').append(`
+                    <div class="p-2 w-100 pt-5 text-center">
+                        <img src="${uri}/assets/img/forum_kosong_1.png" style="width: 25%; height: fit-content">
+                        <h5 class="font-weight-bold mt-5 mb-1">Oops.. Project tidak ditemukan</h5>
+                        <p class="w-100 text-center font-weight-bold">Coba cari project lain</p>
+                    </div>`);
             }
         },
         error : function(e){
@@ -219,9 +223,12 @@ function getDataByProject(page, year, month, divisi, sort, search){
                     }
                 }
             }else{
-                document.getElementById('card-content-strategic').innerHTML = `<div class="p-2">
-                                            <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
-                                        </div>`
+                document.getElementById('card-content-strategic').innerHTML =
+                    `<div class="p-2 w-100 pt-5 text-center">
+                        <img src="${uri}/assets/img/forum_kosong_1.png" style="width: 25%; height: fit-content">
+                        <h5 class="font-weight-bold mt-5 mb-1">Oops.. Content tidak ditemukan</h5>
+                        <p class="w-100 text-center font-weight-bold">Coba cari content lain</p>
+                    </div>`
             }
         },
         error : function(e){
@@ -241,40 +248,45 @@ function getDataByContent(page, year, month, divisi, sort, search){
         },
         success: function(data){
             $('.senddataloader').hide();
-            $("#card-content-strategic").html("");
-            if (data.data !== undefined || data.data.length !== 0){
+            $("#card-content-strategic").empty();
+            if (data.data !== undefined && data.data.length !== 0){
                 for (let index=0; index < data.data.length; index++) {
                     $("#card-content-strategic").append(`<div class="col-lg-4 d-flex justify-content-center">
-                                        <a onclick="openPreview(${data.data[index].id})" style="width: inherit">
-                                            <div class="card" style="border-radius: 16px;">
+                                        <div class="card" style="border-radius: 16px;width: inherit">
+                                            <button type="button" class="btn p-0 text-primary" onclick="openPreview(${data.data[index].id})">
                                                 <img class="card-img-up"
-                                                     src="${uri+'/storage/'+data.data[index].thumbnail}"
-                                                     alt="Card image cap">
+                                                     src="${uri+'/storage/'+data.data[index].thumbnail}" alt="Card image cap">
+                                             </button>
                                                 <div class="card-body">
-                                                    <h5 class="card-title">${data.data[index].title}</h5>
+                                                    <button type="button" class="btn p-0 text-primary" onclick="openPreview(${data.data[index].id})">
+                                                        <h5 class="card-title text-black-50">${data.data[index].title}</h5>
+                                                    </button>
                                                     <div class="d-flex justify-content-between">
                                                         <i class="mr-auto p-2 fas fa-eye mt-2">
-                                                            <span>${data.data[index].views}</span>
+                                                            <span id="view-${data.data[index].id}">${data.data[index].views}</span>
                                                         </i>
-                                                         <button class="btn p-2 grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/download_ic.png'}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/share_ic.png'}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/favoriite_ic.png'}"/>
-                                                  </button>
+                                                      <button class="btn p-2 grey" style="font-size: 20px" onclick="download(${data.data[index].id})">
+                                                          <img src="${uri+'/assets/img/logo/download_ic.png'}"/>
+                                                      </button>
+                                                      <button class="btn fas grey" style="font-size: 20px" data-toggle="modal" data-target="#berbagi"
+                                                          onclick="migrasi('Eh, liat Konten ini deh. ${data.data[index].title} di BRIKNOW. &nbsp;${uri+"/mycomsupport/initiative/"+data.data[index].type_file+"?slug="+data.data[index].slug}')">
+                                                          <img src="${uri+'/assets/img/logo/share_ic.png'}"/>
+                                                      </button>
+                                                      <button class="btn fas grey" style="font-size: 20px" onclick="saveFavCom(this, ${data.data[index].id})">
+                                                          <img src="${uri+(data.data[index].favorite_com.length > 0 ? '/assets/img/logo/ic_favorited.png' : '/assets/img/logo/favoriite_ic.png')}"/>
+                                                      </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </a>
                                     </div>`);
                 }
             }else{
-                $("#card-content-strategic").append(`<div class="p-2">
-                                            <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
-                                        </div>`)
+                $("#card-content-strategic").append(`
+                    <div class="p-2 w-100 pt-5 text-center">
+                        <img src="${uri}/assets/img/forum_kosong_1.png" style="width: 25%; height: fit-content">
+                        <h5 class="font-weight-bold mt-5 mb-1">Oops.. Content tidak ditemukan</h5>
+                        <p class="w-100 text-center font-weight-bold">Coba cari content lain</p>
+                    </div>`)
             }
         },
         error : function(e){
@@ -455,5 +467,69 @@ function sortingBy(params){
         }
         document.getElementById('btn-sort-comsup').innerHTML = "Sort By"
     }
+}
+
+function download(id) {
+    window.location.href = uri+`/attach/download/content/${id}`;
+}
+
+function migrasi(pesan) {
+    var kopi = document.getElementById("link");
+    kopi.value = pesan
+}
+
+function kopas() {
+    var kopi = document.getElementById("link");
+    kopi.select();
+    kopi.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+}
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slides[slideIndex-1].style.display = "block";
+}
+
+function saveFavCom(e, id){
+    const $img = $(e).children()
+    var url = `${uri}/favoritcomsupport/content/${id}`;
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            $('.senddataloader').show();
+        },
+        success: function (data) {
+            $('.senddataloader').hide();
+            if (typeof data.status !== "undefined") {
+                if (data.status === 1) {
+                    if (data.data.kondisi === 1) {
+                        $img.attr('src', `${uri+'/assets/img/logo/ic_favorited.png'}`);
+                    } else {
+                        $img.attr('src', `${uri+'/assets/img/logo/favoriite_ic.png'}`);
+                    }
+                }else{
+                    alert('Proses Favorite Gagal, Coba lagi');
+                }
+            }else{
+                alert('Proses Favorite Gagal, Coba lagi');
+            }
+        },
+        error: function (e) {
+            $('.senddataloader').hide();
+            alert('Proses Favorite Gagal, Coba lagi');
+        },
+    })
 }
 

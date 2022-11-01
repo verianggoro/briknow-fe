@@ -50,120 +50,54 @@ function getData(page, year, month, divisi, sort, search){
         },
         success: function(data){
             $('.senddataloader').hide();
-            $("#container-impl").html("");
-            if (data.data.data !== undefined || data.data.data.length !== 0){
+            $("#container-impl").empty();
+            if (data.data.data !== undefined && data.data.data.length !== 0){
                 for (let index=0; index < data.data.data.length; index++) {
-                    if (lastpath === 'piloting'){
-                        $('#container-impl').append(`<div class="container-fluid">
-                                            <a href="${uri+'/view/implementation/'+data.data.data[index].slug}">
-                                                <div class="card d-flex w-100 p-2" style="border-radius: 16px; width: 30rem">
-                                                    <div class="row">
-                                                        <div class="col-lg-2">
-                                                            <img class="card-img" style="height: auto;" src="${uri+'/storage/'+data.data.data[index].thumbnail}" alt="Card image cap">
-                                                        </div>
-                                                        <div class="col-lg-10">
-                                                            <h4>${data.data.data[index].title}</h4>
-                                                            <div style="background-color: #0a53be; border-radius: 10px;">
-                                                                    <p class="text-white m-2">PILOTING</p>
-                                                            </div>
-                                                            <p>${data.data.data[index].desc_piloting.substring(0,200)}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex p-2 justify-content-end">
-                                                        <div class="row">
-                                                            <p class="pr-2 fas fa-eye mt-3" style="font-size: 16px; margin-bottom: 0px; margin-top: 0px">
-                                                                <span>${data.data.data[index].views}</span>
-                                                            </p>
-                                                             <button class="btn p-2 grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/download_ic.png'}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/share_ic.png'}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/favoriite_ic.png'}"/>
-                                                  </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>`);
-                    }else if (lastpath === 'roll-out'){
-                        $('#container-impl').append(`<div class="container-fluid">
-                                            <a href="${uri+'/view/implementation/'+data.data.data[index].slug}">
-                                                <div class="card d-flex w-100 p-2" style="border-radius: 16px; width: 30rem">
-                                                    <div class="row">
-                                                        <div class="col-lg-2">
-                                                            <img class="card-img" style="height: auto;" src="${uri+'/storage/'+data.data.data[index].thumbnail}" alt="Card image cap">
-                                                        </div>
-                                                        <div class="col-lg-10">
-                                                            <h4>${data.data.data[index].title}</h4>
-                                                            <div style="background-color: #0a53be; border-radius: 10px;">
-                                                                <p class="text-white m-2">ROLL OUT</p>
-                                                            </div>
-                                                            <p>${data.data.data[index].desc_roll_out.substring(0,200)}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex p-2 justify-content-end">
-                                                        <div class="row">
-                                                            <p class="pr-2 fas fa-eye mt-3" style="font-size: 16px; margin-bottom: 0px; margin-top: 0px">
-                                                                <span>${data.data.data[index].views}</span>
-                                                            </p>
-                                                             <button class="btn p-2 grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/download_ic.png'}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/share_ic.png'}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/favoriite_ic.png'}"/>
-                                                  </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>`)
-                    }else if (lastpath === 'sosialisasi'){
-                        $('#container-impl').append(`<div class="container-fluid">
-                                            <a href="${uri+'/view/implementation/'+data.data.data[index].slug}">
-                                                <div class="card d-flex w-100 p-2" style="border-radius: 16px; width: 30rem">
-                                                    <div class="row">
-                                                        <div class="col-lg-2">
-                                                            <img class="card-img" style="height: auto;" src="${uri+'/storage/'+data.data.data[index].thumbnail}" alt="Card image cap">
-                                                        </div>
-                                                        <div class="col-lg-10">
-                                                            <h4>${data.data.data[index].title}</h4>
-                                                            <div style="background-color: #0a53be; border-radius: 10px;">
-                                                                <p class="text-white m-2">SOSIALISASI</p>
-                                                            </div>
-                                                            <p>${data.data.data[index].desc_sosialisasi.substring(0,200)}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex p-2 justify-content-end">
-                                                        <div class="row">
-                                                            <p class="pr-2 fas fa-eye mt-3" style="font-size: 16px; margin-bottom: 0px; margin-top: 0px">
-                                                                <span>${data.data.data[index].views}</span>
-                                                            </p>
-                                                                     <button class="btn p-2 grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/download_ic.png'}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/share_ic.png'}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="${uri+'/assets/img/logo/favoriite_ic.png'}"/>
-                                                  </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>`)
-                    }
+                    $('#container-impl').append(
+                        `<div class="container-fluid">
+                            <div class="card d-flex w-100 p-2" style="border-radius: 16px; width: 30rem">
+                                <a href="${uri+'/view/implementation/'+data.data.data[index].slug}">
+                                    <div class="row">
+                                    <div class="col-lg-2">
+                                        <img class="card-img" style="height: auto;" src="${uri+'/storage/'+data.data.data[index].thumbnail}" alt="Card image cap">
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <h4>${data.data.data[index].title}</h4>
+                                        <div style="background-color: #0a53be; border-radius: 10px;">
+                                                <p class="text-white m-2">${lastpath === 'piloting' ? 'PILOTING' : lastpath === 'roll-out' ? 'ROLL-OUT' : 'SOSIALISASI'}</p>
+                                        </div>
+                                        <p>${lastpath === 'piloting' ? data.data.data[index].desc_piloting.substring(0,200) :
+                                            lastpath === 'roll-out' ? data.data.data[index].desc_roll_out.substring(0,200) : data.data.data[index].desc_sosialisasi.substring(0,200)}</p>
+                                    </div>
+                                </div>
+                                </a>
+                                <div class="d-flex p-2 justify-content-end">
+                                    <div class="row">
+                                        <p class="pr-2 fas fa-eye mt-3" style="font-size: 16px; margin-bottom: 0px; margin-top: 0px">
+                                            <span>${data.data.data[index].views}</span>
+                                        </p>
+                                        <button class="btn p-2 grey" style="font-size: 20px" onclick="download(${data.data.data[index].id})">
+                                            <img src="${uri+'/assets/img/logo/download_ic.png'}"/>
+                                        </button>
+                                        <button class="btn fas grey" style="font-size: 20px" data-toggle="modal" data-target="#berbagi"
+                                            onclick="migrasi('Eh, liat Implementation Project ini deh. ${data.data.data[index].title} di BRIKNOW. &nbsp;${uri+"/view/implementation/"+data.data.data[index].slug}')">
+                                            <img src="${uri+'/assets/img/logo/share_ic.png'}"/>
+                                        </button>
+                                        <button class="btn fas grey" style="font-size: 20px" onclick="saveFavCom(this, ${data.data.data[index].id})">
+                                            <img src="${uri+(data.data.data[index].favorite_implementation.length > 0 ? '/assets/img/logo/ic_favorited.png' : '/assets/img/logo/favoriite_ic.png')}"/>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`);
                 }
             }else{
-                $('#container-impl').append(`<div class="p-2">
-                                            <p class="w-100 text-center font-weight-600 font-italic">Tidak Ada Data</p>
-                                        </div>`)
+                $('#container-impl').append(`
+                    <div class="p-2 w-100 pt-5 text-center">
+                        <img src="${uri}/assets/img/forum_kosong_1.png" style="width: 25%; height: fit-content">
+                        <h5 class="font-weight-bold mt-5 mb-1">Oops.. Project tidak ditemukan</h5>
+                        <p class="w-100 text-center font-weight-bold">Coba cari project lain</p>
+                    </div>`)
             }
         },
         error : function(e){
@@ -309,5 +243,54 @@ function sortingBy(params){
         getData(pageParam, yearParam, monthParam, divisiParam, sortParam, keywordParam)
         document.getElementById('btn-sort-comsup').innerHTML = "Sort By"
     }
+}
+
+function download(id) {
+    window.location.href = uri+`/attach/download/implementation/${id}`;
+}
+
+function migrasi(pesan) {
+    var kopi = document.getElementById("link");
+    kopi.value = pesan
+}
+
+function kopas() {
+    var kopi = document.getElementById("link");
+    kopi.select();
+    kopi.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+}
+
+function saveFavCom(e, id){
+    const $img = $(e).children()
+    var url = `${uri}/favoritcomsupport/implementation/${id}`;
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            $('.senddataloader').show();
+        },
+        success: function (data) {
+            $('.senddataloader').hide();
+            if (typeof data.status !== "undefined") {
+                if (data.status === 1) {
+                    if (data.data.kondisi === 1) {
+                        $img.attr('src', `${uri+'/assets/img/logo/ic_favorited.png'}`);
+                    } else {
+                        $img.attr('src', `${uri+'/assets/img/logo/favoriite_ic.png'}`);
+                    }
+                }else{
+                    alert('Proses Favorite Gagal, Coba lagi');
+                }
+            }else{
+                alert('Proses Favorite Gagal, Coba lagi');
+            }
+        },
+        error: function (e) {
+            $('.senddataloader').hide();
+            alert('Proses Favorite Gagal, Coba lagi');
+        },
+    })
 }
 

@@ -33,6 +33,16 @@
         .btn-link-com:hover, .btn-link-com:active, .btn-link-com:focus {
             background-color: rgba(36, 36, 36, 0.2) !important;
         }
+        .card-desc {
+            display: -webkit-box;
+            max-width: 200px;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .btn.grey:active, .btn.grey:active:focus {
+            background-color: transparent !important;
+        }
     </style>
 
     @if($congrats <> [])
@@ -214,43 +224,37 @@
                       <div class="owl-carousel owl-theme">
                           @forelse($recominitiative as $item)
                               <div class="px-2 item w-100 p-0">
-                                  <a href="{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}" class="text-decoration-none text-dark">
-                                      <div class="card bg-6sa6ss sh-a22l" style="border-radius: 16px">
+
+                                  <div class="card bg-6sa6ss sh-a22l" style="border-radius: 16px">
+                                      <a href="{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}" class="text-decoration-none text-dark">
                                           <img class="card-img-up" style="max-width: 20rem; height: 10rem" src="{{ asset('storage/'.$item->thumbnail)}}" alt="Card image cap">
-                                          <div class="card-body">
+                                      </a>
+                                      <div class="card-body">
+                                          <a href="{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}" class="text-decoration-none text-dark">
                                               <h5 class="card-title">{{$item->nama}}</h5>
-                                              {!! \Illuminate\Support\Str::limit($item->desc, 20, ' ...') !!}
-                                              <div class="d-flex justify-content-between">
-                                                  <i class="mr-auto p-2 fas fa-eye grey">
-                                                      <span>{{$item->view}}</span>
-                                                  </i>
-                                                  <button class="btn p-2 grey" style="font-size: 20px">
-                                                      <img src="{{asset_app('assets/img/logo/download_ic.png')}}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
-                                                      <img src="{{asset_app('assets/img/logo/share_ic.png')}}"/>
-                                                  </button>
-                                                  <button class="btn fas grey" style="font-size: 20px">
+                                          </a>
+                                          <div class="card-desc">{{strip_tags($item->desc)}}</div>
+                                          {{--                                              {!! \Illuminate\Support\Str::limit($item->desc, 20, ' ...') !!}--}}
+                                          <div class="d-flex justify-content-between">
+                                              <i class="mr-auto p-2 fas fa-eye grey">
+                                                  <span>{{$item->view}}</span>
+                                              </i>
+                                              <button class="btn p-2 grey" style="font-size: 20px" onclick="download({{$item->id}})">
+                                                  <img src="{{asset_app('assets/img/logo/download_ic.png')}}"/>
+                                              </button>
+                                              <button class="btn fas grey" style="font-size: 20px" data-toggle="modal" data-target="#berbagi" onclick="migrasi('Eh, liat Konten ini deh. {{$item->nama}} di BRIKNOW. &nbsp;{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}')">
+                                                  <img src="{{asset_app('assets/img/logo/share_ic.png')}}"/>
+                                              </button>
+                                              <button class="btn fas grey" style="font-size: 20px" onclick="saveFavCom(this, {{$item->id}})">
+                                                  @if($item->fav == 1)
+                                                      <img src="{{asset_app('assets/img/logo/ic_favorited.png')}}"/>
+                                                  @else
                                                       <img src="{{asset_app('assets/img/logo/favoriite_ic.png')}}"/>
-                                                  </button>
-                                              </div>
+                                                  @endif
+                                              </button>
                                           </div>
                                       </div>
-{{--                                      <div class="card bg-6sa6ss sh-a22l d-flex justify-content-center align-items-center o-hidden">--}}
-{{--                                          <?php--}}
-{{--                                          if (file_exists(public_path('storage/'.$item->thumbnail))) {--}}
-{{--                                              $item->thumbnail = config('app.url').'storage/'.$item->thumbnail;--}}
-{{--                                          }else{--}}
-{{--                                              $item->thumbnail = config('app.url').'assets/img/boxdefault.svg';--}}
-{{--                                          }--}}
-{{--                                          ?>--}}
-{{--                                          <img class="card-img-top" src="{{$item->thumbnail}}" alt="Card image cap">--}}
-{{--                                          <div class="card-body p-2 w-100">--}}
-{{--                                              <strong class="d-block">{{$item->nama}}</strong>--}}
-{{--                                              <small class="text-time d-block">{{\Carbon\Carbon::create($item->updated_at)->diffForHumans()}}</small>--}}
-{{--                                          </div>--}}
-{{--                                      </div>--}}
-                                  </a>
+                                  </div>
                               </div>
                           @empty
                               <div class="col-sm-6 d-flex justify-content-center">
@@ -700,6 +704,32 @@
       </small>
     </footer>
     @include('layouts.edit_profile')
+      <div class="modal fade" id="berbagi" tabindex="-1" role="dialog" aria-labelledby="berbagi" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title font-weight-bolder" id="exampleModalLongTitle">Bagikan</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                          <div class="col-sm-12">
+                              <div class="input-group form-bagikan">
+                                  <input type="text" class="form-control form-link-bagikan" id="link" readonly="">
+                                  <div class="input-group-prepend">
+                                      <button type="submit" class="btn copy-link" onclick="kopas()">
+                                          Salin
+                                      </button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
     <!-- General JS Scripts -->
 

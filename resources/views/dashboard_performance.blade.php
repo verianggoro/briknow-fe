@@ -32,7 +32,7 @@
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Download<i class="fa fa-caret-down" style="margin-left: 1rem !important;"></i>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
                     <a href="{{route('laporan.allexcel')}}" target="_blank" class="btn dropdown-item">
                         <i class="far fa-file-excel mr-2"></i>Xlsx
                     </a>

@@ -253,11 +253,11 @@
                                 <div class="p-2">
                                     <label class="sr-only" for="inlineFormInputGroup">Title</label>
                                     <div class="input-group mb-2 h-100">
-                                        <input type="text" style="width:25rem; border-radius: 8px 0 0 8px; border-color: grey; border-style: solid"
+                                        <input type="text" style="width:20rem; border-radius: 8px 0 0 8px; border-color: #f0f0f0; border-style: solid;padding-left: 12px;border-right: none"
                                                id="searchCominit" placeholder="Cari...">
                                         <div class="input-group-prepend">
-                                            <div onclick="searchCominit()" style="width:2rem; background: #f0f0f0; border-radius: 0 8px 8px 0;">
-                                                <i class="fa fa-search fa-sm mt-2 ml-2" aria-hidden="true"></i>
+                                            <div onclick="searchCominit()" class="d-flex align-items-center justify-content-center" style="cursor:pointer;width:2rem; background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                                                <i class="fa fa-search fa-sm" aria-hidden="true"></i>
                                             </div>
                                         </div>
                                     </div>

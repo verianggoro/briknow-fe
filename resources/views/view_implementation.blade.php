@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="{{asset_app('assets/css/fa-proj.css')}}">
     <link rel="stylesheet" href="{{asset_app('assets/css/my_project.css')}}">
 
+    <style>
+        .btn-outline-secondary:focus, .btn-outline-secondary:active {
+            background-color: transparent;
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-outline-secondary.aktip:focus, .btn-outline-secondary.aktip:active {
+            background-color: #0e3984!important;
+            color: #FFFFFF;
+            border-color: #6c757d;
+        }
+    </style>
+
 @endpush
 
 @push('page-script')
@@ -36,10 +49,12 @@
                             </div>
                         </div>
                         <div class="p-2">
-                            <button class="btn btn-outline-secondary fa fa-share-alt"><span> Berbagi</span></button>
+                            <button class="btn btn-outline-secondary" data-toggle="modal" data-target="#berbagi">
+                                <i class="fas fa-share-alt mr-1"></i> Berbagi
+                            </button>
                         </div>
                         <div class="p-2">
-                            <button class="btn btn-outline-secondary fa fa-star"><span> Simpan</span></button>
+                            <button class="btn btn-outline-secondary {{$favorite == 1 ? 'aktip' : ''}}" onclick="saveFavCom(this, {{$data->id}})"><i class="fas fa-star mr-1 {{$favorite == 1 ? 'gold' : ''}}" id="star"></i>Simpan</button>
                         </div>
                     </div>
                     <div class="row">
@@ -271,5 +286,35 @@
                 @endif
             </div>
         </div>
+    </div>
+    <div class="w-100" id="popupin">
+        <div class="modal fade" id="berbagi" tabindex="-1" role="dialog" aria-labelledby="berbagi" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title font-weight-bolder" id="exampleModalLongTitle">Bagikan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="input-group form-bagikan">
+                                    <input type="hidden" class="form-control" style="border: none;" value="Eh, liat ini deh. {{!empty($data->title)?$data->title:"-"}} di BRIKNOW. &nbsp;{{URL::current()}}" id="generate">
+                                    <input type="text" class="form-control form-link-bagikan" id="link" readonly="">
+                                    <div class="input-group-prepend">
+                                        <button type="submit" class="btn copy-link" onclick="kopas()">
+                                            <i class="fas fa-paste"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @yield('popup')
     </div>
 @endsection

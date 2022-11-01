@@ -268,11 +268,11 @@
                                 <div class="p-2">
                                     <label class="sr-only" for="inlineFormInputGroup">Title</label>
                                     <div class="input-group mb-2 h-100">
-                                        <input type="text" style="width:25rem; border-radius: 8px 0 0 8px; border-color: grey; border-style: solid"
+                                        <input type="text" style="width:20rem; border-radius: 8px 0 0 8px; border-color: #f0f0f0; border-style: solid;padding-left: 12px;border-right: none"
                                                id="searchCominit" placeholder="Cari...">
                                         <div class="input-group-prepend">
-                                            <div onclick="searchCominit()" style="width:2rem; background: #f0f0f0; border-radius: 0 8px 8px 0;">
-                                                <i class="fa fa-search fa-sm mt-2 ml-2" aria-hidden="true"></i>
+                                            <div onclick="searchCominit()" class="d-flex align-items-center justify-content-center" style="cursor:pointer;width:2rem; background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                                                <i class="fa fa-search fa-sm" aria-hidden="true"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -287,7 +287,7 @@
                                         </div>
                                     </div>
                                 @else
-                                    <div id="container-impl">
+                                    <div id="container-impl" class="w-100">
 
                                     </div>
                                 @endif
@@ -297,6 +297,32 @@
                 </div>
             </section>
             <div class="w-100" id="popupin">
+                <div class="modal fade" id="berbagi" tabindex="-1" role="dialog" aria-labelledby="berbagi" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title font-weight-bolder" id="exampleModalLongTitle">Bagikan</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="input-group form-bagikan">
+                                            <input type="text" class="form-control form-link-bagikan" id="link" readonly="">
+                                            <div class="input-group-prepend">
+                                                <button type="submit" class="btn copy-link" onclick="kopas()">
+                                                    Salin
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @yield('popup')
             </div>
         </div>
