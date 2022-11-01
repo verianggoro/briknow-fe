@@ -1744,6 +1744,25 @@ $(document).ready(function () {
         placeholder : 'Pilih Tahun'
     });
 
+    $('#slider-com').slick({
+        autoplay: false,
+        lazyLoad: 'ondemand',
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        prevArrow: '<button class="slick-cus-prev slick-cus-arrow" aria-label="Previous" type="button" style=""><i class="fas fa-chevron-left slick-arrow"></i></button>',
+        nextArrow: '<button class="slick-cus-next slick-cus-arrow" aria-label="Next" type="button" style=""><i class="fas fa-chevron-right slick-arrow"></i></button>',
+    });
+
+    $('#slider-rec').slick({
+        autoplay: false,
+        lazyLoad: 'ondemand',
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        variableWidth: true,
+        prevArrow: '<button class="slick-cus-prev slick-cus-arrow slick-rec" aria-label="Previous" type="button" style=""><i class="fas fa-chevron-left slick-arrow"></i></button>',
+        nextArrow: '<button class="slick-cus-next slick-cus-arrow slick-rec" aria-label="Next" type="button" style=""><i class="fas fa-chevron-right slick-arrow"></i></button>',
+    });
+
 });
 
 function toKatalog() {

@@ -69,8 +69,8 @@
                             @endforelse
                         </div>
                         <div class="d-flex flex-column justify-content-center align-items-center" onclick="showMore('{{$item->id}}', '{{$slug}}')" style="margin: auto 4px; font-size: 18px; color: #2f80ed; cursor:pointer;">
-                            <i class="fas fa-chevron-circle-right mr-3"
-                               style="font-size: 32px;border: 3px solid #2f80ed;border-radius: 50%;background: #2f80ed;color: #f4f6f9;"></i>Lihat Semua</div>
+                            <i class="fas fa-chevron-right mr-3"
+                               style="font-size: 26px;padding: 4px 9px;border: 3px solid #2f80ed;border-radius: 50%;background: #f4f6f9;color: #2f80ed;"></i>Lihat Semua</div>
                     </div>
                 </div>
                 <hr>

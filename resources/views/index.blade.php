@@ -12,38 +12,15 @@
     <link rel="stylesheet" href="{{asset_app('assets/css/plugin/bs/all.css')}}">
     <link rel="stylesheet" href="{{asset_app('assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset_app('assets/css/components.css')}}">
+    <link rel="stylesheet" href="{{asset_app('assets/css/home.css')}}">
     <link rel="stylesheet" href="{{asset_app('css/app.css')}}">
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset_app('assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset_app('assets/css/components.css')}}">
     <link rel="stylesheet" href="{{asset_app('assets/css/fa.css')}}">
-
-    <style>
-
-        .select2-selection--multiple {
-            max-height: 42px;
-            overflow-x: hidden;
-            overflow-y: auto;
-            height: 42px;
-            /*-ms-overflow-style: none;
-            overflow: -moz-scrollbars-none;
-            scrollbar-width: none;*/
-        }
-
-        .btn-link-com:hover, .btn-link-com:active, .btn-link-com:focus {
-            background-color: rgba(36, 36, 36, 0.2) !important;
-        }
-        .card-desc {
-            display: -webkit-box;
-            max-width: 200px;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .btn.grey:active, .btn.grey:active:focus {
-            background-color: transparent !important;
-        }
-    </style>
+    <!-- Slick CSS -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
     @if($congrats <> [])
         {{-- congrats --}}
@@ -215,37 +192,38 @@
                       <h2 class="font-weight-bolder">Support</h2>
                   </div>
               </div>
-              <div class="row rekomendasi mt-4">
+              <div class="rekomendasi mx-2 mt-4">
                   @empty($recominitiative)
                       <div class="col-sm-12 d-flex justify-content-center">
                           <span class="text-black-50 font-italic">Tidak Ada Data Rekomendasi Communication</span>
                       </div>
                   @else
-                      <div class="owl-carousel owl-theme">
-                          @forelse($recominitiative as $item)
-                              <div class="px-2 item w-100 p-0">
+                      <div id="slider-com" class="slider-cus">
+                          @foreach($recominitiative as $item)
+                              <div class="item py-1">
 
-                                  <div class="card bg-6sa6ss sh-a22l" style="border-radius: 16px">
-                                      <a href="{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}" class="text-decoration-none text-dark">
-                                          <img class="card-img-up" style="max-width: 20rem; height: 10rem" src="{{ asset('storage/'.$item->thumbnail)}}" alt="Card image cap">
+                                  <div class="card bg-6sa6ss sh-a22l" style="border-radius: 8px">
+                                      <a href="{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}" class="text-decoration-none text-dark" style="margin-top: 1px">
+                                          <img class="card-img-up-2" src="{{ asset('storage/'.$item->thumbnail)}}" alt="Card image cap">
                                       </a>
-                                      <div class="card-body">
-                                          <a href="{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}" class="text-decoration-none text-dark">
-                                              <h5 class="card-title">{{$item->nama}}</h5>
+                                      <div class="pt-2 pb-3 px-4">
+                                          <a href="{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}" class="text-decoration-none text-dark card-title d-inline-block mb-1" style="font-size: 1rem; width: fit-content;font-weight: 700">
+                                              {{$item->nama}}
                                           </a>
                                           <div class="card-desc">{{strip_tags($item->desc)}}</div>
                                           {{--                                              {!! \Illuminate\Support\Str::limit($item->desc, 20, ' ...') !!}--}}
-                                          <div class="d-flex justify-content-between">
-                                              <i class="mr-auto p-2 fas fa-eye grey">
+                                          <div class="d-flex justify-content-between align-items-center">
+                                              <i class="mr-auto pl-2 fas fa-eye grey">
                                                   <span>{{$item->view}}</span>
                                               </i>
-                                              <button class="btn p-2 grey" style="font-size: 20px" onclick="download({{$item->id}})">
+                                              <small class="text-time d-block" style="margin-bottom: 0;margin-right: 4px">{{\Carbon\Carbon::create($item->created_at)->diffForHumans()}}</small>
+                                              <button class="btn p-1 grey" style="font-size: 20px;margin-right: 4px" onclick="download({{$item->id}})">
                                                   <img src="{{asset_app('assets/img/logo/download_ic.png')}}"/>
                                               </button>
-                                              <button class="btn fas grey" style="font-size: 20px" data-toggle="modal" data-target="#berbagi" onclick="migrasi('Eh, liat Konten ini deh. {{$item->nama}} di BRIKNOW. &nbsp;{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}')">
+                                              <button class="btn p-1 grey" style="font-size: 20px;margin-right: 4px" data-toggle="modal" data-target="#berbagi" onclick="migrasi('Eh, liat Konten ini deh. {{$item->nama}} di BRIKNOW. &nbsp;{{route('mycomsupport.initiative.type', [$item->type_file, 'slug' => $item->slug])}}')">
                                                   <img src="{{asset_app('assets/img/logo/share_ic.png')}}"/>
                                               </button>
-                                              <button class="btn fas grey" style="font-size: 20px" onclick="saveFavCom(this, {{$item->id}})">
+                                              <button class="btn p-1 grey" style="font-size: 20px;" onclick="saveFavCom(this, {{$item->id}})">
                                                   @if($item->fav == 1)
                                                       <img src="{{asset_app('assets/img/logo/ic_favorited.png')}}"/>
                                                   @else
@@ -256,13 +234,9 @@
                                       </div>
                                   </div>
                               </div>
-                          @empty
-                              <div class="col-sm-6 d-flex justify-content-center">
-                                  <span class="text-black-50 font-italic">Tidak Ada Data Unggahan Rekomendasi</span>
-                              </div>
-                          @endforelse
+                          @endforeach
                       </div>
-                      <div class="w-100 d-flex justify-content-center">
+                      <div class="w-100 d-flex justify-content-center mt-4">
                           <button class="btn btn-primary" onclick="location.href='{{ route('mycomsupport.initiative') }}'">Lihat Semua</button>
                       </div>
                   @endempty
@@ -277,24 +251,24 @@
                     <h2 class="font-weight-bolder">Rekomendasi</h2>
                 </div>
             </div>
-            <div class="row rekomendasi mt-4">
+            <div class="rekomendasi mx-2 mt-4">
                 @empty($rekomendasi)
                     <div class="col-sm-12 d-flex justify-content-center">
                         <span class="text-black-50 font-italic">Tidak Ada Data Unggahan Rekomendasi</span>
                     </div>
                 @else
-                    <div class="owl-carousel owl-theme">
-                        @forelse($rekomendasi as $item)
-                            <div class="px-2 item w-100 p-0">
+                    <div id="slider-rec" class="slider-cus">
+                        @foreach($rekomendasi as $item)
+                            <div class="item py-1">
                                 <a href="{{route('project.index',$item->slug)}}" class="text-decoration-none text-dark">
                                     <div class="card bg-6sa6ss sh-a22l d-flex justify-content-center align-items-center o-hidden">
-                                        <?php
+                                            <?php
                                             if (file_exists(public_path('storage/'.$item->thumbnail))) {
                                                 $item->thumbnail = config('app.url').'storage/'.$item->thumbnail;
                                             }else{
                                                 $item->thumbnail = config('app.url').'assets/img/boxdefault.svg';
                                             }
-                                        ?>
+                                            ?>
                                         <img class="card-img-top" src="{{$item->thumbnail}}" alt="Card image cap">
                                         <div class="card-body p-2 w-100">
                                             <small class="text-dark">{{\Str::limit($item->divisi->divisi,25)}}</small>
@@ -304,11 +278,7 @@
                                     </div>
                                 </a>
                             </div>
-                        @empty
-                            <div class="col-sm-6 d-flex justify-content-center">
-                                <span class="text-black-50 font-italic">Tidak Ada Data Unggahan Rekomendasi</span>
-                            </div>
-                        @endforelse
+                        @endforeach
                     </div>
                 @endempty
             </div>
@@ -415,7 +385,7 @@
                               </div>
                           </div>
                           <div class="w-100 d-flex mt-4 justify-content-center">
-                              <a class="btn btn-primary" onclick="toKatalog()" oncontextmenu="toKatalog()" onmousedown="toKatalog()">Terapkan</a>
+                              <a class="btn btn-primary text-white" onclick="toKatalog()" oncontextmenu="toKatalog()" onmousedown="toKatalog()">Terapkan</a>
                           </div>
                       </div>
                   </div>
@@ -804,6 +774,8 @@
         </script>
     @endif
 
+    <!-- Slick JS -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="{{asset_app('assets/js/script/home.js')}}"></script>
     <!-- Template JS File -->
     <script src="{{asset_app('assets/js/select2.min.js')}}"></script>
