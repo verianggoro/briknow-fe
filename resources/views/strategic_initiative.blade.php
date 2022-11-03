@@ -35,7 +35,7 @@
         <img src="{{asset_app('assets/img/senddataloader.gif')}}" style="width:50px;height:50px">
     </div>
 </div>
-<div id="app">
+<div id="app" style="height: 100vh; background-color: white">
     <div class="main-wrapper">
         <nav class="navbar navbar-expand-lg main-navbar bg-primary">
             <form class="form-inline mr-auto">
@@ -257,7 +257,7 @@
                                             Implementation
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="">Rollout</a>
+                                            <a class="dropdown-item" href="">Roll-Out</a>
                                             <a class="dropdown-item" href="">Piloting</a>
                                             <a class="dropdown-item" href="">Sosialisasi</a>
                                         </ul>

@@ -34,7 +34,7 @@
         <img src="{{asset_app('assets/img/senddataloader.gif')}}" style="width:50px;height:50px">
     </div>
 </div>
-<div id="app">
+<div id="app" style="height: 100vh; background-color: white">
     <div class="main-wrapper">
         <nav class="navbar navbar-expand-lg main-navbar bg-primary">
             <form class="form-inline mr-auto">

@@ -70,7 +70,7 @@ function getData(page, year, month, divisi, sort, search){
             $('.senddataloader').hide();
             if(data.data === undefined || data.data.length !== 0){
                 for (let index=0; index < data.data.length; index++){
-                    $("#card-content-cominit").append(`<div class="col-lg-4 d-flex justify-content-center">
+                    $("#card-content-cominit").append(`<div class="col-lg-4 d-flex justify-content-center shadow-sm">
                                             <div class="card" style="border-radius: 16px">
                                                 <button type="button" class="btn p-0 text-primary" onclick="openPreview(${data.data[index].id})">
                                                     <img class="card-img-up"
