@@ -93,7 +93,7 @@
                 <h6 class="font-weight-bolder">Detail</h6>
             </div>
             <div class="row">
-                <div class="row col-md-12 col-sm-6 col-xs-6 mt-2 pr-0">
+                <div class="row col-md-12 col-sm-6 col-xs-6 mt-2">
                     <div class="col-md-4 px-0">Direktorat</div>
                     <div class="col-md-8 px-0  d-min"><a class="font-weight-bold" href="{{route('divisi',$data->project->divisi->id)}}">{{$data->project->divisi->direktorat}}</a></div>
                 </div>
@@ -127,7 +127,6 @@
                 </div>
             </div>
 
-            Tags
             <div class="row mt-4">
                 <h6 class="font-weight-bolder">Tags</h6>
             </div>
