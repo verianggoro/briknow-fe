@@ -366,9 +366,11 @@ function getDataStrategic() {
                                             data-target="#collapse${data.data[index].nama}" aria-expanded="false"
                                             aria-controls="collapse${data.data[index].nama}"></button>
                                 </div>
+                            </div>
+                            <div id="collapse${data.data[index].nama}">
                             </div>`)
                     for (let iStrategic=0; iStrategic < data.data[index].strategic.length; iStrategic++){
-                        $('#container-collapse').append(`
+                        $('#collapse'+data.data[index].nama).append(`
                         <div class="collapse p-3" id="collapse${data.data[index].nama}">
                                     <div id="container-type-strategic" class="row d-flex justify-content-between">
                                         <div class="p-2">
@@ -382,12 +384,12 @@ function getDataStrategic() {
                                         </div>
                                         <div class="p-2">
                                             <button class="btn  fas fa-caret-down" data-toggle="collapse"
-                                                    data-target="#collaps${data.data[index].strategic[iStrategic].tipe}" aria-expanded="false"
-                                                    aria-controls="collaps${data.data[index].strategic[iStrategic].tipe}"></button>
+                                                    data-target="#collaps${data.data[index].nama+data.data[index].strategic[iStrategic].tipe}" aria-expanded="false"
+                                                    aria-controls="collaps${data.data[index].nama+data.data[index].strategic[iStrategic].tipe}"></button>
                                         </div>
                                     </div>
                                    
-                                    <div class="collapse" id="collaps${data.data[index].strategic[iStrategic].tipe}">
+                                    <div class="collapse" id="collaps${data.data[index].nama+data.data[index].strategic[iStrategic].tipe}">
                                         <div class="row justify-content-start">
                                             <div class="col-6">
                                                 <p style="font-size: medium; color: #0b2e13">View Terbanyak</p>

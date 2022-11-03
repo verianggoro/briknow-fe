@@ -343,8 +343,6 @@
                         <div id="data-strategic-table">
                             <div id="container-name-strategic">
                             </div>
-                            <div id="container-collapse">
-                            </div>
                         </div>
                     </div>
                 </div>
