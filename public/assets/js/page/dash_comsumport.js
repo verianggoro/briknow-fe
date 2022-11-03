@@ -398,7 +398,7 @@ function getDataStrategic() {
                                                 <p style="font-size: medium; color: #0b2e13">Download Terbanyak</p>
                                             </div>
                                         </div>
-                                        <div id="contentStrategic">
+                                        <div id="content${data.data[index].nama+data.data[index].strategic[iStrategic].tipe}">
                                             
                                         </div>
                                     </div>
@@ -406,7 +406,7 @@ function getDataStrategic() {
                                 </div>`)
 
                         for (let imostView=0; imostView < data.data[index].strategic[iStrategic].views_most.length; imostView++){
-                            $('#contentStrategic').append(`
+                            $('#content'+data.data[index].nama+data.data[index].strategic[iStrategic].tipe).append(`
                                         <div class="row justify-content-start">
                                             <div class="col-6">
                                                 <div id="contentview${data.data[index].strategic[iStrategic].tipe}" class="row d-flex justify-content-between ml-3">
