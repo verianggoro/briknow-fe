@@ -351,6 +351,7 @@ function getDataStrategic() {
             if (data.data.length !== 0) {
                 for (let index=0; index < data.data.length; index++){
                     $('#container-name-strategic').append(`
+                            <div class="row d-flex justify-content-between">
                                 <div class="p-2">
                                     <p class="font-weight-bold" style="font-size: medium; color: #0b2e13">${index+1}</p>
                                 </div>
@@ -364,7 +365,8 @@ function getDataStrategic() {
                                     <button class="btn  fas fa-caret-down" data-toggle="collapse"
                                             data-target="#collapse${data.data[index].nama}" aria-expanded="false"
                                             aria-controls="collapse${data.data[index].nama}"></button>
-                                </div>`)
+                                </div>
+                            </div>`)
                     for (let iStrategic=0; iStrategic < data.data[index].strategic.length; iStrategic++){
                         $('#container-collapse').append(`
                         <div class="collapse p-3" id="collapse${data.data[index].nama}">

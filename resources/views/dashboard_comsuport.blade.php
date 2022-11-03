@@ -341,7 +341,7 @@
                         </div>
                         <hr/>
                         <div id="data-strategic-table">
-                            <div id="container-name-strategic" class="row d-flex justify-content-between">
+                            <div id="container-name-strategic">
                             </div>
                             <div id="container-collapse">
                             </div>
