@@ -521,11 +521,11 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"
                                          style="width:160px !important;">
-                                        <a href="{{route('laporan.proyektop5')}}" target="_blank"
+                                        <a href="{{route('laporan.lessontop5')}}" target="_blank"
                                            class="btn dropdown-item">
                                             <i class="far fa-file-excel mr-2"></i>Xlsx
                                         </a>
-                                        <a href="{{route('laporan.proyektop5pdf')}}" target="_blank"
+                                        <a href="{{route('laporan.lessontop5pdf')}}" target="_blank"
                                            class="btn dropdown-item">
                                             <i class="far fa-file-pdf mr-2"></i>PDF
                                         </a>

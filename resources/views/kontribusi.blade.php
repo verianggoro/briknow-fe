@@ -409,7 +409,7 @@
                                     <td class="bg-white attr_input"><span class='control_ll'> {{$awal++}}</span></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="{{old('lesson')[$i]}}" placeholder="..." required/></td>
                                     <td><input type="text" class="form-control w-100 lesson_field tahap" name="tahap[]" value="{{old('tahap')[$i]}}" placeholder="..." required/></td>
-                                    <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="{{old('lesson_keterangan')[$i]}}" placeholder="..." required/></td>
+                                    <td><input style="text-overflow:ellipsis" type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="{{old('lesson_keterangan')[$i]}}" placeholder="..." required/></td>
                                     <td><img class='ll_min' src='{{ asset('assets/img/datatables/ic_trash.png') }}'/></td>
                                 </tr>
                                 @endfor
@@ -424,7 +424,7 @@
                                     <td class="bg-white attr_input"><span class='control_ll'> {{$awal++}}</span></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="{{$item->lesson_learned}}" placeholder="..." required/></td>
                                     <td><input type="text" class="form-control w-100 lesson_field tahap" name="tahap[]" value="{{$item->tahap}}" placeholder="..." required/></td>
-                                    <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="{{$item->detail}}" placeholder="..." required/></td>
+                                    <td><input style="text-overflow:ellipsis" type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="{{$item->detail}}" placeholder="..." required/></td>
                                     <td><img class='ll_min' src='{{ asset('assets/img/datatables/ic_trash.png') }}'/></td>
                                 </tr>
                                 @empty
@@ -432,7 +432,7 @@
                                     <td class="bg-white attr_input"><span class='control_ll'> 1</span></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="" placeholder="..." required /></td>
                                     <td><input type="text" class="form-control w-100 lesson_field tahap" name="tahap[]" value="" placeholder="..." required /></td>
-                                    <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required /></td>
+                                    <td><input style="text-overflow:ellipsis" type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required /></td>
                                     <td><img class='ll_min' src='{{ asset('assets/img/datatables/ic_trash.png') }}'/></td>
                                 </tr>
                                 @endforelse
@@ -442,7 +442,7 @@
                                     <td class="bg-white attr_input"><span class='control_ll'> 1</span></td>
                                     <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="" placeholder="..." required/></td>
                                     <td><input type="text" class="form-control w-100 lesson_field tahap" name="tahap[]" value="" placeholder="..." required /></td>
-                                    <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required/></td>
+                                    <td><input style="text-overflow:ellipsis" type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required/></td>
                                     <td><img class='ll_min' src='{{ asset('assets/img/datatables/ic_trash.png') }}'/></td>
                                 </tr>
                                 @endif

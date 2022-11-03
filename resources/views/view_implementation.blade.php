@@ -29,7 +29,7 @@
 @endpush
 
 @section('breadcumb', 'Implementation')
-@section('back', route('home'))
+@section('back', route('mycomsupport.implementation'))
 
 @section('content')
     <input type="hidden" id="id_project" value="{{$data->id}}">
