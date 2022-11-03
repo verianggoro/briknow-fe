@@ -477,6 +477,6 @@
     <script src="{{asset_app('assets/js/core.js')}}"></script>
     <script src="{{asset_app('assets/js/charts.js')}}"></script>
     <script src="{{asset_app('assets/js/themes/animated.js')}}"></script>
-{{--    <script src="{{asset_app('assets/js/script/index.js')}}"></script>--}}
-    <script src="{{asset_app('assets/js/page/dash_comsumport.js')}}"
+    <script src="{{asset_app('assets/js/script/index.js')}}"></script>
+{{--    <script src="{{asset_app('assets/js/page/dash_comsumport.js')}}"></script>--}}
 @endpush
