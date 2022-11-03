@@ -49,22 +49,26 @@ function getDataInitiative() {
                 for (let index=0; index < data.data.length; index++){
                     if (data.data[index].tipe === 'article'){
                         $('#container-article').empty();
-                        $("#container-article").append(`
-                       <p>${data.data[index].search+' Pencarian'}</p>
-                    `);
+                        $("#container-article").append(`<p>${data.data[index].search+' Pencarian'}</p>`);
+                        $('#button-init-article').append(`<button class="btn  fas fa-caret-down" data-toggle="collapse"
+                                        data-target="#collapsArticle" aria-expanded="false"
+                                        aria-controls="collapsArticle"></button>`)
                         for (let indexview=0; indexview < data.data[index].views_most.length; indexview++){
                             $("#most-view-article").append(`
                             <div class="row d-flex justify-content-between ml-3">
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].views_most[indexview].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].views_most[indexview].slug}" class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].views_most[indexview].views}</span>
                                                 </div>
                                             </div>
                                         </div>
+                            `)
+                            $("#vertical-initiative").append(`
+                            <div class="vertical"></div>
                             `)
                         }
                         for (let indexDownload=0; indexDownload < data.data[index].downloads_most.length; indexDownload++){
@@ -73,7 +77,7 @@ function getDataInitiative() {
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].downloads_most[indexDownload].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].downloads_most[indexDownload].slug}" class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].downloads_most[indexDownload].downloads}</span>
@@ -87,13 +91,16 @@ function getDataInitiative() {
                         $("#container-video").append(`
                        <p>${data.data[index].search}</p>
                     `);
+                        $('#button-init-article').append(`<button class="btn  fas fa-caret-down" data-toggle="collapse"
+                                        data-target="#collapsVideo" aria-expanded="false"
+                                        aria-controls="collapsVideo"></button>`)
                         for (let indexview=0; indexview < data.data[index].views_most.length; indexview++){
                             $("#most-view-video").append(`
                             <div class="row d-flex justify-content-between ml-3">
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].views_most[indexview].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].views_most[indexview].slug}" class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].views_most[indexview].views}</span>
@@ -108,7 +115,7 @@ function getDataInitiative() {
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].downloads_most[indexDownload].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].downloads_most[indexDownload].slug}" class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].downloads_most[indexDownload].downloads}</span>
@@ -119,16 +126,17 @@ function getDataInitiative() {
                         }
                     }else if(data.data[index].tipe === 'instagram'){
                         $('#container-ig').empty();
-                        $("#container-ig").append(`
-                       <p>${data.data[index].search}</p>
-                    `);
+                        $("#container-ig").append(`<p>${data.data[index].search}</p>`);
+                        $('#button-init-ig').append(`<button class="btn  fas fa-caret-down" data-toggle="collapse"
+                                        data-target="#collapsIg" aria-expanded="false"
+                                        aria-controls="collapsIg"></button>`)
                         for (let indexview=0; indexview < data.data[index].views_most.length; indexview++){
                             $("#most-view-ig").append(`
                             <div class="row d-flex justify-content-between ml-3">
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].views_most[indexview].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].views_most[indexview].slug}" class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].views_most[indexview].views}</span>
@@ -143,7 +151,7 @@ function getDataInitiative() {
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].downloads_most[indexDownload].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].downloads_most[indexDownload].slug}" class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].downloads_most[indexDownload].downloads}</span>
@@ -154,16 +162,17 @@ function getDataInitiative() {
                         }
                     }else if(data.data[index].tipe === 'podcast'){
                         $('#container-podcast').empty();
-                        $("#container-podcast").append(`
-                       <p>${data.data[index].search}</p>
-                    `);
+                        $("#container-podcast").append(`<p>${data.data[index].search}</p>`);
+                        $('#button-init-podcast').append(`<button class="btn  fas fa-caret-down" data-toggle="collapse"
+                                        data-target="#collapsPodcast" aria-expanded="false"
+                                        aria-controls="collapsPodcast"></button>`)
                         for (let indexview=0; indexview < data.data[index].views_most.length; indexview++){
                             $("#most-view-podcast").append(`
                             <div class="row d-flex justify-content-between ml-3">
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].views_most[indexview].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].views_most[indexview].slug}" class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].views_most[indexview].views}</span>
@@ -178,7 +187,7 @@ function getDataInitiative() {
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].downloads_most[indexDownload].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].downloads_most[indexDownload].slug}" class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].downloads_most[indexDownload].downloads}</span>
@@ -189,16 +198,17 @@ function getDataInitiative() {
                         }
                     }else if(data.data[index].tipe === 'poster'){
                         $('#container-poster').empty();
-                        $("#container-poster").append(`
-                       <p>${data.data[index].search}</p>
-                    `);
+                        $("#container-poster").append(`<p>${data.data[index].search}</p>`);
+                        $('#button-init-poster').append(`<button class="btn  fas fa-caret-down" data-toggle="collapse"
+                                        data-target="#collapsPoster" aria-expanded="false"
+                                        aria-controls="collapsPoster"></button>`)
                         for (let indexview=0; indexview < data.data[index].views_most.length; indexview++){
                             $("#most-view-poster").append(`
                             <div class="row d-flex justify-content-between ml-3">
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].views_most[indexview].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].views_most[indexview].slug}" class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].views_most[indexview].views}</span>
@@ -213,7 +223,7 @@ function getDataInitiative() {
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].downloads_most[indexDownload].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].downloads_most[indexDownload].slug}" class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].downloads_most[indexDownload].downloads}</span>
@@ -224,16 +234,17 @@ function getDataInitiative() {
                         }
                     }else if(data.data[index].tipe === 'infographics'){
                         $('#container-info').empty();
-                        $("#container-info").append(`
-                       <p>${data.data[index].search}</p>
-                    `);
+                        $("#container-info").append(`<p>${data.data[index].search}</p>`);
+                        $('#button-init-info').append(`<button class="btn  fas fa-caret-down" data-toggle="collapse"
+                                        data-target="#collapsInfo" aria-expanded="false"
+                                        aria-controls="collapsInfo"></button>`)
                         for (let indexview=0; indexview < data.data[index].views_most.length; indexview++){
                             $("#most-view-info").append(`
                             <div class="row d-flex justify-content-between ml-3">
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].views_most[indexview].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].views_most[indexview].slug}" class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].views_most[indexview].views}</span>
@@ -248,7 +259,7 @@ function getDataInitiative() {
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].downloads_most[indexDownload].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].downloads_most[indexDownload].slug}" class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].downloads_most[indexDownload].downloads}</span>
@@ -259,16 +270,17 @@ function getDataInitiative() {
                         }
                     }else if(data.data[index].tipe === 'transformation'){
                         $('#container-trans').empty();
-                        $("#container-trans").append(`
-                       <p>${data.data[index].search}</p>
-                    `);
+                        $("#container-trans").append(`<p>${data.data[index].search}</p>`);
+                        $('#button-init-trans').append(`<button class="btn  fas fa-caret-down" data-toggle="collapse"
+                                        data-target="#collapsTrans" aria-expanded="false"
+                                        aria-controls="collapsTrans"></button>`)
                         for (let indexview=0; indexview < data.data[index].views_most.length; indexview++){
                             $("#most-view-trans").append(`
                             <div class="row d-flex justify-content-between ml-3">
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].views_most[indexview].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].views_most[indexview].slug}" class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].views_most[indexview].views}</span>
@@ -283,7 +295,7 @@ function getDataInitiative() {
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].downloads_most[indexDownload].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].downloads_most[indexDownload].slug}" class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].downloads_most[indexDownload].downloads}</span>
@@ -294,16 +306,17 @@ function getDataInitiative() {
                         }
                     }else if(data.data[index].tipe === 'logo'){
                         $('#container-logo').empty();
-                        $("#container-logo").append(`
-                       <p>${data.data[index].search}</p>
-                    `);
+                        $("#container-logo").append(`<p>${data.data[index].search}</p>`);
+                        $('#button-init-logo').append(`<button class="btn  fas fa-caret-down" data-toggle="collapse"
+                                        data-target="#collapsLogo" aria-expanded="false"
+                                        aria-controls="collapsLogo"></button>`)
                         for (let indexview=0; indexview < data.data[index].views_most.length; indexview++){
                             $("#most-view-logo").append(`
                             <div class="row d-flex justify-content-between ml-3">
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].views_most[indexview].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].views_most[indexview].slug}" class="p-2 align-items-center">${data.data[index].views_most[indexview].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].views_most[indexview].views}</span>
@@ -318,7 +331,7 @@ function getDataInitiative() {
                                             <img class="card-img p-2" style="height: auto; width: 4rem"
                                                  src="${uri+'/storage/'+data.data[index].downloads_most[indexDownload].thumbnail}"
                                                  alt="Card image cap">
-                                            <p class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</p>
+                                            <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].downloads_most[indexDownload].slug}" class="p-2 align-items-center">${data.data[index].downloads_most[indexDownload].title}</a>
                                             <div class="ml-auto p-2 align-items-center">
                                                 <div class="fa fas fa-eye">
                                                     <span>${data.data[index].downloads_most[indexDownload].downloads}</span>
@@ -391,10 +404,13 @@ function getDataStrategic() {
                                    
                                     <div class="collapse" id="collaps${data.data[index].nama+data.data[index].strategic[iStrategic].tipe}">
                                         <div class="row justify-content-start">
-                                            <div class="col-6">
+                                            <div class="col-5">
                                                 <p style="font-size: medium; color: #0b2e13">View Terbanyak</p>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-2">
+                                                <div class="vertical"></div>
+                                            </div>
+                                            <div class="col-5">
                                                 <p style="font-size: medium; color: #0b2e13">Download Terbanyak</p>
                                             </div>
                                         </div>
@@ -408,12 +424,12 @@ function getDataStrategic() {
                         for (let imostView=0; imostView < data.data[index].strategic[iStrategic].views_most.length; imostView++){
                             $('#content'+data.data[index].nama+data.data[index].strategic[iStrategic].tipe).append(`
                                         <div class="row justify-content-start">
-                                            <div class="col-6">
+                                            <div class="col-5">
                                                 <div id="contentview${data.data[index].strategic[iStrategic].tipe}" class="row d-flex justify-content-between ml-3">
                                                 <img class="card-img p-2" style="height: auto; width: 4rem"
                                                          src="${uri+'/storage/'+data.data[index].strategic[iStrategic].views_most[imostView].thumbnail}"
                                                          alt="Card image cap">
-                                                    <p class="p-2 align-items-center">${data.data[index].strategic[iStrategic].views_most[imostView].title}</p>
+                                                    <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].strategic[iStrategic].views_most[imostView].slug}" class="p-2 align-items-center">${data.data[index].strategic[iStrategic].views_most[imostView].title}</a>
                                                     <div class="ml-auto p-2 align-items-center">
                                                         <div class="fa fas fa-eye">
                                                             <span>${data.data[index].strategic[iStrategic].views_most[imostView].views}</span>
@@ -421,12 +437,15 @@ function getDataStrategic() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-2">
+                                                <div class="vertical"></div>
+                                            </div>
+                                            <div class="col-5">
                                                 <div id="contentdownload${data.data[index].strategic[iStrategic].tipe}" class="row d-flex justify-content-between mr-3">
                                                     <img class="card-img p-2" style="height: auto; width: 4rem"
                                                          src="${uri+'/storage/'+data.data[index].strategic[iStrategic].downloads_most[imostView].thumbnail}"
                                                          alt="Card image cap">
-                                                    <p class="p-2 align-items-center">${data.data[index].strategic[iStrategic].downloads_most[imostView].title}</p>
+                                                    <a href="${uri+ '/mycomsupport/initiative/article?slug='+data.data[index].strategic[iStrategic].downloads_most[imostView].slug}" class="p-2 align-items-center">${data.data[index].strategic[iStrategic].downloads_most[imostView].title}</a>     
                                                     <div class="ml-auto p-2 align-items-center">
                                                         <div class="fa fas fa-eye">
                                                             <span>${data.data[index].strategic[iStrategic].downloads_most[imostView].downloads}</span>
@@ -463,7 +482,7 @@ function getDataImpl(){
                         for (let iroll=0; iroll < data.data[index].search_most.length; iroll++){
                             $(`#collapsImplementPilot`).append(`<div class="row d-flex justify-content-between">
                                 <div class="col-6">
-                                    <p style="font-size: medium; color: #0b2e13">${iroll+1+'. '+data.data[index].search_most[iroll].title}</p>
+                                    <a href="${uri+ '/view/implementation/'+data.data[index].search_most[iroll].slug}" style="font-size: medium; color: #0b2e13">${iroll+1+'. '+data.data[index].search_most[iroll].title}</a>
                                 </div>
                                 <div class="col-2 align-items-end">
                                     <p style="font-size: medium; color: #0b2e13">${data.data[index].search_most[iroll].views+' Pencarian'}</p>
@@ -476,7 +495,7 @@ function getDataImpl(){
                         for (let iroll=0; iroll < data.data[index].search_most.length; iroll++){
                             $(`#collapsImplementSosialisasi`).append(`<div class="row d-flex justify-content-between">
                                 <div class="col-6">
-                                    <p style="font-size: medium; color: #0b2e13">${iroll+1+'. '+data.data[index].search_most[iroll].title}</p>
+                                    <a href="${uri+ '/view/implementation/'+data.data[index].search_most[iroll].slug}" style="font-size: medium; color: #0b2e13">${iroll+1+'. '+data.data[index].search_most[iroll].title}</a>
                                 </div>
                                 <div class="col-2 align-items-end">
                                     <p style="font-size: medium; color: #0b2e13">${data.data[index].search_most[iroll].views+' Pencarian'}</p>
@@ -489,7 +508,7 @@ function getDataImpl(){
                         for (let iroll=0; iroll < data.data[index].search_most.length; iroll++){
                             $(`#collapsImplementRoll`).append(`<div class="row d-flex justify-content-between">
                                 <div class="col-6">
-                                    <p style="font-size: medium; color: #0b2e13">${iroll+1+'. '+data.data[index].search_most[iroll].title}</p>
+                                    <a href="${uri+ '/view/implementation/'+data.data[index].search_most[iroll].slug}" style="font-size: medium; color: #0b2e13">${iroll+1+'. '+data.data[index].search_most[iroll].title}</a>                        
                                 </div>
                                 <div class="col-2 align-items-end">
                                     <p style="font-size: medium; color: #0b2e13">${data.data[index].search_most[iroll].views+' Pencarian'}</p>

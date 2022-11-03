@@ -179,10 +179,10 @@ function getData(tahap, divisi, search){
                                 <a href="${uri+ '/katalog/'+data.data[i].divisi.divisi}" class="text-primary">${data.data[i].divisi.divisi}</a>
                             </div>
                             <div class="col-3">
-                                <p>${data.data[i].nama}</p>
+                                <a href="${uri+ '/project/'+data.data[i].slug}">${data.data[i].nama}</a>
                             </div>
                             <div class="col-2">
-                                 <p class="text-primary">${data.data[i].consultant[0].nama}</p>
+                                <a href="${uri+ '/consultant/'+data.data[i].consultant[0].id}">${data.data[i].consultant[0].nama}</a>
                             </div>
                             <div class="col-2">
                                 <a href="${uri+ '/kontribusi/'+data.data[i].slug}" class="btn btn-outline-secondary fas fa-pen"></a>
@@ -229,7 +229,7 @@ function getData(tahap, divisi, search){
                                 <a href="${uri+ '/katalog/'+data.data[i].divisi.divisi}" class="text-primary">${data.data[i].divisi.divisi}</a>
                             </div>
                             <div class="col-3">
-                                <p>${data.data[i].nama}</p>
+                                <a href="${uri+ '/project/'+data.data[i].slug}">${data.data[i].nama}</a>
                             </div>
                             <div class="col-2">
                                  <p class="text-primary">-</p>

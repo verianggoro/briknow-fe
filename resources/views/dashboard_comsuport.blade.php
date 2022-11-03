@@ -9,6 +9,10 @@
             max-width: 85px;
             margin: 0;
         }
+        .vertical {
+            border-right: 1px solid grey;
+            height: 4rem;
+        }
     </style>
 @endpush
 
@@ -100,21 +104,25 @@
                             <div id="container-article" class="p-2">
                                 <p>0 Pencarian</p>
                             </div>
-                            <div class="p-2">
-                                <button class="btn  fas fa-caret-down" data-toggle="collapse"
-                                        data-target="#collapsArticle" aria-expanded="false"
-                                        aria-controls="collapsArticle"></button>
+                            <div id="button-init-article" class="p-2">
+
                             </div>
                         </div>
                         <div class="collapse" id="collapsArticle">
                             <div class="row justify-content-start">
-                                <div class="col-6">
+                                <div class="col-5">
                                     <p style="font-size: medium; color: #0b2e13">View Terbanyak</p>
                                     <div id="most-view-article">
 
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-2">
+                                    <div class="vertical"></div>
+                                    <div id="vertical-initiative">
+
+                                    </div>
+                                </div>
+                                <div class="col-5">
                                     <p style="font-size: medium; color: #0b2e13">Download Terbanyak</p>
                                     <div id="most-download-article">
                                     </div>
@@ -132,10 +140,8 @@
                             <div id="container-video" class="p-2">
                                 <p>0 Pencarian</p>
                             </div>
-                            <div class="p-2">
-                                <button class="btn  fas fa-caret-down" data-toggle="collapse"
-                                        data-target="#collapsVideo" aria-expanded="false"
-                                        aria-controls="collapsVideo"></button>
+                            <div id="button-init-video" class="p-2">
+
                             </div>
                         </div>
                         <div class="collapse" id="collapsVideo">
@@ -164,10 +170,8 @@
                             <div id="container-ig" class="p-2">
                                 <p>0 Pencarian</p>
                             </div>
-                            <div class="p-2">
-                                <button class="btn  fas fa-caret-down" data-toggle="collapse"
-                                        data-target="#collapsIg" aria-expanded="false"
-                                        aria-controls="collapsIg"></button>
+                            <div id="button-init-ig" class="p-2">
+
                             </div>
                         </div>
                         <div class="collapse" id="collapsIg">
@@ -196,10 +200,8 @@
                             <div id="container-podcast" class="p-2">
                                 <p>0 Pencarian</p>
                             </div>
-                            <div class="p-2">
-                                <button class="btn  fas fa-caret-down" data-toggle="collapse"
-                                        data-target="#collapsPodcast" aria-expanded="false"
-                                        aria-controls="collapsPodcast"></button>
+                            <div id="button-init-podcast" class="p-2">
+
                             </div>
                         </div>
                         <div class="collapse" id="collapsPodcast">
@@ -228,10 +230,8 @@
                             <div id="container-poster" class="p-2">
                                 <p>0 Pencarian</p>
                             </div>
-                            <div class="p-2">
-                                <button class="btn  fas fa-caret-down" data-toggle="collapse"
-                                        data-target="#collapsPoster" aria-expanded="false"
-                                        aria-controls="collapsPoster"></button>
+                            <div id="button-init-poster" class="p-2">
+
                             </div>
                         </div>
                         <div class="collapse" id="collapsPoster">
@@ -260,10 +260,8 @@
                             <div id="container-info" class="p-2">
                                 <p>0 Pencarian</p>
                             </div>
-                            <div class="p-2">
-                                <button class="btn  fas fa-caret-down" data-toggle="collapse"
-                                        data-target="#collapsInfo" aria-expanded="false"
-                                        aria-controls="collapsInfo"></button>
+                            <div id="button-init-info" class="p-2">
+
                             </div>
                         </div>
                         <div class="collapse" id="collapsInfo">
@@ -292,10 +290,8 @@
                             <div id="container-trans" class="p-2">
                                 <p>0 Pencarian</p>
                             </div>
-                            <div class="p-2">
-                                <button class="btn  fas fa-caret-down" data-toggle="collapse"
-                                        data-target="#collapsTrans" aria-expanded="false"
-                                        aria-controls="collapsTrans"></button>
+                            <div id="button-init-trans" class="p-2">
+
                             </div>
                         </div>
                         <div class="collapse" id="collapsTrans">
@@ -323,10 +319,8 @@
                             <div id="container-logo" class="p-2">
                                 <p>0 Pencarian</p>
                             </div>
-                            <div class="p-2">
-                                <button class="btn  fas fa-caret-down" data-toggle="collapse"
-                                        data-target="#collapsLogo" aria-expanded="false"
-                                        aria-controls="collapsLogo"></button>
+                            <div id="button-init-logo" class="p-2">
+
                             </div>
                         </div>
                         <div class="collapse" id="collapsLogo">

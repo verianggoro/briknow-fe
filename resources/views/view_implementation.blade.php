@@ -142,6 +142,7 @@
             </div>
         </div>
         <div class="col-lg-9 col-md-8 col-sm-12 px-0 text-justify metodologi">
+            <br/>
             <div class="row">
                 @if($data->desc_piloting)
                     <div class="col-md-12 d-block w-100 mb-4 mt-2">
