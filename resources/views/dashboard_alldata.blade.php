@@ -14,11 +14,28 @@
     <div class="col-md-12" id="konten">
 
         <!-- BUTTONS -->
-            <div class="my-3 d-flex mx-auto flex-wrap">
+        <div class="d-flex justify-content-between">
+            <div class="my-3 d-flex flex-wrap">
                 <a href="{{route('dashboard.performance')}}" class="btn btn-outline-primary mt-2 mr-3" id="performance" role="button">Performance</a>
                 <a href="{{route('dashboard.alldata')}}" class="btn btn-outline-primary mt-2 mr-3 active" id="alldata" role="button">All Data</a>
                 <a href="{{route('dashboard.comsuport')}}" class="btn btn-outline-primary mt-2 mr-3" id="comsuport" role="button">Communication Suppport</a>
             </div>
+
+            <div class="my-3 d-flex flex-wrap">
+                <a href="#" class="btn btn-outline-primary mt-2 mr-3" id="dropdownMenuLink" style="text-decoration: none;"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Download<i class="fa fa-caret-down" style="margin-left: 1rem !important;"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                    <a href="{{route('laporan.alldataexcel')}}" target="_blank" class="btn dropdown-item">
+                        <i class="far fa-file-excel mr-2"></i>Xlsx
+                    </a>
+                    <a href="{{route('laporan.alldatapdf')}}" target="_blank" class="btn dropdown-item">
+                        <i class="far fa-file-pdf mr-2"></i>PDF
+                    </a>
+                </div>
+            </div>
+        </div>
         <!-- END BUTTONS -->
 
         <!-- CHART 1 -->

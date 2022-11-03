@@ -53,6 +53,8 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::get('/ex/imptop5pdf', 'LaporanController@imptop5pdf')->name('laporan.imptop5pdf');
     Route::get('/ex/allexcel', 'LaporanController@allexcel')->name('laporan.allexcel');
     Route::get('/ex/allpdf', 'LaporanController@allpdf')->name('laporan.allpdf');
+    Route::get('/ex/alldataexcel', 'LaporanController@allDataexcel')->name('laporan.alldataexcel');
+    Route::get('/ex/alldatapdf', 'LaporanController@allDatapdf')->name('laporan.alldatapdf');
 
     #GAMIFICATION
         Route::get('/gamification', 'HomeController@gamification')->name('home.game');

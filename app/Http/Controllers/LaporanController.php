@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AllDataExport;
 use App\Exports\AllPerformanceExport;
 use App\Exports\ComInitTop5Export;
 use App\Exports\ImpTop5Export;
@@ -405,6 +406,68 @@ class LaporanController extends Controller
 
         $pdf = PDF::loadview('export.allperformanceexport',['dataProject'=>$dataProject, 'dataVendor'=>$dataVendor, 'dataLesson'=>$dataLesson, 'dataCom'=>$dataCom, 'dataStr'=>$dataStr, 'dataImp'=>$dataImp, 'dataTag'=>$dataTag])->setPaper('a4', 'landscape');
         return $pdf->download('AllPerformance_Top_5_'.$date.'.pdf');
+//        return view('export.allperformanceexport', compact(['dataProject', 'dataVendor', 'dataLesson', 'dataCom']));
+    }
+
+    public function allDataexcel(){
+        $date   =   Carbon::now()->format('d F Y');
+        return Excel::download(new AllDataExport(), 'AllData_Top_5_'.$date.'.xlsx');
+    }
+
+    public function allDatapdf(){
+        $date   =   Carbon::now()->format('d F Y');
+
+        // get data
+        $token_auth = session()->get('token');
+        try {
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/allData');
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            //dd($hasil);
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    $dataVisit = $hasil->data->dataVisit;
+                    $dataVendor = $hasil->data->dataVendor;
+                    $dataDiv = $hasil->data->dataDiv;
+                    $dataYear = $hasil->data->dataYear;
+                }else{
+                    $dataVisit = [];
+                    $dataVendor = [];
+                    $dataDiv = [];
+                    $dataYear = [];
+                }
+            }else{
+                $dataVisit = [];
+                $dataVendor = [];
+                $dataDiv = [];
+                $dataYear = [];
+            }
+        }catch (\Throwable $th) {
+            if(isset($hasil->message)){
+                if ($hasil->message == "Unauthenticated.") {
+                    session()->flush();
+                    session()->flash('error','Session Time Out');
+                    return redirect('/login');
+                }
+            }
+            $dataVisit = [];
+            $dataVendor = [];
+            $dataDiv = [];
+            $dataYear = [];
+        }
+
+        $pdf = PDF::loadview('export.alldataexport',['dataVisit'=>$dataVisit, 'dataVendor'=>$dataVendor, 'dataDiv'=>$dataDiv, 'dataYear'=>$dataYear])->setPaper('a4', 'landscape');
+        return $pdf->download('AllData_Top_5_'.$date.'.pdf');
 //        return view('export.allperformanceexport', compact(['dataProject', 'dataVendor', 'dataLesson', 'dataCom']));
     }
 }
