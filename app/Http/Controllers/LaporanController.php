@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AllComSupportExport;
 use App\Exports\AllDataExport;
 use App\Exports\AllPerformanceExport;
 use App\Exports\ComInitTop5Export;
+use App\Exports\ImplementationExport;
 use App\Exports\ImpTop5Export;
+use App\Exports\InitiativeExport;
 use App\Exports\LessonTop5Export;
 use App\Exports\ProyekTop5Export;
 use App\Exports\StrategicTop5Export;
@@ -316,6 +319,156 @@ class LaporanController extends Controller
 //        return view('export.lessontop5export', compact(['data']));
     }
 
+    public function initiativemost(){
+        $date   =   Carbon::now()->format('d F Y');
+        return Excel::download(new InitiativeExport(), 'CommunicationInitiative_'.$date.'.xlsx');
+    }
+
+    public function initiativemost5pdf(){
+        $date   =   Carbon::now()->format('d F Y');
+
+        // get data
+        $token_auth = session()->get('token');
+        try {
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/dashboard/initiative');
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            // dd($hasil);
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    $data = $hasil->data;
+                }else{
+                    $data = [];
+                }
+            }else{
+                $data = [];
+            }
+        }catch (\Throwable $th) {
+            if(isset($hasil->message)){
+                if ($hasil->message == "Unauthenticated.") {
+                    session()->flush();
+                    session()->flash('error','Session Time Out');
+                    return redirect('/login');
+                }
+            }
+            $data = [];
+        }
+
+        $pdf = PDF::loadview('export.initiativemostexport',['data'=>$data])->setPaper('a4', 'landscape');
+        return $pdf->download('CommunicationInitiative_'.$date.'.pdf');
+//        return view('export.lessontop5export', compact(['data']));
+    }
+
+    public function strategicmost(){
+        $date   =   Carbon::now()->format('d F Y');
+        return Excel::download(new InitiativeExport(), 'StrategicInitiative_'.$date.'.xlsx');
+    }
+
+    public function strategicmost5pdf(){
+        $date   =   Carbon::now()->format('d F Y');
+
+        // get data
+        $token_auth = session()->get('token');
+        try {
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/dashboard/strategic');
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            // dd($hasil);
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    $data = $hasil->data;
+                }else{
+                    $data = [];
+                }
+            }else{
+                $data = [];
+            }
+        }catch (\Throwable $th) {
+            if(isset($hasil->message)){
+                if ($hasil->message == "Unauthenticated.") {
+                    session()->flush();
+                    session()->flash('error','Session Time Out');
+                    return redirect('/login');
+                }
+            }
+            $data = [];
+        }
+
+        $pdf = PDF::loadview('export.strategicmostexport',['data'=>$data])->setPaper('a4', 'landscape');
+        return $pdf->download('StrategicInitiative_'.$date.'.pdf');
+//        return view('export.lessontop5export', compact(['data']));
+    }
+
+    public function implementationmost(){
+        $date   =   Carbon::now()->format('d F Y');
+        return Excel::download(new ImplementationExport(), 'Implementation_'.$date.'.xlsx');
+    }
+
+    public function implementationmost5pdf(){
+        $date   =   Carbon::now()->format('d F Y');
+
+        // get data
+        $token_auth = session()->get('token');
+        try {
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/dashboard/implementation');
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+            // dd($hasil);
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    $data = $hasil->data;
+                }else{
+                    $data = [];
+                }
+            }else{
+                $data = [];
+            }
+        }catch (\Throwable $th) {
+            if(isset($hasil->message)){
+                if ($hasil->message == "Unauthenticated.") {
+                    session()->flush();
+                    session()->flash('error','Session Time Out');
+                    return redirect('/login');
+                }
+            }
+            $data = [];
+        }
+
+        $pdf = PDF::loadview('export.implementationmostexport',['data'=>$data])->setPaper('a4', 'landscape');
+        return $pdf->download('Implementation_'.$date.'.pdf');
+//        return view('export.lessontop5export', compact(['data']));
+    }
+
     public function allexcel(){
         $date   =   Carbon::now()->format('d F Y');
         return Excel::download(new AllPerformanceExport(), 'AllPerformance_Top_5_'.$date.'.xlsx');
@@ -468,6 +621,64 @@ class LaporanController extends Controller
 
         $pdf = PDF::loadview('export.alldataexport',['dataVisit'=>$dataVisit, 'dataVendor'=>$dataVendor, 'dataDiv'=>$dataDiv, 'dataYear'=>$dataYear])->setPaper('a4', 'landscape');
         return $pdf->download('AllData_Top_5_'.$date.'.pdf');
+//        return view('export.allperformanceexport', compact(['dataProject', 'dataVendor', 'dataLesson', 'dataCom']));
+    }
+
+    public function allComSupportexcel(){
+        $date   =   Carbon::now()->format('d F Y');
+        return Excel::download(new AllComSupportExport(), 'AllCommunicationSupport_'.$date.'.xlsx');
+    }
+
+    public function allComSupportpdf(){
+        $date   =   Carbon::now()->format('d F Y');
+
+        // get data
+        $token_auth = session()->get('token');
+        try {
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/allComSupport');
+            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+//            dd($hasil);
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    $dataInitiative = $hasil->data->dataInitiative;
+                    $dataStrategic = $hasil->data->dataStrategic;
+                    $dataImp = $hasil->data->dataImp;
+                }else{
+                    $dataInitiative = [];
+                    $dataStrategic = [];
+                    $dataImp = [];
+                }
+            }else{
+                $dataInitiative = [];
+                $dataStrategic = [];
+                $dataImp = [];
+            }
+        }catch (\Throwable $th) {
+            if(isset($hasil->message)){
+                if ($hasil->message == "Unauthenticated.") {
+                    session()->flush();
+                    session()->flash('error','Session Time Out');
+                    return redirect('/login');
+                }
+            }
+            $dataInitiative = [];
+            $dataStrategic = [];
+            $dataImp = [];
+        }
+
+        $pdf = PDF::loadview('export.allcomsupportexport',['dataInitiative'=>$dataInitiative, 'dataStrategic'=>$dataStrategic, 'dataImp'=>$dataImp])->setPaper('a4', 'landscape');
+        return $pdf->download('AllCommunicationSupport_'.$date.'.pdf');
 //        return view('export.allperformanceexport', compact(['dataProject', 'dataVendor', 'dataLesson', 'dataCom']));
     }
 }

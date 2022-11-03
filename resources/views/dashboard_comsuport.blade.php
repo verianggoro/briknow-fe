@@ -25,22 +25,38 @@
     <div class="row mx-0">
         <div class="col-md-12" id="konten">
             <!-- BUTTONS -->
-            <div class="my-3 d-flex mx-auto flex-wrap">
-                <a href="{{route('dashboard.performance')}}" class="btn btn-outline-primary mt-2 mr-3" id="performance"
-                   role="button">Performance</a>
-                <a href="{{route('dashboard.alldata')}}" class="btn btn-outline-primary mt-2 mr-3" id="alldata"
-                   role="button">All Data</a>
-                <a href="{{route('dashboard.comsuport')}}" class="btn btn-outline-primary mt-2 mr-3 active"
-                   id="comsuport" role="button">Communication Suppport</a>
-                <div class="dropdown mt-2 mr-3 ml-auto">
-                    <button data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle"
-                            id="btn-sort-download">
-                        Download
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="m-1">XlSX</li>
-                        <li class="m-1">PDF</li>
-                    </ul>
+            <div class="d-flex justify-content-between">
+                <div class="my-3 d-flex flex-wrap">
+                    <a href="{{route('dashboard.performance')}}" class="btn btn-outline-primary mt-2 mr-3" id="performance"
+                       role="button">Performance</a>
+                    <a href="{{route('dashboard.alldata')}}" class="btn btn-outline-primary mt-2 mr-3" id="alldata"
+                       role="button">All Data</a>
+                    <a href="{{route('dashboard.comsuport')}}" class="btn btn-outline-primary mt-2 mr-3 active"
+                       id="comsuport" role="button">Communication Suppport</a>
+                    {{--<div class="dropdown mt-2 mr-3 ml-auto">
+                        <button data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle"
+                                id="btn-sort-download">
+                            Download
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li class="m-1">XlSX</li>
+                            <li class="m-1">PDF</li>
+                        </ul>
+                    </div>--}}
+                </div>
+                <div class="my-3 d-flex flex-wrap">
+                    <a href="#" class="btn btn-outline-primary mt-2 mr-3" id="dropdownMenuLink" style="text-decoration: none;"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Download<i class="fa fa-caret-down" style="margin-left: 1rem !important;"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                        <a href="{{route('laporan.allcommunicationsupportexcel')}}" target="_blank" class="btn dropdown-item">
+                            <i class="far fa-file-excel mr-2"></i>Xlsx
+                        </a>
+                        <a href="{{route('laporan.allcommunicationsupportpdf')}}" target="_blank" class="btn dropdown-item">
+                            <i class="far fa-file-pdf mr-2"></i>PDF
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -52,8 +68,19 @@
                                 <h4>Communication Initiative Analytics</h4>
                             </div>
                             <div class="ml-auto mr-3">
-                                <div class="btn btn-outline-secondary">
-                                    <div class="fa fa-download"></div>
+                                <div>
+                                    <a href="#" class="btn btn-light bg-white" id="dropdownMenuLink" style="text-decoration: none; color: black;"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                                        <a href="{{route('laporan.initiativemost')}}" target="_blank" class="btn dropdown-item">
+                                            <i class="far fa-file-excel mr-2"></i>Xlsx
+                                        </a>
+                                        <a href="{{route('laporan.initiativemost5pdf')}}" target="_blank" class="btn dropdown-item">
+                                            <i class="far fa-file-pdf mr-2"></i>PDF
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -329,8 +356,19 @@
                                 <h4>Strategic Initiative Analytics</h4>
                             </div>
                             <div class="ml-auto mr-3">
-                                <div class="btn btn-outline-secondary">
-                                    <div class="fa fa-download"></div>
+                                <div>
+                                    <a href="#" class="btn btn-light bg-white" id="dropdownMenuLink" style="text-decoration: none; color: black;"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                                        <a href="{{route('laporan.strategicmost')}}" target="_blank" class="btn dropdown-item">
+                                            <i class="far fa-file-excel mr-2"></i>Xlsx
+                                        </a>
+                                        <a href="{{route('laporan.strategicmost5pdf')}}" target="_blank" class="btn dropdown-item">
+                                            <i class="far fa-file-pdf mr-2"></i>PDF
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -356,8 +394,19 @@
                                 <h4>Implementation Analytics</h4>
                             </div>
                             <div class="ml-auto mr-3">
-                                <div class="btn btn-outline-secondary">
-                                    <div class="fa fa-download"></div>
+                                <div>
+                                    <a href="#" class="btn btn-light bg-white" id="dropdownMenuLink" style="text-decoration: none; color: black;"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                                        <a href="{{route('laporan.implementationmost')}}" target="_blank" class="btn dropdown-item">
+                                            <i class="far fa-file-excel mr-2"></i>Xlsx
+                                        </a>
+                                        <a href="{{route('laporan.implementationmost5pdf')}}" target="_blank" class="btn dropdown-item">
+                                            <i class="far fa-file-pdf mr-2"></i>PDF
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
