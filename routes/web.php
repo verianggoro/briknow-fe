@@ -51,10 +51,18 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::get('/ex/strategictop5pdf', 'LaporanController@strategictop5pdf')->name('laporan.strategictop5pdf');
     Route::get('/ex/imptop5', 'LaporanController@imptop5')->name('laporan.imptop5');
     Route::get('/ex/imptop5pdf', 'LaporanController@imptop5pdf')->name('laporan.imptop5pdf');
+    Route::get('/ex/initiativemost', 'LaporanController@initiativemost')->name('laporan.initiativemost');
+    Route::get('/ex/initiativemost5pdf', 'LaporanController@initiativemost5pdf')->name('laporan.initiativemost5pdf');
+    Route::get('/ex/strategicmost', 'LaporanController@strategicmost')->name('laporan.strategicmost');
+    Route::get('/ex/strategicmost5pdf', 'LaporanController@strategicmost5pdf')->name('laporan.strategicmost5pdf');
+    Route::get('/ex/implementationmost', 'LaporanController@implementationmost')->name('laporan.implementationmost');
+    Route::get('/ex/implementationmost5pdf', 'LaporanController@implementationmost5pdf')->name('laporan.implementationmost5pdf');
     Route::get('/ex/allexcel', 'LaporanController@allexcel')->name('laporan.allexcel');
     Route::get('/ex/allpdf', 'LaporanController@allpdf')->name('laporan.allpdf');
     Route::get('/ex/alldataexcel', 'LaporanController@allDataexcel')->name('laporan.alldataexcel');
     Route::get('/ex/alldatapdf', 'LaporanController@allDatapdf')->name('laporan.alldatapdf');
+    Route::get('/ex/allcommunicationsupportexcel', 'LaporanController@allComSupportexcel')->name('laporan.allcommunicationsupportexcel');
+    Route::get('/ex/allcommunicationsupportpdf', 'LaporanController@allComSupportpdf')->name('laporan.allcommunicationsupportpdf');
 
     #GAMIFICATION
         Route::get('/gamification', 'HomeController@gamification')->name('home.game');
