@@ -338,6 +338,61 @@ class ManageComSupport extends Controller
         return view('admin.managecomsupport.strategic-byproject', compact(['data', 'slug']));
     }
 
+    public function getAllStrategicByProject(Request $request, $slug) {
+        $this->token_auth = session()->get('token');
+        try {
+            $sort = 'created_at';
+            $order = 'desc';
+            if($request->get('sort')) {
+                $sort = $request->get('sort');
+            }
+            if($request->get('order')) {
+                $order = $request->get('order');
+            }
+
+            $ch = curl_init();
+            $headers  = [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $this->token_auth",
+            ];
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/strategicinitiative/project/$slug?sort=$sort&order=$order");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result     = curl_exec ($ch);
+            $hasil      = json_decode($result);
+
+            if (isset($hasil->status)) {
+                if ($hasil->status == 1) {
+                    return response()->json([
+                        "status"            => 1,
+                        "data"              => $hasil->data,
+                    ],200);
+                }else{
+                    $data['message']    =   'GET Gagal 1';
+                    return response()->json([
+                        'status'            =>  0,
+                        'data'              =>  $data
+                    ],200);
+                }
+            }else{
+                $data['message']    =   'GET Gagal 1';
+                return response()->json([
+                    'status'            =>  0,
+                    'data'              =>  $data
+                ],200);
+            }
+        } catch (\Throwable $th) {
+            $data['message']    =   'GET Gagal 1';
+            return response()->json([
+                'status'            =>  0,
+                'data'              =>  $data
+            ],200);
+        }
+    }
+
     public function getAllStrategicInitiativeByProjectAndType(Request $request, $slug, $type) {
         $this->token_auth = session()->get('token');
         try {

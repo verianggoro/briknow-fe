@@ -38,6 +38,15 @@
                     <option value="tipe">Tipe File</option>
                     <option value="total">Total File</option>
                 </select>-->
+                <a href="#" class="btn btn-outline-primary mt-2 mr-3" id="dropdownMenuLink" style="text-decoration: none;border-radius: 12px;padding: 0.1rem 1rem;margin-top: 0 !important;background: white;"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort by<i class="fa fa-caret-down" style="margin-left: 0.5rem !important;"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width:160px !important;">
+                    <div onclick="getData(this, 'title-asc')" class="btn dropdown-item dd-cus">Judul</div>
+                    <div onclick="getData(this, 'created_at-desc')" class="btn dropdown-item dd-cus">Tanggal</div>
+                    <div onclick="getData(this, 'views-desc')" class="btn dropdown-item dd-cus">View</div>
+                </div>
                 <div>
                     <a href="{{route('manage_com.upload_form', ['type'=>'content'])}}" type="button" style="border-radius: 12px; line-height: 2; padding: 0.1rem 1rem" class="btn btn-success d-flex align-items-center"><i class="fa fa-plus mr-3"></i>Upload</a>
                 </div>
@@ -52,7 +61,7 @@
             <a href="{{route('project.index',$data->project->slug)}}" class="badge-str mt-2 ml-2" style="font-size: 22px; font-weight: 600; text-decoration: underline from-font">{{$data->project->nama}}</a>
         </div>
 
-        <div class="content-file mt-4 ml-2">
+        <div class="content-file mt-4 ml-2" id="content-file">
             @forelse($data->type as $item)
                 <div class="mb-4">
                     <div style="font-size: 22px;font-weight: 700;">{{$item->name}}</div>
@@ -99,11 +108,12 @@
 </script>
 <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
 <script src="{{asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js')}}"></script>
-<!--<script src="{{asset_app('assets/js/page/strategic.js')}}"></script>-->
 <script>
-    var uri;
-    var csrf = '';
-    var be      = '';
+    let uri;
+    let csrf = '';
+    let be      = '';
+    const slug = '{{$slug}}'
+
     const months = [
         'January',
         'February',
@@ -186,6 +196,70 @@
 
     function dateFormat(date) {
         return date.getDate()+" "+ months[date.getMonth()]+" "+date.getFullYear();
+    }
+
+    function getData(e, dataSort) {
+        const [sort, order] = dataSort.split('-')
+        const url = `${uri}/get/strategicinitiative/project/${slug}?sort=${sort}&order=${order}`
+        $.ajax({
+            url: url,
+            type: "get",
+            beforeSend: function(xhr){
+                xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+                $('.senddataloader').show();
+            },
+            success: function(res){
+                const data = res.data.type
+                $('.senddataloader').hide();
+                $("#content-file").empty();
+                if (data.length !== 0){
+                    for (let i=0; i < data.length; i++){
+                        let content = `
+                            <div class="mb-4">
+                                <div style="font-size: 22px;font-weight: 700;">${data[i].name}</div>
+                                <div style="font-weight: 500" class="mb-2">${data[i].total_content} files</div>
+                                <div class="d-flex justify-content-between pr-5">
+                                    <div class="d-flex align-items-center">
+                                        ${render(data[i].content)}
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center align-items-center" onclick="showMore('${data[i].id}', '${slug}')" style="margin: auto 4px; font-size: 18px; color: #2f80ed; cursor:pointer;">
+                                        <i class="fas fa-chevron-right mr-3"
+                                           style="font-size: 26px;padding: 4px 9px;border: 3px solid #2f80ed;border-radius: 50%;background: #f4f6f9;color: #2f80ed;"></i>Lihat Semua</div>
+                                </div>
+                            </div>
+                            <hr>`
+                        $('#content-file').append(content);
+                    }
+                }else{
+                    $('#content-file').append(`
+                    <div class="p-2 w-100 pt-5 text-center">
+                        <img src="${uri}/assets/img/forum_kosong_1.png" style="width: 25%; height: fit-content">
+                        <h5 class="font-weight-bold mt-5 mb-1">Oops.. Project tidak ditemukan</h5>
+                        <p class="w-100 text-center font-weight-bold">Coba cari project lain</p>
+                    </div>`);
+                }
+                if (e) {
+                    $('#dropdownMenuLink').empty()
+                    $('#dropdownMenuLink').append(`${$(e).text()}<i class="fa fa-caret-down" style="margin-left: 0.5rem !important;"></i>`)
+                }
+            },
+            error : function(e){
+                alert(e);
+            }
+        });
+        
+        function render(content) {
+            let html = ''
+            for (let i=0; i < content.length; i++){
+                html += `
+                <div class="container-img mr-3">
+                    <div class="d-none">${JSON.stringify(content[i])}</div>
+                    <img src="${uri}/storage/${content[i].thumbnail}" onclick="view(this)" onerror="imgError(this)"
+                         alt="${content[i].title}" title="${content[i].title}" width="150" height="150" class="img-com">
+                </div>`
+            }
+            return html;
+        }
     }
 </script>
 

@@ -164,6 +164,7 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
     Route::get('/managecommunication/strategicinitiative/project/{slug}/{type}', 'Admin\ManageComSupport@strategicByType')->name('manage_com.strategicbyprojectandtype')->middleware('IsAdmin');
     Route::get('/get/strategicinitiative', 'Admin\ManageComSupport@getAllStrategicInitiative')->name('strategic_init.get_all')->middleware('IsAdmin');
     Route::get('/get/strategicinitiative/project/{slug}/{type}', 'Admin\ManageComSupport@getAllStrategicInitiativeByProjectAndType')->name('strategic_init.get_allbytype')->middleware('IsAdmin');
+    Route::get('/get/strategicinitiative/project/{slug}', 'Admin\ManageComSupport@getAllStrategicByProject')->name('strategic_init.get_allbyproject')->middleware('IsAdmin');
     #--
     Route::get('/managecommunication/implementation/{step}', 'Admin\ManageComSupport@implementationStep')->name('implementation.step')->middleware('IsAdmin');
     Route::get('/managecommunication/implementation', 'Admin\ManageComSupport@implementation')->name('manage_com.implementation')->middleware('IsAdmin');
