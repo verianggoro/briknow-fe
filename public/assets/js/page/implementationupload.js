@@ -680,7 +680,7 @@ $(document).ready(function () {
         $('#prev_tglmulai').empty();
         $('#prev_tglselesai').empty();
         $('#prev_status').empty();
-        
+
         $('#prev_thumbnail').attr('src',`${t_photo}`);
         $('#prev_thumbnail').attr('alt',`${$('#title').val()}`);
         $('#prev_namaproject').append(`${$('#title').val()}`);
@@ -1470,7 +1470,7 @@ $('#restricted-user').on('select2:select', function (e) {
     }
 });
 
-$("#save").click(function(){
+$("#save-impl").click(function(){
     formSubmitting = true;
     $('#form').submit();
     $('.senddataloader').show();

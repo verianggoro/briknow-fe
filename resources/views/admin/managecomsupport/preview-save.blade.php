@@ -10,7 +10,7 @@
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown">
                         <button class="btn btn-light box-shadow-none btn-sm mx-1" data-dismiss="modal" aria-label="Close"><i class="fas fa-pencil-alt mr-1"></i> Edit</button>
-                        <button class="btn btn-success box-shadow-none btn-sm mx-1" id="save"><i class="fas fa-save mr-1"></i> Save</button>
+                        <button class="btn btn-success box-shadow-none btn-sm mx-1" id="save-impl"><i class="fas fa-save mr-1"></i> Save</button>
                     </li>
                 </ul>
             </nav>

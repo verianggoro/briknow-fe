@@ -621,12 +621,14 @@ $(document).ready(function () {
             // validasi ui
             if(msgLengthDeskripsi <= 200){
                 $("#cke_editor-deskripsi").attr("style", "border-color:red;");
+                isValid = false;
             }else{
                 $("#cke_editor-deskripsi").attr("style", "border-color:#38c172;");
             }
 
             if(msgLengthMetodologi <= 10){
                 $("#cke_editor-metodologi").attr("style", "border-color:red;");
+                isValid = false;
             }else{
                 $("#cke_editor-metodologi").attr("style", "border-color:#38c172;");
             }
@@ -982,7 +984,7 @@ $(document).ready(function () {
                     tampung_lesson = `<tr>
                                             <td id="td-metodologi"><span>1</span></td>
                                             <td id="td-metodologi"><span>${t_lesson}</span></td>
-                                            <td id="td-metodologi"><span>${t_tahap[index]}</span></td>
+                                            <td id="td-metodologi"><span>${t_tahap}</span></td>
                                             <td id="td-metodologi"><span>${t_lesson_keterangan}</span></td>
                                         </tr>`;
                 }
@@ -1375,9 +1377,9 @@ $('#add_lesson').click(function(){
     lesson_learned_urut++;
     let element = ` <tr class='ll_field'>
                 <td class="bg-white attr_input"><span class='control_ll'> </span></td>
-                <td><input type="text" class="form-control w-100 lesson_field lesson" name="lesson[]" value="" placeholder="..." required/></td>
-                <td><input type="text" class="form-control w-100 lesson_field tahap" name="tahap[]" value="" placeholder="..." required/></td>
-                <td><input type="text" class="form-control w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" value="" placeholder="..." required/></td>
+                <td><textarea class="w-100 lesson_field lesson" name="lesson[]" placeholder="..." required></textarea></td>
+                <td><textarea class="w-100 lesson_field tahap" name="tahap[]" placeholder="..." required></textarea></td>
+                <td><textarea class="w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" placeholder="..." required></textarea></td>
                 <td><img class='ll_min' src='${uri}/assets/img/datatables/ic_trash.png'/></td>
             </tr>`;
     $('.content_lesson').append(element);
