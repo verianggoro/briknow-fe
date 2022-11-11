@@ -728,29 +728,28 @@
     <div class="navbar-bg leaderboard">
         <img src="{{asset_app('assets/img/bg/jumbotron-bg.png')}}" class="bg-ornament-footer bg-footer-ornament" alt="">
         <div class="row">
-            <div class="col-lg-1 col-md-12 col-sm-12 pt-5">
+            <div class="col-lg-1 col-md-12 col-sm-12 pt-5" style="padding-left: 2rem">
                 <h5 class="text-warning m-0">About</h5>
                 <h2 class="font-weight-800 mb-2 text-white">BRIKNOW</h2>
             </div>
-            <div class="col-lg-7 col-md-12 col-sm-12 rekomendasi pt-5">
-                <p class="text-white">
-                    Data dan informasi merupakan denyut nadi perekonomian abad 21. Dalam era informasi
-                    data dikenal sebagai aset perusahaan yang vital. Salah satu data yang penting untuk dikelola
-                    oleh BRI adalah data terkait proyek.<br><br>
-
-                    Kini telah hadir BRIKNOW sebagai <b>repository project deliverables</b><br>untuk
-                    mendokumentasikan seluruh proyek BRI.<br>
-                    BRIKNOW diharapkan dapat menambah <b>pengetahuan</b> bagi unit kerja yang akan menginisiasi
-                    project. Melalui BRIKNOW user dapat melakukan review dan memanfaatkan metodologi
-                    serta lesson learned atas project yang pernah ada untuk <b>menunjang kemampuan</b> internal
-                    BRI menciptakan inisiatif strategis secara <b>independen</b>.<br>
-                    Jika butuh informasi lebih lengkap user juga dapat mendownload berbagai dokumen
-                    proyeknya.<br><br>
-
+            <div class="col-lg-7 col-md-12 col-sm-12 rekomendasi pt-5 pr-3">
+                <p class="text-white pl-3">
+                    Data dan informasi merupakan denyut nadi perekonomian abad 21. Dalam era informasi data dikenal sebagai aset perusahaan yang vital. Salah satu data yang penting untuk dikelola oleh BRI adalah data terkait proyek.<br>
+                </p>
+                <p class="text-white pl-3">
+                    Kini telah hadir BRIKNOW sebagai repository project deliverables untuk mendokumentasikan proyek BRI.<br>
+                </p>
+                <p class="text-white pl-3">
+                    BRIKNOW diharapkan dapat menambah pengetahuan bagi unit kerja yang akan menginisiasi project. Melalui BRIKNOW user dapat melakukan review dan memanfaatkan metodologi, lesson learned, aktivitas komunikasi project, dan success story implementasi  atas project yang pernah ada untuk menunjang kemampuan internal BRI menciptakan inisiatif strategis secara independent.<br>
+                </p>
+                <p class="text-white mb-2 pl-3">
+                    Jika butuh informasi lebih lengkap user juga dapat mendownload berbagai dokumen proyeknya.<br><br>
+                </p>
+                <p class="text-white pl-3" style="line-height: 2.2">
                     Sekarang aktivitas inisiasi proyek jadi lebih mudah.<br>
-                    Selamat berinovasi insan Brillian!<br>
-                    BRIKNOW siap mendampingi.
-                    <br><br>
+                    Selamat berinovasi Insan BRILiaN!<br>
+                    BRIKNOW siap mendampingi<br>
+
                     #PMOAllAroundYou
                 </p>
             </div>
