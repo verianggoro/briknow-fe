@@ -1376,7 +1376,7 @@ $('#restricted-user').on('select2:select', function (e) {
 $('#add_lesson').click(function(){
     lesson_learned_urut++;
     let element = ` <tr class='ll_field'>
-                <td class="bg-white attr_input"><span class='control_ll'> </span></td>
+                <td class="bg-white attr_input" style="vertical-align: text-top"><span class='control_ll'> </span></td>
                 <td><textarea class="w-100 lesson_field lesson" name="lesson[]" placeholder="..." required></textarea></td>
                 <td><textarea class="w-100 lesson_field tahap" name="tahap[]" placeholder="..." required></textarea></td>
                 <td><textarea class="w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" placeholder="..." required></textarea></td>

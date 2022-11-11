@@ -406,7 +406,7 @@
                                         <input type="hidden" id="urut" value="{{$itung}}">
                                         @for($i = 0; $i < count(old('lesson')); $i++)
                                             <tr class='ll_field'>
-                                                <td class="bg-white attr_input"><span
+                                                <td class="bg-white attr_input" style="vertical-align: text-top"><span
                                                             class='control_ll'> {{$awal++}}</span></td>
                                                 <td>
                                                     <textarea class="w-100 lesson_field lesson" name="lesson[]" rows="5"
@@ -434,7 +434,7 @@
                                     <input type="hidden" id="urut" value="{{$itung}}">
                                     @forelse($data->data->lesson_learned as $item)
                                         <tr class='ll_field'>
-                                            <td class="bg-white attr_input"><span class='control_ll'> {{$awal++}}</span>
+                                            <td class="bg-white attr_input" style="vertical-align: text-top"><span class='control_ll'> {{$awal++}}</span>
                                             </td>
                                             <td>
                                                 <textarea name="lesson[]" class="w-100 lesson_field lesson" rows="5"
@@ -455,7 +455,7 @@
                                         </tr>
                                     @empty
                                         <tr class='ll_field'>
-                                            <td class="bg-white attr_input"><span class='control_ll'> 1</span></td>
+                                            <td class="bg-white attr_input" style="vertical-align: text-top"><span class='control_ll'> 1</span></td>
                                             <td>
                                                 <textarea class="w-100 lesson_field lesson"
                                                           name="lesson[]" placeholder="..." required rows="5"></textarea>
@@ -473,7 +473,7 @@
                                 @else
                                     <input type="hidden" id="urut" value="{{$awal}}">
                                     <tr class='ll_field'>
-                                        <td class="bg-white attr_input"><span class='control_ll'> 1</span></td>
+                                        <td class="bg-white attr_input" style="vertical-align: text-top"><span class='control_ll'> 1</span></td>
                                         <td><textarea class="w-100 lesson_field lesson" name="lesson[]"
                                                      placeholder="..." required rows="5"></textarea>
                                         </td>
