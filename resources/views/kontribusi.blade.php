@@ -413,9 +413,15 @@
                                                               placeholder="..."
                                                               required>{{old('lesson')[$i]}}</textarea>
                                                 </td>
-                                                <td>
-                                                    <textarea class="w-100 lesson_field tahap" rows="5" name="tahap[]"
-                                                              placeholder="..." required >{{old('tahap')[$i]}}</textarea>
+                                                <td style="vertical-align: text-top">
+                                                    <select name="tahap[]" class="w-100 lesson_field tahap"
+                                                            required value="{{old('tahap')[$i]}}">
+                                                        <option value="Plan" {{old('tahap')[$i] == 'Plan' ? 'selected' : ''}}>Plan</option>
+                                                        <option value="Pilot Run" {{old('tahap')[$i] == 'Pilot Run' ? 'selected' : ''}}>Pilot Run</option>
+                                                        <option value="Procurement" {{old('tahap')[$i] == 'Procurement' ? 'selected' : ''}}>Procurement</option>
+                                                        <option value="Development" {{old('tahap')[$i] == 'Development' ? 'selected' : ''}}>Development</option>
+                                                        <option value="Implementation" {{old('tahap')[$i] == 'Implementation' ? 'selected' : ''}}>Implementation</option>
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <textarea class="w-100 lesson_field lesson_keterangan"
@@ -441,9 +447,15 @@
                                                           placeholder="..."
                                                           required>{{$item->lesson_learned}}</textarea>
                                             </td>
-                                            <td>
-                                                <textarea name="tahap[]" class="w-100 lesson_field tahap" rows="5"
-                                                          placeholder="..." required>{{$item->tahap}}</textarea>
+                                            <td style="vertical-align: text-top">
+                                                <select name="tahap[]" class="w-100 lesson_field tahap"
+                                                          required value="{{$item->tahap}}">
+                                                    <option value="Plan" {{$item->tahap == 'Plan' ? 'selected' : ''}}>Plan</option>
+                                                    <option value="Pilot Run" {{$item->tahap == 'Pilot Run' ? 'selected' : ''}}>Pilot Run</option>
+                                                    <option value="Procurement" {{$item->tahap == 'Procurement' ? 'selected' : ''}}>Procurement</option>
+                                                    <option value="Development" {{$item->tahap == 'Development' ? 'selected' : ''}}>Development</option>
+                                                    <option value="Implementation" {{$item->tahap == 'Implementation' ? 'selected' : ''}}>Implementation</option>
+                                                </select>
                                             </td>
                                             <td>
                                                 <textarea name="lesson_keterangan[]"
@@ -460,8 +472,15 @@
                                                 <textarea class="w-100 lesson_field lesson"
                                                           name="lesson[]" placeholder="..." required rows="5"></textarea>
                                             </td>
-                                            <td><textarea class="w-100 lesson_field tahap"
-                                                          name="tahap[]" placeholder="..." required rows="5"></textarea>
+                                            <td style="vertical-align: text-top">
+                                                <select name="tahap[]" class="w-100 lesson_field tahap"
+                                                        required value="">
+                                                    <option value="Plan" {{'Plan' == 'Plan' ? 'selected' : ''}}>Plan</option>
+                                                    <option value="Pilot Run" {{'Pilot Run' == 'Pilot Run' ? 'selected' : ''}}>Pilot Run</option>
+                                                    <option value="Procurement" {{'Procurement' == 'Procurement' ? 'selected' : ''}}>Procurement</option>
+                                                    <option value="Development" {{'Development' == 'Development' ? 'selected' : ''}}>Development</option>
+                                                    <option value="Implementation" {{'Implementation' == 'Implementation' ? 'selected' : ''}}>Implementation</option>
+                                                </select>
                                             </td>
                                             <td><textarea class="w-100 lesson_field lesson_keterangan"
                                                        name="lesson_keterangan[]" placeholder="..." required rows="5"></textarea>
@@ -477,8 +496,15 @@
                                         <td><textarea class="w-100 lesson_field lesson" name="lesson[]"
                                                      placeholder="..." required rows="5"></textarea>
                                         </td>
-                                        <td><textarea class="w-100 lesson_field tahap"
-                                                      name="tahap[]" placeholder="..." required rows="5"></textarea>
+                                        <td style="vertical-align: text-top">
+                                            <select name="tahap[]" class="w-100 lesson_field tahap"
+                                                    required value="">
+                                                <option value="Plan" {{'Plan' == 'Plan' ? 'selected' : ''}}>Plan</option>
+                                                <option value="Pilot Run" {{'Pilot Run' == 'Pilot Run' ? 'selected' : ''}}>Pilot Run</option>
+                                                <option value="Procurement" {{'Procurement' == 'Procurement' ? 'selected' : ''}}>Procurement</option>
+                                                <option value="Development" {{'Development' == 'Development' ? 'selected' : ''}}>Development</option>
+                                                <option value="Implementation" {{'Implementation' == 'Implementation' ? 'selected' : ''}}>Implementation</option>
+                                            </select>
                                         </td>
                                         <td><textarea class="w-100 lesson_field lesson_keterangan"
                                                       name="lesson_keterangan[]" placeholder="..." required rows="5"></textarea>

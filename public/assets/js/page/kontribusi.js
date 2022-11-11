@@ -1378,7 +1378,16 @@ $('#add_lesson').click(function(){
     let element = ` <tr class='ll_field'>
                 <td class="bg-white attr_input" style="vertical-align: text-top"><span class='control_ll'> </span></td>
                 <td><textarea class="w-100 lesson_field lesson" name="lesson[]" placeholder="..." required></textarea></td>
-                <td><textarea class="w-100 lesson_field tahap" name="tahap[]" placeholder="..." required></textarea></td>
+                <td style="vertical-align: text-top">
+                                                <select name="tahap[]" class="w-100 lesson_field tahap"
+                                                        required value="">
+                                                    <option value="Plan" {{'Plan' == 'Plan' ? 'selected' : ''}}>Plan</option>
+                                                    <option value="Pilot Run" {{'Pilot Run' == 'Pilot Run' ? 'selected' : ''}}>Pilot Run</option>
+                                                    <option value="Procurement" {{'Procurement' == 'Procurement' ? 'selected' : ''}}>Procurement</option>
+                                                    <option value="Development" {{'Development' == 'Development' ? 'selected' : ''}}>Development</option>
+                                                    <option value="Implementation" {{'Implementation' == 'Implementation' ? 'selected' : ''}}>Implementation</option>
+                                                </select>
+                                            </td>
                 <td><textarea class="w-100 lesson_field lesson_keterangan" name="lesson_keterangan[]" placeholder="..." required></textarea></td>
                 <td><img class='ll_min' src='${uri}/assets/img/datatables/ic_trash.png'/></td>
             </tr>`;

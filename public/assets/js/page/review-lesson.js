@@ -182,7 +182,7 @@ function getData(tahap, divisi, search){
                                 <a href="${uri+ '/project/'+data.data[i].slug}">${data.data[i].nama}</a>
                             </div>
                             <div class="col-2">
-                                <a href="${uri+ '/consultant/'+data.data[i].consultant[0].id}">${data.data[i].consultant[0].nama}</a>
+                                <a href="${data.data[i].consultant[0].id !== undefined ? uri+ '/consultant/'+data.data[i].consultant[0].id:uri+ '/consultant/#'}">${data.data[i].consultant[0].nama}</a>
                             </div>
                             <div class="col-2">
                                 <a href="${uri+ '/kontribusi/'+data.data[i].slug}" class="btn btn-outline-secondary fas fa-pen"></a>
