@@ -24,7 +24,7 @@
                     <a class="btn btn-light btn-sm" href="{{ route('manage_project.rekomendasi') }}" role="button">Rekomendasi</a>
                 </div>
                 <!-- Dropdowns TEMP -->
-                    
+
                 <!-- Dropdowns TEMP -->
 
                 <!-- Dropdowns -->
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                 <!-- Dropdowns -->
-                
+
                 <!-- Search -->
                     <div class="p-2 bd-highlight" id="search">
                         <form action="#" class="w-100" id="search">
@@ -63,14 +63,14 @@
             </div>
             <div class="d-flex justify-content-end mb-3 px-3">
               <div>
-                Sync Elastic : 
+                Sync Elastic :
                 @if($sync_es == 0)
                   <span class="text-success">Done</span>
                 @else
-                  <span class="text-warning"> 
+                  <span class="text-warning">
                     <i class="fa fa-sync fa-spin mr-1" aria-hidden="true" style="font-size:12px"></i>
                     {{-- {{ $sync_es }} Project Remaining --}}
-                    Processing . . 
+                    Processing . .
                   </span>
                 @endif
               </div>
@@ -237,10 +237,10 @@
 
 
             // $(".check-pemilik").change(function() {
-                
+
             // });
             // $(".check-nama").change(function() {
-                
+
             // });
         });
 

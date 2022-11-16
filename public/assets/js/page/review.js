@@ -14,7 +14,7 @@ for (let i = 0; i < metas.length; i++) {
     if (metas[i].getAttribute('name') === "BE") {
         be = metas[i].getAttribute('content');
     }
-    
+
     if (metas[i].getAttribute('name') === "csrf") {
         csrf = metas[i].getAttribute('content');
     }
@@ -63,7 +63,7 @@ for (let i = 0; i < metas.length; i++) {
 // filter
     // divisi
     $(".fil_div").change(function(e){
-        if ($(this).prop('checked')==true){ 
+        if ($(this).prop('checked')==true){
             // add item
             filter_divisi.push(e.target.value);
             $(`.fil_div[value="${e.target.value}"]`).prop('checked',true);
@@ -92,7 +92,7 @@ for (let i = 0; i < metas.length; i++) {
     })
 // consultant
     $(".fil_kon").change(function(e){
-        if ($(this).prop('checked')==true){ 
+        if ($(this).prop('checked')==true){
             // add item
             filter_konsultant.push(e.target.value);
             $(`.fil_kon[value="${e.target.value}"]`).prop('checked',true);
@@ -166,7 +166,7 @@ function downloadDoc(name, source) {
 }
 
 $(document).on('click', '.pagination a', function(event){
-    event.preventDefault(); 
+    event.preventDefault();
     page = $(this).attr('href').split('page=')[1];
     getdatalist();
 });

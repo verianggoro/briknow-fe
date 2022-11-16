@@ -36,13 +36,13 @@ class MyProjectController extends Controller
                     $this->data = $hasil->data->data;
                     $data = $this->paginate($this->data);
                     $data->withPath('/myproject');
-    
+
                     // dd($data);
                     return view('myproject', compact(['data']));
                 }else{
                     session()->flash('error',$hasil->data->message);
                     $data= [];
-    
+
                     return view('myproject', compact(['data']));
                 }
             }else{
@@ -78,10 +78,10 @@ class MyProjectController extends Controller
         try {
             $ch = curl_init();
             $headers  = [
-                        'Content-Type: application/json',
-                        'Accept: application/json',
-                        "Authorization: Bearer $this->token_auth",
-                    ];
+                'Content-Type: application/json',
+                'Accept: application/json',
+                "Authorization: Bearer $this->token_auth",
+            ];
             curl_setopt($ch, CURLOPT_URL,config('app.url_be').'api/projectpreview/'.$slug);
             curl_setopt($ch, CURLOPT_HTTPGET, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
@@ -174,7 +174,7 @@ class MyProjectController extends Controller
                     $role = session()->get('role', 0);
                     $mode = 'admin';
                     if(request()->ajax()) {
-                        $view = view('myproject.preview',compact(['data','role','mode']))->render();
+                        $view = view('myproject.preview',compact(['data','role']))->render();
                         $col = view('doc.document',compact('document'))->render();
                         return response()->json([
                             'html'=>$view,

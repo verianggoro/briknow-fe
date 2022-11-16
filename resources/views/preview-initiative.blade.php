@@ -63,7 +63,7 @@
                             <div class="mr-2">:</div>
                             <div>
                                 @if ($data->project)
-                                    <a class="font-weight-bold" href="{{route('divisi',$data->project->divisi->id)}}">
+                                    <a class="font-weight-bold" href="{{route('direktorat.comsup',$data->project->divisi->direktorat)}}">
                                         {{$data->project->divisi->direktorat}}
                                     </a>
                                 @else
@@ -77,7 +77,7 @@
                             <div class="mr-2">:</div>
                             <div>
                                 @if ($data->project)
-                                    <a class="font-weight-bold" href="{{route('divisi',$data->project->divisi->id)}}">
+                                    <a class="font-weight-bold" href="{{route('divisi.comsup',$data->project->divisi->id)}}">
                                         {{$data->project->divisi->divisi}}
                                     </a>
                                 @else

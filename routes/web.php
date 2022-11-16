@@ -270,8 +270,10 @@ Route::middleware('AfterLoginMiddleware')->group(function(){
 
     #DIVISI
         Route::get('/divisi/{id}', 'DivisiController@index')->name('divisi');
+        Route::get('/divisi/comsup/{id}', 'DivisiController@indexDivisiComsup')->name('divisi.comsup');
         Route::get('/proj_div/{kunci}/{search}', 'DivisiController@proj_divisi')->name('divisi.project');
         Route::get('/riwayat/{tahun}', 'DivisiController@riwayat')->name('riwayat');
+        Route::get('/direktorat/comsup/{dir}', 'DirektoratController@indexDirComsup')->name('direktorat.comsup');
     #---
 
     #FORUM
