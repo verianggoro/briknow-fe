@@ -42,7 +42,7 @@
     </style>
 @endpush
 
-@section('breadcumb', 'Divisi')
+@section('breadcumb', 'Direktorat')
 @section('back', route('katalog.index'))
 {{--@section('id_consultant', $data->id)--}}
 @section('content')
