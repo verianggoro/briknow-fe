@@ -72,6 +72,7 @@ function getDataComsupDiv(){
     elementInit.classList.add("active");
     elementStra.classList.remove("active");
     elementImpl.classList.remove("active");
+    clearLayout()
     const urlArticle = `${getCookie('url_be')}api/get/communicationinitiative/publish/article?page=1&year=&month=&divisi=&sort=&search=${keywordParam}&divisi&direktorat=${splitLastPath[3]}`
     const urlLogo = `${getCookie('url_be')}api/get/communicationinitiative/publish/logo?page=1&year=&month=&divisi=&sort=&search=${keywordParam}&divisi&direktorat=${splitLastPath[3]}`
     const urlInfo = `${getCookie('url_be')}api/get/communicationinitiative/publish/infographics?page=1&year=&month=&divisi=&sort=&search=${keywordParam}&divisi&direktorat=${splitLastPath[3]}`
@@ -466,6 +467,7 @@ function getDataStraDiv(){
     elementInit.classList.remove("active");
     elementStra.classList.add("active");
     elementImpl.classList.remove("active");
+    clearLayout()
     const url = `${getCookie('url_be')}api/get/strategic/publish?year=&month=&divisi=&sort=&search=${keywordParam}&direktorat=${splitLastPath[3]}`
     $.ajax({
         url: url,
@@ -529,6 +531,7 @@ function getDataImpl(){
     elementInit.classList.remove("active");
     elementStra.classList.remove("active");
     elementImpl.classList.add("active");
+    clearLayout()
     const urlPilot = `${getCookie('url_be')}api/get/implementation/all/publish/piloting?year=&month=&divisi=&sort=&search=${keywordParam}&page=1&direktorat=${splitLastPath[3]}`
     const urlRoll = `${getCookie('url_be')}api/get/implementation/all/publish/roll-out?year=&month=&divisi=&sort=&search=${keywordParam}&page=1&direktorat=${splitLastPath[3]}`
     const urlSosial = `${getCookie('url_be')}api/get/implementation/all/publish/sosialisasi?year=&month=&divisi=&sort=&search=${keywordParam}&page=1&direktorat=${splitLastPath[3]}`
@@ -776,4 +779,21 @@ function searchCominitDir(){
 
 function openPreviewGo(slug, type) {
     window.location.href = `${uri}/mycomsupport/initiative/${type}?slug=${slug}`
+}
+
+function clearLayout(){
+    $("#title-artikel-dir").empty();
+    $("#row-artikel-div").empty();
+    $("#title-logo-dir").empty();
+    $("#row-logo-div").empty();
+    $("#title-infographics-dir").empty();
+    $("#row-infographics-div").empty();
+    $("#title-instagram-dir").empty();
+    $("#row-instagram-div").empty();
+    $("#title-video-dir").empty();
+    $("#row-video-div").empty();
+    $("#title-podcast-dir").empty();
+    $("#row-podcast-div").empty();
+    $("#title-transformation-dir").empty();
+    $("#row-transformation-div").empty();
 }

@@ -59,8 +59,10 @@
         <div class="row">
           <div class="col-md-12">
               <span class="d-block">
-                <strong>Direktorat : </strong>
-                {{$data->direktorat == NULL ? 'Lainnya' : $data->direktorat}}
+                <strong >Direktorat : </strong >
+                <a href="{{route('direktorat.comsup',[$data->direktorat, 'cominit'])}}">
+                    {{$data->direktorat == NULL ? 'Lainnya' : $data->direktorat}}
+                </a>
               </span>
           </div>
         </div>
