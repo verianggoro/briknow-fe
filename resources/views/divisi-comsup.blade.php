@@ -72,37 +72,83 @@
   <hr width="100%">
 </div>
 <div class="row judul">
-    <div class="col-lg-9 col-md-8 col-sm-12 px-0 text-justify">
+    <div class="col-lg-12 col-md-8 col-sm-12 px-0 text-justify">
         <div>
             <div class="mt-4 mb-2 d-flex mx-auto flex-wrap">
-                <a onclick="getDataComsupDiv()" id="cominit-div" role="button"
-                   class="btn-com mt-2 mr-3 active ">Communication Initiative</a>
-                <a onclick="getDataStraDiv()"  id="strategic-div" role="button"
+                <a onclick="getDataComsupDiv()" id="btn-dir-init" role="button"
+                   class="btn-com mt-2 mr-3 ">Communication Initiative</a>
+                <a onclick="getDataStraDiv()"  id="btn-dir-stra" role="button"
                    class="btn-com mt-2 mr-3 ">Strategic Initiative</a>
-                <a onclick="getDataImpl()"  id="implement-div" role="button"
+                <a onclick="getDataImpl()"  id="btn-dir-impl" role="button"
                    class="btn-com mt-2 mr-3 ">Implementation</a>
             </div>
         </div>
         <div>
             <div class="input-group mb-2 h-100">
                 <input type="text" style="width:20rem; border-radius: 8px 0 0 8px; border-color: #f0f0f0; border-style: solid;padding-left: 12px;border-right: none"
-                       id="searchCominit" placeholder="Cari...">
+                       id="searchCominitDir" placeholder="Cari...">
                 <div class="input-group-prepend">
-                    <div onclick="" class="d-flex align-items-center justify-content-center" style="cursor:pointer;width:2rem; background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                    <div onclick="searchCominitDir()" class="d-flex align-items-center justify-content-center" style="cursor:pointer;width:2rem; background: #f0f0f0; border-radius: 0 8px 8px 0;">
                         <i class="fa fa-search fa-sm" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="container-cominit-div">
-            @if($from === 'cominit')
-                <h6>Artikel</h6>
-            @elseif($from === 'strategic')
-                <h6>Strategic Initiative</h6>
-            @elseif($from === 'implementation')
-                <h6>Implementation</h6>
-            @endif
-            <div class="row" id="row-cominit-div"></div>
+        <div>
+            <div class="mt-1">
+                <div id="title-artikel-dir"></div>
+                <div class="row" id="row-artikel-div"></div>
+            </div>
+            <div class="mt-1">
+                <div id="title-video-dir"></div>
+                <div class="row" id="row-video-div"></div>
+            </div>
+            <div class="mt-1">
+                <div id="title-logo-dir"></div>
+                <div class="row" id="row-logo-div"></div>
+            </div>
+            <div class="mt-1">
+                <div id="title-infographics-dir"></div>
+                <div class="row" id="row-infographics-div"></div>
+            </div>
+            <div class="mt-1">
+                <div id="title-transformation-dir"></div>
+                <div class="row" id="row-transformation-div"></div>
+            </div>
+            <div class="mt-1">
+                <div id="title-podcast-dir"></div>
+                <div class="row" id="row-podcast-div"></div>
+            </div>
+            <div class="mt-1">
+                <div id="title-instagram-dir"></div>
+                <div class="row" id="row-instagram-div"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="berbagi" tabindex="-1" role="dialog" aria-labelledby="berbagi" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bolder" id="exampleModalLongTitle">Bagikan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="input-group form-bagikan">
+                                <input type="text" class="form-control form-link-bagikan" id="link" readonly="">
+                                <div class="input-group-prepend">
+                                    <button type="submit" class="btn copy-link" onclick="kopas()">
+                                        Salin
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
