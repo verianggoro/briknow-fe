@@ -86,6 +86,17 @@
                    class="btn-com mt-2 mr-3 ">Implementation</a>
             </div>
         </div>
+        <div>
+            <div class="input-group mb-2 h-100">
+                <input type="text" style="width:20rem; border-radius: 8px 0 0 8px; border-color: #f0f0f0; border-style: solid;padding-left: 12px;border-right: none"
+                       id="searchCominit" placeholder="Cari...">
+                <div class="input-group-prepend">
+                    <div onclick="" class="d-flex align-items-center justify-content-center" style="cursor:pointer;width:2rem; background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                        <i class="fa fa-search fa-sm" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="container-cominit-div">
             @if($from === 'cominit')
                 <h6>Artikel</h6>
