@@ -13,7 +13,7 @@ class DirektoratController extends Controller
     public $data_stra;
     public $data_impl;
 
-    public function indexDirComsup($dir)
+    public function indexDirComsup($dir, $from)
     {
         {
             $this->token_auth = session()->get('token');
@@ -44,7 +44,7 @@ class DirektoratController extends Controller
                     $dataComInit = $this->data_com_init;
                     $dataStra = $this->data_stra;
                     $dataImpl = $this->data_impl;
-                    return view('direktorat-comsup', compact(['data', 'dataComInit', 'dataStra', 'dataImpl']));
+                    return view('direktorat-comsup', compact(['data', 'dataComInit', 'dataStra', 'dataImpl', 'from']));
                 }else{
                     session()->flash('error',$hasil->data->message);
                 }

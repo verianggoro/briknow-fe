@@ -95,11 +95,11 @@
             <div class="row">
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2">
                     <div class="col-md-4 px-0">Direktorat</div>
-                    <div class="col-md-8 px-0  d-min"><a class="font-weight-bold" href="{{route('direktorat.comsup',$data->project->divisi->direktorat)}}">{{$data->project->divisi->direktorat}}</a></div>
+                    <div class="col-md-8 px-0  d-min"><a class="font-weight-bold" href="{{route('direktorat.comsup',[$data->project->divisi->direktorat, 'implementation'])}}">{{$data->project->divisi->direktorat}}</a></div>
                 </div>
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2">
                     <div class="col-md-4 px-0">Pemilik Proyek</div>
-                    <div class="col-md-8 px-0  d-min"><a class="font-weight-bold" href="{{route('divisi.comsup',$data->project->divisi->id)}}">{{$data->project->divisi->divisi}}</a></div>
+                    <div class="col-md-8 px-0  d-min"><a class="font-weight-bold" href="{{route('divisi.comsup',['implementation', $data->project->divisi->id])}}">{{$data->project->divisi->divisi}}</a></div>
                 </div>
                 <div class="row col-md-12 col-sm-6 col-xs-6 mt-2">
                     <div class="col-md-4 px-0">Tanggal Mulai</div>

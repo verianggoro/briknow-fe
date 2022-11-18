@@ -4,6 +4,7 @@
   <link rel="stylesheet" href="{{asset_app('assets/css/fa.css')}}">
   <link rel="stylesheet" href="{{asset_app('assets/css/fa-oth.css')}}">
   <link rel="stylesheet" href="{{asset_app('assets/css/plugin/load/sklt-load.css')}}">
+  <link rel="stylesheet" href="{{ asset_app('assets/css/comsupport.css') }}">
       <style>
         .kaki{
             bottom: 0px;
@@ -76,99 +77,28 @@
     </div>
     <div class="col-lg-9 col-md-8 col-sm-12 px-0 text-justify">
         <div>
-            <h6>Communication Initiative</h6>
-            <div class="row">
-                @for($init = 0; $init < sizeof($dataComInit); $init++)
-                    @if(!empty($dataComInit[$init]))
-                        @for($initTwo=0; $initTwo < sizeof($dataComInit[$init]); $initTwo++)
-                            <div class="col-md-6 col-sm-12 rowdoc">
-                                <a href="{{route('mycomsupport.initiative.type', ['type'=> $dataComInit[$init][$initTwo]->type_file, 'slug'=>$dataComInit[$init][$initTwo]->slug])}}" style="text-decoration: none">
-                                    <div class="card border control list-project mb-2">
-                                        <div class="row px-3">
-                                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 p-0 d-flex align-items-cente thumb-katalog">
-                                                <div class="row d-flex justify-content-center">
-                                                    <img src="{{asset('storage/'.$dataComInit[$init][$initTwo]->thumbnail)}}" width="120%" class="thumb card-img-left border-0">
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pl-1 d-flex align-items-center">
-                                                <div class="card-body content-project">
-                                                    <span class="d-block text-dark header-list-project mb-1">{{$dataComInit[$init][$initTwo]->title}}</span>
-                                                    <small>
-                                                        {{$dataComInit[$init][$initTwo]->type_file}}
-                                                    </small>
-                                                    <small class="d-block">{{$dataComInit[$init][$initTwo]->tanggal_upload}}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        @endfor
-                    @endif
-                @endfor
+            <div class="mt-4 mb-2 d-flex mx-auto flex-wrap">
+                <a onclick="getDataComsupDiv()" id="cominit-div" role="button"
+                   class="btn-com mt-2 mr-3 active ">Communication Initiative</a>
+                <a onclick="getDataStraDiv()"  id="strategic-div" role="button"
+                   class="btn-com mt-2 mr-3 ">Strategic Initiative</a>
+                <a onclick="getDataImpl()"  id="implement-div" role="button"
+                   class="btn-com mt-2 mr-3 ">Implementation</a>
             </div>
         </div>
-        <div>
-            <h6>Strategic Initiative</h6>
-            <div class="row">
-                @for($istra = 0; $istra < sizeof($dataStra); $istra++)
-                    @if(!empty($dataStra[$istra]))
-                        @for($straTwo=0; $straTwo < sizeof($dataStra[$istra]); $straTwo++)
-                            <div class="col-md-6 col-sm-12 rowdoc">
-                                <a href="{{route('mycomsupport.strategic.type', ['slug'=>$dataStra[$istra][$straTwo]->slug])}}" style="text-decoration: none">
-                                    <div class="card border control list-project mb-2">
-                                        <div class="row px-3">
-                                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 p-0 d-flex align-items-cente thumb-katalog">
-                                                <div class="row d-flex justify-content-center">
-                                                    <img src="{{asset('storage/'.$dataStra[$istra][$straTwo]->thumbnail)}}" width="120%" class="thumb card-img-left border-0">
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pl-1 d-flex align-items-center">
-                                                <div class="card-body content-project">
-                                                    <span class="d-block text-dark header-list-project mb-1">{{$dataStra[$istra][$straTwo]->nama}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        @endfor
-                    @endif
-                @endfor
-            </div>
-        </div>
-        <div>
-            <h6>Implementation</h6>
-            <div class="row">
-                @for($iimpl = 0; $iimpl < sizeof($dataImpl); $iimpl++)
-                    @if(!empty($dataImpl[$iimpl]))
-                        @for($implTwo=0; $implTwo < sizeof($dataImpl[$iimpl]); $implTwo++)
-                            <div class="col-md-6 col-sm-12 rowdoc">
-                                <a href="{{route('view.implement', ['slug'=>$dataImpl[$iimpl][$implTwo]->slug])}}" style="text-decoration: none">
-                                    <div class="card border control list-project mb-2">
-                                        <div class="row px-3">
-                                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 p-0 d-flex align-items-cente thumb-katalog">
-                                                <div class="row d-flex justify-content-center">
-                                                    <img src="{{asset('storage/'.$dataImpl[$iimpl][$implTwo]->thumbnail)}}" width="120%" class="thumb card-img-left border-0">
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pl-1 d-flex align-items-center">
-                                                <div class="card-body content-project">
-                                                    <span class="d-block text-dark header-list-project mb-1">{{$dataImpl[$iimpl][$implTwo]->title}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        @endfor
-                    @endif
-                @endfor
-            </div>
+        <div id="container-cominit-div">
+            @if($from === 'cominit')
+                <h6>Artikel</h6>
+            @elseif($from === 'strategic')
+                <h6>Strategic Initiative</h6>
+            @elseif($from === 'implementation')
+                <h6>Implementation</h6>
+            @endif
+            <div class="row" id="row-cominit-div"></div>
         </div>
     </div>
 </div>
 @endsection
 @push('page-script')
-{{--  <script src="{{asset_app('assets/js/page/divisi.js')}}"></script>--}}
+    <script src="{{asset_app('assets/js/page/direktorat-comsup.js')}}"></script>
 @endpush

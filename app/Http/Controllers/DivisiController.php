@@ -55,7 +55,7 @@ class DivisiController extends Controller
     }
 
 
-    public function indexDivisiComsup($id)
+    public function indexDivisiComsup($from, $id)
     {
         {
             $this->token_auth = session()->get('token');
@@ -85,7 +85,7 @@ class DivisiController extends Controller
                     $dataStra = $this->data_stra;
                     $dataImpl = $this->data_impl;
                     $tahun = $hasil->data->tahun;
-                    return view('divisi-comsup', compact(['data', 'dataComInit', 'dataStra', 'dataImpl', 'tahun']));
+                    return view('divisi-comsup', compact(['data', 'dataComInit', 'dataStra', 'dataImpl', 'tahun', 'from']));
                 }else{
                     session()->flash('error',$hasil->data->message);
                 }

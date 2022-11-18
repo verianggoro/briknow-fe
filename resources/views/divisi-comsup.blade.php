@@ -4,6 +4,7 @@
   <link rel="stylesheet" href="{{asset_app('assets/css/fa.css')}}">
   <link rel="stylesheet" href="{{asset_app('assets/css/fa-oth.css')}}">
   <link rel="stylesheet" href="{{asset_app('assets/css/plugin/load/sklt-load.css')}}">
+  <link rel="stylesheet" href="{{ asset_app('assets/css/comsupport.css') }}">
       <style>
         .kaki{
             bottom: 0px;
@@ -45,6 +46,11 @@
 @section('back', route('katalog.index'))
 @section('id_consultant', $data->id)
 @section('content')
+    <div class="senddataloader">
+        <div class="loading">
+            <img src="{{asset_app('assets/img/senddataloader.gif')}}" style="width:50px;height:50px">
+        </div>
+    </div>
 <div class="row judul">
   <div class="col-md-12 px-0 header-detail">
     <div class="row">
@@ -68,99 +74,39 @@
 <div class="row judul">
     <div class="col-lg-9 col-md-8 col-sm-12 px-0 text-justify">
         <div>
-            <h6>Communication Initiative</h6>
-            <div class="row">
-                @forelse($dataComInit as $itemComInit)
-                    <div class="col-md-6 col-sm-12 rowdoc">
-                        <a href="{{route('mycomsupport.initiative.type', ['type'=> $itemComInit->type_file, 'slug'=>$itemComInit->slug])}}" style="text-decoration: none">
-                            <div class="card border control list-project mb-2">
-                                <div class="row px-3">
-                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 p-0 d-flex align-items-cente thumb-katalog">
-                                        <div class="row d-flex justify-content-center">
-                                            <img src="{{asset('storage/'.$itemComInit->thumbnail)}}" width="120%" class="thumb card-img-left border-0">
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pl-1 d-flex align-items-center">
-                                        <div class="card-body content-project">
-                                            <span class="d-block text-dark header-list-project mb-1">{{$itemComInit->title}}</span>
-                                            <small>
-                                                {{$itemComInit->type_file}}
-                                            </small>
-                                            <small class="d-block">{{$itemComInit->tanggal_upload}}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                @empty
-                    <div class="col-md-12 col-sm-12 rowdoc d-flex justify-content-center">
-                        Tidak Ditemukan Communication Initiative
-                    </div>
-                @endforelse
+            <div class="mt-4 mb-2 d-flex mx-auto flex-wrap">
+                <a onclick="getDataComsupDiv()" id="cominit-div" role="button"
+                   class="btn-com mt-2 mr-3 active ">Communication Initiative</a>
+                <a onclick="getDataStraDiv()"  id="strategic-div" role="button"
+                   class="btn-com mt-2 mr-3 ">Strategic Initiative</a>
+                <a onclick="getDataImpl()"  id="implement-div" role="button"
+                   class="btn-com mt-2 mr-3 ">Implementation</a>
             </div>
         </div>
         <div>
-            <h6>Strategic Initiative</h6>
-            <div class="row">
-                @forelse($dataStra as $itemStra)
-                    <div class="col-md-6 col-sm-12 rowdoc">
-                        <a href="{{route('mycomsupport.strategic.type', ['slug'=>$itemStra->slug])}}" style="text-decoration: none">
-                            <div class="card border control list-project mb-2">
-                                <div class="row px-3">
-                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 p-0 d-flex align-items-cente thumb-katalog">
-                                        <div class="row d-flex justify-content-center">
-                                            <img src="{{asset('storage/'.$itemStra->thumbnail)}}" width="120%" class="thumb card-img-left border-0">
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pl-1 d-flex align-items-center">
-                                        <div class="card-body content-project">
-                                            <span class="d-block text-dark header-list-project mb-1">{{$itemStra->nama}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+            <div class="input-group mb-2 h-100">
+                <input type="text" style="width:20rem; border-radius: 8px 0 0 8px; border-color: #f0f0f0; border-style: solid;padding-left: 12px;border-right: none"
+                       id="searchCominit" placeholder="Cari...">
+                <div class="input-group-prepend">
+                    <div onclick="" class="d-flex align-items-center justify-content-center" style="cursor:pointer;width:2rem; background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                        <i class="fa fa-search fa-sm" aria-hidden="true"></i>
                     </div>
-                @empty
-                    <div class="col-md-12 col-sm-12 rowdoc d-flex justify-content-center">
-                        Tidak Ditemukan Strategic Initiative
-                    </div>
-                @endforelse
+                </div>
             </div>
         </div>
-        <div>
-            <h6>Implementation</h6>
-            <div class="row">
-                @forelse($dataImpl as $itemImpl)
-                    <div class="col-md-6 col-sm-12 rowdoc">
-                        <a href="{{route('view.implement', ['slug'=>$itemImpl->slug])}}" style="text-decoration: none">
-                            <div class="card border control list-project mb-2">
-                                <div class="row px-3">
-                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 p-0 d-flex align-items-cente thumb-katalog">
-                                        <div class="row d-flex justify-content-center">
-                                            <img src="{{asset('storage/'.$itemImpl->thumbnail)}}" width="120%" class="thumb card-img-left border-0">
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pl-1 d-flex align-items-center">
-                                        <div class="card-body content-project">
-                                            <span class="d-block text-dark header-list-project mb-1">{{$itemImpl->title}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                @empty
-                    <div class="col-md-12 col-sm-12 rowdoc d-flex justify-content-center">
-                        Tidak Ditemukan Implementation
-                    </div>
-                @endforelse
-            </div>
+        <div id="container-cominit-div">
+            @if($from === 'cominit')
+                <h6>Artikel</h6>
+            @elseif($from === 'strategic')
+                <h6>Strategic Initiative</h6>
+            @elseif($from === 'implementation')
+                <h6>Implementation</h6>
+            @endif
+            <div class="row" id="row-cominit-div"></div>
         </div>
     </div>
 </div>
 @endsection
 @push('page-script')
-{{--  <script src="{{asset_app('assets/js/page/divisi.js')}}"></script>--}}
+    <script src="{{asset_app('assets/js/page/divisis-comsup.js')}}"></script>
 @endpush
