@@ -158,7 +158,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                     for (let index2=0; index2 < data.data.content[index].data.length; index2++){
                         if (data.data.content[index].id === 'article'){
                             $("#ContentArticle").append(`<div class="col-2 justify-content-center">
-                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/article'}">
+                                                        <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -167,7 +167,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                     </div>`);
                         }else if(data.data.content[index].id === 'video'){
                             $("#ContentVideo").append(`<div class="col-2 justify-content-center">
-                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/video'}">
+                                                        <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -176,7 +176,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                     </div>`);
                         }else if(data.data.content[index].id === 'podcast'){
                             $("#ContentPodcast").append(`<div class="col-2 justify-content-center">
-                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/podcast'}">
+                                                        <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -185,7 +185,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                     </div>`);
                         }else if(data.data.content[index].id === 'instagram'){
                             $("#ContentIg").append(`<div class="col-2 justify-content-center">
-                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/instagram'}">
+                                                        <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -194,7 +194,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                     </div>`);
                         }else if(data.data.content[index].id === 'transformation'){
                             $("#ContentTrans").append(`<div class="col-2 justify-content-center">
-                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/transformation'}">
+                                                        <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -203,7 +203,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                     </div>`);
                         }else if(data.data.content[index].id === 'logo'){
                             $("#ContentLogo").append(`<div class="col-2 justify-content-center">
-                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/logo'}">
+                                                        <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
@@ -212,7 +212,7 @@ function getDataByProject(page, year, month, divisi, sort, search){
                                                     </div>`);
                         }else if(data.data.content[index].id === 'infographics'){
                             $("#ContentInfo").append(`<div class="col-2 justify-content-center">
-                                                        <a href="${uri+'/mycomsupport/strategic/'+data.data.content[index].data[index2].slug+'/infographics'}">
+                                                        <a href="#">
                                                             <div class="card h-100" style="border-radius: 16px">
                                                                 <img class="img-fluid" src="${uri+'/storage/'+data.data.content[index].data[index2].thumbnail}"
                                                                      alt="Card image cap">
