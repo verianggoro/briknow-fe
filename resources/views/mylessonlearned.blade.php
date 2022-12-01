@@ -84,7 +84,7 @@
                 <div class="p-2 bd-highlight" id="search">
                     <div class="input-group w-100">
                         <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control"
-                               id="searchLessoninit" placeholder="Cari...">
+                            id="searchLessoninit" placeholder="Cari...">
                         <div class="input-group-prepend">
                             <div onclick="searchLesson()" class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;">
                                 <i class="fa fa-search fa-sm" aria-hidden="true"></i>

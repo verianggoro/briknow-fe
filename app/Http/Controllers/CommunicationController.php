@@ -438,7 +438,7 @@ class CommunicationController extends Controller
             $this->dataImplementation = $hasil->data;
             $data = $this->dataImplementation;
             $favorite = $data->favorite;
-
+            
             return view('view_implementation', compact(['sync_es', 'token_auth', 'data', 'favorite']));
         } else {
             session()->flash('error', $hasil->data->message);

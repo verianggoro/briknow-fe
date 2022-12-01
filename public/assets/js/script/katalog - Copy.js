@@ -1,8 +1,10 @@
 var uri;
-let sort = '';
+let sort = 'disabled';
+let sort2 = 'disabled';
+let search = "*";
 var csrf = '';
 var sklt = `<div class="col-md-6 sklt mt-2"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt mt-2"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div>`;
-let keyParam = '';
+
 
     //  divisi
     var filter_divisi   = [];
@@ -65,8 +67,7 @@ let keyParam = '';
         }
     }
     // console.log(`filter Tahun : ${filter_tahun}`);
-
-    //  Lesson learne
+    //  lesson learn
     var filter_lessonlearn = [];
     filter_lessonlearn = localStorage.getItem('fil_les')??[];
     console.log(`filter_lessonlearn : ${filter_lessonlearn}`);
@@ -115,18 +116,44 @@ let per_page = 10;
 // filter
 var centang = `<svg class="w-6 h-6 mr-2 centang float-right" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
 var centang2 = `<svg class="w-6 h-6 mr-2 centang2 float-right" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
-
-// Logic Ascending
+$("#baru").click(function(e){
+    from = 0;
+    all = 0;
+    data_inpage = 0;
+    page_active = 0;
+    $('.centang').remove();
+    if (sort == 'desc') {
+        sort = 'disabled';
+    }else{
+        sort = 'desc';
+        $('#baru').append(centang);
+    }
+    getData();
+});
+$("#lama").click(function(e){
+    from = 0;
+    all = 0;
+    data_inpage = 0;
+    page_active = 0;
+    $('.centang').remove();
+    if (sort == 'asc') {
+        sort = 'disabled';
+    }else{
+        sort = 'asc';
+        $('#lama').append(centang);
+    }
+    getData();
+});
 $("#az").click(function(e){
     from = 0;
     all = 0;
     data_inpage = 0;
     page_active = 0;
     $('.centang2').remove();
-    if (sort == 'asc') {
-        sort = '';
+    if (sort2 == 'asc') {
+        sort2 = 'disabled';
     }else{
-        sort = 'asc';
+        sort2 = 'asc';
         $('#az').append(centang2);
     }
     getData();
@@ -137,10 +164,10 @@ $("#za").click(function(e){
     data_inpage = 0;
     page_active = 0;
     $('.centang2').remove();
-    if (sort == 'desc') {
-        sort = '';
+    if (sort2 == 'desc') {
+        sort2 = 'disabled';
     }else{
-        sort = 'desc';
+        sort2 = 'desc';
         $('#za').append(centang2);
     }
     getData();
@@ -229,31 +256,26 @@ const paging = (page_urut) =>{
     getData();
 }
 
-function searchLesson(){
-    keyParam = document.getElementById("search-form").value;
-    getData(keyParam)
-}
-
 // pencarian
-// $("#search-form").submit(function(e){
-//     if (!e.isDefaultPrevented()){
-//         from = 0;
-//         all = 0;
-//         data_inpage = 0;
-//         page_active = 0;
+$("#search-form").submit(function(e){
+    if (!e.isDefaultPrevented()){
+        from = 0;
+        all = 0;
+        data_inpage = 0;
+        page_active = 0;
 
-//         var tampung = e.target[0].value;
-//         if (tampung == "" || !tampung.trim().length) {
-//             search = "*";
-//         }else{
-//             search = `*${tampung}*`;
-//         }
-//         $(".input-search").attr('disabled',true);
-//         $(".btn-search").attr('disabled',true);
-//         getData();
-//     }
-//     return false;
-// });
+        var tampung = e.target[0].value;
+        if (tampung == "" || !tampung.trim().length) {
+            search = "*";
+        }else{
+            search = `*${tampung}*`;
+        }
+        $(".input-search").attr('disabled',true);
+        $(".btn-search").attr('disabled',true);
+        getData();
+    }
+    return false;
+});
 
 // filter
     // divisi
@@ -409,6 +431,7 @@ function searchLesson(){
             localStorage.setItem("fil_thn",filter_tahun);
             getData();
         })
+
         // lessonlearn
         $(".fil_les_d").change(function(e){
             if ($(this).prop('checked')==true){ 
@@ -460,160 +483,86 @@ function searchLesson(){
             localStorage.setItem("fil_les",filter_lessonlearn);
             getData();
         })
-
-function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
+  
 // get data
-const getData = (search = '') =>{
+const getData = () =>{
     // filter
     var h_div="";
     for (let index = 0; index < filter_divisi.length; index++) {
         if (h_div   ==  "") {
             h_div   =  `${filter_divisi[index]}`;
         }else{
-            h_div   +=  `-${filter_divisi[index]}`;
+            h_div   +=  `,${filter_divisi[index]}`;
         }
     }
-    var h_kon = "";
+    var h_kon="";
     for (let index = 0; index < filter_konsultant.length; index++) {
         if (h_kon   ==  "") {
             h_kon   =  `${filter_konsultant[index]}`;
         }else{
-            h_kon   +=  `-${filter_konsultant[index]}`;
+            h_kon   +=  `,${filter_konsultant[index]}`;
         }
     }
-    console.log(h_kon);
     var h_thn="";
     for (let index = 0; index < filter_tahun.length; index++) {
         if (h_thn   ==  "") {
             h_thn   =  `${filter_tahun[index]}`;
         }else{
-            h_thn   +=  `-${filter_tahun[index]}`;
+            h_thn   +=  `,${filter_tahun[index]}`;
         }
     }
+    // console.log(h_thn);
     var h_les="";
     for (let index = 0; index < filter_lessonlearn.length; index++) {
         if (h_les   ==  "") {
             h_les   =  `${filter_lessonlearn[index]}`;
         }else{
-            h_les   +=  `-${filter_lessonlearn[index]}`;
+            h_les   +=  `,${filter_lessonlearn[index]}`;
         }
     }
 
-    let url;
-    url = `${getCookie('url_be')}api/kat?search=${search}&tahap=${h_les}&divisi=${h_div}&consultant=${h_kon}&sort=${sort}`;
-    console.log(url);
-    // &tahun=${h_thn}&lesson=${h_les}
-
+    // parsing
+    var url = `${uri}/kat`;
     $.ajax({
         url: url,
-        type: "get",
-        beforeSend: function(xhr){
-            xhr.setRequestHeader("Authorization", "Bearer "+getCookie('token'));
-            $('.senddataloader').show();
+        headers: {'X-CSRF-TOKEN': csrf},
+        type: "post",
+        data: {sort:sort,sort2:sort2,from:from,search:search,f_divisi:h_div,f_konsultant:h_kon,f_tahun:h_thn,f_lessonlearn:h_les},
+        beforeSend: function()
+        {
+            $('.pagination').remove();
+            $('.data').remove();
+
+            // sklt
+            $('.sklt').remove();
+            $("#result").append(sklt);
         },
         success: function(data){
-            $('.senddataloader').hide();
-            $("#result").html("");
-            if (data.data.length !== 0){
-                for (let i=0; i < data.data.length; i++) {
-                    $("#result").append(`
-                    <div class="col-lg-6 col-sm-12 data">
-                        <a href="${uri+ '/project/'+data.data[i].slug}" class="text-decoration-none">
-                            <div class="card border control list-project mb-2">
-                                <div class="row px-3">
-                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 p-0 d-flex align-items-center thumb-katalog">
-                                        <div class="row d-flex justify-content-center">
-                                            <img src="${uri+ '/storage/'+data.data[i].thumbnail}" width="120%" class="card-img-left border-0 rounded thumb">
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pl-1">
-                                        <div class="card-body content-project">
-                                            <span class="d-block text-dark header-list-project mb-1">${data.data[i].nama}</span>
-                                            <small>
-                                                ${data.data[i].consultant == '' ? 'Internal' : data.data[i].consultant[0].nama}
-                                            </small>
-                                            <small class="d-block">${data.data[i].project_managers.nama}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    `)
-                }
-            }else{
-                $("#result").append(`
-                <div class="p-2 w-100 pt-5 text-center">
-                    <img src="${uri}/assets/img/forum_kosong_1.png" style="width: 25%; height: fit-content">
-                    <h5 class="font-weight-bold mt-5 mb-1">Oops.. Project tidak ditemukan</h5>
-                    <p class="w-100 text-center font-weight-bold">Coba cari project lain</p>
-                </div>    
-                `)
+            if(data.html == "" || data.html == null){
+                // sklt
+                $('.sklt').fadeOut().remove();
+                return;
             }
+            
+            // sklt
+            $('.sklt').fadeOut().remove();
+
+            // innert html
+            $("#result").append(data.html);
+            // count data
+            all = data.all;
+            // paginate
+            if (all > 0) {
+                paginator();
+            }
+            // set default input form
+            $(".input-search").attr('disabled',false);
+            $(".btn-search").attr('disabled',false);
         },
         error : function(e){
             alert(e);
         }
     });
-    // console.log(h_thn);
-
-    // parsing
-    // var url = `${uri}/kat`;
-    // $.ajax({
-    //     url: url,
-    //     headers: {'X-CSRF-TOKEN': csrf},
-    //     type: "post",
-    //     data: {sort:sort,sort2:sort2,from:from,search:search,f_divisi:h_div,f_konsultant:h_kon,f_tahun:h_thn,f_lessonlearn:h_les},
-    //     beforeSend: function()
-    //     {
-    //         $('.pagination').remove();
-    //         $('.data').remove();
-
-    //         // sklt
-    //         $('.sklt').remove();
-    //         $("#result").append(sklt);
-    //     },
-    //     success: function(data){
-    //         if(data.html == "" || data.html == null){
-    //             // sklt
-    //             $('.sklt').fadeOut().remove();
-    //             return;
-    //         }
-            
-    //         // sklt
-    //         $('.sklt').fadeOut().remove();
-
-    //         // innert html
-    //         $("#result").append(data.html);
-    //         // count data
-    //         all = data.all;
-    //         // paginate
-    //         if (all > 0) {
-    //             paginator();
-    //         }
-    //         // set default input form
-    //         $(".input-search").attr('disabled',false);
-    //         $(".btn-search").attr('disabled',false);
-    //     },
-    //     error : function(e){
-    //         alert(e);
-    //     }
-    // });
 }
 
 getData();

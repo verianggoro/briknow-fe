@@ -69,7 +69,7 @@ class KontribusiController extends Controller
             $result     = curl_exec ($ch);
             $hasil      = json_decode($result);
             // return response()->json($hasil);
-            // dd($hasil);
+            // return dd($hasil);
             $tgl_mulai = Carbon::now();
             if (isset($hasil->status)) {
                 if ($hasil->status == 1) {
@@ -325,7 +325,7 @@ class KontribusiController extends Controller
             'thumbnail'     => "required",
             'direktorat'    => "required",
             'divisi'        => 'required',
-            'nama_project'  => 'required',
+            'project'  => 'required',
             'tgl_mulai'     => 'required',
             'pm'            => 'required',
             'emailpm'       => 'required',
@@ -333,7 +333,7 @@ class KontribusiController extends Controller
             'piloting'      => 'required',
             'rollout'       => 'required',
             'sosialisasi'   => 'required',
-            'link'          => 'required',
+            // 'link'          => 'required',
             'checker'       => 'required',
             'signer'        => 'required',
         ]);
@@ -416,7 +416,7 @@ class KontribusiController extends Controller
                 'thumbnail'                 => request()->thumbnail,
                 'direktorat'                => request()->direktorat,
                 'divisi'                    => request()->divisi,
-                'nama_project'              => request()->nama_project,
+                // 'nama_project'              => request()->nama_project,
                 'status'                    => $status,
                 'tgl_mulai'                 => request()->tgl_mulai,
                 'tgl_selesai'               => $tgl_selesai,
@@ -432,13 +432,14 @@ class KontribusiController extends Controller
                 'attach_rollout'            => $attach_rollout,
                 'deskripsi_sosialisasi'     => $desc_sosialisasi,
                 'attach_sosialisasi'        => $attach_sosialisasi,
-                'project'                   => request()->link,
+                'project'                   => request()->project,
                 'is_new_project'            => request()->is_new,
                 'user'                      => $user,
                 'checker'                   => request()->checker,
                 'signer'                    => request()->signer,
                 'token_bri'                 => session()->get('token_bri'),
             ];
+            
             // dd($postData);
             curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/managecommunication/implementation/upload/$id");
             curl_setopt($ch, CURLOPT_POST, 1);

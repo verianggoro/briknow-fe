@@ -35,7 +35,7 @@
         <div class="mt-4 mb-2 d-flex mx-auto flex-wrap">
             @forelse($step_list as $item)
                 <a href="{{route('implementation.steptus', ['step'=>$item['id']])}}"  id="{{$item['id']}}" role="button"
-                    class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? 'active disabled' : ''}}">{{$item['name']}}</a>
+                class="btn-com mt-2 mr-3 {{request()->path() == $item['path']  ? 'active disabled' : ''}}">{{$item['name']}}</a>
             @empty
             @endforelse
         </div>
@@ -114,6 +114,6 @@
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
 <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
 <script src="{{asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js')}}"></script>
-<script src="{{asset_app('assets/js/page/implementation.js')}}"></script>
+<script src="{{asset_app('assets/js/page/implementation-publish.js')}}"></script>
 
 @endpush

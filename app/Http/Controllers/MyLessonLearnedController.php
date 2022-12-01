@@ -35,7 +35,6 @@ class MyLessonLearnedController extends Controller
             $direktorat = [];
             $divisiRes = [];
 
-
             if ($hasilDivisi->status == 1) {
                 $this->direktorat = $hasilDivisi->data->direktorat;
                 $divisiRes = $hasilDivisi->data->divisi;
@@ -103,7 +102,6 @@ class MyLessonLearnedController extends Controller
             $hasilDivisi = json_decode($resultDivisi);
             $direktorat = [];
             $divisiRes = [];
-
 
             if ($hasilDivisi->status == 1) {
                 $this->direktorat = $hasilDivisi->data->direktorat;

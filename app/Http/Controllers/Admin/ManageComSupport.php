@@ -25,17 +25,30 @@ class ManageComSupport extends Controller
         return redirect('managecommunication/implementation/piloting');
     }
 
-    public function comInitType($type)
+    public function comInitType($type, $status = null)
     {
-        $type_list = (object) array(
-            array("id" => "article", "name" => "Articles", "path" => "managecommunication/communicationinitiative/article"),
-            array("id" => "logo", "name" => "Icon, Logo, Maskot BRIVO", "path" => "managecommunication/communicationinitiative/logo"),
-            array("id" => "infographics", "name" => "Infographics", "path" => "managecommunication/communicationinitiative/infographics"),
-            array("id" => "transformation", "name" => "Transformation Journey", "path" => "managecommunication/communicationinitiative/transformation"),
-            array("id" => "podcast", "name" => "Podcast", "path" => "managecommunication/communicationinitiative/podcast"),
-            array("id" => "video", "name" => "Video Content", "path" => "managecommunication/communicationinitiative/video"),
-            array("id" => "instagram", "name" => "Instagram Content", "path" => "managecommunication/communicationinitiative/instagram"),
-        );
+        if (!empty($status) && $status == 'publish') {
+            $type_list = (object) array(
+                array("id" => "article", "name" => "Articles", "path" => "managecommunication/communicationinitiative/article/publish"),
+                array("id" => "logo", "name" => "Icon, Logo, Maskot BRIVO", "path" => "managecommunication/communicationinitiative/logo/publish"),
+                array("id" => "infographics", "name" => "Infographics", "path" => "managecommunication/communicationinitiative/infographics/publish"),
+                array("id" => "transformation", "name" => "Transformation Journey", "path" => "managecommunication/communicationinitiative/transformation/publish"),
+                array("id" => "podcast", "name" => "Podcast", "path" => "managecommunication/communicationinitiative/podcast/publish"),
+                array("id" => "video", "name" => "Video Content", "path" => "managecommunication/communicationinitiative/video/publish"),
+                array("id" => "instagram", "name" => "Instagram Content", "path" => "managecommunication/communicationinitiative/instagram/publish"),
+            );
+        } else {
+            $type_list = (object) array(
+                array("id" => "article", "name" => "Articles", "path" => "managecommunication/communicationinitiative/article"),
+                array("id" => "logo", "name" => "Icon, Logo, Maskot BRIVO", "path" => "managecommunication/communicationinitiative/logo"),
+                array("id" => "infographics", "name" => "Infographics", "path" => "managecommunication/communicationinitiative/infographics"),
+                array("id" => "transformation", "name" => "Transformation Journey", "path" => "managecommunication/communicationinitiative/transformation"),
+                array("id" => "podcast", "name" => "Podcast", "path" => "managecommunication/communicationinitiative/podcast"),
+                array("id" => "video", "name" => "Video Content", "path" => "managecommunication/communicationinitiative/video"),
+                array("id" => "instagram", "name" => "Instagram Content", "path" => "managecommunication/communicationinitiative/instagram"),
+            );
+        }
+    
         $type_array = array("article", "logo", "infographics", "transformation", "podcast", "video", "instagram");
         if (!in_array($type, $type_array)) {
             abort(404);
@@ -44,7 +57,11 @@ class ManageComSupport extends Controller
         $sync_es = 0;
         $token_auth = $this->token_auth;
 
-        return view('admin.managecomsupport.communication-initiative', compact(['type', 'type_list', 'sync_es', 'token_auth']));
+        if (!empty($status)) {
+            return view('admin.managecomsupport.communication-initiative-publish', compact(['type', 'type_list', 'status', 'sync_es', 'token_auth']));
+        } else {
+            return view('admin.managecomsupport.communication-initiative', compact(['type', 'type_list', 'sync_es', 'token_auth']));
+        }
     }
 
     public function strategic() {
@@ -73,7 +90,7 @@ class ManageComSupport extends Controller
         return view('admin.managecomsupport.strategic-type', compact(['token_auth', 'slug', 'tipe']));
     }
 
-    public function getAllComInitiative(Request $request, $type) {
+    public function getAllComInitiative(Request $request, $type, $status = null) {
         $this->token_auth = session()->get('token');
         try {
             $limit = intval($request->get('limit', 10));
@@ -97,7 +114,7 @@ class ManageComSupport extends Controller
                 'Accept: application/json',
                 "Authorization: Bearer $this->token_auth",
             ];
-            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/communicationinitiative/$type$query");
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/communicationinitiative/$type/$status$query");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -463,13 +480,22 @@ class ManageComSupport extends Controller
         }
     }
 
-    public function implementationStep($step)
+    public function implementationStepTus($step, $status = null)
     {
-        $step_list = (object) array(
-            array("id" => "piloting", "name"    => "Piloting", "path" => "managecommunication/implementation/piloting"),
-            array("id" => "roll-out", "name"    => "Roll-Out", "path" => "managecommunication/implementation/roll-out"),
-            array("id" => "sosialisasi", "name" => "Sosialisasi", "path" => "managecommunication/implementation/sosialisasi")
-        );
+        if (!empty($status) && $status == 'publish') {
+            $step_list = (object) array(
+                array("id" => "piloting", "name"    => "Piloting", "path" => "managecommunication/implementation/piloting/publish"),
+                array("id" => "roll-out", "name"    => "Roll-Out", "path" => "managecommunication/implementation/roll-out/publish"),
+                array("id" => "sosialisasi", "name" => "Sosialisasi", "path" => "managecommunication/implementation/sosialisasi/publish")
+            );
+        } else {
+            $step_list = (object) array(
+                array("id" => "piloting", "name"    => "Piloting", "path" => "managecommunication/implementation/piloting"),
+                array("id" => "roll-out", "name"    => "Roll-Out", "path" => "managecommunication/implementation/roll-out"),
+                array("id" => "sosialisasi", "name" => "Sosialisasi", "path" => "managecommunication/implementation/sosialisasi")
+            );
+        }
+    
         $step_array = array("piloting", "roll-out", "sosialisasi");
         if (!in_array($step, $step_array)) {
             session()->flash('error', 'Halaman tidak ditemukan');
@@ -479,10 +505,14 @@ class ManageComSupport extends Controller
         $sync_es = 0;
         $token_auth = $this->token_auth;
 
-        return view('admin.managecomsupport.implementation', compact(['step', 'step_list', 'sync_es', 'token_auth']));
+        if (!empty($status)) {
+            return view('admin.managecomsupport.implementation-publish', compact(['step', 'step_list', 'status', 'sync_es', 'token_auth']));
+        } else {
+            return view('admin.managecomsupport.implementation', compact(['step', 'step_list', 'sync_es', 'token_auth']));
+        }
     }
 
-    public function getAllImplementation(Request $request, $step) {
+    public function getAllImplementation(Request $request, $step, $status = null) {
         $this->token_auth = session()->get('token');
         try {
             $limit = intval($request->get('limit', 10));
@@ -506,7 +536,7 @@ class ManageComSupport extends Controller
                 'Accept: application/json',
                 "Authorization: Bearer $this->token_auth",
             ];
-            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/implementation/$step$query");
+            curl_setopt($ch, CURLOPT_URL,config('app.url_be')."api/implementation/$step/$status$query");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

@@ -856,7 +856,7 @@ const getgraph3 = (data) => {
         series.tooltip.keepTargetHover = true;
         // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
         series.columns.template.strokeWidth = 0;
-        series.columns.template.tooltipHTML = '<a class="text-decoration-none" href="{urlField+ca}" target="_blank"><b>{categoryX} : {valueY}</b></a>';
+        series.columns.template.tooltipHTML = '<a class="text-decoration-none" href="{urlField}" target="_blank"><b>{categoryX} : {valueY}</b></a>';
 
         series.tooltip.pointerOrientation = "vertical";
         // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
@@ -1777,17 +1777,6 @@ $(document).ready(function () {
 
 });
 
-function searchKatalog() {
-    let keySearch = $('#search-form').val()
-    localStorage.removeItem("key_search");
-
-    if (keySearch.length > 0){
-        localStorage.setItem("key_search",keySearch);
-    }
-
-    window.location.assign(uri+'/katalog');
-}
-
 function toKatalog() {
     let yearSelected = $('#selectYear').val()
     let divisiSelected = $('#divisi').val()
@@ -1816,10 +1805,10 @@ function toKatalog() {
         localStorage.setItem("fil_kon",conSelected.join(','));
     }
 
-    if (lesSelected.length > 0){
+    if (lesSelected.length > 0) {
         localStorage.setItem("fil_les",lesSelected.join(','));
     }
-
+    
     window.location.assign(uri+'/katalog');
 }
 
@@ -1865,9 +1854,9 @@ const cekDivisi = (selOrUn, value) => {
                     if (selOrUn === 'select') {
                         // div_short.push(data.data[index].shortname)
                         //option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
-                        $('#divisi').append(`<option value='${data.data[index].id}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`);
+                        $('#divisi').append(`<option value='${data.data[index].shortname}' data-value='${data.data[index].divisi}' selected>${data.data[index].divisi}</option>`);
                     } else {
-                        $(`#divisi option[value="${data.data[index].id}"]`).detach();
+                        $(`#divisi option[value="${data.data[index].shortname}"]`).detach();
                         // div_short.push(data.data[index].shortname)
                         //option += `<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`;
                         //$('#divisi').append(`<option value='${data.data[index].id}' data-value='${data.data[index].divisi}'>${data.data[index].divisi}</option>`);

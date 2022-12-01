@@ -61,7 +61,7 @@
                         <div class="col-md-4 col-sm-6">
                             <span class="d-block font-weight-bold">Konsultan</span>
                             @php $last = end($data->consultant); @endphp
-                            @forelse ($data->consultant as $consultant)
+                            @forelse ($data->project->consultant as $consultant)
                                 @if ($consultant == $last)
                                     <a href="{{route('consultant.index',$consultant->id)}}" class="fs-10"><span>{{$consultant->nama}}</span></a>
                                 @else

@@ -230,6 +230,36 @@ function ajaxRequest(params) {
     });
 }
 
+function ajaxRequestPublished(params) {
+    const status = window.location.pathname.substring(window.location.pathname.lastIndexOf('/type') + 1)
+    const typeTus = status.replace('/managecommunication', '')
+    const url = `${uri}${typeTus}`
+    console.log(url);
+
+    $.ajax({
+        url: url + '?' + $.param(params.data),
+        type: "get",
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+            $('.senddataloader').show();
+        },
+        success: function(data){
+            let pagination_height = data.totalRow === data.total ? 0 : 54
+            const height = data.totalRow === 0 ? 105 : 51 + (data.totalRow * 108) + pagination_height
+            $table.bootstrapTable( 'resetView' , {height: height} );
+            $('.senddataloader').hide();
+            params.success(data)
+            /*if (data.total === 0) {
+                $table.find('tbody').find('.no-records-found').children().text('no data')
+            }*/
+        },
+        error : function(e){
+            $('.senddataloader').hide();
+            alert(e);
+        }
+    });
+}
+
 function getIdSelections() {
     return $.map($table.bootstrapTable('getSelections'), function (row) {
         return row.id

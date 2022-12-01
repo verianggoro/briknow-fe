@@ -171,13 +171,12 @@
                                 <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
                                 </span>
                             </div>
-                            <input type="text" name="search" class="form-control main-cari-2iaef" id="search-form"
+                            <input type="text" name="search" class="form-control main-cari-2iaef" id="search"
                                    placeholder="Search Project, Consultant, And More...">
                             <div class="dropdown-menu dropdown-menu-right w-100" id="searchResult">
                             </div>
                             <div class="input-group-append">
-                                <a class="btn btn-primary text-white" onclick="searchKatalog()" oncontextmenu="searchKatalog()"
-                                onmousedown="searchKatalog()">Terapkan</a>    
+                                <button class="btn btn-primary px-3`" type="submit" id="button-addon2">Search</button>
                             </div>
                         </div>
                     </div>
@@ -363,14 +362,14 @@
                                     <option value="NULL">Lainnya</option>
                                 </select>
                                 <div class="input-group-prepend ml-3">
-                                <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
-                                </span>
+                                    <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
+                                    </span>
                                 </div>
                                 <select id="consultant" class="mr-auto p-2 form-control select2"
                                         value="{{old('consultant')}}" name="consultant" multiple>
                                     @foreach ($consultant_filter == NULL ? 'Lainnya' : $consultant_filter as $item)
-                                        <option value="{{$item->id }}"
-                                                data-value="{{ $item->id }}">{{ $item->nama }}</option>
+                                        <option value="{{$item->nama }}"
+                                                data-value="{{ $item->nama }}">{{ $item->nama }}</option>
                                     @endforeach
                                 </select>
                                 {{--<input type="text" name="search" class="mr-auto p-2 form-control main-cari-2iaef"
@@ -384,33 +383,29 @@
                             </div>
                             <div class="d-flex justify-content-start">
                                 <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
-                                </span>
+                                    <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
+                                    </span>
                                 </div>
                                 <select id="divisi" class="mr-auto p-2 form-control select2" value="{{old('divisi')}}"
                                         name="divisi[]" multiple>
                                     {{--                                      <option value="" selected disabled>Pilih Unit Kerja</option>--}}
                                 </select>
                                 <div class="input-group-prepend ml-3">
-                                <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
-                                </span>
+                                    <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
+                                    </span>
                                 </div>
-                                    <select id="lessonLearn" class="mr-auto p-2 form-control select2"
-                                            value="{{old('lessonlearn')}}" name="lessonlearn" multiple>
-                                        @foreach ($lessonlearn == NULL ? 'Lainnya' : $lessonlearn as $item)
-                                            <option value="{{$item->tahap }}"
-                                                    data-value="{{ $item->tahap }}">{{ $item->tahap }}</option>
-                                        @endforeach
-                                    </select>
-                                {{-- <select id="lessonLearned" class="mr-auto p-2 form-control select2" value="plan"
-                                        name="lessonLearned">
-                                    <option value="" selected disabled>Pilih Lesson Learned</option>
-                                    <option value="plan" data-value="plan">Plan</option>
+                                <select id="lessonLearn" class="mr-auto p-2 form-control select2"
+                                        value="{{old('lessonlearn')}}" name="lessonlearn" multiple>
+                                    {{-- <option value="plan" data-value="plan">Plan</option>
                                     <option value="procurement" data-value="procurement">Procurement</option>
                                     <option value="development" data-value="development">Development</option>
                                     <option value="pilot" data-value="pilot">Pilot Run</option>
-                                    <option value="implementation" data-value="implementation">Implementation</option>
-                                </select> --}}
+                                    <option value="implementation" data-value="implementation">Implementation</option> --}}
+                                    @foreach ($lessonlearn == NULL ? 'Lainnya' : $lessonlearn as $item)
+                                        <option value="{{$item->tahap }}" 
+                                                data-value="{{ $item->tahap }}">{{ $item->tahap }}</option>
+                                    @endforeach
+                                </select> 
                             </div>
                         </div>
                         <div class="mt-3 w-50">

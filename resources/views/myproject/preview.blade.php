@@ -204,7 +204,7 @@
 <div class="cardbg-white bg-white w-100 px-3 pb-5">
   <div class="row judul mt-4">
     <div class="col-md-2 col-sm-12 d-flex justify-content-center mb-2">
-        <img src="{{Config::get('app.url').'storage/'.$data->thumbnail}}" alt="" id="prev_thumbnail" class="img-detail">
+        <img src="{{Config::get('app.url').$data->thumbnail}}" alt="" id="prev_thumbnail" class="img-detail">
     </div>
     <div class="col-md-10 col-sm-12 pr-0 header-detail">
       <div class="row">

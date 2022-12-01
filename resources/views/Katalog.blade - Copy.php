@@ -50,20 +50,7 @@
 @section('content')
 <div class="row judul mb-4">
     <div class="col-md-12 px-0">
-        <!-- Search -->
-        <div class="p-2 bd-highlight" id="search">
-            <div class="input-group w-100">
-                <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control"
-                       id="search-form" placeholder="Cari...">
-                <div class="input-group-prepend">
-                    <div onclick="searchLesson()" class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;">
-                        <i class="fa fa-search fa-sm" aria-hidden="true"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Search -->
-        {{-- <form style="width: 100%" action="#" id="search-form">
+        <form style="width: 100%" action="#" id="search-form">
             <label class="sr-only" for="inlineFormInputGroup">Search</label>
             <div class="input-group control border-1 pencarian mb-3">
                 <div class="input-group-prepend">
@@ -75,7 +62,7 @@
                     <button class="btn btn-primary px-3 border-0 btn-search" type="submit" id="button-addon2">Search</button>
                 </div>
             </div>
-        </form> --}}
+        </form>
     </div>
 </div>
 <div class="row judul">
@@ -109,7 +96,7 @@
                 <div class="w-100 collapse" id="collapse{{$urut}}">
                     @forelse($value->divisi as $value2)
                         <div class="col-md-12 mx-0 fs-10 my-1 d-flex align-items-center">
-                            <input type="checkbox" class="check-filter mr-1 fil_div_d" name="" value="{{$value2->id}}" id=""/>
+                            <input type="checkbox" class="check-filter mr-1 fil_div_d" name="" value="{{$value2->shortname}}" id=""/>
                             <label class="m-0">{{$value2->shortname}}</label>
                         </div>
                     @empty
@@ -156,7 +143,7 @@
                                     <div class="row mx-0 mx-0">
                                         @forelse($value->divisi as $value2)
                                             <div class="col-md-6 mx-0 d-flex align-items-center">
-                                                <input type="checkbox" class="check-filter fil_div mr-1" name="" value="{{$value2->id}}" id="">
+                                                <input type="checkbox" class="check-filter fil_div mr-1" name="" value="{{$value2->shortname}}" id="">
                                                 {{$value2->shortname}}
                                             </div>
                                         @empty
@@ -189,7 +176,7 @@
             <?php $urut++; ?>
             <div class="row col-md-12 px-2 py-1 mx-0 d-flex align-items-center fs-10">
                  @if(!empty($value->nama))
-                    <input type="checkbox" class="check-filter mr-1 fil_kon_d" name="" value="{{$value->id}}" id=""/>{{\Str::limit($value->nama,25,'..')}}
+                    <input type="checkbox" class="check-filter mr-1 fil_kon_d" name="" value="{{$value->nama}}" id=""/>{{\Str::limit($value->nama,25,'..')}}
                 @endif  
             </div>
             @if ($urut == 3)
@@ -219,7 +206,7 @@
                                 <?php $urut++; ?>
                                 <div class="col-md-6 py-1 mx-0">
                                     <small class="d-flex align-items-center fs-10">
-                                        <input type="checkbox" class="check-filter fil_kon mr-1" name="" value="{{$value->id}}" id="">
+                                        <input type="checkbox" class="check-filter fil_kon mr-1" name="" value="{{$value->nama}}" id="">
                                         {{$value->nama}}
                                     </small>
                                 </div>
@@ -403,6 +390,9 @@
                     Urutkan
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <button class="btn dropdown-item" id="baru"><svg class="w-6 h-6 mr-1" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Terbaru</button>
+                    <button class="btn dropdown-item" id="lama"><svg class="w-6 h-6 mr-1" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Terlama</button>
+                    <hr class="w-100 my-0"/>
                     <button class="btn dropdown-item" id="az"><svg class="w-6 h-6 mr-1" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>A - Z</button>
                     <button class="btn dropdown-item" id="za">
                         <svg class="w-6 h-6 mr-1" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"></path></svg>
@@ -412,13 +402,8 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="w-100 min-400 data">
-            <div class="col-md-12 row mx-0 data" id="result">
-            
-            </div>
-        </div>
-        {{-- <div class="col-md-6 sklt mt-2">
+    <div class="row" id="result">
+        <div class="col-md-6 sklt mt-2">
             <div class="ph-item border control list-project mb-2">
                 <div class="ph-col-4 mb-0">
                     <div class="ph-picture"></div>
@@ -507,7 +492,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
   </div>
 </div>

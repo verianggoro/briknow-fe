@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset_app('assets/css/fa-admin.css') }}">
     <link rel="stylesheet" href="{{ asset_app('assets/css/fa-oth.css') }}">
     <link rel="stylesheet" href="{{ asset_app('assets/css/fa-proj.css') }}">
-    <link rel="stylesheet" href="{{asset_app('assets/css/select2-bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ asset_app('assets/css/select2-bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset_app('assets/css/review.css') }}">
 @endpush
 
@@ -18,16 +18,23 @@
             <h3 class="pl-2 pt-5">Manage Lesson Learned</h3>
             <div class="d-flex justify-content-start mb-3 px-3">
                 <div class="p-2 bd-highlight">
-                    <button id="btn-sort-lesson" data-toggle="dropdown" class="btn btn-outline-secondary bg-white dropdown-toggle">
+                    <button id="btn-sort-lesson" data-toggle="dropdown"
+                        class="btn btn-outline-secondary bg-white dropdown-toggle">
                         Tahap Proyek
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left">
-                        <li onclick="sortByTahap('sortInitLesson')" id="sortInitLesson" data-value="init" class="dropdown-item">Tahap Proyek</li>
-                        <li onclick="sortByTahap('planSort')" id="planSort" data-value="plan" class="dropdown-item">Plan</li>
-                        <li onclick="sortByTahap('procurementSort')" id="procurementSort" data-value="procurement" class="dropdown-item">Procurement</li>
-                        <li onclick="sortByTahap('devSort')" id="devSort" data-value="development" class="dropdown-item">Development</li>
-                        <li onclick="sortByTahap('pilotSort')" id="pilotSort" data-value="pilot" class="dropdown-item">Pilot Run</li>
-                        <li onclick="sortByTahap('implSort')" id="implSort" data-value="implementation" class="dropdown-item">Implementation</li>
+                        <li onclick="sortByTahap('sortInitLesson')" id="sortInitLesson" data-value="init"
+                            class="dropdown-item">Tahap Proyek</li>
+                        <li onclick="sortByTahap('planSort')" id="planSort" data-value="plan" class="dropdown-item">Plan
+                        </li>
+                        <li onclick="sortByTahap('procurementSort')" id="procurementSort" data-value="procurement"
+                            class="dropdown-item">Procurement</li>
+                        <li onclick="sortByTahap('devSort')" id="devSort" data-value="development" class="dropdown-item">
+                            Development</li>
+                        <li onclick="sortByTahap('pilotSort')" id="pilotSort" data-value="pilot" class="dropdown-item">Pilot
+                            Run</li>
+                        <li onclick="sortByTahap('implSort')" id="implSort" data-value="implementation"
+                            class="dropdown-item">Implementation</li>
                     </ul>
                 </div>
             </div>
@@ -43,14 +50,15 @@
                 <!-- Dropdowns -->
                 <div class="p-2 w-25 bd-highlight">
                     <div class="d-flex justify-content-end">
-                        <select name="direktorat" id="direktorat-lesson-init" class="form-control text-black select2" data-live-search="true"
-                                style="height: 44px" value="{{old('direktorat')}}">
+                        <select name="direktorat" id="direktorat-lesson-init" class="form-control text-black select2"
+                            data-live-search="true" style="height: 44px" value="{{ old('direktorat') }}">
                             <option value="" disabled selected>Pilih Direktorat</option>
-                            @if(empty($direktorat))
-                                <option value="finance" data-value="finance">{{$dataList ?? 'NOT FOUND'}}</option>
+                            @if (empty($direktorat))
+                                <option value="finance" data-value="finance">{{ $dataList ?? 'NOT FOUND' }}</option>
                             @else
-                                @foreach($direktorat as $dirContent)
-                                    <option value="{{$dirContent->direktorat }}" data-value="{{ $dirContent->direktorat }}">{{$dirContent->direktorat}}</option>
+                                @foreach ($direktorat as $dirContent)
+                                    <option value="{{ $dirContent->direktorat }}"
+                                        data-value="{{ $dirContent->direktorat }}">{{ $dirContent->direktorat }}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -58,7 +66,8 @@
                 </div>
                 <div class="p-2 w-25 justify-content-end bd-highlight">
                     <div class="d-flex justify-content-end">
-                        <select id="divisi-lesson-init" class="mr-auto p-2 form-control select2" value="{{old('divisi')}}" name="divisi[]"></select>
+                        <select id="divisi-lesson-init" class="mr-auto p-2 form-control select2"
+                            value="{{ old('divisi') }}" name="divisi[]"></select>
                     </div>
                 </div>
                 <!-- Dropdowns -->
@@ -66,10 +75,11 @@
                 <!-- Search -->
                 <div class="p-2 bd-highlight" id="search">
                     <div class="input-group w-100">
-                        <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control"
-                               id="searchLessoninit" placeholder="Cari...">
+                        <input type="text" style="border-radius: 8px 0 0 8px;" class="form-control" id="searchLessoninit"
+                            placeholder="Cari...">
                         <div class="input-group-prepend">
-                            <div onclick="searchLesson()" class="input-group-text" style="background: #f0f0f0; border-radius: 0 8px 8px 0;">
+                            <div onclick="searchLessonc()" class="input-group-text"
+                                style="background: #f0f0f0; border-radius: 0 8px 8px 0;">
                                 <i class="fa fa-search fa-sm" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -80,12 +90,12 @@
             <div class="d-flex justify-content-end mb-3 px-3">
                 <div>
                     Sync Elastic :
-                    @if($sync_es == 0)
+                    @if ($sync_es == 0)
                         <span class="text-success">Done</span>
                     @else
                         <span class="text-warning">
-                    <i class="fa fa-sync fa-spin mr-1" aria-hidden="true" style="font-size:12px"></i>
-                  </span>
+                            <i class="fa fa-sync fa-spin mr-1" aria-hidden="true" style="font-size:12px"></i>
+                        </span>
                     @endif
                 </div>
             </div>
@@ -111,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-{{--                for each--}}
+                {{--                for each --}}
                 <div id="container-review">
                 </div>
                 <div class="d-flex justify-content-sm-end content-pagination" id="pag">
@@ -123,6 +133,6 @@
 @endsection
 
 @push('page-script')
-    <script src="{{asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js')}}"></script>
-    <script src="{{asset_app('assets/js/page/review-lesson.js')}}"></script>
+    <script src="{{ asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset_app('assets/js/page/review-lesson.js') }}"></script>
 @endpush
