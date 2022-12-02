@@ -1,90 +1,88 @@
-var uri;
+let uri;
 let sort = '';
-var csrf = '';
-var sklt = `<div class="col-md-6 sklt mt-2"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt mt-2"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div>`;
-let keyParam = '';
+let csrf = '';
+let sklt = `<div class="col-md-6 sklt mt-2"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt mt-2"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div><div class="col-md-6 sklt"><div class="ph-item border control list-project mb-2"><div class="ph-col-4 mb-0"><div class="ph-picture"></div></div><div class="mb-0"><div class="ph-row"><div class="ph-col-12 big mb-3"></div><div class="ph-col-12"></div><div class="ph-col-12"></div><div class="ph-col-12"></div></div></div></div></div>`;
 
-    //  divisi
-    var filter_divisi   = [];
-    filter_divisi       = localStorage.getItem('fil_div')??[];
-    console.log(`filter_divisi : ${filter_divisi}`);
-    if (filter_divisi   ===  "" || typeof(filter_divisi) === null) {
+//  divisi
+let filter_divisi   = [];
+filter_divisi       = localStorage.getItem('fil_div')??[];
+console.log(`filter_divisi : ${filter_divisi}`);
+if (filter_divisi   ===  "" || typeof(filter_divisi) === null) {
+    filter_divisi   =   [];
+}else{
+    try {
+        filter_divisi = filter_divisi.split(',') === [""] ? [] : filter_divisi.split(',');
+    } catch (error) {
         filter_divisi   =   [];
-    }else{
-        try {
-            filter_divisi = filter_divisi.split(',') === [""] ? [] : filter_divisi.split(',');
-        } catch (error) {
-            filter_divisi   =   [];
-        }
     }
-    if (filter_divisi.length > 0) {
-        for (let index = 0; index < filter_divisi.length; index++) {
-            $(`.fil_div[value="${filter_divisi[index]}"]`).prop('checked',true);
-            $(`.fil_div_d[value="${filter_divisi[index]}"]`).prop('checked',true);
-        }
+}
+if (filter_divisi.length > 0) {
+    for (let index = 0; index < filter_divisi.length; index++) {
+        $(`.fil_div[value="${filter_divisi[index]}"]`).prop('checked',true);
+        $(`.fil_div_d[value="${filter_divisi[index]}"]`).prop('checked',true);
     }
-    // console.log(`filter divisi : ${filter_divisi}`);
+}
 
-    //  konsultan
-    var filter_konsultant = [];
-    filter_konsultant = localStorage.getItem('fil_kon')??[];
-    console.log(`filter_konsultant : ${filter_konsultant}`);
-    if (filter_konsultant   ===  "" || typeof(filter_konsultant) === null) {
-        filter_konsultant   =   [];
-    }else{
-        try {
-            filter_konsultant = filter_konsultant.split(',') === [""] ? [] : filter_konsultant.split(',');
-        } catch (error) {
-            filter_konsultant = [];
-        }
+//  konsultan
+let filter_konsultant = [];
+filter_konsultant = localStorage.getItem('fil_kon')??[];
+console.log(`filter_konsultant : ${filter_konsultant}`);
+if (filter_konsultant   ===  "" || typeof(filter_konsultant) === null) {
+    filter_konsultant   =   [];
+}else{
+    try {
+        filter_konsultant = filter_konsultant.split(',') === [""] ? [] : filter_konsultant.split(',');
+    } catch (error) {
+        filter_konsultant = [];
     }
-    if (filter_konsultant.length > 0) {
-        for (let index = 0; index < filter_konsultant.length; index++) {
-            $(`.fil_kon[value="${filter_konsultant[index]}"]`).prop('checked',true);
-            $(`.fil_kon_d[value="${filter_konsultant[index]}"]`).prop('checked',true);
-        }
+}
+if (filter_konsultant.length > 0) {
+    for (let index = 0; index < filter_konsultant.length; index++) {
+        $(`.fil_kon[value="${filter_konsultant[index]}"]`).prop('checked',true);
+        $(`.fil_kon_d[value="${filter_konsultant[index]}"]`).prop('checked',true);
     }
-    
-    //  Tahun
-    var filter_tahun = [];
-    filter_tahun = localStorage.getItem('fil_thn')??[];
-    console.log(`filter_tahun : ${filter_tahun}`);
-    if (filter_tahun   ===  "") {
-        filter_tahun   =   [];
-    }else{
-        try {
-            filter_tahun = filter_tahun.split(',') === [""] ? [] : filter_tahun.split(',');
-        } catch (error) {
-            filter_tahun = [];
-        }
-    }
-    if (filter_tahun.length > 0) {
-        for (let index = 0; index < filter_tahun.length; index++) {
-            $(`.fil_thn[value="${filter_tahun[index]}"]`).prop('checked',true);
-            $(`.fil_thn_d[value="${filter_tahun[index]}"]`).prop('checked',true);
-        }
-    }
-    // console.log(`filter Tahun : ${filter_tahun}`);
+}
 
-    //  Lesson learne
-    var filter_lessonlearn = [];
-    filter_lessonlearn = localStorage.getItem('fil_les')??[];
-    console.log(`filter_lessonlearn : ${filter_lessonlearn}`);
-    if (filter_lessonlearn   ===  "" || typeof(filter_lessonlearn) === null) {
-        filter_lessonlearn   =   [];
-    }else{
-        try {
-            filter_lessonlearn = filter_lessonlearn.split(',') === [""] ? [] : filter_lessonlearn.split(',');
-        } catch (error) {
-            filter_lessonlearn = [];
-        }
+//  Tahun
+let filter_tahun = [];
+filter_tahun = localStorage.getItem('fil_thn')??[];
+console.log(`filter_tahun : ${filter_tahun}`);
+if (filter_tahun   ===  "") {
+    filter_tahun   =   [];
+}else{
+    try {
+        filter_tahun = filter_tahun.split(',') === [""] ? [] : filter_tahun.split(',');
+    } catch (error) {
+        filter_tahun = [];
     }
-    if (filter_lessonlearn.length > 0) {
-        for (let index = 0; index < filter_lessonlearn.length; index++) {
-            $(`.fil_les[value="${filter_lessonlearn[index]}"]`).prop('checked',true);
-            $(`.fil_les_d[value="${filter_lessonlearn[index]}"]`).prop('checked',true);
-        }
+}
+if (filter_tahun.length > 0) {
+    for (let index = 0; index < filter_tahun.length; index++) {
+        $(`.fil_thn[value="${filter_tahun[index]}"]`).prop('checked',true);
+        $(`.fil_thn_d[value="${filter_tahun[index]}"]`).prop('checked',true);
     }
+}
+// console.log(`filter Tahun : ${filter_tahun}`);
+
+//  Lesson learne
+let filter_lessonlearn = [];
+filter_lessonlearn = localStorage.getItem('fil_les')??[];
+console.log(`filter_lessonlearn : ${filter_lessonlearn}`);
+if (filter_lessonlearn   ===  "" || typeof(filter_lessonlearn) === null) {
+    filter_lessonlearn   =   [];
+}else{
+    try {
+        filter_lessonlearn = filter_lessonlearn.split(',') === [""] ? [] : filter_lessonlearn.split(',');
+    } catch (error) {
+        filter_lessonlearn = [];
+    }
+}
+if (filter_lessonlearn.length > 0) {
+    for (let index = 0; index < filter_lessonlearn.length; index++) {
+        $(`.fil_les[value="${filter_lessonlearn[index]}"]`).prop('checked',true);
+        $(`.fil_les_d[value="${filter_lessonlearn[index]}"]`).prop('checked',true);
+    }
+}
 
 // meta url
 const metas = document.getElementsByTagName('meta');
@@ -113,8 +111,8 @@ let page_active = 0;
 let per_page = 10;
 
 // filter
-var centang = `<svg class="w-6 h-6 mr-2 centang float-right" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
-var centang2 = `<svg class="w-6 h-6 mr-2 centang2 float-right" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+let centang = `<svg class="w-6 h-6 mr-2 centang float-right" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+let centang2 = `<svg class="w-6 h-6 mr-2 centang2 float-right" width="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
 
 // Logic Ascending
 $("#az").click(function(e){
@@ -148,13 +146,13 @@ $("#za").click(function(e){
 
 // paginator
 const paginator = () =>{
-    // var temp_pag = paginate_prev;
-    var temp_pag = "";
+    // let temp_pag = paginate_prev;
+    let temp_pag = "";
     if (all > per_page) {
         // urutan pagination
-        var page_urut=0;
+        let page_urut=0;
         //  jangka jarak
-        var jarak = page_active - 2;
+        let jarak = page_active - 2;
         // awal
         if (jarak > 1) {
             temp_pag += `<li class="page-item"><a class="page-link" href="#" onclick='paging(0)'>${0+1}</a></li>`;
@@ -165,9 +163,9 @@ const paginator = () =>{
             jarak = 0;
         }
         // akhir
-        var button_per_page = 2;
-        var button_per_page_now = 0;
-        var button_per_page_shuttle = 0;
+        let button_per_page = 2;
+        let button_per_page_now = 0;
+        let button_per_page_shuttle = 0;
 
         // looping
         for (let index = jarak; index < all; index+=per_page) {
@@ -196,15 +194,13 @@ const paginator = () =>{
             temp_pag += `<li class="page-item"><a class="page-link" href="#" onclick='paging(${button_per_page_shuttle})'>${button_per_page_shuttle+1}</a></li>`;
         }
     }
-    // next
-    // temp_pag += paginate_next;
 
     // paginate
     $("#pagination").append(temp_pag);
 
     // result
     $("#first_number").text(from+1);
-    var last_number = all - from;
+    let last_number = all - from;
     if (last_number < per_page) {
         $("#last_number").text(all);
     }else{
@@ -220,246 +216,232 @@ const paging = (page_urut) =>{
     }
 
     if (page_active > page_urut) {
-        var jarak = page_active - page_urut;
+        let jarak = page_active - page_urut;
         page_active -= jarak;
     }else if (page_active < page_urut){
-        var jarak = page_urut - page_active;
+        let jarak = page_urut - page_active;
         page_active += jarak;
     }
     getData();
 }
 
-function searchLesson(){
-    keyParam = document.getElementById("search-form").value;
-    getData(keyParam)
+function searchProject(){
+    let keyParams = $("#search-form").val()
+    localStorage.removeItem("key_search");
+
+    if (keyParams.length > 0) {
+        localStorage.setItem("key_search",keyParams);
+    } else {
+        localStorage.setItem("key_search", '');
+    }
+    getData()
 }
 
-// pencarian
-// $("#search-form").submit(function(e){
-//     if (!e.isDefaultPrevented()){
-//         from = 0;
-//         all = 0;
-//         data_inpage = 0;
-//         page_active = 0;
-
-//         var tampung = e.target[0].value;
-//         if (tampung == "" || !tampung.trim().length) {
-//             search = "*";
-//         }else{
-//             search = `*${tampung}*`;
-//         }
-//         $(".input-search").attr('disabled',true);
-//         $(".btn-search").attr('disabled',true);
-//         getData();
-//     }
-//     return false;
-// });
-
 // filter
-    // divisi
-        $(".fil_div_d").change(function(e){
-            if ($(this).prop('checked')==true){ 
-                // add item
-                filter_divisi.push(e.target.value);
-                $(`.fil_div[value="${e.target.value}"]`).prop('checked',true);
-                $(`.fil_div_d[value="${e.target.value}"]`).prop('checked',true);
-            }else{
-                // remove item
-                const index = filter_divisi.indexOf(e.target.value);
-                if (index > -1) {
-                    filter_divisi.splice(index, 1);
-                }
-                $(`.fil_div[value="${e.target.value}"]`).prop('checked',false);
-                $(`.fil_div_d[value="${e.target.value}"]`).prop('checked',false);
-            }
-            localStorage.setItem("fil_div",[]);
-            localStorage.setItem("fil_div",filter_divisi);
-            getData();
-        })
+// divisi
+$(".fil_div_d").change(function(e){
+    if ($(this).prop('checked')==true){ 
+        // add item
+        filter_divisi.push(e.target.value);
+        $(`.fil_div[value="${e.target.value}"]`).prop('checked',true);
+        $(`.fil_div_d[value="${e.target.value}"]`).prop('checked',true);
+    }else{
+        // remove item
+        const index = filter_divisi.indexOf(e.target.value);
+        if (index > -1) {
+            filter_divisi.splice(index, 1);
+        }
+        $(`.fil_div[value="${e.target.value}"]`).prop('checked',false);
+        $(`.fil_div_d[value="${e.target.value}"]`).prop('checked',false);
+    }
+    localStorage.setItem("fil_div",[]);
+    localStorage.setItem("fil_div",filter_divisi);
+    getData();
+})
 
-        $(".fil_div").change(function(e){
-            if ($(this).prop('checked')==true){ 
-                // add item
-                filter_divisi.push(e.target.value);
-                $(`.fil_div[value="${e.target.value}"]`).prop('checked',true);
-                $(`.fil_div_d[value="${e.target.value}"]`).prop('checked',true);
-            }else{
-                // remove item
-                const index = filter_divisi.indexOf(e.target.value);
-                if (index > -1) {
-                    filter_divisi.splice(index, 1);
-                }
-                $(`.fil_div[value="${e.target.value}"]`).prop('checked',false);
-                $(`.fil_div_d[value="${e.target.value}"]`).prop('checked',false);
-            }
-        })
+$(".fil_div").change(function(e){
+    if ($(this).prop('checked')==true){ 
+        // add item
+        filter_divisi.push(e.target.value);
+        $(`.fil_div[value="${e.target.value}"]`).prop('checked',true);
+        $(`.fil_div_d[value="${e.target.value}"]`).prop('checked',true);
+    }else{
+        // remove item
+        const index = filter_divisi.indexOf(e.target.value);
+        if (index > -1) {
+            filter_divisi.splice(index, 1);
+        }
+        $(`.fil_div[value="${e.target.value}"]`).prop('checked',false);
+        $(`.fil_div_d[value="${e.target.value}"]`).prop('checked',false);
+    }
+})
 
-        $(".fil-div-res").click(function(e){
-            $('.fil_div').prop('checked',false);
-            $('.fil_div_d').prop('checked',false);
-            localStorage.setItem("fil_div",[]);
-            filter_divisi=[];
-            getData();
-        })
+$(".fil-div-res").click(function(e){
+    $('.fil_div').prop('checked',false);
+    $('.fil_div_d').prop('checked',false);
+    localStorage.setItem("fil_div",[]);
+    filter_divisi=[];
+    getData();
+})
 
-        $(".fil-div-app").click(function(e){
-            localStorage.setItem("fil_div",[]);
-            localStorage.setItem("fil_div",filter_divisi);
-            getData();
-        })
-    // consultant
-        $(".fil_kon_d").change(function(e){
-            if ($(this).prop('checked')==true){ 
-                // add item
-                filter_konsultant.push(e.target.value);
-                $(`.fil_kon[value="${e.target.value}"]`).prop('checked',true);
-                $(`.fil_kon_d[value="${e.target.value}"]`).prop('checked',true);
-            }else{
-                // remove item
-                const index = filter_konsultant.indexOf(e.target.value);
-                if (index > -1) {
-                    filter_konsultant.splice(index, 1);
-                }
-                $(`.fil_kon[value="${e.target.value}"]`).prop('checked',false);
-                $(`.fil_kon_d[value="${e.target.value}"]`).prop('checked',false);
-            }
-            localStorage.setItem("fil_kon",[]);
-            localStorage.setItem("fil_kon",filter_konsultant);
-            getData();
-        })
+$(".fil-div-app").click(function(e){
+    localStorage.setItem("fil_div",[]);
+    localStorage.setItem("fil_div",filter_divisi);
+    getData();
+})
+// consultant
+$(".fil_kon_d").change(function(e){
+    if ($(this).prop('checked')==true){ 
+        // add item
+        filter_konsultant.push(e.target.value);
+        $(`.fil_kon[value="${e.target.value}"]`).prop('checked',true);
+        $(`.fil_kon_d[value="${e.target.value}"]`).prop('checked',true);
+    }else{
+        // remove item
+        const index = filter_konsultant.indexOf(e.target.value);
+        if (index > -1) {
+            filter_konsultant.splice(index, 1);
+        }
+        $(`.fil_kon[value="${e.target.value}"]`).prop('checked',false);
+        $(`.fil_kon_d[value="${e.target.value}"]`).prop('checked',false);
+    }
+    localStorage.setItem("fil_kon",[]);
+    localStorage.setItem("fil_kon",filter_konsultant);
+    getData();
+})
 
-        $(".fil_kon").change(function(e){
-            if ($(this).prop('checked')==true){ 
-                // add item
-                filter_konsultant.push(e.target.value);
-                $(`.fil_kon[value="${e.target.value}"]`).prop('checked',true);
-                $(`.fil_kon_d[value="${e.target.value}"]`).prop('checked',true);
-            }else{
-                // remove item
-                const index = filter_konsultant.indexOf(e.target.value);
-                if (index > -1) {
-                    filter_konsultant.splice(index, 1);
-                }
-                $(`.fil_kon[value="${e.target.value}"]`).prop('checked',false);
-                $(`.fil_kon_d[value="${e.target.value}"]`).prop('checked',false);
-            }
-        })
+$(".fil_kon").change(function(e){
+    if ($(this).prop('checked')==true){ 
+        // add item
+        filter_konsultant.push(e.target.value);
+        $(`.fil_kon[value="${e.target.value}"]`).prop('checked',true);
+        $(`.fil_kon_d[value="${e.target.value}"]`).prop('checked',true);
+    }else{
+        // remove item
+        const index = filter_konsultant.indexOf(e.target.value);
+        if (index > -1) {
+            filter_konsultant.splice(index, 1);
+        }
+        $(`.fil_kon[value="${e.target.value}"]`).prop('checked',false);
+        $(`.fil_kon_d[value="${e.target.value}"]`).prop('checked',false);
+    }
+})
 
-        $(".fil-kon-res").click(function(e){
-            $('.fil_kon').prop('checked',false);
-            $('.fil_kon_d').prop('checked',false);
-            localStorage.setItem("fil_kon",[]);
-            filter_konsultant=[];
-            getData();
-        })
+$(".fil-kon-res").click(function(e){
+    $('.fil_kon').prop('checked',false);
+    $('.fil_kon_d').prop('checked',false);
+    localStorage.setItem("fil_kon",[]);
+    filter_konsultant=[];
+    getData();
+})
 
-        $(".fil-kon-app").click(function(e){
-            localStorage.setItem("fil_kon",[]);
-            localStorage.setItem("fil_kon",filter_konsultant);
-            getData();
-        })
-    // tahun
-        $(".fil_thn_d").change(function(e){
-            if ($(this).prop('checked')==true){ 
-                // add item
-                filter_tahun.push(e.target.value);
-                $(`.fil_thn[value="${e.target.value}"]`).prop('checked',true);
-                $(`.fil_thn_d[value="${e.target.value}"]`).prop('checked',true);
-            }else{
-                // remove item
-                const index = filter_tahun.indexOf(e.target.value);
-                if (index > -1) {
-                    filter_tahun.splice(index, 1);
-                }
-                $(`.fil_thn[value="${e.target.value}"]`).prop('checked',false);
-                $(`.fil_thn_d[value="${e.target.value}"]`).prop('checked',false);
-            }
-            localStorage.setItem("fil_thn",[]);
-            localStorage.setItem("fil_thn",filter_tahun);
-            getData();
-        })
+$(".fil-kon-app").click(function(e){
+    localStorage.setItem("fil_kon",[]);
+    localStorage.setItem("fil_kon",filter_konsultant);
+    getData();
+})
+// tahun
+$(".fil_thn_d").change(function(e){
+    if ($(this).prop('checked')==true){ 
+        // add item
+        filter_tahun.push(e.target.value);
+        $(`.fil_thn[value="${e.target.value}"]`).prop('checked',true);
+        $(`.fil_thn_d[value="${e.target.value}"]`).prop('checked',true);
+    }else{
+        // remove item
+        const index = filter_tahun.indexOf(e.target.value);
+        if (index > -1) {
+            filter_tahun.splice(index, 1);
+        }
+        $(`.fil_thn[value="${e.target.value}"]`).prop('checked',false);
+        $(`.fil_thn_d[value="${e.target.value}"]`).prop('checked',false);
+    }
+    localStorage.setItem("fil_thn",[]);
+    localStorage.setItem("fil_thn",filter_tahun);
+    getData();
+})
 
-        $(".fil_thn").change(function(e){
-            if ($(this).prop('checked')==true){ 
-                // add item
-                filter_tahun.push(e.target.value);
-                $(`.fil_thn[value="${e.target.value}"]`).prop('checked',true);
-                $(`.fil_thn_d[value="${e.target.value}"]`).prop('checked',true);
-            }else{
-                // remove item
-                const index = filter_tahun.indexOf(e.target.value);
-                if (index > -1) {
-                    filter_tahun.splice(index, 1);
-                }
-                $(`.fil_thn[value="${e.target.value}"]`).prop('checked',false);
-                $(`.fil_thn_d[value="${e.target.value}"]`).prop('checked',false);
-            }
-        })
+$(".fil_thn").change(function(e){
+    if ($(this).prop('checked')==true){ 
+        // add item
+        filter_tahun.push(e.target.value);
+        $(`.fil_thn[value="${e.target.value}"]`).prop('checked',true);
+        $(`.fil_thn_d[value="${e.target.value}"]`).prop('checked',true);
+    }else{
+        // remove item
+        const index = filter_tahun.indexOf(e.target.value);
+        if (index > -1) {
+            filter_tahun.splice(index, 1);
+        }
+        $(`.fil_thn[value="${e.target.value}"]`).prop('checked',false);
+        $(`.fil_thn_d[value="${e.target.value}"]`).prop('checked',false);
+    }
+})
 
-        $(".fil-thn-res").click(function(e){
-            $('.fil_thn').prop('checked',false);
-            $('.fil_thn_d').prop('checked',false);
-            localStorage.setItem("fil_thn",[]);
-            filter_tahun=[];
-            getData();
-        })
+$(".fil-thn-res").click(function(e){
+    $('.fil_thn').prop('checked',false);
+    $('.fil_thn_d').prop('checked',false);
+    localStorage.setItem("fil_thn",[]);
+    filter_tahun=[];
+    getData();
+})
 
-        $(".fil-thn-app").click(function(e){
-            localStorage.setItem("fil_thn",[]);
-            localStorage.setItem("fil_thn",filter_tahun);
-            getData();
-        })
-        // lessonlearn
-        $(".fil_les_d").change(function(e){
-            if ($(this).prop('checked')==true){ 
-                // add item
-                filter_lessonlearn.push(e.target.value);
-                $(`.fil_les[value="${e.target.value}"]`).prop('checked',true);
-                $(`.fil_les_d[value="${e.target.value}"]`).prop('checked',true);
-            }else{
-                // remove item
-                const index = filter_lessonlearn.indexOf(e.target.value);
-                if (index > -1) {
-                    filter_lessonlearn.splice(index, 1);
-                }
-                $(`.fil_les[value="${e.target.value}"]`).prop('checked',false);
-                $(`.fil_les_d[value="${e.target.value}"]`).prop('checked',false);
-            }
-            localStorage.setItem("fil_les",[]);
-            localStorage.setItem("fil_les",filter_lessonlearn);
-            getData();
-        })
+$(".fil-thn-app").click(function(e){
+    localStorage.setItem("fil_thn",[]);
+    localStorage.setItem("fil_thn",filter_tahun);
+    getData();
+})
+// lessonlearn
+$(".fil_les_d").change(function(e){
+    if ($(this).prop('checked')==true){ 
+        // add item
+        filter_lessonlearn.push(e.target.value);
+        $(`.fil_les[value="${e.target.value}"]`).prop('checked',true);
+        $(`.fil_les_d[value="${e.target.value}"]`).prop('checked',true);
+    }else{
+        // remove item
+        const index = filter_lessonlearn.indexOf(e.target.value);
+        if (index > -1) {
+            filter_lessonlearn.splice(index, 1);
+        }
+        $(`.fil_les[value="${e.target.value}"]`).prop('checked',false);
+        $(`.fil_les_d[value="${e.target.value}"]`).prop('checked',false);
+    }
+    localStorage.setItem("fil_les",[]);
+    localStorage.setItem("fil_les",filter_lessonlearn);
+    getData();
+})
 
-        $(".fil_les").change(function(e){
-            if ($(this).prop('checked')==true){ 
-                // add item
-                filter_lessonlearn.push(e.target.value);
-                $(`.fil_les[value="${e.target.value}"]`).prop('checked',true);
-                $(`.fil_les_d[value="${e.target.value}"]`).prop('checked',true);
-            }else{
-                // remove item
-                const index = filter_lessonlearn.indexOf(e.target.value);
-                if (index > -1) {
-                    filter_lessonlearn.splice(index, 1);
-                }
-                $(`.fil_les[value="${e.target.value}"]`).prop('checked',false);
-                $(`.fil_les_d[value="${e.target.value}"]`).prop('checked',false);
-            }
-        })
+$(".fil_les").change(function(e){
+    if ($(this).prop('checked')==true){ 
+        // add item
+        filter_lessonlearn.push(e.target.value);
+        $(`.fil_les[value="${e.target.value}"]`).prop('checked',true);
+        $(`.fil_les_d[value="${e.target.value}"]`).prop('checked',true);
+    }else{
+        // remove item
+        const index = filter_lessonlearn.indexOf(e.target.value);
+        if (index > -1) {
+            filter_lessonlearn.splice(index, 1);
+        }
+        $(`.fil_les[value="${e.target.value}"]`).prop('checked',false);
+        $(`.fil_les_d[value="${e.target.value}"]`).prop('checked',false);
+    }
+})
 
-        $(".fil-les-res").click(function(e){
-            $('.fil_les').prop('checked',false);
-            $('.fil_les_d').prop('checked',false);
-            localStorage.setItem("fil_les",[]);
-            filter_lessonlearn=[];
-            getData();
-        })
+$(".fil-les-res").click(function(e){
+    $('.fil_les').prop('checked',false);
+    $('.fil_les_d').prop('checked',false);
+    localStorage.setItem("fil_les",[]);
+    filter_lessonlearn=[];
+    getData();
+})
 
-        $(".fil-les-app").click(function(e){
-            localStorage.setItem("fil_les",[]);
-            localStorage.setItem("fil_les",filter_lessonlearn);
-            getData();
-        })
+$(".fil-les-app").click(function(e){
+    localStorage.setItem("fil_les",[]);
+    localStorage.setItem("fil_les",filter_lessonlearn);
+    getData();
+})
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -478,9 +460,9 @@ function getCookie(cname) {
 }
 
 // get data
-const getData = (search = '') =>{
+const getData = () =>{
     // filter
-    var h_div="";
+    let h_div="";
     for (let index = 0; index < filter_divisi.length; index++) {
         if (h_div   ==  "") {
             h_div   =  `${filter_divisi[index]}`;
@@ -488,7 +470,7 @@ const getData = (search = '') =>{
             h_div   +=  `-${filter_divisi[index]}`;
         }
     }
-    var h_kon = "";
+    let h_kon = "";
     for (let index = 0; index < filter_konsultant.length; index++) {
         if (h_kon   ==  "") {
             h_kon   =  `${filter_konsultant[index]}`;
@@ -496,8 +478,7 @@ const getData = (search = '') =>{
             h_kon   +=  `-${filter_konsultant[index]}`;
         }
     }
-    console.log(h_kon);
-    var h_thn="";
+    let h_thn="";
     for (let index = 0; index < filter_tahun.length; index++) {
         if (h_thn   ==  "") {
             h_thn   =  `${filter_tahun[index]}`;
@@ -505,7 +486,7 @@ const getData = (search = '') =>{
             h_thn   +=  `-${filter_tahun[index]}`;
         }
     }
-    var h_les="";
+    let h_les="";
     for (let index = 0; index < filter_lessonlearn.length; index++) {
         if (h_les   ==  "") {
             h_les   =  `${filter_lessonlearn[index]}`;
@@ -514,8 +495,10 @@ const getData = (search = '') =>{
         }
     }
 
+    let key_search = localStorage.getItem('key_search');
+
     let url;
-    url = `${getCookie('url_be')}api/kat?search=${search}&tahap=${h_les}&divisi=${h_div}&consultant=${h_kon}&sort=${sort}`;
+    url = `${getCookie('url_be')}api/kat?search=${key_search}&tahap=${h_les}&divisi=${h_div}&consultant=${h_kon}&sort=${sort}`;
     console.log(url);
     // &tahun=${h_thn}&lesson=${h_les}
 
@@ -570,50 +553,6 @@ const getData = (search = '') =>{
             alert(e);
         }
     });
-    // console.log(h_thn);
-
-    // parsing
-    // var url = `${uri}/kat`;
-    // $.ajax({
-    //     url: url,
-    //     headers: {'X-CSRF-TOKEN': csrf},
-    //     type: "post",
-    //     data: {sort:sort,sort2:sort2,from:from,search:search,f_divisi:h_div,f_konsultant:h_kon,f_tahun:h_thn,f_lessonlearn:h_les},
-    //     beforeSend: function()
-    //     {
-    //         $('.pagination').remove();
-    //         $('.data').remove();
-
-    //         // sklt
-    //         $('.sklt').remove();
-    //         $("#result").append(sklt);
-    //     },
-    //     success: function(data){
-    //         if(data.html == "" || data.html == null){
-    //             // sklt
-    //             $('.sklt').fadeOut().remove();
-    //             return;
-    //         }
-            
-    //         // sklt
-    //         $('.sklt').fadeOut().remove();
-
-    //         // innert html
-    //         $("#result").append(data.html);
-    //         // count data
-    //         all = data.all;
-    //         // paginate
-    //         if (all > 0) {
-    //             paginator();
-    //         }
-    //         // set default input form
-    //         $(".input-search").attr('disabled',false);
-    //         $(".btn-search").attr('disabled',false);
-    //     },
-    //     error : function(e){
-    //         alert(e);
-    //     }
-    // });
 }
 
 getData();

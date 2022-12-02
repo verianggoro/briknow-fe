@@ -163,25 +163,22 @@
         </div>
         <div class="mb-4 px-4 h-75 d-flex justify-content-center align-items-center">
             <div class="col-lg-6 col-md-8 col-sm-12">
-                <form action="{{route('katalog.post')}}" method="post" class="w-100">
-                    @csrf
-                    <div class="row">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
-                                </span>
-                            </div>
-                            <input type="text" name="search" class="form-control main-cari-2iaef" id="search-form"
-                                   placeholder="Search Project, Consultant, And More...">
-                            <div class="dropdown-menu dropdown-menu-right w-100" id="searchResult">
-                            </div>
-                            <div class="input-group-append">
-                                <a class="btn btn-primary text-white" onclick="searchKatalog()" oncontextmenu="searchKatalog()"
-                                onmousedown="searchKatalog()">Terapkan</a>    
-                            </div>
+                <div class="row">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="search" class="form-control main-cari-2iaef" id="search-form"
+                                placeholder="Search Project ...">
+                        <div class="dropdown-menu dropdown-menu-right w-100" id="searchResult">
+                        </div>
+                        <div class="input-group-append">
+                            <a class="btn btn-primary text-white" onclick="searchKatalog()" oncontextmenu="searchKatalog()"
+                            onmousedown="searchKatalog()">Terapkan</a>    
                         </div>
                     </div>
-                </form>
+                </div>
                 <div class="row px-2">
                     <div class="row px-2 d-block w-100 my-1">
                         <span class="text-white">Suggestion :</span>
