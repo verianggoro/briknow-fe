@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ asset_app('assets/css/fa-oth.css') }}">
 <link rel="stylesheet" href="{{ asset_app('assets/css/fa-proj.css') }}">
 <link rel="stylesheet" href="{{ asset_app('assets/css/comsupport.css') }}">
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css">
+<link rel="stylesheet" href="{{ asset_app('assets/css/bootstrap-table.min.css') }}">
 @endpush
 
 @section('breadcumb', 'Admin')
@@ -85,7 +85,7 @@
 <script>
     localStorage.clear();
 </script>
-<script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
+<script src="{{ asset_app('assets/js/plugin/bootstrap-table.min.js') }}"></script>
 <script src="{{asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset_app('assets/js/page/strategic.js')}}"></script>
 

@@ -1,13 +1,13 @@
 @extends('layouts.admin_dashboard')
 @section('title', 'BRIKNOW')
 @push('style')
-<link rel="stylesheet" href="{{asset_app('assets/css/fa.css')}}">
+<link rel="stylesheet" href="{{ asset_app('assets/css/fa.css') }}">
 <link rel="stylesheet" href="{{ asset_app('assets/css/fa-admin.css') }}">
 <link rel="stylesheet" href="{{ asset_app('assets/css/fa-oth.css') }}">
 <link rel="stylesheet" href="{{ asset_app('assets/css/fa-proj.css') }}">
-<link rel="stylesheet" href="{{asset_app('assets/css/select2-bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{ asset_app('assets/css/select2-bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset_app('assets/css/comsupport.css') }}">
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css">
+<link rel="stylesheet" href="{{ asset_app('assets/css/bootstrap-table.min.css') }}">
 @endpush
 
 @section('breadcumb', 'Admin')
@@ -112,8 +112,8 @@
     localStorage.clear();
 </script>
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
-<script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
-<script src="{{asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js')}}"></script>
-<script src="{{asset_app('assets/js/page/implementation-publish.js')}}"></script>
+<script src="{{ asset_app('assets/js/plugin/bootstrap-table.min.js') }}"></script>
+<script src="{{ asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js') }}"></script>
+<script src="{{ asset_app('assets/js/page/implementation-publish.js') }}"></script>
 
 @endpush
