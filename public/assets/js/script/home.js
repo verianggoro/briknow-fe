@@ -856,7 +856,7 @@ const getgraph3 = (data) => {
         series.tooltip.keepTargetHover = true;
         // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
         series.columns.template.strokeWidth = 0;
-        series.columns.template.tooltipHTML = '<a class="text-decoration-none" href="{urlField+ca}" target="_blank"><b>{categoryX} : {valueY}</b></a>';
+        series.columns.template.tooltipHTML = '<a class="text-decoration-none" href="{urlField}" target="_blank"><b>{categoryX} : {valueY}</b></a>';
 
         series.tooltip.pointerOrientation = "vertical";
         // series.tooltipText = "[{categoryX}: bold]{valueY}[/]";

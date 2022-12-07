@@ -241,7 +241,7 @@ class ProjectController extends Controller
                 // destination
                 $path_zip = public_path('temp_download/'.session()->get('personal_number').'/ex');
                 FacadesFile::deleteDirectory($path_zip);
-                FacadesFile::makeDirectory($path_zip, 777, true, true);
+                FacadesFile::makeDirectory($path_zip, 0777, true, true);
 
                 // temp
                 chdir( sys_get_temp_dir() ); // Zip always get's created in current working dir so move to tmp.

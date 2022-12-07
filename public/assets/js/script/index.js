@@ -1829,7 +1829,6 @@ const dataComInit = () =>{
         }
     })
         .done(function(data){
-            console.log(data);
             if(data== ""){
                 $('.senddataloader').hide();
                 return;
