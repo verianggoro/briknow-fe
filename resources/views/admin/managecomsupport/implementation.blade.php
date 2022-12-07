@@ -61,20 +61,6 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="d-flex px-4">
-                    <div style="font-size: 12px">
-                        Sync Elastic :
-                        @if($sync_es == 0)
-                        <span class="text-success">Done</span>
-                        @else
-                        <span class="text-warning">
-                    <i class="fa fa-sync fa-spin mr-1" aria-hidden="true" style="font-size:12px"></i>
-                    {{-- {{ $sync_es }} Project Remaining --}}
-                    Processing . .
-                  </span>
-                        @endif
-                    </div>
-                </div>-->
             </div>
             <table
                 id="table"
@@ -111,7 +97,6 @@
 <script>
     localStorage.clear();
 </script>
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
 <script src="{{ asset_app('assets/js/plugin/bootstrap-table.min.js') }}"></script>
 <script src="{{ asset_app('assets/js/plugin/sweetalert/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset_app('assets/js/page/implementation.js') }}"></script>

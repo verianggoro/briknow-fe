@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="{{asset_app('assets/css/components.css')}}">
     <link rel="stylesheet" href="{{asset_app('assets/css/fa.css')}}">
     <!-- Slick CSS -->
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset_app('assets/css/slick/slick.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset_app('assets/css/slick/slick-theme.css') }}"/>
 
     @if($congrats <> [])
         {{-- congrats --}}
@@ -872,7 +872,7 @@
 @endif
 
 <!-- Slick JS -->
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script type="text/javascript" src="{{ asset_app('assets/js/plugin/slick.min.js') }}"></script>
 <script src="{{asset_app('assets/js/script/home.js')}}"></script>
 <!-- Template JS File -->
 <script src="{{asset_app('assets/js/select2.min.js')}}"></script>

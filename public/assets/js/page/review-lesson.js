@@ -168,7 +168,7 @@ function getData(tahap, divisi, search) {
   } else if (lastpath === "review") {
     url = `${getCookie(
       "url_be"
-    )}api/managelessonlearned/?tahap=${tahap}&divisi=${divisi}&search=${search}`;
+    )}api/managelessonlearned?tahap=${tahap}&divisi=${divisi}&search=${search}`;
   } else {
     url = `${getCookie(
       "url_be"

@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="{{ asset_app('assets/css/fa-oth.css') }}" />
     <link rel="stylesheet" href="{{ asset_app('assets/css/kontribusi.css') }}" />
     <script src="{{asset_app('assets/js/plugin/ckeditor/ckeditor.js')}}"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/min/dropzone.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/dropzone.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="{{ asset_app('assets/css/dropzone.min.css') }}">
+    <script src="{{ asset_app('assets/js/plugin/dropzone.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset_app('assets/css/bootstrap-table.min.css') }}">
 <style>
     .select2-selection__choice__display {
         margin-left: 10px;
@@ -558,9 +558,9 @@
 </div>
 @endsection
 @push('page-script')
-    <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
-    <script src="{{asset_app('assets/js/select2.min.js')}}"></script>
-    <script src="{{asset_app('assets/js/page/implementationupload.js')}}"></script>
+    <script src="{{ asset_app('assets/js/plugin/bootstrap-table.min.js') }}"></script>
+    <script src="{{ asset_app('assets/js/select2.min.js') }}"></script>
+    <script src="{{ asset_app('assets/js/page/implementationupload.js') }}"></script>
     <script>
         let tok = '{{csrf_token()}}';
         CKEDITOR.replace('editor-deskripsi', {

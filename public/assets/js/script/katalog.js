@@ -495,7 +495,7 @@ const getData = () =>{
         }
     }
 
-    let key_search = localStorage.getItem('key_search');
+    let key_search = localStorage.getItem('key_search') || '';
 
     let url;
     url = `${getCookie('url_be')}api/kat?search=${key_search}&tahap=${h_les}&divisi=${h_div}&consultant=${h_kon}&sort=${sort}`;

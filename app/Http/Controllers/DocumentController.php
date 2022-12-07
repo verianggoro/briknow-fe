@@ -183,7 +183,7 @@ class DocumentController extends Controller
 
                     $path_zip = public_path("storage/".session()->get('personal_number').'/ex_content/');
                     FacadesFile::deleteDirectory($path_zip);
-                    FacadesFile::makeDirectory($path_zip, 777, true, true);
+                    FacadesFile::makeDirectory($path_zip, 0777, true, true);
 
                     if ($zip->open(public_path("storage/".session()->get('personal_number').'/ex_content/' . $fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
                         foreach ($files as $key => $value) {
@@ -251,7 +251,7 @@ class DocumentController extends Controller
 
                     $path_zip = public_path("storage/".session()->get('personal_number').'/ex_imp/');
                     FacadesFile::deleteDirectory($path_zip);
-                    FacadesFile::makeDirectory($path_zip, 777, true, true);
+                    FacadesFile::makeDirectory($path_zip, 0777, true, true);
 
                     if (count($data->piloting) > 0) {
                         if ($zip->open(public_path("storage/".session()->get('personal_number').'/ex_imp/' . $fileNamePilot), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
@@ -355,7 +355,7 @@ class DocumentController extends Controller
 
                     $path_zip = public_path("storage/".session()->get('personal_number').'/ex_proj/');
                     FacadesFile::deleteDirectory($path_zip);
-                    FacadesFile::makeDirectory($path_zip, 777, true, true);
+                    FacadesFile::makeDirectory($path_zip, 0777, true, true);
 
                     if ($zip->open(public_path("storage/".session()->get('personal_number').'/ex_proj/' . $fileName), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
                         foreach ($files as $key => $value) {

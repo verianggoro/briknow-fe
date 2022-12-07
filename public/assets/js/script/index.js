@@ -1816,22 +1816,6 @@ const getGraphImplement = (data) => {
                 open(source[point_imp].url, '_blank');
             }
         }, this);
-
-        // miringin
-        // categoryAxis.events.on("sizechanged", function(ev) {
-        //     var axis = ev.target;
-        //     var cellWidth = axis.pixelWidth / (axis.endIndex - axis.startIndex);
-        //     if (cellWidth < axis.renderer.labels.template.maxWidth) {
-        //         axis.renderer.labels.template.rotation = -45;
-        //         axis.renderer.labels.template.horizontalCenter = "right";
-        //         axis.renderer.labels.template.verticalCenter = "middle";
-        //     }
-        //     else {
-        //         axis.renderer.labels.template.rotation = 0;
-        //         axis.renderer.labels.template.horizontalCenter = "middle";
-        //         axis.renderer.labels.template.verticalCenter = "top";
-        //     }
-        // });
     }); // end am4core.ready()
 }
 
@@ -1845,6 +1829,7 @@ const dataComInit = () =>{
         }
     })
         .done(function(data){
+            console.log(data);
             if(data== ""){
                 $('.senddataloader').hide();
                 return;

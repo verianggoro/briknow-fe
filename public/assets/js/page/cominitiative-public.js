@@ -74,8 +74,8 @@ function getData(page, year, month, divisi, sort, search){
                                             <div class="card" style="border-radius: 16px">
                                                 <button type="button" class="btn p-0 text-primary" onclick="openPreview(${data.data[index].id})">
                                                     <img class="card-img-up"
-                                                         src="${uri+'/storage/'+data.data[index].thumbnail}"
-                                                         alt="Card image cap">
+                                                        src="${uri+'/storage/'+data.data[index].thumbnail}"
+                                                        alt="Card image cap">
                                                 </button>
                                                 <div class="card-body">
                                                     <button type="button" class="btn p-0 text-primary" onclick="openPreview(${data.data[index].id})">
@@ -318,7 +318,8 @@ function sortingBy(params){
 }
 
 function download(id) {
-    window.location.href = uri+`/attach/download/content/${id}`;
+    // window.location.href = uri+`/attach/download/content/${id}`;
+    console.log(window.location.href = uri+`/attach/download/content/${id}`);
 }
 
 function migrasi(pesan) {

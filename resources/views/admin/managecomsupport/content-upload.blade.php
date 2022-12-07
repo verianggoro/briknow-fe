@@ -6,14 +6,8 @@
 <link rel="stylesheet" href="{{ asset_app('assets/css/fa-oth.css') }}" />
 <link rel="stylesheet" href="{{ asset_app('assets/css/comsupport.css') }}">
 <script src="{{asset_app('assets/js/plugin/ckeditor/ckeditor.js')}}"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/min/dropzone.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/dropzone.js"></script>
-
-<!--<style>
-    .select2-results__option--disabled {
-        display: none;
-    }
-</style>-->
+<link rel="stylesheet" href="{{ asset_app('assets/css/dropzone.min.css') }}">
+<script src="{{ asset_app('assets/js/plugin/dropzone.js') }}"></script>
 @endpush
 
 

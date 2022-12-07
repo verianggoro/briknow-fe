@@ -203,8 +203,8 @@ function setStatus(value, row, valueOld, index) {
 }
 
 function ajaxRequest(params) {
-    const types = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
-    const url = `${uri}/communicationinitiative/${types}`
+    const types = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
+    const url = `${uri}/communicationinitiative/${types}`;
 
     $.ajax({
         url: url + '?' + $.param(params.data),
@@ -219,39 +219,6 @@ function ajaxRequest(params) {
             $table.bootstrapTable( 'resetView' , {height: height} );
             $('.senddataloader').hide();
             params.success(data)
-            /*if (data.total === 0) {
-                $table.find('tbody').find('.no-records-found').children().text('no data')
-            }*/
-        },
-        error : function(e){
-            $('.senddataloader').hide();
-            alert(e);
-        }
-    });
-}
-
-function ajaxRequestPublished(params) {
-    const status = window.location.pathname.substring(window.location.pathname.lastIndexOf('/type') + 1)
-    const typeTus = status.replace('/managecommunication', '')
-    const url = `${uri}${typeTus}`
-    console.log(url);
-
-    $.ajax({
-        url: url + '?' + $.param(params.data),
-        type: "get",
-        beforeSend: function(xhr){
-            xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
-            $('.senddataloader').show();
-        },
-        success: function(data){
-            let pagination_height = data.totalRow === data.total ? 0 : 54
-            const height = data.totalRow === 0 ? 105 : 51 + (data.totalRow * 108) + pagination_height
-            $table.bootstrapTable( 'resetView' , {height: height} );
-            $('.senddataloader').hide();
-            params.success(data)
-            /*if (data.total === 0) {
-                $table.find('tbody').find('.no-records-found').children().text('no data')
-            }*/
         },
         error : function(e){
             $('.senddataloader').hide();
@@ -473,18 +440,6 @@ function initTable() {
                 }]
         ]
     })
-    /*$table.on('check.bs.table uncheck.bs.table ' +
-        'check-all.bs.table uncheck-all.bs.table',
-        function () {
-            $remove.prop('disabled', !$table.bootstrapTable('getSelections').length)
-
-            // save your data, here just save the current page
-            selections = getIdSelections()
-            // push or splice the selections if you want to save all data selections
-        })
-    $table.on('all.bs.table', function (e, name, args) {
-        console.log(name, args)
-    })*/
 }
 
 $(function() {
